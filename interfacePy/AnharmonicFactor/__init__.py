@@ -1,3 +1,3 @@
-from .AnharmonicFactor import anharmonic_factor
+from .AnharmonicFactor import anharmonicFactor
 
 

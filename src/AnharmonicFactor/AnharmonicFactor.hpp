@@ -81,11 +81,8 @@ class AnharmonicFactor {
 
 
 
-static AnharmonicFactor<LLD> _an_fac(anharmonic_PATH);
-
-LLD _anharmonic_factor(LLD theta_max){
-    return _an_fac(theta_max);
-}
+static AnharmonicFactor<LLD> anharmonicFactor(anharmonic_PATH);
 
 
+#undef LLD
 #endif

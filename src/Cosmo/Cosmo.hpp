@@ -115,46 +115,13 @@ class Cosmo {
     #define LLD LONG double
 #endif
 
-static Cosmo<LLD> _cosmo(h_PATH,1e-5,3e3);
-
+static Cosmo<LLD> cosmo(h_PATH,1e-5,3e3);
 
 static const LLD T0= 2.7255 * 8.62e-14; //Today's CMB temperature in GeV
 static const LLD h_hub=0.674; //dimensionless hubble parameter
 static const LLD rho_crit=(0.197*1e-13)*(0.197*1e-13)*(0.197*1e-13)*(1.05*1e-5)*h_hub*h_hub; //critical density today in GeV^4
 static const LLD relicDM_obs=0.12; //DM relic abandance today
-static const LLD mP=_cosmo.mP;//Planck mass
+static const LLD mP=cosmo.mP;//Planck mass
 
-
-LLD heff(LLD T){
-    return _cosmo.heff(T);
-}
-
-LLD geff(LLD T){
-    return _cosmo.geff(T);
-}
-
-LLD dgeffdT(LLD T){
-    return _cosmo.dgeffdT(T);
-}
-LLD dheffdT(LLD T){
-    return _cosmo.dheffdT(T);
-}
-
-LLD dh(LLD T){
-    return _cosmo.dh(T);
-}
-
-LLD s(LLD T){
-    return _cosmo.s(T);
-}
-
-LLD rhoR(LLD T){
-    return _cosmo.rhoR(T);
-}
-
-
-LLD Hubble(LLD T){
-    return _cosmo.Hubble(T);
-}
-
+#undef LLD
 #endif

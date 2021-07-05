@@ -9,41 +9,29 @@
 #endif
 
 
-typedef LLD(*FuncType)(LLD);
-
-
-
 extern "C"{
-    //this functions return h,g,rho,Hubble, etc. So in python I will a copy of this (see Hubble.py)
-    FuncType hsub(  ){
-        return heff;
-    }
-    FuncType gsub(  ){
-        return geff;
-    }
-    FuncType dgdTsub(  ){
-        return dgeffdT;
-    }
-    FuncType dhdTsub(  ){
-        return dheffdT;
-    }
-    FuncType dhsub(  ){
-        return dh;
-    }
-    FuncType rsub(  ){
-        return rhoR;
-    }
-    FuncType Hsub(  ){
-        return Hubble;
-    }
-    
-    FuncType Ssub(  ){
-        return s;
-    }
+    //this functions return the different cosmological parameters we neeed. 
+    LLD heff(LLD T){return cosmo.heff(T);}
+
+    LLD geff(LLD T){return cosmo.geff(T);}
+
+    LLD dgeffdT(LLD T){return cosmo.dgeffdT(T);}
+
+    LLD dheffdT(LLD T){return cosmo.dheffdT(T);}
+
+    LLD dh(LLD T){return cosmo.dh(T);}
+
+    LLD s(LLD T){return cosmo.s(T);}
+
+    LLD rhoR(LLD T){return cosmo.rhoR(T);}
+
+    LLD Hubble(LLD T){return cosmo.Hubble(T);}
     
     LLD getT0(){return T0;}
-    LLD getrho_crit(){return rho_crit;}
-    LLD geth_hub(){return h_hub;}
-    LLD getrelicDM(){return relicDM_obs;}
 
+    LLD getrho_crit(){return rho_crit;}
+    
+    LLD geth_hub(){return h_hub;}
+    
+    LLD getrelicDM(){return relicDM_obs;}
 }

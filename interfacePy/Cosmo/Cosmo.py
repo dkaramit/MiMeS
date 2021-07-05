@@ -1,4 +1,4 @@
-from  ctypes import CDLL, CFUNCTYPE, c_longdouble, c_double
+from  ctypes import CDLL, c_longdouble, c_double
 
 from src.misc_dir.path import _PATH_
 from src.misc_dir.type import cdouble
@@ -6,23 +6,23 @@ from src.misc_dir.type import cdouble
 #load the library
 func = CDLL(_PATH_+'/lib/libCosmo.so')
 
-CppFunc=func.hsub,func.gsub,func.dgdTsub,func.dhdTsub,func.dhsub,func.rsub,func.Hsub,func.Ssub  
+CppFunc=func.heff,func.geff,func.dgeffdT,func.dheffdT,func.dh,func.rhoR,func.Hubble,func.s  
 
 #specify the argument types
 for i,f in enumerate (CppFunc): 
-    f.argtypes = None
+    f.argtypes = cdouble,
     #specify the return type
-    f.restype = CFUNCTYPE(cdouble, cdouble) 
+    f.restype = cdouble
 ###############################################
 
-heff=func.hsub()
-geff=func.gsub()
-dgeffdT=func.dgdTsub()
-dheffdT=func.dhdTsub()
-dh=func.dhsub()
-rhoR=func.rsub()
-Hubble=func.Hsub()
-s=func.Ssub()
+heff=func.heff
+geff=func.geff
+dgeffdT=func.dgeffdT
+dheffdT=func.dheffdT
+dh=func.dh
+rhoR=func.rhoR
+Hubble=func.Hubble
+s=func.s
 
 func.getT0.argtypes =None
 func.getT0.restype =cdouble

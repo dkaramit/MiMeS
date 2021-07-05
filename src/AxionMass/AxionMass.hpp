@@ -45,7 +45,7 @@ class AxionMass {
         LambdaQCD=0.4;
     }
 
-    LD m_alpha2(LD T, LD fa){
+    LD ma2(LD T, LD fa){
         // axion mass squared at temperature T and f_\alpha=fa
         if(T>=TMax){return chiMin/fa/fa*std::pow(T/TMax,-8.16);}
         if(T<=TMin){return chiMax/fa/fa;}
@@ -53,7 +53,7 @@ class AxionMass {
     }
 
 
-    LD m_alpha2_derivative_1(LD T, LD fa){
+    LD ma2_derivative_1(LD T, LD fa){
         // axion mass squared derivative
         if(T>=TMax){return -8.16*chiMin/fa/fa*std::pow(T/TMax,-9.16);}
         
@@ -62,7 +62,7 @@ class AxionMass {
         return chi.derivative_1(T)/fa/fa;
     }
 
-    LD m_alpha2_approx(LD T, LD fa){
+    LD ma2_approx(LD T, LD fa){
         // axion mass squared at temperature T and f_\alpha=fa
         LD ma20=chiMax/fa/fa;
         LD b=4e-4;
@@ -71,7 +71,7 @@ class AxionMass {
         else{return ma20;}    
     
     }
-    LD m_alpha2_derivative_1_approx(LD T, LD fa){
+    LD ma2_derivative_1_approx(LD T, LD fa){
         // axion mass squared at temperature T and f_\alpha=fa
         LD ma20=chiMax/fa/fa;
         LD b=4e-4;
@@ -93,20 +93,7 @@ class AxionMass {
 
 
 
-static AxionMass<LLD> _axion_chi(chi_PATH,1e-5,3e3);
+static AxionMass<LLD> axionMass(chi_PATH,1e-5,3e3);
 
-LLD m_alpha2(LLD T, LLD fa){
-    return _axion_chi.m_alpha2(T,fa);
-}
-LLD m_alpha2_approx(LLD T, LLD fa){
-    return _axion_chi.m_alpha2_approx(T,fa);
-}
-
-LLD m_alpha2_derivative_1(LLD T, LLD fa){
-    return _axion_chi.m_alpha2_derivative_1(T,fa);
-}
-LLD m_alpha2_derivative_1_approx(LLD T, LLD fa){
-    return _axion_chi.m_alpha2_derivative_1_approx(T,fa);
-}
-
+#undef LLD
 #endif

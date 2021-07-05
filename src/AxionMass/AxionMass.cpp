@@ -9,22 +9,18 @@
 #endif
 
 
-typedef LLD(*FuncType)(LLD,LLD);
-
-
-
 extern "C"{
-    //this functions return h,g,rho,Hubble, etc. So in python I will a copy of this (see Hubble.py)
-    FuncType ma2(  ){
-        return m_alpha2;
+    LLD ma2(LLD T, LLD fa){
+        return axionMass.ma2(T,fa);
     }
-    FuncType ma2_approx(  ){
-        return m_alpha2_approx;
+    LLD ma2_approx(LLD T, LLD fa){
+        return axionMass.ma2_approx(T,fa);
     }
-    FuncType dma2dT(  ){
-        return m_alpha2_derivative_1;
+
+    LLD dma2dT(LLD T, LLD fa){
+        return axionMass.ma2_derivative_1(T,fa);
     }
-    FuncType dma2dT_approx(  ){
-        return m_alpha2_derivative_1_approx;
+    LLD dma2dT_approx(LLD T, LLD fa){
+        return axionMass.ma2_derivative_1_approx(T,fa);
     }
 }

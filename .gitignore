@@ -1,0 +1,10 @@
+*.ipynb_checkpoints
+*.vscode
+*path.py
+*type.py
+*path.hpp
+*.pyc
+*__pycache__*
+*.so
+*.run
+*_plots

@@ -23,11 +23,11 @@ int main(int argc, char **argv){
     //model parameters
     LD theta_i = atof(argv[1]) ;
     LD fa = atof(argv[2]);
-    LD umax = atof(argv[3]);
+    LD tmax = atof(argv[3]);
     LD TSTOP = atof(argv[4]);
     LD ratio_ini=atof(argv[5]);
 
-    Axion_eom<LD> Ax(theta_i, fa, umax, TSTOP, ratio_ini,"input.dat");
+    Axion_eom<LD> Ax(theta_i, fa, tmax, TSTOP, ratio_ini,"input.dat");
     Ax.makeInt();
     LD t, T, logH2;
     // check if the file is read

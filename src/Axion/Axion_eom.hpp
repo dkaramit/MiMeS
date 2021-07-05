@@ -17,7 +17,7 @@ template<class LD> using  Array = LD[Neqs];
 template<class LD>
 class Axion_eom{  
     public:
-    LD theta_i,fa,umax,TSTOP,ratio_ini;
+    LD theta_i,fa,tmax,TSTOP,ratio_ini;
     LD Ti;//temperature where we start interpolation
     LD T_stop, logH2_stop, t_stop;//temperature, logH^2, and t where we stop interpolation (the end of the file). They should be AFTER entropy conservation resumes (I usually stop any intergation at T<1 MeV or so, where the Universe expands in a standard way)!
     LD T_ini, logH2_ini;//temperature and logH^2 (t=0 by definition) where we start interpolation (the end of the file). They should be AFTER entropy conservation resumes (I usually stop any intergation at T<1 MeV or so, where the Universe expands in a standard way)!
@@ -26,11 +26,11 @@ class Axion_eom{
     CubicSpline<LD> T_int;
     CubicSpline<LD> logH2_int;
 
-    Axion_eom(LD theta_i, LD fa, LD umax, LD TSTOP, LD ratio_ini, std::string inputFile){
+    Axion_eom(LD theta_i, LD fa, LD tmax, LD TSTOP, LD ratio_ini, std::string inputFile){
         this->theta_i=theta_i;
         this->fa=fa;
 
-        this->umax=umax;
+        this->tmax=tmax;
         this->TSTOP=TSTOP;
         this->ratio_ini=ratio_ini;
 

@@ -67,7 +67,7 @@ class Axion{
     using  Solver=Ros<sys, Neqs, METHOD<LD>, Jacobian<sys, Neqs, LD>, LD>;
 
     public:
-    LD theta_i,fa,umax,TSTOP,ratio_ini;
+    LD theta_i,fa,tmax,TSTOP,ratio_ini;
     LD theta_osc, T_osc, a_osc; 
 
     LD gamma;//gamma is the entropy injection from the point of the last peak until T_stop (the point where interpolation stops)
@@ -81,12 +81,12 @@ class Axion{
     unsigned int N_convergence_max;
     LD convergence_lim;
 
-    Axion(LD theta_i, LD fa, LD TEND, LD c, LD Ti, LD ratio, LD umax, LD TSTOP, LD ratio_ini, 
+    Axion(LD theta_i, LD fa, LD TEND, LD c, LD Ti, LD ratio, LD tmax, LD TSTOP, LD ratio_ini, 
             unsigned int N_convergence_max, LD convergence_lim){
         this->theta_i=theta_i;
         this->fa=fa;
 
-        this->umax=umax;
+        this->tmax=tmax;
         this->TSTOP=TSTOP;
         this->ratio_ini=ratio_ini;
 
@@ -111,7 +111,7 @@ void Axion<LD>::solveAxion(){
     Array<LD> y0={theta_ini, 0.}; //assume zeta(Ti)=0. We can also shift theta->theta_i+phi, so that the intial condition is y0={0,0}
     /*================================*/
 
-    Axion_eom<LD> axion(theta_i, fa, umax, TSTOP, ratio_ini);
+    Axion_eom<LD> axion(theta_i, fa, tmax, TSTOP, ratio_ini);
     
     //you can find these as you load the data
     T_osc=axion.T_osc;
@@ -120,7 +120,7 @@ void Axion<LD>::solveAxion(){
 
     sys EOM = [&axion](Array<LD> &lhs, Array<LD> &y, LD t){axion(lhs, y, t);};
 
-    Solver System(EOM, y0, -umax,
+    Solver System(EOM, y0, tmax,
                     initial_step_size, minimum_step_size, maximum_step_size, maximum_No_steps,
                     absolute_tolerance, relative_tolerance, beta, fac_max,fac_min);
 

@@ -6,10 +6,6 @@
 #include <functional>
 #include <vector>
 
-using std::exp;
-using std::log;
-using std::vector;
-
 
 
 
@@ -33,7 +29,7 @@ using std::vector;
 
 /*other stuff*/
 #include "src/Cosmo/Cosmo.hpp"
-#include"src/AxionMass/AxionMass.hpp"
+#include"src/AxionMasa/AxionMass.hpp"
 #include"src/AnharmonicFactor/AnharmonicFactor.hpp"
 /*================================*/
 
@@ -115,7 +111,7 @@ void Axion<LD>::solveAxion(){
     
     //you can find these as you load the data
     T_osc=axion.T_osc;
-    a_osc=axion.a_osc;
+    a_osc=std::exp(axion.t_osc);
 
 
     sys EOM = [&axion](Array<LD> &lhs, Array<LD> &y, LD t){axion(lhs, y, t);};
@@ -134,9 +130,9 @@ void Axion<LD>::solveAxion(){
     LD an_diff;
     unsigned int Npeaks=0, N_convergence=0;
 
-    T=axion.nsc.Temperature(0);
-    H2=std::exp(axion.nsc.logH2(0));
-    ma2=_axion_chi.m_alpha2(T,fa);
+    T=axion.Temperature(0);
+    H2=std::exp(axion.logH2(0));
+    maa=axionMass.ma2(T,fa);
     if(std::abs(theta)<1e-3){
         rho_axion=fa*fa*(ma2*0.5*theta*theta);
 
@@ -162,7 +158,7 @@ void Axion<LD>::solveAxion(){
         zeta=System.ynext[1]/theta_ini*theta_i;
 
         t=System.tn;
-        a=exp(t);
+        a=std::exp(t);
 
         T=axion.Temperature(t);
         H2=std::exp(axion.logH2(t));
@@ -176,7 +172,7 @@ void Axion<LD>::solveAxion(){
         
         if(T<TSTOP){break;}
 
-        ma2=_axion_chi.m_alpha2(T,fa);
+        ma2=axionMass.ma2(T,fa);
 
         // when reading from python, if theta<~1e-8, we have roundoff errors due to the cos(theta)
         // The solution is this:
@@ -196,7 +192,7 @@ void Axion<LD>::solveAxion(){
             Npeaks++;
             check=true; 
 
-            tmp=_anharmonic_factor(theta)*theta*theta *std::sqrt(ma2) * a*a*a ;
+            tmp=_anharmonicFactor(theta)*theta*theta *std::sqrt(ma2) * a*a*a ;
             peaks.push_back(vector<LD>{a,T,theta,zeta,rho_axion,tmp});
 
             adiabatic_invariant.push_back(tmp);
@@ -216,12 +212,11 @@ void Axion<LD>::solveAxion(){
         }
 
         if(N_convergence>=N_convergence_max){
-            // YOU NEED TO DEFINE u_stop and T_stop in the Axion_eom class, that tell us when interpolation stops
-            gamma=_cosmo.s(axion.T_stop)/_cosmo.s(T)*std::exp(3*(-axion.u_stop-System.tn));
+            gamma=_cosmo.s(axion.T_stop)/_cosmo.s(T)*std::exp(3*(axion.t_stop-System.tn));
             
             relic=h_hub*h_hub/rho_crit*_cosmo.s(T0)/_cosmo.s(T)/gamma*0.5*
-            std::sqrt(_axion_chi.m_alpha2(T0,1)*_axion_chi.m_alpha2(T,1))*
-            theta*theta*_anharmonic_factor(theta);
+            std::sqrt(axionMass.ma2(T0,1)*axionMass.ma2(T,1))*
+            theta*theta*anharmonicFactor(theta);
 
             break;
         }

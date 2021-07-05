@@ -128,7 +128,7 @@ void Axion<LD>::solveAxion(){
     unsigned int current_step=0;
     bool check=true, osc_check=true;
     LD theta=theta_i,zeta=0;
-    LD u,a,T,tmp,H2,ma2;
+    LD t,a,T,tmp,H2,ma2;
     LD rho_axion;
     std::vector<LD> adiabatic_invariant;
     LD an_diff;
@@ -161,11 +161,11 @@ void Axion<LD>::solveAxion(){
         theta=System.ynext[0]/theta_ini*theta_i;
         zeta=System.ynext[1]/theta_ini*theta_i;
 
-        u=System.tn*(-1);
-        a=exp(-u);
+        t=System.tn;
+        a=exp(t);
 
-        T=axion.Temperature(System.tn);
-        H2=std::exp(axion.logH2(System.tn));
+        T=axion.Temperature(t);
+        H2=std::exp(axion.logH2(t));
 
         if(T<=T_osc and osc_check){
             T_osc=T;

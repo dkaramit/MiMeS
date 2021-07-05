@@ -21,6 +21,7 @@ class Axion_eom{
     LD Ti;//temperature where we start interpolation
     LD T_stop, logH2_stop, t_stop;//temperature, logH^2, and t where we stop interpolation (the end of the file). They should be AFTER entropy conservation resumes (I usually stop any intergation at T<1 MeV or so, where the Universe expands in a standard way)!
     LD T_ini, logH2_ini;//temperature and logH^2 (t=0 by definition) where we start interpolation (the end of the file). They should be AFTER entropy conservation resumes (I usually stop any intergation at T<1 MeV or so, where the Universe expands in a standard way)!
+    LD t_osc, T_osc;//temperature and logH^2 (t=0 by definition) where we start interpolation (the end of the file). They should be AFTER entropy conservation resumes (I usually stop any intergation at T<1 MeV or so, where the Universe expands in a standard way)!
     
     std::vector<LD> t_tab,T_tab,logH2_tab;
     CubicSpline<LD> T_int;
@@ -40,13 +41,20 @@ class Axion_eom{
 
         std::ifstream data_file(inputFile);
         bool ini_check=true; //check when ratio_ini is reached
+        bool osc_check=true; //check when T_osc is reached
         LD t_ini; //check when ratio_ini is reached
+
+        LD ratio;
         while (not data_file.eof()){
             data_file>>t;
             data_file>>T;
             data_file>>logH;
-            
-            if(3*std::exp(logH) / std::sqrt(axionMass.ma2(T,fa)) < ratio_ini ){
+            ratio = 3*std::exp(logH) / std::sqrt(axionMass.ma2(T,fa));
+
+            //find oscillation T and t.
+            if(ratio<=1){if(osc_check){osc_check=false; t_osc=t_prev;T_osc=T_prev;}}
+
+            if(ratio <= ratio_ini ){
                 //we need the following check in order to find t_ini (it is better to start at the point before ratio_ini is reached) 
                 if(ini_check){  
                     T_ini=T_prev;

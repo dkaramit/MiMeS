@@ -29,6 +29,9 @@ int main(int argc, char **argv){
 
     Axion_eom<LD> Ax(theta_i, fa, tmax, TSTOP, ratio_ini,"input.dat");
     Ax.makeInt();
+
+    std::cout<<"T_osc~= "<<Ax.T_osc<<" GeV"<<std::endl;
+
     LD t, T, logH2;
     // check if the file is read
     #ifdef readCheck
@@ -66,6 +69,7 @@ int main(int argc, char **argv){
         t+=Ax.t_stop/(Npoints-10) ;///the last few points should be the same as I make the interpolation return T_stop and logH2_stop if I go beyond t_stop 
     }
     #endif
+
 
     return 0;
 }

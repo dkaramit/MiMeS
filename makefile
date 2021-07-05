@@ -20,17 +20,15 @@ SPLINE_FLG= -I"$(Path)/src/Interpolation"
 PATH_INCLUDE= -I"$(Path)"  -I"$(Path)/src" -I"$(Path)/src/misc_dir" -I"$(Path)/src/Cosmo" -I"$(Path)/src/AnharmonicFactor" -I"$(Path)/src/AxionMass"
 
 ROS_FLG=-I"$(Path)/src/Rosenbrock" 
-RKF_FLG=-I"$(Path)/src/RKF" 
 
 
 FLG= -$(OPT) -std=$(STD) -DLONG=$(LONG) $(PATH_INCLUDE) $(ROS_FLG) $(RKF_FLG) $(SPLINE_FLG)  
 
 DataFiles=$(wildcard $(Path)/src/data/*.dat)
 Ros_Headers= $(wildcard $(Path)/src/Rosenbrock/*.hpp) $(wildcard $(Path)/src/Rosenbrock/LU/*.hpp)   
-RKF_Headers= $(wildcard $(Path)/src/RKF/*.hpp)  
 SPLINE_Headers=$(wildcard $(Path)/src/Interpolation/*.hpp)
 
-Axion_Headers= $(wildcard $(Path)/NonStandardCosmology/Axion/*.hpp)   
+Axion_Headers= $(wildcard $(Path)/src/Axion/*.hpp)   
 
 PathHead=src/misc_dir/path.hpp
 PathHeadPy=src/misc_dir/path.py
@@ -40,17 +38,19 @@ Cosmo_Headers=$(wildcard src/Cosmo/Cosmo.cpp) $(wildcard src/Cosmo/Cosmo.hpp)
 AxionMisc_Headers= $(wildcard $(Path)/src/AxionMass/AxionMass.cpp) $(wildcard $(Path)/src/AxionMass/AxionMass.hpp) $(wildcard $(Path)/src/AnharmonicFactor/AnharmonicFactor.cpp) $(wildcard $(Path)/src/AnharmonicFactor/AnharmonicFactor.hpp) 
 
 
-all: lib exec
+all: mkmisc lib exec
 
 lib: mklib lib/libCosmo.so lib/libma.so lib/libanfac.so  #lib/Axion_py.so
 	
 
-exec: mkexec #exec/Axion.run
+exec: mkexec exec/Axion.run
 
 mklib:
 	mkdir "$(Path)/lib" || true
 mkexec:
 	mkdir "$(Path)/exec" || true
+mkmisc:
+	mkdir "$(Path)/src/misc_dir" || true
 
 #shared libraries that can be used from python
 lib/libCosmo.so: $(PathHead)  $(PathHeadPy) $(PathTypePy) $(DataFiles) $(SPLINE_Headers) $(Cosmo_Headers) makefile
@@ -64,13 +64,17 @@ lib/libanfac.so: $(PathHead)  $(PathHeadPy) $(PathTypePy) $(DataFiles) $(SPLINE_
 #######################################################################################################
 
 
-#evolution of the axion 
-exec/Axion.run: $(PathHead)  Axion.cpp $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) $(Axion_Headers) makefile $(AxionMisc_Headers) $(NSC_Headers)
-	$(CC) -o "$(Path)/exec/Axion.run" "$(Path)/Axion.cpp"   $(FLG)    -DMETHOD=RODASPR2 -I"$(Path)/NonStandardCosmology/NSC" -I"$(Path)/NonStandardCosmology/Axion"
+# check interpolations of the Axion_eom class 
+exec/Axion_eom_check.run: $(PathHead) Axion_eom_check.cpp $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) $(Axion_Headers) makefile $(AxionMisc_Headers) $(NSC_Headers)
+	$(CC) -o "$(Path)/exec/Axion_eom_check.run" "$(Path)/Axion_eom_check.cpp"   $(FLG)    -DMETHOD=RODASPR2  -I"$(Path)/src/Axion"
 
-#shared library for the evolution of the axion in NSC that can be used from python
-lib/Axion_py.so: $(PathHead)  $(PathHeadPy) $(PathTypePy) Axion-py.cpp $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) $(Axion_Headers) makefile $(AxionMisc_Headers) $(NSC_Headers) lib/libCosmo.so lib/libma.so lib/libanfac.so 
-	$(CC)  -fPIC "$(Path)/Axion-py.cpp" -shared -o "$(Path)/lib/Axion_py.so"  $(FLG) -DMETHOD=RODASPR2 -I"$(Path)/NonStandardCosmology/NSC" -I"$(Path)/NonStandardCosmology/Axion"
+# evolution of the axion 
+# exec/Axion.run: $(PathHead) Axion.cpp $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) $(Axion_Headers) makefile $(AxionMisc_Headers) $(NSC_Headers)
+#	$(CC) -o "$(Path)/exec/Axion.run" "$(Path)/Axion.cpp"   $(FLG)    -DMETHOD=RODASPR2  -I"$(Path)/src/Axion"
+
+#shared library for the evolution of the axion that can be used from python
+# lib/Axion_py.so: $(PathHead)  $(PathHeadPy) $(PathTypePy) Axion-py.cpp $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) $(Axion_Headers) makefile $(AxionMisc_Headers) $(NSC_Headers) lib/libCosmo.so lib/libma.so lib/libanfac.so 
+#	 $(CC)  -fPIC "$(Path)/Axion-py.cpp" -shared -o "$(Path)/lib/Axion_py.so"  $(FLG) -DMETHOD=RODASPR2  -I"$(Path)/Axion"
 
 #######################################################################################################
 
@@ -95,11 +99,10 @@ $(PathTypePy):  $(DataFiles) makefile
 
 #cleans whatever make all created
 clean: 
-	rm $(wildcard lib/*.so) || true
-	rm $(wildcard exec/*.run) || true
-	rm "src/misc_dir/path.hpp"||true
-	rm "src/misc_dir/path.py"||true
-	rm "src/misc_dir/type.py"||true
+
+	rm $(wildcard lib/*) ||true
+	rm $(wildcard exec/*) ||true
+	rm $(wildcard src/misc_dir/*) ||true
 
 
 

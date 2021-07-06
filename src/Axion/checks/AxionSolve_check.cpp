@@ -27,16 +27,7 @@ int main(int argc, char **argv){
     unsigned int N_convergence_max=3;
     LD convergence_lim=1e-3;
     
-    if(argc>1){        
-        theta_i = atof(argv[1]) ;
-        fa = atof(argv[2]);
-        tmax = atof(argv[3]);
-        TSTOP = atof(argv[4]);
-        ratio_ini=atof(argv[5]);
-        N_convergence_max=atoi(argv[6]);
-        convergence_lim=atof(argv[7]);
-    }
-    mimes::Axion<LD> Ax(theta_i, fa, tmax, TSTOP, ratio_ini, N_convergence_max,convergence_lim,"input.dat");
+    mimes::Axion<LD> Ax(theta_i, fa, tmax, TSTOP, ratio_ini, N_convergence_max,convergence_lim,"InputExamples/RDinput.dat");
 
     Ax.solveAxion();
 

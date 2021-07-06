@@ -41,7 +41,7 @@ int main(int argc, char **argv){
     zeta=Ax.peaks[N-1][3];
 
     std::cout<<std::setprecision(25)
-    <<theta_i<<"\t"<<fa<<Ax.theta_osc<<"\t"<<Ax.T_osc<<"\t"<<Ax.relic<<"\n";
+    <<theta_i<<"\t"<<fa<<"\t"<<Ax.theta_osc<<"\t"<<Ax.T_osc<<"\t"<<Ax.relic<<"\n";
 
 
     // print all the points

@@ -119,6 +119,9 @@ namespace mimes{
             LD _H2= std::exp(logH2(t)) ;// e^{log(H^2)}=H^2
             LD _dlogH2dt=dlogH2dt(t);// dlogH^2/dt
 
+            // in radiation dominated Universe, you can also use:
+            // LD _dlogH2dt=-(cosmo.dgeffdT(_T)*_T/cosmo.geff(_T) + 4 )/cosmo.dh(_T);
+
 
             lhs[0]=zeta;//dtheta/dt
             lhs[1]=-(0.5*_dlogH2dt +3)*zeta - axionMass.ma2(_T,fa)/_H2*std::sin(theta);//dzeta/dt

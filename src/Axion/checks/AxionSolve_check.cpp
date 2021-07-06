@@ -23,7 +23,7 @@ int main(int argc, char **argv){
     LD fa = 1e12;
     LD tmax = 500;
     LD TSTOP = 1e-3;
-    LD ratio_ini=100;
+    LD ratio_ini=1000;
     unsigned int N_convergence_max=3;
     LD convergence_lim=1e-3;
     

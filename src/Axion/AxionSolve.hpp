@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include <cmath>
+#include <string>
 #include <functional>
 #include <vector>
 
@@ -24,12 +25,12 @@
 
 
 //---Get the eom of the axion--//
-#include "Axion_eom.hpp"
+#include "AxionEOM.hpp"
 
 
 /*other stuff*/
 #include "src/Cosmo/Cosmo.hpp"
-#include"src/AxionMasa/AxionMass.hpp"
+#include"src/AxionMass/AxionMass.hpp"
 #include"src/AnharmonicFactor/AnharmonicFactor.hpp"
 /*================================*/
 
@@ -39,28 +40,29 @@
     #define METHOD RODASPR2
 #endif
 
-// macros for the somlver
-#define minimum_step_size 1e-8L
+// macros for the solver
+#define minimum_step_size 1e-8
 /*---------------------------------------------------*/
-#define initial_step_size 1e-3L
-#define maximum_step_size 1e-2L
+#define initial_step_size 1e-3
+#define maximum_step_size 1e-2
 //-----------------------------------------------//
 #define maximum_No_steps int(1e7)
-#define absolute_tolerance 1e-11L
-#define relative_tolerance 1e-11L
-#define beta 0.9L
-#define fac_max 1.05L
-#define fac_min 0.5L
+#define absolute_tolerance 1e-11
+#define relative_tolerance 1e-11
+#define beta 0.9
+#define fac_max 1.05
+#define fac_min 0.5
 /*================================*/
 
+
+using std::vector;
 
 
 template<class LD>
 class Axion{
     //-----Function type--------//
     using sys= std::function<void (Array<LD> &lhs, Array<LD> &y, LD t)>;
-    using func=std::function<LD (LD t)>;
-    using  Solver=Ros<sys, Neqs, METHOD<LD>, Jacobian<sys, Neqs, LD>, LD>;
+    using Solver=Ros<sys, Neqs, METHOD<LD>, Jacobian<sys, Neqs, LD>, LD>;
 
     public:
     LD theta_i,fa,tmax,TSTOP,ratio_ini;
@@ -73,12 +75,14 @@ class Axion{
     vector<vector<LD>> peaks;
 
 
-    unsigned int _size;
+    unsigned int size;
     unsigned int N_convergence_max;
     LD convergence_lim;
 
-    Axion(LD theta_i, LD fa, LD TEND, LD c, LD Ti, LD ratio, LD tmax, LD TSTOP, LD ratio_ini, 
-            unsigned int N_convergence_max, LD convergence_lim){
+    std::string inputFile;
+
+    Axion(LD theta_i, LD fa, LD tmax, LD TSTOP, LD ratio_ini, 
+            unsigned int N_convergence_max, LD convergence_lim, std::string inputFile){
         this->theta_i=theta_i;
         this->fa=fa;
 
@@ -88,6 +92,8 @@ class Axion{
 
         this->N_convergence_max=N_convergence_max;
         this->convergence_lim=convergence_lim;
+
+        this->inputFile=inputFile;
     }
     Axion(){}
     
@@ -104,17 +110,19 @@ void Axion<LD>::solveAxion(){
     if(theta_ini<1e-3){theta_ini=1e-3;}
 
     /*================================*/
-    Array<LD> y0={theta_ini, 0.}; //assume zeta(Ti)=0. We can also shift theta->theta_i+phi, so that the intial condition is y0={0,0}
+    Array<LD> y0={theta_ini, 0.};
     /*================================*/
 
-    Axion_eom<LD> axion(theta_i, fa, tmax, TSTOP, ratio_ini);
+    AxionEOM<LD> axionEOM(theta_i, fa, tmax, TSTOP, ratio_ini, inputFile);
+    
+    axionEOM.makeInt();
     
     //you can find these as you load the data
-    T_osc=axion.T_osc;
-    a_osc=std::exp(axion.t_osc);
+    T_osc=axionEOM.T_osc;
+    a_osc=std::exp(axionEOM.t_osc);
 
 
-    sys EOM = [&axion](Array<LD> &lhs, Array<LD> &y, LD t){axion(lhs, y, t);};
+    sys EOM = [&axionEOM](Array<LD> &lhs, Array<LD> &y, LD t){axionEOM(lhs, y, t);};
 
     Solver System(EOM, y0, tmax,
                     initial_step_size, minimum_step_size, maximum_step_size, maximum_No_steps,
@@ -130,9 +138,9 @@ void Axion<LD>::solveAxion(){
     LD an_diff;
     unsigned int Npeaks=0, N_convergence=0;
 
-    T=axion.Temperature(0);
-    H2=std::exp(axion.logH2(0));
-    maa=axionMass.ma2(T,fa);
+    T=axionEOM.Temperature(0);
+    H2=std::exp(axionEOM.logH2(0));
+    ma2=axionMass.ma2(T,fa);
     if(std::abs(theta)<1e-3){
         rho_axion=fa*fa*(ma2*0.5*theta*theta);
 
@@ -140,6 +148,7 @@ void Axion<LD>::solveAxion(){
         rho_axion=fa*fa*(ma2*(1 - std::cos(theta)));
     }
     points.push_back(vector<LD>{1,T,theta,0,rho_axion});
+
 
 
     // the solver identifies the peaks in theta by finding points where zeta goes from negative to positive.
@@ -160,12 +169,12 @@ void Axion<LD>::solveAxion(){
         t=System.tn;
         a=std::exp(t);
 
-        T=axion.Temperature(t);
-        H2=std::exp(axion.logH2(t));
+        T=axionEOM.Temperature(t);
+        H2=std::exp(axionEOM.logH2(t));
 
         if(T<=T_osc and osc_check){
             T_osc=T;
-            a_osc=a*a_ini;/*convert to a/ai*/
+            a_osc=a;
             theta_osc=theta;
             osc_check=false;
         }
@@ -186,13 +195,13 @@ void Axion<LD>::solveAxion(){
         points.push_back(vector<LD>{a,T,theta,zeta,rho_axion});
 
         
-        if(zeta<0){check=false;}
+        if(zeta>0){check=false;}
 
-        if(zeta>=0 and check==false){
+        if(zeta<=0 and check==false){
             Npeaks++;
             check=true; 
 
-            tmp=_anharmonicFactor(theta)*theta*theta *std::sqrt(ma2) * a*a*a ;
+            tmp=anharmonicFactor(theta)*theta*theta *std::sqrt(ma2) * a*a*a ;
             peaks.push_back(vector<LD>{a,T,theta,zeta,rho_axion,tmp});
 
             adiabatic_invariant.push_back(tmp);
@@ -212,19 +221,20 @@ void Axion<LD>::solveAxion(){
         }
 
         if(N_convergence>=N_convergence_max){
-            gamma=_cosmo.s(axion.T_stop)/_cosmo.s(T)*std::exp(3*(axion.t_stop-System.tn));
+            gamma=cosmo.s(axionEOM.T_stop)/cosmo.s(T)*std::exp(3*(axionEOM.t_stop-System.tn));
             
-            relic=h_hub*h_hub/rho_crit*_cosmo.s(T0)/_cosmo.s(T)/gamma*0.5*
-            std::sqrt(axionMass.ma2(T0,1)*axionMass.ma2(T,1))*
-            theta*theta*anharmonicFactor(theta);
+            relic=h_hub*h_hub/rho_crit*cosmo.s(T0)/cosmo.s(T)/gamma*0.5*
+                    std::sqrt(axionMass.ma2(T0,1)*axionMass.ma2(T,1))*
+                    theta*theta*anharmonicFactor(theta);
+            
+
 
             break;
         }
 
     }
 
-   
-    _size=points.size();
+    size=points.size();
 };
 
 

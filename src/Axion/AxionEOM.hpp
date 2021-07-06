@@ -1,5 +1,5 @@
-#ifndef SYSTEM_Axion_eom
-#define SYSTEM_Axion_eom
+#ifndef SYSTEM_AxionEOM
+#define SYSTEM_AxionEOM
 #include<iostream>
 #include<fstream>
 #include <cmath>
@@ -15,7 +15,7 @@
 template<class LD> using  Array = LD[Neqs]; 
 
 template<class LD>
-class Axion_eom{  
+class AxionEOM{  
     public:
     LD theta_i,fa,tmax,TSTOP,ratio_ini;
     LD Ti;//temperature where we start interpolation
@@ -27,7 +27,7 @@ class Axion_eom{
     CubicSpline<LD> T_int;
     CubicSpline<LD> logH2_int;
 
-    Axion_eom(LD theta_i, LD fa, LD tmax, LD TSTOP, LD ratio_ini, std::string inputFile){
+    AxionEOM(LD theta_i, LD fa, LD tmax, LD TSTOP, LD ratio_ini, std::string inputFile){
         this->theta_i=theta_i;
         this->fa=fa;
 
@@ -42,17 +42,17 @@ class Axion_eom{
         std::ifstream data_file(inputFile);
         bool ini_check=true; //check when ratio_ini is reached
         bool osc_check=true; //check when T_osc is reached
-        LD t_ini; //check when ratio_ini is reached
+        LD t_ini; //check when ratio_ini is reached in order to rescale t to start at 0 in the interpolations
 
-        LD ratio;
+        LD ratio;// I will use ratio to store 3H/m_a as I read the file
         while (not data_file.eof()){
             data_file>>t;
             data_file>>T;
             data_file>>logH;
             ratio = 3*std::exp(logH) / std::sqrt(axionMass.ma2(T,fa));
 
-            //find oscillation T and t.
-            if(ratio<=1){if(osc_check){osc_check=false; t_osc=t_prev;T_osc=T_prev;}}
+            //find T and t when oscillation begins.
+            if(ratio<=1){if(osc_check){osc_check=false; t_osc=t_prev-t_ini;T_osc=T_prev;}}
 
             if(ratio <= ratio_ini ){
                 //we need the following check in order to find t_ini (it is better to start at the point before ratio_ini is reached) 
@@ -106,10 +106,11 @@ class Axion_eom{
     }
 
 
-    ~Axion_eom(){};
+    ~AxionEOM(){};
 
 
     void operator()(Array<LD> &lhs, Array<LD> &y, LD t){
+        //remember that t=log{a/a_i}
         
         LD theta=y[0];
         LD zeta=y[1];
@@ -121,7 +122,7 @@ class Axion_eom{
 
 
         lhs[0]=zeta;//dtheta/dt
-        lhs[1]=(0.5*_dlogH2dt +3)*zeta - axionMass.ma2(_T,fa)/_H2*std::sin(theta);//dzeta/dt
+        lhs[1]=-(0.5*_dlogH2dt +3)*zeta - axionMass.ma2(_T,fa)/_H2*std::sin(theta);//dzeta/dt
 
     };
 };

@@ -68,7 +68,7 @@ int main(int argc, char **argv){
     // print all the peaks
     #ifdef printPeaks
     std::cout<<"---------------------peaks:---------------------\n";
-    std::cout<<"a/a_i\tT [GeV]\ttheta\tzeta\trho_a [GeV^4]\tadibatic_inv [GeV]"<<std::endl;
+    std::cout<<"a/a_i\tT [GeV]\ttheta\tzeta\trho_a [GeV^4]\tadiabatic_inv [GeV]"<<std::endl;
     for(int i=0; i<Ax.peakSize; ++i ){
         for(int j=0; j<6; ++j){
             std::cout<<Ax.peaks[i][j];

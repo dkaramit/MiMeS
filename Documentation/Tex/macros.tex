@@ -1,0 +1,120 @@
+\usepackage{ifthen}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tikz}
+
+
+%Define color environments:
+
+\newenvironment{DK}[1]{{\color{gray}Commend from D: #1}}
+
+\newenvironment{DKnew}[1]{{\color{blue}NEW from D: #1}}
+
+\newenvironment{DKres}[1]{{\color{BrickRed}RESTRUCTURED from D: #1}}
+
+
+
+
+\newcommand{\dint}{  \displaystyle \int }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\ie}{{\em i.e.} }
+\newcommand{\eg}{{\em e.g.} }
+\newcommand{\GeV}{{\rm GeV}}
+\newcommand{\TeV}{{\rm TeV}}
+\newcommand{\MeV}{{\rm MeV}}
+\newcommand{\keV}{{\rm keV}}
+
+\newcommand{\rhs}{RHS }
+\newcommand{\lhs}{LHS }
+
+
+\newcommand{\geff}{ g_{\rm eff} }
+\newcommand{\heff}{ h_{\rm eff} }
+ 
+\newcommand{\Ham}{ \mathcal{H} }
+ 
+\newcommand{\thetamax}{ \theta_{\rm max}{} }
+
+ 
+\newcommand{\thetai}{ \theta_{\rm ini}{} }
+
+\newcommand{\fa}{ f_{\alpha}{} }
+ 
+\newcommand{\ti}{ t_{\rm ini}{} }
+ 
+\newcommand{\Ri}{ R_{\rm ini}{} }
+
+
+\newcommand{\tosc}{ t_{\rm osc}{} }
+
+\newcommand{\Omegai}{ \Omega_{\rm ini} }
+ 
+\newcommand{\ma}{ m_\alpha{} }
+
+\newcommand{\Lint}{ \mathcal{L}_{\rm int} }
+
+
+\newcommand{\vev}[1]{\langle #1 \rangle}
+\newcommand{\Bvev}[1]{\Bigg\langle #1 \Bigg\rangle}
+\newcommand{\bvev}[1]{\Big\langle #1 \Big\rangle}
+
+
+
+
+\newcommand{\lrb}[1]{\left( #1 \right)}
+\newcommand{\lrsb}[1]{\left[ #1 \right]}
+\newcommand{\lrBigb}[1]{\Big( #1 \Big)}
+\newcommand{\lrBigsb}[1]{\Big[ #1 \Big]}
+\newcommand{\lrBiggb}[1]{\Bigg( #1 \Bigg)}
+\newcommand{\lrBiggsb}[1]{\Bigg[ #1 \Bigg]}
+
+\newcommand{\lrBigcb}[1]{\Big\{ #1 \Big\}}
+\newcommand{\lrBiggcb}[1]{\Bigg\{ #1 \Bigg\}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%--Begin_refs--%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcounter{NumArgs}
+
+%Define reference to an arbitrary number of equations (\eqs{label_1,label_2....,label_n} will show eqs. ref_1, ref_2, ..., and ref_n)
+\newcommand{\eqs}[1]{\setcounter{NumArgs}{0}\foreach\i in{#1}{\stepcounter{NumArgs}}%
+\ifthenelse{\equal{\theNumArgs}{1}}{eq.~(\ref{#1})}%
+{\ifthenelse{\equal{\theNumArgs}{2}}%
+{eqs.~\foreach\i[count=\q]in{#1}{\ifthenelse{\equal{\q}{\theNumArgs}}{and (\ref{\i})}{(\ref{\i})~}}}%
+{eqs.~\foreach\i[count=\q]in{#1}{\ifthenelse{\equal{\q}{\theNumArgs}}{and (\ref{\i})}{(\ref{\i}),~}}}}}
+
+
+%Define reference to an arbitrary number of equations (\Eqs{label_1,label_2....,label_n} will show Eqs. ref_1, ref_2, ..., and ref_n)
+\newcommand{\Eqs}[1]{\setcounter{NumArgs}{0}\foreach\i in{#1}{\stepcounter{NumArgs}}%
+\ifthenelse{\equal{\theNumArgs}{1}}{Eq.~(\ref{#1})}%
+{\ifthenelse{\equal{\theNumArgs}{2}}%
+{Eqs.~\foreach\i[count=\q]in{#1}{\ifthenelse{\equal{\q}{\theNumArgs}}{and (\ref{\i})}{(\ref{\i})~}}}%
+{Eqs.~\foreach\i[count=\q]in{#1}{\ifthenelse{\equal{\q}{\theNumArgs}}{and (\ref{\i})}{(\ref{\i}),~}}}}}
+
+
+%Define reference to an arbitrary number of labels (\REF{label_1,label_2....,label_n} will show ref_1, ref_2, ..., and ref_n)
+\newcommand{\refs}[1]{\setcounter{NumArgs}{0}\foreach\i in{#1}{\stepcounter{NumArgs}}%
+\ifthenelse{\equal{\theNumArgs}{1}}{(\ref{#1})}%
+{\ifthenelse{\equal{\theNumArgs}{2}}%
+{\foreach\i[count=\q]in{#1}{\ifthenelse{\equal{\q}{\theNumArgs}}{and (\ref{\i})}{(\ref{\i})~}}}%
+{\foreach\i[count=\q]in{#1}{\ifthenelse{\equal{\q}{\theNumArgs}}{and (\ref{\i})}{(\ref{\i}),~}}}}}
+
+
+
+%Define reference to an arbitrary number of figs (\Figs{label_1,label_2....,label_n} will show ref_1, ref_2, ..., and ref_n)
+\newcommand{\Figs}[1]{\setcounter{NumArgs}{0}\foreach\i in{#1}{\stepcounter{NumArgs}}%
+\ifthenelse{\equal{\theNumArgs}{1}}{Fig.~(\ref{#1})}%
+{\ifthenelse{\equal{\theNumArgs}{2}}%
+{Figs.~\foreach\i[count=\q]in{#1}{\ifthenelse{\equal{\q}{\theNumArgs}}{and (\ref{\i})}{(\ref{\i})~}}}%
+{Figs.~\foreach\i[count=\q]in{#1}{\ifthenelse{\equal{\q}{\theNumArgs}}{and (\ref{\i})}{(\ref{\i}),~}}}}}
+
+
+
+
+%Define reference to an arbitrary number of "general reference" (\Gen{message}{label_1,label_2....,label_n} will show message.(ref_1), (ref_2), ..., and (ref_n)
+\newcommand{\Gen}[2]{\setcounter{NumArgs}{0}\foreach\i in{#2}{\stepcounter{NumArgs}}%
+	\ifthenelse{\equal{\theNumArgs}{1}}{#1.~(\ref{#2})}%
+	{\ifthenelse{\equal{\theNumArgs}{2}}%
+		{#1.~\foreach\i[count=\q]in{#2}{\ifthenelse{\equal{\q}{\theNumArgs}}{and (\ref{\i})}{(\ref{\i})~}}}%
+		{#1.~\foreach\i[count=\q]in{#2}{\ifthenelse{\equal{\q}{\theNumArgs}}{and (\ref{\i})}{(\ref{\i}),~}}}}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%--End_refs--%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

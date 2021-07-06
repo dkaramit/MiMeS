@@ -75,7 +75,7 @@ class Axion{
     vector<vector<LD>> peaks;
 
 
-    unsigned int size;
+    unsigned int pointSize,peakSize;
     unsigned int N_convergence_max;
     LD convergence_lim;
 
@@ -234,7 +234,8 @@ void Axion<LD>::solveAxion(){
 
     }
 
-    size=points.size();
+    pointSize=points.size();
+    peakSize=peaks.size();
 };
 
 

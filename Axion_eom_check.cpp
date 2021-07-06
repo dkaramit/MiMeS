@@ -21,11 +21,19 @@
 
 int main(int argc, char **argv){ 
     //model parameters
-    LD theta_i = atof(argv[1]) ;
-    LD fa = atof(argv[2]);
-    LD tmax = atof(argv[3]);
-    LD TSTOP = atof(argv[4]);
-    LD ratio_ini=atof(argv[5]);
+    LD theta_i = 0.93;
+    LD fa = 1e12;
+    LD tmax = 500;
+    LD TSTOP = 1e-3;
+    LD ratio_ini=100;
+    
+    if(argc>1){        
+        theta_i = atof(argv[1]) ;
+        fa = atof(argv[2]);
+        tmax = atof(argv[3]);
+        TSTOP = atof(argv[4]);
+        ratio_ini=atof(argv[5]);
+    }
 
     AxionEOM<LD> axionEOM(theta_i, fa, tmax, TSTOP, ratio_ini,"input.dat");
     axionEOM.makeInt();

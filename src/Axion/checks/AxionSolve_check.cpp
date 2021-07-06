@@ -36,7 +36,7 @@ int main(int argc, char **argv){
         N_convergence_max=atoi(argv[6]);
         convergence_lim=atof(argv[7]);
     }
-    Axion<LD> Ax(theta_i, fa, tmax, TSTOP, ratio_ini, N_convergence_max,convergence_lim,"input.dat");
+    mimes::Axion<LD> Ax(theta_i, fa, tmax, TSTOP, ratio_ini, N_convergence_max,convergence_lim,"input.dat");
 
     Ax.solveAxion();
 

@@ -37,10 +37,9 @@ PathTypePy=src/misc_dir/type.py
 Cosmo_Headers=$(wildcard $(Path)/src/Cosmo/Cosmo.cpp) $(wildcard $(Path)/src/Cosmo/Cosmo.hpp)
 AxionMisc_Headers= $(wildcard $(Path)/src/AxionMass/AxionMass.cpp) $(wildcard $(Path)/src/AxionMass/AxionMass.hpp) $(wildcard $(Path)/src/AnharmonicFactor/AnharmonicFactor.cpp) $(wildcard $(Path)/src/AnharmonicFactor/AnharmonicFactor.hpp) 
 
-
 all: mkmisc lib exec
 
-lib: mklib lib/libCosmo.so lib/libma.so lib/libanfac.so  #lib/Axion_py.so
+lib: mklib lib/libCosmo.so lib/libma.so lib/libanfac.so  lib/Axion_py.so
 	
 exec: mkexec #exec/Axion.run
 
@@ -63,25 +62,14 @@ lib/libanfac.so: $(PathHead)  $(PathHeadPy) $(PathTypePy) $(DataFiles) $(SPLINE_
 #######################################################################################################
 
 
-check: exec/Axion_eom_check.run exec/AxionSolve_check.run
-
-# check interpolations of the Axion_eom class 
-exec/Axion_eom_check.run: $(Axion_Headers) $(PathHead) Axion_eom_check.cpp $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) makefile $(AxionMisc_Headers)
-	$(CC) -o "$(Path)/exec/Axion_eom_check.run" "$(Path)/Axion_eom_check.cpp"   $(FLG)    -DMETHOD=RODASPR2  -I"$(Path)/src/Axion"
-
-# check interpolations of the Axion_eom class 
-exec/AxionSolve_check.run: $(Axion_Headers) $(PathHead) AxionSolve_check.cpp $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) makefile $(AxionMisc_Headers)
-	$(CC) -o "$(Path)/exec/AxionSolve_check.run" "$(Path)/AxionSolve_check.cpp"   $(FLG)    -DMETHOD=RODASPR2  -I"$(Path)/src/Axion"
-
 # evolution of the axion 
 # exec/Axion.run: $(PathHead) Axion.cpp $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) $(Axion_Headers) makefile $(AxionMisc_Headers) $(NSC_Headers)
 #	$(CC) -o "$(Path)/exec/Axion.run" "$(Path)/Axion.cpp"   $(FLG)    -DMETHOD=RODASPR2  -I"$(Path)/src/Axion"
 
+Axion_py=$(wildcard $(Path)/src/Axion/Axion-py.cpp)
 #shared library for the evolution of the axion that can be used from python
-# lib/Axion_py.so: $(PathHead)  $(PathHeadPy) $(PathTypePy) Axion-py.cpp $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) $(Axion_Headers) makefile $(AxionMisc_Headers) $(NSC_Headers) lib/libCosmo.so lib/libma.so lib/libanfac.so 
-#	 $(CC)  -fPIC "$(Path)/Axion-py.cpp" -shared -o "$(Path)/lib/Axion_py.so"  $(FLG) -DMETHOD=RODASPR2  -I"$(Path)/Axion"
-
-#######################################################################################################
+lib/Axion_py.so: $(PathHead)  $(PathHeadPy) $(PathTypePy) $(Axion_py) $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) $(Axion_Headers) makefile $(AxionMisc_Headers) $(NSC_Headers) lib/libCosmo.so lib/libma.so lib/libanfac.so 
+	 $(CC)  -fPIC "$(Path)/src/Axion/Axion-py.cpp" -shared -o "$(Path)/lib/Axion_py.so"  $(FLG) -DMETHOD=RODASPR2  -I"$(Path)/Axion"
 
 
 
@@ -111,8 +99,20 @@ clean:
 
 
 
+##--------------------------------make checks----------------------------------------##
+check: exec/AxionEOM_check.run exec/AxionSolve_check.run
 
-#clone code from github repos
+AxionEOM_cpp=$(wildcard $(Path)/src/Axion/checks/AxionEOM_check.cpp)
+# check interpolations of the Axion_eom class 
+exec/AxionEOM_check.run: $(Axion_Headers) $(PathHead) $(AxionEOM_cpp) $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) makefile $(AxionMisc_Headers)
+	$(CC) -o "$(Path)/exec/AxionEOM_check.run" "$(Path)/src/Axion/checks/AxionEOM_check.cpp"   $(FLG)    -DMETHOD=RODASPR2  -I"$(Path)/src/Axion"
+
+AxionSolve_cpp=$(wildcard $(Path)/src/Axion/checks/AxionSolve_check.cpp)
+# check interpolations of the Axion_eom class 
+exec/AxionSolve_check.run: $(Axion_Headers) $(PathHead) $(AxionSolve_cpp) $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) makefile $(AxionMisc_Headers)
+	$(CC) -o "$(Path)/exec/AxionSolve_check.run" "$(Path)/src/Axion/checks/AxionSolve_check.cpp"   $(FLG)    -DMETHOD=RODASPR2  -I"$(Path)/src/Axion"
+
+##--------------------------------clone code from github repos----------------------------------------##
 clone: clone_Ros clone_Spline
 
 clone_Ros:

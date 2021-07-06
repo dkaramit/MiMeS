@@ -35,7 +35,7 @@ int main(int argc, char **argv){
         ratio_ini=atof(argv[5]);
     }
 
-    AxionEOM<LD> axionEOM(theta_i, fa, tmax, TSTOP, ratio_ini,"input.dat");
+    mimes::AxionEOM<LD> axionEOM(theta_i, fa, tmax, TSTOP, ratio_ini,"input.dat");
     axionEOM.makeInt();
 
     std::cout<<"T_osc~= "<<axionEOM.T_osc<<" GeV"<<std::endl;

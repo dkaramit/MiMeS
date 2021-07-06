@@ -41,7 +41,7 @@ all: mkmisc lib exec
 
 lib: mklib lib/libCosmo.so lib/libma.so lib/libanfac.so  lib/Axion_py.so
 	
-exec: mkexec #exec/Axion.run
+exec: mkexec exec/Axion.run
 
 mklib:
 	mkdir "$(Path)/lib" || true
@@ -63,8 +63,9 @@ lib/libanfac.so: $(PathHead)  $(PathHeadPy) $(PathTypePy) $(DataFiles) $(SPLINE_
 
 
 # evolution of the axion 
-# exec/Axion.run: $(PathHead) Axion.cpp $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) $(Axion_Headers) makefile $(AxionMisc_Headers) $(NSC_Headers)
-#	$(CC) -o "$(Path)/exec/Axion.run" "$(Path)/Axion.cpp"   $(FLG)    -DMETHOD=RODASPR2  -I"$(Path)/src/Axion"
+Axion_cpp=$(wildcard $(Path)/src/Axion/Axion.cpp)
+exec/Axion.run: $(PathHead) $(Axion_cpp) $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) $(Axion_Headers) makefile $(AxionMisc_Headers) $(NSC_Headers)
+	$(CC) -o "$(Path)/exec/Axion.run" "$(Path)/src/Axion/Axion.cpp"   $(FLG)    -DMETHOD=RODASPR2  -I"$(Path)/src/Axion"
 
 Axion_py=$(wildcard $(Path)/src/Axion/Axion-py.cpp)
 #shared library for the evolution of the axion that can be used from python
@@ -95,7 +96,7 @@ clean:
 
 	rm $(wildcard lib/*) ||true
 	rm $(wildcard exec/*) ||true
-	rm $(wildcard src/misc_dir/*) ||true
+	rm -r $(wildcard src/misc_dir/*) ||true
 
 
 

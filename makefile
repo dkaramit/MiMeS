@@ -94,8 +94,8 @@ $(PathTypePy):  $(DataFiles) makefile
 #cleans whatever make all created
 clean: 
 
-	rm $(wildcard lib/*) ||true
-	rm $(wildcard exec/*) ||true
+	rm -r $(wildcard lib/*) ||true
+	rm -r $(wildcard exec/*) ||true
 	rm -r $(wildcard src/misc_dir/*) ||true
 
 

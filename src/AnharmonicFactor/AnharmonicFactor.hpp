@@ -8,7 +8,6 @@
 #include<string>
 
 #include "Interpolation.hpp"
-#include "path.hpp"
 
 
 namespace mimes{
@@ -74,18 +73,4 @@ namespace mimes{
     };
 };
 
-
-#ifndef LONG
-    #define LONG 
-#endif
-
-#ifndef LLD
-    #define LLD LONG double
-#endif
-
-
-static mimes::AnharmonicFactor<LLD> anharmonicFactor(anharmonic_PATH);
-
-
-#undef LLD
 #endif

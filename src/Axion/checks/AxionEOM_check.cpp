@@ -23,12 +23,10 @@ int main(int argc, char **argv){
     //model parameters
     LD theta_i = 0.93;
     LD fa = 1e12;
-    LD tmax = 500;
-    LD TSTOP = 1e-3;
     LD ratio_ini=100;
     
 
-    mimes::AxionEOM<LD> axionEOM(theta_i, fa, tmax, TSTOP, ratio_ini,"InputExamples/RDinput.dat");
+    mimes::AxionEOM<LD> axionEOM(theta_i, fa, ratio_ini,"InputExamples/RDinput.dat");
     axionEOM.makeInt();
 
     std::cout<<"T_osc~= "<<axionEOM.T_osc<<" GeV"<<std::endl;

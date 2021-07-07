@@ -25,13 +25,11 @@
 
 
 //---Get the eom of the axion--//
-#include "AxionEOM.hpp"
+#include "src/Axion/AxionEOM.hpp"
 
 
-/*other stuff*/
-#include "src/Cosmo/Cosmo.hpp"
-#include"src/AxionMass/AxionMass.hpp"
-#include"src/AnharmonicFactor/AnharmonicFactor.hpp"
+/*get static variables (includes cosmological parameters, axion mass, and anharmonic factor)*/
+#include "src/static.hpp"
 /*================================*/
 
 
@@ -79,6 +77,20 @@ namespace mimes{
 
         std::string inputFile;
 
+        // constructor of Axion.
+        /*
+        theta_i: initial angle
+        fa: PQ scale (the temperature dependent mass is defined as m_a^2(T) = \chi(T)/f^2)
+        tmax: if t>tmax the integration stops (rempember that t=log(a/a_i))
+        TSTOP: if the temperature drops below this, integration stops
+        ratio_ini: integration starts when 3H/m_a<~ratio_ini (this is passed to AxionEOM, 
+        in order to make the interpolations start at this point)
+        
+        N_convergence_max and convergence_lim: integration stops after the adiabatic invariant 
+        hasn't changed more than convergence_lim% for N_convergence_max consecutive peaks
+
+        inputFile: file that describes the cosmology. the columns should be: t T[GeV] logH
+        */ 
         Axion(LD theta_i, LD fa, LD tmax, LD TSTOP, LD ratio_ini, 
                 unsigned int N_convergence_max, LD convergence_lim, std::string inputFile){
             this->theta_i=theta_i;
@@ -103,123 +115,156 @@ namespace mimes{
     template<class LD>
     void Axion<LD>::solveAxion(){ 
         //whem theta_i<<1, we can refactor the eom so that it becomes independent from theta_i.
-        // So, we can solve for theta_i=1e-3, and rescale the result to our desired initial theta
+        // So, we can solve for theta_i=1e-3, and rescale the result to our desired initial theta.
+        // This helps avoid any roundoff errors when the amplitude of the oscillation becomes very small.
         LD theta_ini=theta_i;
         if(theta_ini<1e-3){theta_ini=1e-3;}
 
         /*================================*/
-        Array<LD> y0={theta_ini, 0.};
+        Array<LD> y0={theta_ini, 0.};//initial conditions
         /*================================*/
 
-        AxionEOM<LD> axionEOM(theta_i, fa, tmax, TSTOP, ratio_ini, inputFile);
+        AxionEOM<LD> axionEOM(theta_i, fa, ratio_ini, inputFile);
         
-        axionEOM.makeInt();
+        axionEOM.makeInt();//make the interpolations of t,T,logH from inputFile
         
-        //you can find these as you load the data
+        //You find these as you load the data from inputFile 
+        //(it is done automatically in the constructor of axionEOM)
         T_osc=axionEOM.T_osc;
         a_osc=std::exp(axionEOM.t_osc);
 
-
+        //use a lambda to pass axionEOM in the solver (the overhead should be minimal)
         sys EOM = [&axionEOM](Array<LD> &lhs, Array<LD> &y, LD t){axionEOM(lhs, y, t);};
 
+        // instance of the solver
         Solver System(EOM, y0, tmax,
                         initial_step_size, minimum_step_size, maximum_step_size, maximum_No_steps,
                         absolute_tolerance, relative_tolerance, beta, fac_max,fac_min);
 
+        // these parameters are helpful..
+        unsigned int current_step=0;//count the steps the solver takes
 
-        unsigned int current_step=0;
+        //check is used to identify the peaks, osc_check is used to find the oscillation temperature
         bool check=true, osc_check=true;
-        LD theta=theta_i,zeta=0;
-        LD t,a,T,tmp,H2,ma2;
+        
+
+        //use these to count the peaks in order to apply the stopping conditions
+        unsigned int Npeaks=0, N_convergence=0;
+
+        //these variables will be used to fill points (the points the solver takes)
+    
+        LD theta,zeta,t,a,T,tmp,H2,ma2;
         LD rho_axion;
         std::vector<LD> adiabatic_invariant;
         LD an_diff;
-        unsigned int Npeaks=0, N_convergence=0;
 
+        // this is the initial step (ie points[0])
+        theta=y0[0];
+        zeta=y0[1];
         T=axionEOM.Temperature(0);
         H2=std::exp(axionEOM.logH2(0));
         ma2=axionMass.ma2(T,fa);
-        if(std::abs(theta)<1e-3){
-            rho_axion=fa*fa*(ma2*0.5*theta*theta);
-
-        }else{
-            rho_axion=fa*fa*(ma2*(1 - std::cos(theta)));
-        }
+        if(std::abs(theta)<1e-3){rho_axion=fa*fa*(ma2*0.5*theta*theta);}
+        else{rho_axion=fa*fa*(ma2*(1 - std::cos(theta)));}
         points.push_back(std::vector<LD>{1,T,theta,0,rho_axion});
 
 
 
-        // the solver identifies the peaks in theta by finding points where zeta goes from negative to positive.
+        // the solver identifies the peaks in theta by finding points where zeta goes from positive to negative.
         // Once the peaks are identified, we can calculate the adiabatic invariant.
         // The solver stops when the idiabatic invariant is almost constant.
         while (true){
-            current_step++;
-            if( System.tn>=System.tmax  or current_step == System.max_N  ) {   break ;}
+            current_step++;// incease number of steps that the solver takes
 
-            System.next_step();
+            //stop if you exceed tmax or if the solver takes more than maximum_No_steps, stop
+            if(System.tn>=System.tmax or current_step==System.max_N){break;}
+            
+            //take the next step
+            System.next_step(); 
+            //update y (y[0]=theta, y[1]=zeta)
             for (int eq = 0; eq < 2; eq++){System.yprev[eq]=System.ynext[eq];}
-            // increase time
+            // increase t
             System.tn+=System.h;
 
+            //rescale theta and zeta which will be stored in points
+            //(we rescale them if theta_i<1e-3 in order to avoid roundoff errors)
             theta=System.ynext[0]/theta_ini*theta_i;
             zeta=System.ynext[1]/theta_ini*theta_i;
 
+            //remember that t=log(a/a_i)
             t=System.tn;
             a=std::exp(t);
 
+            //get the temperature which corresponds to t
             T=axionEOM.Temperature(t);
+            //get the Hubble parameter squared which corresponds to t
             H2=std::exp(axionEOM.logH2(t));
 
+            //if you use as T_osc the once provided by axionEOM, you will not have theta_osc.
+            //So use this (it doesn't really matter, as T_osc is not a very well defined parameter)
             if(T<=T_osc and osc_check){
                 T_osc=T;
                 a_osc=a;
                 theta_osc=theta;
                 osc_check=false;
             }
-            
+
+            //if the temperature is below TSTOP, stop the integration
             if(T<TSTOP){break;}
 
+            //axion mass squared
             ma2=axionMass.ma2(T,fa);
 
-            // when reading from python, if theta<~1e-8, we have roundoff errors due to the cos(theta)
-            // The solution is this:
+            // If theta<~1e-8, we have roundoff errors due to cos(theta)
+            // The solution is this (use theta<1e-3; it doesn't matter):
             if(std::abs(theta)<1e-3){rho_axion=fa*fa*(0.5*  H2*zeta*zeta+ ma2*0.5*theta*theta);}
             else{rho_axion=fa*fa*(0.5*  H2*zeta*zeta+ ma2*(1 - std::cos(theta)));}
 
+            //store current step in points 
             points.push_back(std::vector<LD>{a,T,theta,zeta,rho_axion});
             
+            //check if current point is a peak
             if(zeta>0){check=false;}
             if(zeta<=0 and check==false){
+                //increas the total number of peaks 
                 Npeaks++;
+                //set check=true (this resets the check until the next peak)
                 check=true; 
-
+                
+                //compute the adiabatic invariant
                 tmp=anharmonicFactor(theta)*theta*theta *std::sqrt(ma2) * a*a*a ;
                 peaks.push_back(std::vector<LD>{a,T,theta,zeta,rho_axion,tmp});
 
+                //store current adiabatic invariant
                 adiabatic_invariant.push_back(tmp);
 
+
+                // if the total number of peaks is greater than 2, then you can check for convergence
                 if(Npeaks>=2){
+                    //difference of adiabatic invariant between current and previous peak 
                     an_diff=std::abs(adiabatic_invariant[Npeaks-1]-adiabatic_invariant[Npeaks-2]);
                     if(adiabatic_invariant[Npeaks-1]>adiabatic_invariant[Npeaks-2]){
                         an_diff=an_diff/adiabatic_invariant[Npeaks-1];
                     }else{
                         an_diff=an_diff/adiabatic_invariant[Npeaks-2];
                     }
-
-                    if(an_diff<convergence_lim){
-                        N_convergence++;
-                    }
+                    //if the difference is smaller than convergence_lim increase N_convergence
+                    //else, reset N_convergence (we stop if the difference is small between consecutive steps )
+                    if(an_diff<convergence_lim){N_convergence++;}else{N_convergence=0;}
                 }
             }
-
+            
+            //if N_convergence>=N_convergence_max, compute the relic and stop the integration
             if(N_convergence>=N_convergence_max){
+                //entropy injection from the point of the last peak until T_stop (the point where interpolation stops)
+                //the assumption is that at T_stop the universe is radiation dominated with constant entropy.
                 gamma=cosmo.s(axionEOM.T_stop)/cosmo.s(T)*std::exp(3*(axionEOM.t_stop-System.tn));
                 
+                //the relic of the axion
                 relic=h_hub*h_hub/rho_crit*cosmo.s(T0)/cosmo.s(T)/gamma*0.5*
-                        std::sqrt(axionMass.ma2(T0,1)*axionMass.ma2(T,1))*
-                        theta*theta*anharmonicFactor(theta);
+                       std::sqrt(axionMass.ma2(T0,1)*axionMass.ma2(T,1))*
+                       theta*theta*anharmonicFactor(theta);
                 
-
 
                 break;
             }

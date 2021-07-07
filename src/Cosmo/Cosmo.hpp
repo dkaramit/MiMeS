@@ -8,7 +8,6 @@
 #include<string>
 
 #include "Interpolation.hpp"
-#include "path.hpp"
 
 namespace mimes{    
     template<class LD>
@@ -106,23 +105,4 @@ namespace mimes{
     };
 };
 
-
-
-#ifndef LONG
-    #define LONG long
-#endif
-
-#ifndef LLD
-    #define LLD LONG double
-#endif
-
-static mimes::Cosmo<LLD> cosmo(h_PATH,1e-5,3e3);
-
-static const LLD T0= 2.7255 * 8.62e-14; //Today's CMB temperature in GeV
-static const LLD h_hub=0.674; //dimensionless hubble parameter
-static const LLD rho_crit=(0.197*1e-13)*(0.197*1e-13)*(0.197*1e-13)*(1.05*1e-5)*h_hub*h_hub; //critical density today in GeV^4
-static const LLD relicDM_obs=0.12; //DM relic abandance today
-static const LLD mP=cosmo.mP;//Planck mass
-
-#undef LLD
 #endif

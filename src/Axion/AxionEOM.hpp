@@ -6,9 +6,8 @@
 #include <string>
 #include"Interpolation.hpp"
 
-#include"src/Cosmo/Cosmo.hpp"
-#include"src/AxionMass/AxionMass.hpp"
-#include"src/AnharmonicFactor/AnharmonicFactor.hpp"
+/*get static variables (includes cosmological parameters, axion mass, and anharmonic factor)*/
+#include "src/static.hpp"
 
 namespace mimes{
     #define Neqs 2
@@ -17,23 +16,26 @@ namespace mimes{
     template<class LD>
     class AxionEOM{  
         public:
-        LD theta_i,fa,tmax,TSTOP,ratio_ini;
+        LD theta_i,fa,ratio_ini;
         LD T_stop, logH2_stop, t_stop;//temperature, logH^2, and t where we stop interpolation (the end of the file). They should be AFTER entropy conservation resumes (I usually stop any intergation at T<1 MeV or so, where the Universe expands in a standard way)!
         LD T_ini, logH2_ini;//temperature and logH^2 (t=0 by definition) where we start interpolation (the end of the file). They should be AFTER entropy conservation resumes (I usually stop any intergation at T<1 MeV or so, where the Universe expands in a standard way)!
         LD t_osc, T_osc;//temperature and logH^2 (t=0 by definition) where we start interpolation (the end of the file). They should be AFTER entropy conservation resumes (I usually stop any intergation at T<1 MeV or so, where the Universe expands in a standard way)!
         
-        std::vector<LD> t_tab,T_tab,logH2_tab;
-        CubicSpline<LD> T_int;
-        CubicSpline<LD> logH2_int;
+        std::vector<LD> t_tab,T_tab,logH2_tab;//these will store the data from inputFile
+        CubicSpline<LD> T_int; //interpolation of the temperature
+        CubicSpline<LD> logH2_int; //interpolation of logH^2
 
-        AxionEOM(LD theta_i, LD fa, LD tmax, LD TSTOP, LD ratio_ini, std::string inputFile){
+        // constructor of AxionEOM.
+        /*
+        theta_i: initial angle (we don't need it here, but it could be useful)
+        fa: PQ scale (the temperature dependent mass is defined as m_a^2(T) = \chi(T)/f^2)
+        ratio_ini: interpolations start when 3H/m_a<~ratio_ini
+        inputFile: file that describes the cosmology. the columns should be: t T[GeV] logH
+        */ 
+        AxionEOM(LD theta_i, LD fa, LD ratio_ini, std::string inputFile){
             this->theta_i=theta_i;
             this->fa=fa;
-
-            this->tmax=tmax;
-            this->TSTOP=TSTOP;
             this->ratio_ini=ratio_ini;
-
 
             LD t,T,logH;//current line in file
             LD t_prev,T_prev,logH_prev;//previous line in file
@@ -44,6 +46,7 @@ namespace mimes{
             LD t_ini; //check when ratio_ini is reached in order to rescale t to start at 0 in the interpolations
 
             LD ratio;// I will use ratio to store 3H/m_a as I read the file
+            //read the file and fill t_tab, T_tab, and  logH2_tab; and find T_osc.
             while (not data_file.eof()){
                 data_file>>t;
                 data_file>>T;
@@ -80,24 +83,30 @@ namespace mimes{
             logH2_stop=2*logH;
         };
 
-
+        // make the interpolations
         void makeInt(){
             T_int=CubicSpline<LD>{&t_tab,&T_tab};
             logH2_int=CubicSpline<LD>{&t_tab,&logH2_tab};
         }
 
+        //the temperature at t. in order to avoid getting out of bounds, we take T to be constant for
+        //t<0 and t>t_stop (not the best idea, but it works with the solver)
         LD Temperature(LD t){
             if(t<=0){return T_ini;}
             if(t>=t_stop){return T_stop;}
             return T_int(t);
         }
 
+        //logH^2 at t. in order to avoid getting out of bounds, we take logH2 to be constant for
+        //t<0 and t>t_stop (not the best idea, but it works with the solver)
         LD logH2(LD t){
             if(t<=0){return logH2_ini;}
             if(t>=t_stop){return logH2_stop;}
             return logH2_int(t);
         }
 
+        //the temperature at t. in order to avoid getting out of bounds, we take it to be 0 for
+        //t<0 and t>t_stop (not the best idea, but it works with the solver)
         LD dlogH2dt(LD t){
             if(t<=0){return 0;}
             if(t>=t_stop){return 0;}
@@ -107,7 +116,7 @@ namespace mimes{
 
         ~AxionEOM(){};
 
-
+        //overload operator() in order to call it from the solver
         void operator()(Array<LD> &lhs, Array<LD> &y, LD t){
             //remember that t=log{a/a_i}
             

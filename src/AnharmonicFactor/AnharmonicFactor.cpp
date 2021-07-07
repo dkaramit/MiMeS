@@ -1,16 +1,13 @@
-#include"AnharmonicFactor.hpp"
+#include"src/static.hpp"
 
 #ifndef LONG
     #define LONG 
 #endif
 
-#ifndef LLD
-    #define LLD LONG double
+#ifndef LD
+    #define LD LONG double
 #endif
 
-
-
-
 extern "C"{
-    LLD _anharmonicFactor(LLD theta_max){return anharmonicFactor(theta_max);}
+    LD _anharmonicFactor(LD theta_max){return anharmonicFactor(theta_max);}
 }

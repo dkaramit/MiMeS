@@ -8,7 +8,7 @@
 #include<string>
 
 #include"Interpolation.hpp"
-#include "path.hpp"
+
 namespace mimes{
     template<class LD>
     class AxionMass {
@@ -83,15 +83,4 @@ namespace mimes{
     };
 };
 
-#ifndef LONG
-    #define LONG 
-#endif
-
-#ifndef LLD
-    #define LLD LONG double
-#endif
-
-static mimes::AxionMass<LLD> axionMass(chi_PATH,1e-5,3e3);
-
-#undef LLD
 #endif

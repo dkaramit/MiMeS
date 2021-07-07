@@ -80,7 +80,7 @@ namespace mimes{
         // constructor of Axion.
         /*
         theta_i: initial angle
-        fa: PQ scale (the temperature dependent mass is defined as m_a^2(T) = \chi(T)/f^2)
+        fa: PQ scale in GeV (the temperature dependent mass is defined as m_a^2(T) = \chi(T)/f^2)
         tmax: if t>tmax the integration stops (rempember that t=log(a/a_i))
         TSTOP: if the temperature drops below this, integration stops
         ratio_ini: integration starts when 3H/m_a<~ratio_ini (this is passed to AxionEOM, 

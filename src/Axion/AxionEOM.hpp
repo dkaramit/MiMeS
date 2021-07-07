@@ -28,7 +28,7 @@ namespace mimes{
         // constructor of AxionEOM.
         /*
         theta_i: initial angle (we don't need it here, but it could be useful)
-        fa: PQ scale (the temperature dependent mass is defined as m_a^2(T) = \chi(T)/f^2)
+        fa: PQ scale in GeV (the temperature dependent mass is defined as m_a^2(T) = \chi(T)/f^2)
         ratio_ini: interpolations start when 3H/m_a<~ratio_ini
         inputFile: file that describes the cosmology. the columns should be: t T[GeV] logH
         */ 

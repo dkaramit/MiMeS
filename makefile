@@ -74,7 +74,7 @@ lib/Axion_py.so: $(PathHead)  $(PathHeadPy) $(PathTypePy) $(Axion_py) $(Ros_Head
 
 ##---copy paths where useful data cabe found in header files. These pathe can be used from c++ files to load the data  
 $(PathHead):  $(DataFiles) makefile
-	echo "#define h_PATH \"src/data/eos2020.dat\" "> "$(PathHead)"
+	echo "#define cosmo_PATH \"src/data/eos2020.dat\" "> "$(PathHead)"
 	echo "#define chi_PATH \"src/data/chi.dat\" ">> "$(PathHead)"
 	echo "#define anharmonic_PATH \"src/data/anharmonic_factor.dat\" ">> "$(PathHead)"
 
@@ -101,11 +101,23 @@ clean:
 
 
 ##--------------------------------make checks----------------------------------------##
-check: exec/AxionEOM_check.run exec/AxionSolve_check.run
+check: exec/AxionEOM_check.run exec/AxionSolve_check.run exec/AnharmonicFactor_check.run exec/AxionMass_check.run exec/Cosmo_check.run
+
+Cosmo_cpp=$(wildcard src/Cosmo/checks/Cosmo_check.cpp)
+# check anharmonic factor interpolation
+exec/Cosmo_check.run: $(PathHead)  $(Cosmo_cpp) $(DataFiles) $(SPLINE_Headers) makefile
+	$(CC)  -fPIC "src/Cosmo/checks/Cosmo_check.cpp"  -o "exec/Cosmo_check.run" $(FLG) -Wall
+
 
 AnFac_cpp=$(wildcard src/AnharmonicFactor/checks/AnharmonicFactor_check.cpp)
+# check anharmonic factor interpolation
 exec/AnharmonicFactor_check.run: $(PathHead)  $(AnFac_cpp) $(DataFiles) $(SPLINE_Headers) $(AxionMisc_Headers)  makefile
 	$(CC)  -fPIC "src/AnharmonicFactor/checks/AnharmonicFactor_check.cpp"  -o "exec/AnharmonicFactor_check.run" $(FLG) -Wall
+
+AxM_cpp=$(wildcard src/AxionMass/checks/AxionMass_check.cpp)
+# check axion mass interpolation
+exec/AxionMass_check.run: $(PathHead)  $(AxM_cpp) $(DataFiles) $(SPLINE_Headers) $(AxionMisc_Headers)  makefile
+	$(CC)  -fPIC "src/AxionMass/checks/AxionMass_check.cpp"  -o "exec/AxionMass_check.run" $(FLG) -Wall
 
 
 AxionEOM_cpp=$(wildcard src/Axion/checks/AxionEOM_check.cpp)

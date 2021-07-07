@@ -19,13 +19,19 @@
 int main(int argc, char **argv){ 
 
     //model parameters
-    LD theta_i = 0.93;
+    LD theta_i = 0.94435;
     LD fa = 1e12;
-    LD tmax = 500;
-    LD TSTOP = 1e-3;
-    LD ratio_ini=1000;
-    unsigned int N_convergence_max=3;
-    LD convergence_lim=1e-3;
+
+    // solver parameters
+    LD tmax = 500; //t at which the integration stops 
+    LD TSTOP = 1e-3; // temperature at which integration stops
+    LD ratio_ini=1e3; // 3H/m_a at which integration begins (should be larger than 500 or so)
+    
+    // stopping conditions.
+    // integration stops after the adiabatic invariant hasn't changed 
+    // more than  convergence_lim% for N_convergence_max consecutive peaks
+    unsigned int N_convergence_max=5;
+    LD convergence_lim=1e-2;
     
     mimes::Axion<LD> Ax(theta_i, fa, tmax, TSTOP, ratio_ini, N_convergence_max,convergence_lim,"InputExamples/RDinput.dat");
 
@@ -33,10 +39,6 @@ int main(int argc, char **argv){
 
 
     unsigned int N=Ax.peaks.size();
-    LD theta,zeta,T;
-    T=Ax.peaks[N-1][1];
-    theta=Ax.peaks[N-1][2];
-    zeta=Ax.peaks[N-1][3];
 
     std::cout<<std::setprecision(5)
     <<"theta_i="<<theta_i<<" "<<"f_a="<< fa<<" GeV\n"<<"theta_osc~="<<Ax.theta_osc<<" "

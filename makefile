@@ -1,7 +1,7 @@
 
 CC=g++ #compiler. I use g++, and haven't tested anything else. 
 
-LONG=long#use long doubles. Slower, but more accurate. 
+LONG=long#use long doubles. Slower, but more accurate (and safer for extreme cases, as we avoid roundoff errors). 
 
 #---optimization options---#
 OPT=O3 #this should be fast and safe

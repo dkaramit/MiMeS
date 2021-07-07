@@ -40,17 +40,23 @@ namespace mimes{
             LD t,T,logH;//current line in file
             LD t_prev,T_prev,logH_prev;//previous line in file
 
-            std::ifstream data_file(inputFile);
+            std::ifstream data_file(inputFile,std::ios::in);
             bool ini_check=true; //check when ratio_ini is reached
             bool osc_check=true; //check when T_osc is reached
             LD t_ini; //check when ratio_ini is reached in order to rescale t to start at 0 in the interpolations
 
             LD ratio;// I will use ratio to store 3H/m_a as I read the file
             //read the file and fill t_tab, T_tab, and  logH2_tab; and find T_osc.
+
+            unsigned int N=0;
             while (not data_file.eof()){
                 data_file>>t;
                 data_file>>T;
                 data_file>>logH;
+                
+                //if there is an empty line, t does not change, so do skip this line :).
+                if(N>1 and t==t_prev){continue;}
+
                 ratio = 3*std::exp(logH) / std::sqrt(axionMass.ma2(T,fa));
 
                 //find T and t when oscillation begins.
@@ -77,10 +83,13 @@ namespace mimes{
                 t_prev=t;
                 T_prev=T;
                 logH_prev=logH;
+                N++;
             }
             t_stop=t - t_ini;
             T_stop=T;
             logH2_stop=2*logH;
+            data_file.close();
+
         };
 
         // make the interpolations

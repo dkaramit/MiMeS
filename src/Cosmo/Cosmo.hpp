@@ -20,34 +20,47 @@ namespace mimes{
         LD TMin, TMax, hMin, hMax, gMin, gMax;
         LD Mp;
         public:
-        LD mP;
+
+        constexpr static  LD T0= 2.7255 * 8.62e-14; //Today's CMB temperature in GeV
+        constexpr static  LD h_hub=0.674; //dimensionless hubble parameter
+        constexpr static  LD rho_crit=(0.197*1e-13)*(0.197*1e-13)*(0.197*1e-13)*(1.05*1e-5)*h_hub*h_hub; //critical density today in GeV^4
+        constexpr static  LD relicDM_obs=0.12; //DM relic abandance today
+        constexpr static LD mP=1.22e19;//Planck mass
 
         Cosmo(std::string path, LD minT=0, LD maxT=1e10){    
             /*
-            path is the pat of the data
+            path is the path of the data
             minT (maxT) the minimum (maximum) T you need for the interpolation
             */
             // the data are assumed to be: T  h  g
             // the currently used data are taken from arXiv: 2005.03544 
             
-            mP=1.22e19;
-            
-            unsigned int N;
-            LD tmp1,tmp2,tmp3;
-            std::ifstream data_file(path);
+            unsigned int N=0;
+            LD T,heff,geff;
+            std::ifstream data_file(path,std::ios::in);
 
-
+            LD T_prev=-1;
             while (not data_file.eof()){
-                data_file>>tmp1;
-                data_file>>tmp2;
-                data_file>>tmp3;
-                if(tmp1>=minT and tmp1<=maxT){
-                    Ttab.push_back(tmp1);
-                    htab.push_back(tmp2);
-                    gtab.push_back(tmp3);
+                data_file>>T;
+                data_file>>heff;
+                data_file>>geff;
+                
+                
+                if(T>=minT and T<=maxT){
+                    
+                    //if there is an empty line theta does not change, so do skip it.
+                    if(N>1 and T==T_prev){continue;}
+
+                    Ttab.push_back(T);
+                    htab.push_back(heff);
+                    gtab.push_back(geff);
+
+                    N++;
                 }
+                T_prev=T;
             }
-            N=Ttab.size();
+            data_file.close();
+
             TMin=Ttab[0];
             TMax=Ttab[N-1];
             hMin=htab[0];

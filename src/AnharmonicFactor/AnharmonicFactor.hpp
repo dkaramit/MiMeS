@@ -17,27 +17,36 @@ namespace mimes{
         using VecLD=std::vector<LD>;
         protected:
         CubicSpline<LD> anharmonic_factor;
-        VecLD theta_tab, ad_tab;
+        VecLD theta_tab, anF_tab;
         LD max_Theta;
 
         public:
 
         AnharmonicFactor(std::string path){    
             
-            unsigned int N;
-            LD tmp1,tmp2;
-            std::ifstream data_file(path);
+            unsigned int N=0;
+            LD theta,anF;
+            std::ifstream data_file(path,std::ios::in);
 
+            //use this to prevent problems caused by empty lines...
+            LD theta_prev=-1;
             while (not data_file.eof()){
-                data_file>>tmp1;
-                data_file>>tmp2;
-                theta_tab.push_back(tmp1);  
-                ad_tab.push_back(tmp2);         
+                data_file>>theta;
+                data_file>>anF;
+
+                //if there is an empty line theta does not change, so do skip it.
+                if(N>1 and theta==theta_prev){continue;}
+
+                theta_tab.push_back(theta);  
+                anF_tab.push_back(anF);         
+                
+                N++;
+                theta_prev=theta;
             }
-            N=theta_tab.size();
+            data_file.close();
             max_Theta=theta_tab[N-1];
 
-            anharmonic_factor=CubicSpline<LD>(&theta_tab,&ad_tab);
+            anharmonic_factor=CubicSpline<LD>(&theta_tab,&anF_tab);
         }
 
         LD mod(LD x, LD y) {

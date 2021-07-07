@@ -22,19 +22,29 @@ namespace mimes{
 
         AxionMass(std::string path, LD minT=0, LD maxT=1e5){    
             
-            unsigned int N;
-            LD tmp1,tmp2;
-            std::ifstream data_file(path);
+            unsigned int N=0;
+            LD T,chi;
+            LD T_prev=-1;
+            
+            std::ifstream data_file(path,std::ios::in);
 
             while (not data_file.eof()){
-                data_file>>tmp1;
-                data_file>>tmp2;
-                if(tmp1>=minT and tmp1<=maxT){
-                    Ttab.push_back(tmp1*1e-3); //temperature in GeV
-                    chitab.push_back(tmp2*0.197*0.197*0.197*0.197); //chi in GeV**4
+                data_file>>T;
+                data_file>>chi;
+                
+                if(T>=minT and T<=maxT){
+                    //if there is an empty line the temperature does not change, so do skip it.
+                    if(N>1 and T_prev==T){continue;}
+ 
+                    Ttab.push_back(T*1e-3); //temperature in GeV
+                    chitab.push_back(chi*0.197*0.197*0.197*0.197); //chi in GeV**4
+                    
+                    N++;
                 }
+                T_prev=T;
             }
-            N=Ttab.size();
+            data_file.close();
+
             TMin=Ttab[0];
             TMax=Ttab[N-1];
             chiMin=chitab[N-1];

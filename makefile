@@ -1,6 +1,3 @@
-
-CC=g++ #compiler. I use g++, and haven't tested anything else. 
-
 LONG=long#use long doubles. Slower, but more accurate (and safer for extreme cases, as we avoid roundoff errors). 
 
 #---optimization options---#
@@ -8,6 +5,8 @@ OPT=O3 #this should be fast and safe
 
 # OPT=O0 #this is generally 2x slower than O3
 # OPT=Ofast #this is usually bit faster than O3 but can cause issues (I haven't observed any though)
+
+CC=g++ #compiler. I use g++, and haven't tested anything else. 
 
 #c++ std lib
 STD=c++17
@@ -103,6 +102,11 @@ clean:
 
 ##--------------------------------make checks----------------------------------------##
 check: exec/AxionEOM_check.run exec/AxionSolve_check.run
+
+AnFac_cpp=$(wildcard src/AnharmonicFactor/checks/AnharmonicFactor_check.cpp)
+exec/AnharmonicFactor_check.run: $(PathHead)  $(AnFac_cpp) $(DataFiles) $(SPLINE_Headers) $(AxionMisc_Headers)  makefile
+	$(CC)  -fPIC "src/AnharmonicFactor/checks/AnharmonicFactor_check.cpp"  -o "exec/AnharmonicFactor_check.run" $(FLG) -Wall
+
 
 AxionEOM_cpp=$(wildcard src/Axion/checks/AxionEOM_check.cpp)
 # check interpolations of the Axion_eom class 

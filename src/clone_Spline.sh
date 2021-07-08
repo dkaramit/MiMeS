@@ -1,4 +1,4 @@
-path=`pwd`
+path=`pwd`"/src"
 
 
 if [ -d "$path/Interpolation" ]

@@ -35,18 +35,12 @@ AxionMisc_Headers= $(wildcard src/AxionMass/AxionMass.cpp) $(wildcard src/AxionM
 
 Static_Headers= $(wildcard src/static.hpp) 
 
-all: mkmisc lib exec
+all: lib exec
 
-lib: mklib lib/libCosmo.so lib/libma.so lib/libanfac.so  lib/Axion_py.so
+lib: lib/libCosmo.so lib/libma.so lib/libanfac.so  lib/Axion_py.so
 	
-exec: mkexec exec/Axion.run
+exec: exec/Axion.run
 
-mklib:
-	mkdir "lib" || true
-mkexec:
-	mkdir "exec" || true
-mkmisc:
-	mkdir "src/misc_dir" || true
 
 #shared libraries that can be used from python
 lib/libCosmo.so: $(PathHead)  $(PathHeadPy) $(PathTypePy) $(DataFiles) $(SPLINE_Headers) $(Cosmo_Headers) $(Static_Headers) makefile
@@ -85,18 +79,23 @@ $(PathHeadPy):  $(DataFiles) makefile
 #python files that define either double or long double ctypes. 
 #This is extremely useful, since it allows both c++ and shared libraries used by python to have the same type definitions. 
 $(PathTypePy):  $(DataFiles) makefile
-	# echo "from ctypes import c_longdouble, c_double"> "$(PathTypePy)"
-	# echo "cdouble= c_$(LONG)double ">> "$(PathTypePy)" 
-
 	echo "from ctypes import c_$(LONG)double as cdouble"> "$(PathTypePy)"
 
 
 #cleans whatever make all created
 clean: 
-
 	rm -r $(wildcard lib/*) ||true
 	rm -r $(wildcard exec/*) ||true
 	rm -r $(wildcard src/misc_dir/*) ||true
+
+#deletes everything including directories
+deepClean: 
+
+	rm -r lib ||true
+	rm -r exec ||true
+	rm -r src/misc_dir ||true
+	rm -r src/Interpolation ||true
+	rm -r src/Rosenbrock ||true
 
 
 
@@ -129,12 +128,3 @@ AxionSolve_cpp=$(wildcard src/Axion/checks/AxionSolve_check.cpp)
 # check interpolations of the Axion_eom class 
 exec/AxionSolve_check.run: $(Axion_Headers) $(PathHead) $(AxionSolve_cpp) $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) makefile $(AxionMisc_Headers) $(Static_Headers)
 	$(CC) -o "exec/AxionSolve_check.run" "src/Axion/checks/AxionSolve_check.cpp"   $(FLG)    -DMETHOD=RODASPR2  -I"src/Axion"
-
-##--------------------------------clone code from github repos----------------------------------------##
-clone: clone_Ros clone_Spline
-
-clone_Ros:
-	bash -c "cd src;  ./clone_Ros.sh"
-
-clone_Spline:
-	bash -c "cd src;  ./clone_Spline.sh"

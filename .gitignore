@@ -8,3 +8,5 @@
 *.so
 *.run
 *_plots
+*src/Rosenbrock
+*src/Interpolation

@@ -88,9 +88,8 @@ clean:
 	rm -r $(wildcard exec/*) ||true
 	rm -r $(wildcard src/misc_dir/*) ||true
 
-#deletes everything including directories
+#deletes directories that configure.sh made
 deepClean: 
-
 	rm -r lib ||true
 	rm -r exec ||true
 	rm -r src/misc_dir ||true

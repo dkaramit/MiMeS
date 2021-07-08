@@ -11,9 +11,9 @@ fi
 cd /tmp
 
 
-git clone --depth=1 --branch=master https://github.com/dkaramit/ASAP.git
+git clone --depth=1 --branch=stable https://github.com/dkaramit/SimpleSplines.git
 
-cd ASAP/Interpolation/C++
+cd SimpleSplines
 
 
 
@@ -30,9 +30,9 @@ rm makefile 2> /dev/null
 
 cd $path
 
-mv /tmp/ASAP/Interpolation/C++ ./Interpolation
+mv /tmp/SimpleSplines ./Interpolation
 
-rm -rf  /tmp/ASAP/
+rm -rf  /tmp/SimpleSplines/
 
 
 echo "Interpolation copied"

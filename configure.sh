@@ -25,35 +25,8 @@ mkdir "lib" 2> /dev/null
 mkdir "exec" 2> /dev/null
 mkdir "$srcPath/misc_dir" 2> /dev/null
 
-if [ "$#" -eq "1" ]
-then
-    if [ "$1" == "check" ]
-    then
-        
-        checks="AnharmonicFactor_check  AxionEOM_check  AxionMass_check  AxionSolve_check  Cosmo_check"
-        
-        
-        for file in $checks
-        do
-            make exec/$file.run
-            ./exec/$file.run  > $file
 
-            if [ "`diff $file src/checks/$file`" == "" ]
-            then
-                echo  -e "${BLUE}check passed!\033[0;97m"
-            else
-                echo "{RED}Something is wrong in $file.cpp, try to compile with LONG=long. If this does not work, sent an email to dkaramit@yahoo.com.\033[0;97m"
-                exit
-            fi
-
-            rm ./exec/$file.run
-            rm $file
-        done
-    fi
-fi
-
-
-echo -e "${RED}License:\n\n"
+echo -e "${RED}License:"
 cat LICENSE
 
 printf "\n\n\n"
@@ -67,4 +40,5 @@ echo  -e "${BLUE}Welcome to\n
  |_|  |_| |_| |_|  |_|  \___| |_____/ 
 
 "
-echo  -e "\033[0;97mYou can run \"make\" now!"
+echo  -e "\033[0;97mYou can run \"make check\" in order to see if 
+the code actually runs, or run \"make\" to start using it."

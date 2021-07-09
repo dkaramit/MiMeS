@@ -11,14 +11,14 @@ if [ -d "$srcPath/Rosenbrock" ]
 then
     echo "Rosenbrock exists. Nothing to do here."
 else
-    sh $srcPath/clone_Ros.sh
+    bash $srcPath/clone_Ros.sh
 fi
 
 if [ -d "$srcPath/Interpolation" ]
 then
     echo "Spline exists. Nothing to do here."
 else
-    sh $srcPath/clone_Spline.sh
+    bash $srcPath/clone_Spline.sh
 fi
 
 mkdir "lib" 2> /dev/null

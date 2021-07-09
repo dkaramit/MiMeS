@@ -11,7 +11,8 @@ fi
 cd /tmp
 
 
-git clone --depth=1 --branch=NSC_stable https://github.com/dkaramit/NaBBODES.git
+# git clone --depth=1 --branch=stable https://github.com/dkaramit/NaBBODES.git
+git clone --depth=1 --branch=stable git@github.com:dkaramit/NaBBODES.git
 
 mv "NaBBODES/Rosenbrock" ./
 

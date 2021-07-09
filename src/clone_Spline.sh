@@ -11,7 +11,8 @@ fi
 cd /tmp
 
 
-git clone --depth=1 --branch=stable https://github.com/dkaramit/SimpleSplines.git
+# git clone --depth=1 --branch=stable https://github.com/dkaramit/SimpleSplines.git
+git clone --depth=1 --branch=stable git@github.com:dkaramit/SimpleSplines.git
 
 cd SimpleSplines
 

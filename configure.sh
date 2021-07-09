@@ -40,5 +40,7 @@ echo  -e "${BLUE}Welcome to\n
  |_|  |_| |_| |_|  |_|  \___| |_____/ 
 
 "
-echo  -e "\033[0;97mYou can run \"make check\" in order to see if 
-the code actually runs, or run \"make\" to start using it."
+echo  -e "\033[0;97m 
+You can run \"make\" to compile everything. After that, you will find several examples in Examples/, 
+and you can run the executables in exec/ in order to see if the code actually works.
+"

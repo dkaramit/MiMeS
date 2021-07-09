@@ -11,17 +11,17 @@
 
 
 //----Solver-----//
-#include "LU/LU.hpp"
-#include "Ros_class.hpp"
-#include "Ros_costructor.hpp"
-#include "Ros_LU.hpp"
-#include "Ros_calc_k.hpp"
-#include "Ros_sums.hpp"
-#include "Ros_step_control-simple.hpp"
-// #include "Ros_step_control-PI.hpp"
-#include "Ros_steps.hpp"
-#include "Jacobian.hpp"
-#include "Ros_METHOD.hpp"
+#include "src/Rosenbrock/LU/LU.hpp"
+#include "src/Rosenbrock/Ros_class.hpp"
+#include "src/Rosenbrock/Ros_costructor.hpp"
+#include "src/Rosenbrock/Ros_LU.hpp"
+#include "src/Rosenbrock/Ros_calc_k.hpp"
+#include "src/Rosenbrock/Ros_sums.hpp"
+#include "src/Rosenbrock/Ros_step_control-simple.hpp"
+// #include "src/Rosenbrock/Ros_step_control-PI.hpp"
+#include "src/Rosenbrock/Ros_steps.hpp"
+#include "src/Rosenbrock/Jacobian.hpp"
+#include "src/Rosenbrock/Ros_METHOD.hpp"
 
 
 //---Get the eom of the axion--//

@@ -3,7 +3,7 @@
 
 
 #include"src/Cosmo/Cosmo.hpp"
-#include"path.hpp"
+#include"src/misc_dir/path.hpp"
 
 
 /*uncomment to print difference between interpolation and data*/

@@ -6,7 +6,7 @@
 #include"src/AnharmonicFactor/AnharmonicFactor.hpp"
 
 
-#include "path.hpp"
+#include "src/misc_dir/path.hpp"
 
 #ifndef LONG
     #define LONG 

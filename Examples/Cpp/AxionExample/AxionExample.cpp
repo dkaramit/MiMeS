@@ -1,14 +1,15 @@
 #include <iostream>
 #include <iomanip> 
 #include <cmath> 
-#include <string>
+#include <string> 
 #include"src/Axion/AxionSolve.hpp"
 
-/*uncomment to print all the points of integration*/
-// #define printPoints  
 
-/*uncomment to print only the peaks*/
+// #define preintPoints
 // #define printPeaks
+// #define smallPrint
+#define largePrint
+
 
 #ifndef LONG
     #define LONG 
@@ -20,43 +21,61 @@
 
 int main(int argc, char **argv){ 
 
+    if(argc!=9){
+        std::cout<<"usage: AxionExample.run theta_i f_a tmax TSTOP ratio_ini N_convergence_max convergence_lim inputFile\n";
+        std::cout<<"With:\n\n \
+        theta_i: initial angle\n\n \
+        fa: PQ scale in GeV (the temperature dependent mass is defined as m_a^2(T) = \\chi(T)/f^2)\n\n \
+        tmax: if t>tmax the integration stops (rempember that t=log(a/a_i))\n\n \
+        TSTOP: if the temperature drops below this, integration stops\n\n \
+        ratio_ini: integration starts when 3H/m_a<~ratio_ini (this is passed to AxionEOM,\n \
+        in order to make the interpolations start at this point)\n\n \
+        N_convergence_max and convergence_lim: integration stops after the adiabatic invariant\n \
+        hasn't changed more than convergence_lim% for N_convergence_max consecutive peaks\n\n \
+        inputFile: file that describes the cosmology. the columns should be: t T[GeV] logH\n";
+
+        return 0;
+    }
+
+
     //model parameters
     LD theta_i = atof(argv[1]) ;
     LD fa = atof(argv[2]);
-
     // solver parameters
     LD tmax = atof(argv[3]); //t at which the integration stops 
     LD TSTOP = atof(argv[4]); // temperature at which integration stops
     LD ratio_ini=atof(argv[5]); // 3H/m_a at which integration begins (should be larger than 500 or so)
-    
     // stopping conditions.
     // integration stops after the adiabatic invariant hasn't changed 
     // more than  convergence_lim% for N_convergence_max consecutive peaks
     unsigned int N_convergence_max=atoi(argv[6]);
     LD convergence_lim=atof(argv[7]);
-
     //file in which the cosmology is defined. the columns should be : t T[GeV] logH
     std::string  inputFile=argv[8];
+    
 
+    // instance of Axion
     mimes::Axion<LD> Ax(theta_i, fa, tmax, TSTOP, ratio_ini, N_convergence_max,convergence_lim,inputFile);
 
+    // Solve the Axion EOM
     Ax.solveAxion();
 
-    unsigned int N=Ax.peaks.size();
-    LD theta,zeta,T;
-    T=Ax.peaks[N-1][1];
-    theta=Ax.peaks[N-1][2];
-    zeta=Ax.peaks[N-1][3];
-
-    // print theta_i, fa, along with 
-    // T and theta at the point oscillations start
-    // and the relic
+    //get the most important results 
+    #ifdef largePrint
     std::cout<<std::setprecision(25)
-    <<theta_i<<"\t"<<fa<<"\t"<<Ax.theta_osc<<"\t"<<Ax.T_osc<<"\t"<<Ax.relic<<"\n";
+    <<theta_i<<" "<< fa<<" "<<Ax.theta_osc<<" "<<Ax.T_osc<<" "<<Ax.relic<<"\n";
+    #endif 
+
+    #ifdef smallPrint
+    std::cout<<std::setprecision(25)
+    <<"theta_i="<<theta_i<<" "<<"f_a="<< fa<<" GeV\n"<<"theta_osc~="<<Ax.theta_osc<<" "
+    <<"T_osc~="<<Ax.T_osc<<"GeV \n"
+    <<"Omega h^2="<<Ax.relic<<"\n";
+    #endif 
 
 
     // print all the points
-    #ifdef printPoints
+    #ifdef preintPoints
     std::cout<<"---------------------points:---------------------\n";
     std::cout<<"a/a_i\tT [GeV]\ttheta\tzeta\trho_a [GeV^4]"<<std::endl;
     for(int i=0; i<Ax.pointSize; ++i ){

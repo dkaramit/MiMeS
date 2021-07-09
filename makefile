@@ -13,12 +13,10 @@ STD=c++17
 # STD=c++11 #this should also work
 
 
-SPLINE_FLG= -I"src/Interpolation"
-PATH_INCLUDE=  -I"./" -I"./src" -I"src/misc_dir" 
+PATH_INCLUDE=  -I"./" #you can inlude more directories things here
 
-ROS_FLG=-I"src/Rosenbrock" 
 
-FLG= -$(OPT) -std=$(STD) -DLONG=$(LONG) $(PATH_INCLUDE) $(ROS_FLG) $(RKF_FLG) $(SPLINE_FLG)  
+FLG= -$(OPT) -std=$(STD) -DLONG=$(LONG) $(PATH_INCLUDE) 
 
 DataFiles=$(wildcard src/data/*.dat)
 Ros_Headers= $(wildcard src/Rosenbrock/*.hpp) $(wildcard src/Rosenbrock/LU/*.hpp)   
@@ -35,11 +33,11 @@ AxionMisc_Headers= $(wildcard src/AxionMass/AxionMass.cpp) $(wildcard src/AxionM
 
 Static_Headers= $(wildcard src/static.hpp) 
 
-all: lib exec
+all: lib exec examples
 
 lib: lib/libCosmo.so lib/libma.so lib/libanfac.so  lib/Axion_py.so
 	
-exec: exec/Axion.run
+exec: check
 
 
 #shared libraries that can be used from python
@@ -54,47 +52,55 @@ lib/libanfac.so: $(PathHead)  $(PathHeadPy) $(PathTypePy) $(DataFiles) $(SPLINE_
 #######################################################################################################
 
 
-# evolution of the axion 
-Axion_cpp=$(wildcard src/Axion/Axion.cpp)
-exec/Axion.run: $(PathHead) $(Axion_cpp) $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) $(Axion_Headers) makefile $(AxionMisc_Headers) $(Static_Headers)
-	$(CC) -o "exec/Axion.run" "src/Axion/Axion.cpp"   $(FLG)    -DMETHOD=RODASPR2  -I"src/Axion"
-
 Axion_py=$(wildcard src/Axion/Axion-py.cpp)
 #shared library for the evolution of the axion that can be used from python
 lib/Axion_py.so: $(PathHead)  $(PathHeadPy) $(PathTypePy) $(Axion_py) $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) $(Axion_Headers) makefile $(AxionMisc_Headers) $(Static_Headers) lib/libCosmo.so lib/libma.so lib/libanfac.so 
-	 $(CC)  -fPIC "src/Axion/Axion-py.cpp" -shared -o "lib/Axion_py.so"  $(FLG) -DMETHOD=RODASPR2  -I"Axion"
+	 $(CC)  -fPIC "src/Axion/Axion-py.cpp" -shared -o "lib/Axion_py.so"  $(FLG) -DMETHOD=RODASPR2  -I"src/Axion"
 
 
 
-##---copy paths where useful data cabe found in header files. These pathe can be used from c++ files to load the data  
+##---copy paths where useful data cabe found in header files. 
+##---These paths can be used from c++ files to load the data  
 $(PathHead):  $(DataFiles) makefile
-	echo "#define cosmo_PATH \"src/data/eos2020.dat\" "> "$(PathHead)"
-	echo "#define chi_PATH \"src/data/chi.dat\" ">> "$(PathHead)"
-	echo "#define anharmonic_PATH \"src/data/anharmonic_factor.dat\" ">> "$(PathHead)"
+	@echo "#ifndef PATHS_HEAD\n#define PATHS_HEAD\n"> "$(PathHead)"
+
+	@echo "#define cosmo_PATH \"$(PWD)/src/data/eos2020.dat\" ">> "$(PathHead)"
+	@echo "#define chi_PATH \"$(PWD)/src/data/chi.dat\" ">> "$(PathHead)"
+	@echo "#define anharmonic_PATH \"$(PWD)/src/data/anharmonic_factor.dat\" ">> "$(PathHead)"
+	@echo "#define PWD \"$(PWD)\" ">> "$(PathHead)"
+
+	@echo "\n#endif">> "$(PathHead)"
 
 #python files contain the current path so that python files can find it easily 
 $(PathHeadPy):  $(DataFiles) makefile
-	echo "_PATH_=\"$(PWD)\" "> "$(PathHeadPy)"
+	@echo "_PATH_=\"$(PWD)\" "> "$(PathHeadPy)"
 
 #python files that define either double or long double ctypes. 
 #This is extremely useful, since it allows both c++ and shared libraries used by python to have the same type definitions. 
 $(PathTypePy):  $(DataFiles) makefile
-	echo "from ctypes import c_$(LONG)double as cdouble"> "$(PathTypePy)"
+	@echo "from ctypes import c_$(LONG)double as cdouble"> "$(PathTypePy)"
+
+# make the examples in Examples/Cpp
+examples: $(PathHead)
+	cd Examples/Cpp && $(MAKE)
 
 
 #cleans whatever make all created
-clean: 
-	rm -r $(wildcard lib/*) ||true
-	rm -r $(wildcard exec/*) ||true
-	rm -r $(wildcard src/misc_dir/*) ||true
+clean:
+	rm -rf $(wildcard lib/*)
+	rm -rf $(wildcard exec/*)
+	rm -rf $(wildcard src/misc_dir/*)
+	cd Examples/Cpp && $(MAKE) clean
+
 
 #deletes directories that configure.sh made
-deepClean: 
-	rm -r lib ||true
-	rm -r exec ||true
-	rm -r src/misc_dir ||true
-	rm -r src/Interpolation ||true
-	rm -r src/Rosenbrock ||true
+deepClean: clean
+
+	rm -rf lib
+	rm -rf exec
+	rm -rf src/misc_dir
+	rm -rf src/Interpolation
+	rm -rf src/Rosenbrock
 
 
 

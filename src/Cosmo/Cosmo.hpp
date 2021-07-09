@@ -7,7 +7,7 @@
 #include<cmath>
 #include<string>
 
-#include "Interpolation.hpp"
+#include "src/Interpolation/Interpolation.hpp"
 
 namespace mimes{    
     template<class LD>

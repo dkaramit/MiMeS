@@ -78,10 +78,18 @@ class Axion:
 
         self.voidAx=axionLib.INIT(theta_i, fa, tmax, TSTOP, ratio_ini, N_convergence_max, convergence_lim, _file_)
 
-        self.t=[]
+        self.a_peak=[]
+        self.T_peak=[]
+        self.theta_peak=[]
+        self.zeta_peak=[]
+        self.adiabatic_invariant=[]
+        self.rho_axion_peak=[]
+
+        self.a=[]
         self.T=[]
         self.theta=[]
         self.zeta=[]
+        self.rho_axion=[]
 
     def __del__(self):
         '''

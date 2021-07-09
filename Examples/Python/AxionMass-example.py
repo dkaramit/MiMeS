@@ -16,7 +16,7 @@ for T in logspace(-5,5,50):
         '\dfrac{dm_a^2}{dT}=',AM.dma2dT(T,fa),'GeV^2\t')
 
 # make some plots
-if False:
+if True:
     import matplotlib.pyplot as plt
 
     fig=plt.figure(figsize=(9,4))

@@ -37,7 +37,7 @@ print(theta_i, fa, ax.theta_osc, ax.T_osc ,ax.relic)
 
 
 
-if False:
+if True:
     ax.getPeaks()#this gives you the peaks of the oscillation
     ax.getPoints()#this gives you all the points of integration
 

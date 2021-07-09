@@ -21,7 +21,7 @@ for T in logspace(-5,5,50):
 
 
 
-if False:
+if True:
     import matplotlib.pyplot as plt
 
     #########-----g_eff and h_eff-----#########

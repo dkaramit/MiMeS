@@ -90,6 +90,7 @@ clean:
 	rm -rf $(wildcard lib/*)
 	rm -rf $(wildcard exec/*)
 	rm -rf $(wildcard src/misc_dir/*)
+	rm -rf $(wildcard Examples/Python/*_examplePlot.pdf)
 	cd Examples/Cpp && $(MAKE) clean
 
 

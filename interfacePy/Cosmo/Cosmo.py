@@ -41,6 +41,8 @@ func.getrho_crit.argtypes =None
 func.getrho_crit.restype =cdouble
 func.getrelicDM.argtypes =None
 func.getrelicDM.restype =cdouble
+func.getMP.argtypes =None
+func.getMP.restype =cdouble
 
 # CMB temperature today in GeV
 T0=func.getT0()
@@ -51,7 +53,7 @@ h_hub=func.geth_hub()
 # central value of Omega h^2 according to Planck 
 relicDM_obs=func.getrelicDM()
 # Planck mass
-mP=1.22e19
+mP=func.getMP()
 
 
 if __name__=="__main__":

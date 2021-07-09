@@ -33,4 +33,7 @@ extern "C"{
     LD geth_hub(){return h_hub;}
     
     LD getrelicDM(){return relicDM_obs;}
+
+    LD getMP(){return mP;}
+
 }

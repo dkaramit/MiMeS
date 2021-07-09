@@ -15,13 +15,22 @@ for i,f in enumerate (CppFunc):
     f.restype = cdouble
 ###############################################
 
+# heff(T): h_eff at temperature T [GeV]
 heff=func.heff
+# geff(T): g_eff at temperature T [GeV]
 geff=func.geff
+# dgeffdT(T): \dfrac{dg_eff}{dT} at temperature T [GeV]
 dgeffdT=func.dgeffdT
+# dheffdT(T): \dfrac{dh_eff}{dT} at temperature T [GeV]
 dheffdT=func.dheffdT
+# dh(T): \delta_h(T)=1+1/3 \frac{d log h_eff}{d log T} at temperature T [GeV]
 dh=func.dh
+
+# rhoR(T): \rho_R (energy density of the plasma) at temperature T [GeV]
 rhoR=func.rhoR
+# Hubble(T): H at temperature T [GeV]
 Hubble=func.Hubble
+# s(T): s (entropy density of the plasma) at temperature T [GeV]
 s=func.s
 
 func.getT0.argtypes =None
@@ -33,10 +42,15 @@ func.getrho_crit.restype =cdouble
 func.getrelicDM.argtypes =None
 func.getrelicDM.restype =cdouble
 
+# CMB temperature today in GeV
 T0=func.getT0()
+# critical density today in GeV^4
 rho_crit=func.getrho_crit()
+# dimensionless hubble parameter
 h_hub=func.geth_hub()
+# central value of Omega h^2 according to Planck 
 relicDM_obs=func.getrelicDM()
+# Planck mass
 mP=1.22e19
 
 

@@ -83,18 +83,32 @@ class Axion:
         self.theta=[]
         self.zeta=[]
 
-    def delete(self):
+    def __del__(self):
         '''
-        Destructor. Deallocates self.voidAx. 
+        Overloaded del.
+        Also deallocates self.voidAx. 
         '''
         axionLib.DEL(self.voidAx)
         del self.voidAx
 
-    def __del__(self):
-        '''
-        Overloaded del
-        '''
-        self.delete()
+        del self.T_osc
+        del self.a_osc
+        del self.theta_osc
+        del self.relic
+
+        del self.a_peak
+        del self.T_peak
+        del self.theta_peak
+        del self.zeta_peak
+        del self.adiabatic_invariant
+        del self.rho_axion_peak
+
+        del self.a
+        del self.T
+        del self.theta
+        del self.zeta
+        del self.rho_axion
+
         
     def solve(self):
         '''

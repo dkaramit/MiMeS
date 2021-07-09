@@ -14,10 +14,29 @@ for i,f in enumerate (CppFunc):
     #specify the return type
     f.restype = cdouble 
 ###############################################
-###---since ff returns a function pointer, FuncPY is now what ff retured.---###
+'''
+The squared mass of the axion at temperature T and PQ scale fa (both in GeV)
+usage: ma2(T,fa)
+'''
 ma2=func.ma2
+
+'''
+The approximate squared mass of the axion at temperature T and PQ scale fa (both in GeV)
+usage: ma2_approx(T,fa)
+'''
 ma2_approx=func.ma2_approx
+
+'''
+\dfrac{dm_a^2}{dT} at temperature T and PQ scale fa (both in GeV)
+usage: dma2dT(T,fa)
+'''
+
 dma2dT=func.dma2dT
+
+'''
+Approximate \dfrac{dm_a^2}{dT} at temperature T and PQ scale fa (both in GeV)
+usage: dma2dT_approx(T,fa)
+'''
 dma2dT_approx=func.dma2dT_approx
 
 

@@ -11,7 +11,8 @@ func._anharmonicFactor.argtypes = cdouble,
 #specify the return type
 func._anharmonicFactor.restype = cdouble
 ###############################################
-###---since ff returns a function pointer, FuncPY is now what ff retured.---###
+
+#anharmonicFactor: returns the anharmonic factor at a theta_max
 anharmonicFactor=func._anharmonicFactor
 
 

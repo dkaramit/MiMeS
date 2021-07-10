@@ -1,7 +1,5 @@
 #ifndef SolveAxion_included
 #define SolveAxion_included
-#include <iostream>
-
 #include <cmath>
 #include <string>
 #include <functional>
@@ -160,8 +158,6 @@ namespace mimes{
         LD zeta_prev,t_prev,theta_prev;
         LD theta_peak,zeta_peak,t_peak,a_peak,T_peak,ma2_peak;
         LD adInv_peak,rho_axion_peak;
-
-        std::vector<LD> adiabatic_invariant;
         LD an_diff;
 
         // this is the initial step (ie points[0])
@@ -206,8 +202,10 @@ namespace mimes{
             //get the Hubble parameter squared which corresponds to t
             H2=std::exp(axionEOM.logH2(t));
 
-            //if you use as T_osc the once provided by axionEOM, you will not have theta_osc.
-            //So use this (it doesn't really matter, as T_osc is not a very well defined parameter)
+            // If you use as T_osc the one provided by axionEOM, you will not have theta_osc.
+            // So use this (it doesn't really matter, as T_osc is not a very well defined parameter)
+            // We could use interpolation to get more accurate T_osc and theta_osc, but it's not worth it,
+            // because the oscillation temperature does not affect the results.
             if(T<=T_osc and osc_check){
                 T_osc=T;
                 a_osc=a;
@@ -241,7 +239,7 @@ namespace mimes{
                 t_prev=std::log(points[current_step-1][0]);
                 theta_prev=points[current_step-1][2];
                 zeta_prev=points[current_step-1][3];
-                // these are all quantities at the peak
+                // these are all the quantities at the peak
                 t_peak=(-zeta_prev*t+zeta*t_prev)/(zeta-zeta_prev);
                 a_peak=std::exp(t_peak);
                 theta_peak=((theta-theta_prev)*t_peak+(theta_prev*t-theta*t_prev))/(t-t_prev);
@@ -259,18 +257,14 @@ namespace mimes{
                 peaks.push_back(std::vector<LD>{a_peak,T_peak,theta_peak,zeta_peak,rho_axion_peak,adInv_peak});
                 
 
-                //store current adiabatic invariant
-                adiabatic_invariant.push_back(adInv_peak);
-
-
                 // if the total number of peaks is greater than 2, then you can check for convergence
                 if(Npeaks>=2){
                     //difference of adiabatic invariant between current and previous peak 
-                    an_diff=std::abs(adiabatic_invariant[Npeaks-1]-adiabatic_invariant[Npeaks-2]);
-                    if(adiabatic_invariant[Npeaks-1]>adiabatic_invariant[Npeaks-2]){
-                        an_diff=an_diff/adiabatic_invariant[Npeaks-1];
+                    an_diff=std::abs(adInv_peak-peaks[Npeaks-2][5]);
+                    if(adInv_peak>peaks[Npeaks-2][5]){
+                        an_diff=an_diff/adInv_peak;
                     }else{
-                        an_diff=an_diff/adiabatic_invariant[Npeaks-2];
+                        an_diff=an_diff/peaks[Npeaks-2][5];
                     }
                     //if the difference is smaller than convergence_lim increase N_convergence
                     //else, reset N_convergence (we stop if the difference is small between consecutive steps )

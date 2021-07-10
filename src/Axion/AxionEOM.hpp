@@ -1,6 +1,5 @@
 #ifndef SYSTEM_AxionEOM
 #define SYSTEM_AxionEOM
-#include<iostream>
 #include<fstream>
 #include <cmath>
 #include <string>

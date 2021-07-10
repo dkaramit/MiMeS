@@ -1,0 +1,15 @@
+# use long doubles. Slower, but safer for extreme cases, as we avoid roundoff errors. 
+long
+#
+# Rosenbrock method. This is good enough but one can provide another Butcher tableu and use it.
+RODASPR2
+# relative path to comoslogical data
+src/data/eos2020.dat
+#
+# relative path to chi data
+src/data/chi.dat
+#
+# relative path to anharmonic factor data
+src/data/anharmonic_factor.dat
+#
+#

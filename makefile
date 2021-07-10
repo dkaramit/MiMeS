@@ -1,24 +1,26 @@
-LONG=long#use long doubles. Slower, but more accurate (and safer for extreme cases, as we avoid roundoff errors). 
-
 #---optimization options---#
 OPT=O3 #this should be fast and safe
-
 # OPT=O0 #this is generally 2x slower than O3
 # OPT=Ofast #this is usually bit faster than O3 but can cause issues (I haven't observed any though)
 
-CC=g++ #compiler. I use g++, and haven't tested anything else. 
+#you can inlude more things here
+PATH_INCLUDE=  -I"./" 
 
-#c++ std lib
+#compiler. I use g++, and haven't tested anything else.
+CC=g++  
+
+#c++ std
 STD=c++17
 # STD=c++11 #this should also work
 
 
-PATH_INCLUDE=  -I"./" #you can inlude more directories things here
 
+LONG=$(shell cat .prep.long) 
+METHOD=$(shell cat .prep.method)
+DataFiles=$(wildcard src/data/*.dat)
 
 FLG= -$(OPT) -std=$(STD) -DLONG=$(LONG) $(PATH_INCLUDE) 
 
-DataFiles=$(wildcard src/data/*.dat)
 Ros_Headers= $(wildcard src/Rosenbrock/*.hpp) $(wildcard src/Rosenbrock/LU/*.hpp)   
 SPLINE_Headers=$(wildcard src/Interpolation/*.hpp)
 
@@ -42,26 +44,23 @@ exec: check
 
 #shared libraries that can be used from python
 lib/libCosmo.so: $(PathHead)  $(PathHeadPy) $(PathTypePy) $(DataFiles) $(SPLINE_Headers) $(Cosmo_Headers) $(Static_Headers) makefile
-	$(CC)  -fPIC "src/Cosmo/Cosmo.cpp" -shared -o "lib/libCosmo.so"  $(FLG) -Wall
+	$(CC)  -fPIC src/Cosmo/Cosmo.cpp -shared -o lib/libCosmo.so  $(FLG) -Wall
 
 lib/libma.so: $(PathHead)  $(PathHeadPy) $(PathTypePy) $(DataFiles) $(SPLINE_Headers) $(AxionMisc_Headers) $(Static_Headers) makefile
-	$(CC)  -fPIC "src/AxionMass/AxionMass.cpp" -shared -o "lib/libma.so"  $(FLG) -Wall
+	$(CC)  -fPIC src/AxionMass/AxionMass.cpp -shared -o lib/libma.so  $(FLG) -Wall
 
 lib/libanfac.so: $(PathHead)  $(PathHeadPy) $(PathTypePy) $(DataFiles) $(SPLINE_Headers) $(AxionMisc_Headers) $(Static_Headers) makefile
-	$(CC)  -fPIC "src/AnharmonicFactor/AnharmonicFactor.cpp" -shared -o "lib/libanfac.so" $(FLG) -Wall
+	$(CC)  -fPIC src/AnharmonicFactor/AnharmonicFactor.cpp -shared -o lib/libanfac.so $(FLG) -Wall
 #######################################################################################################
 
 
-Axion_py=$(wildcard src/Axion/Axion-py.cpp)
 #shared library for the evolution of the axion that can be used from python
+Axion_py=$(wildcard src/Axion/Axion-py.cpp)
 lib/Axion_py.so: $(PathHead)  $(PathHeadPy) $(PathTypePy) $(Axion_py) $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) $(Axion_Headers) makefile $(AxionMisc_Headers) $(Static_Headers) lib/libCosmo.so lib/libma.so lib/libanfac.so 
-	 $(CC)  -fPIC "src/Axion/Axion-py.cpp" -shared -o "lib/Axion_py.so"  $(FLG) -DMETHOD=RODASPR2  -I"src/Axion"
+	 $(CC)  -fPIC src/Axion/Axion-py.cpp -shared -o lib/Axion_py.so  $(FLG) -DMETHOD=$(METHOD)
 
 
-#python files that define either double or long double ctypes. 
-#This is extremely useful, since it allows both c++ and shared libraries used by python to have the same type definitions. 
-$(PathTypePy):  $(DataFiles) makefile
-	@echo "from ctypes import c_$(LONG)double as cdouble"> "$(PathTypePy)"
+
 
 # make the examples in Examples/Cpp
 examples: $(PathHead)
@@ -70,6 +69,8 @@ examples: $(PathHead)
 
 #cleans whatever make all created
 clean:
+
+	rm -rf $(wildcard .prep.*)
 	rm -rf $(wildcard lib/*)
 	rm -rf $(wildcard exec/*)
 	rm -rf $(wildcard Examples/Python/*_examplePlot.pdf)

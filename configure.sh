@@ -1,22 +1,32 @@
 #!/bin/bash
-srcPath="src"
-PathHead="src/misc_dir/path.hpp"
-PathHeadPy="src/misc_dir/path.py"
-PathTypePy="src/misc_dir/type.py"
+listVars=(`awk '{if($1!="#"){print $1}}' List.txt`)
+
+LONG=${listVars[0]}
+METHOD=${listVars[1]}
+cosmoDat=${listVars[2]}
+axMDat=${listVars[3]}
+anFDat=${listVars[4]}
 
 
+echo $LONG>.prep.long
+echo $METHOD>.prep.method
+
+
+PathHead=src/misc_dir/path.hpp
+PathHeadPy=src/misc_dir/path.py
+PathTypePy=src/misc_dir/type.py
 
 mkdir "lib" 2> /dev/null
 mkdir "exec" 2> /dev/null
 # ---------these are needed for python and c++---------------- #
-mkdir "$srcPath/misc_dir" 2> /dev/null
+mkdir "src/misc_dir" 2> /dev/null
 
 echo "#ifndef PATHS_HEAD
 #define PATHS_HEAD
 
-#define cosmo_PATH \"/media/200Gb/work/work_PD/MiMeS/src/data/eos2020.dat\" 
-#define chi_PATH \"/media/200Gb/work/work_PD/MiMeS/src/data/chi.dat\" 
-#define anharmonic_PATH \"/media/200Gb/work/work_PD/MiMeS/src/data/anharmonic_factor.dat\" 
+#define cosmo_PATH \"/media/200Gb/work/work_PD/MiMeS/$cosmoDat\" 
+#define chi_PATH \"/media/200Gb/work/work_PD/MiMeS/$axMDat\" 
+#define anharmonic_PATH \"/media/200Gb/work/work_PD/MiMeS/$anFDat\" 
 #define PWD \"/media/200Gb/work/work_PD/MiMeS\" 
 
 #endif
@@ -24,22 +34,22 @@ echo "#ifndef PATHS_HEAD
 
 echo "_PATH_=\"$PWD\" "> $PathHeadPy
 
-
+echo "from ctypes import c_$LONG""double as cdouble"> $PathTypePy
 
 
 ##------clone ODE solver and iinterpolation from my github repos------##
-if [ -d "$srcPath/Rosenbrock" ]
+if [ -d "src/Rosenbrock" ]
 then
     echo "Rosenbrock exists. Nothing to do here."
 else
-    bash $srcPath/clone_Ros.sh
+    bash src/clone_Ros.sh
 fi
 
-if [ -d "$srcPath/Interpolation" ]
+if [ -d "src/Interpolation" ]
 then
     echo "Spline exists. Nothing to do here."
 else
-    bash $srcPath/clone_Spline.sh
+    bash src/clone_Spline.sh
 fi
 
 

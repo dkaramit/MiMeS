@@ -13,8 +13,8 @@ STD=c++17
 # STD=c++11 #this should also work
 
 
-LONG=$(shell cat $(rootDir)/.prep.long) 
-PATH_INCLUDE=  -I"$(rootDir)"
+LONG=$(shell cat $(rootDir).prep.long) 
+PATH_INCLUDE=  -I$(rootDir)
 
 FLG= -$(OPT) -std=$(STD) -DLONG=$(LONG) $(PATH_INCLUDE) 
 
@@ -29,7 +29,7 @@ all: AxionMassExample.run
 
 AxionMassExample.run: AxionMassExample.cpp makefile $(AxionMass_Headers) $(DataFiles) $(PathHead) $(SPLINE_Headers)
 
-	$(CC) -o "AxionMassExample.run" "AxionMassExample.cpp" $(FLG)
+	$(CC) -o AxionMassExample.run AxionMassExample.cpp $(FLG)
 
 
 make clean:

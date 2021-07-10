@@ -15,7 +15,7 @@ STD=c++17
 
 LONG=$(shell cat $(rootDir)/.prep.long) 
 
-PATH_INCLUDE=  -I"$(rootDir)"
+PATH_INCLUDE=  -I$(rootDir)
 
 FLG= -$(OPT) -std=$(STD) -DLONG=$(LONG) $(PATH_INCLUDE) 
 
@@ -30,7 +30,7 @@ all: AnharmonicFactorExample.run
 
 AnharmonicFactorExample.run: AnharmonicFactorExample.cpp makefile $(AnFac_Headers) $(DataFiles) $(PathHead) $(SPLINE_Headers)
 
-	$(CC) -o "AnharmonicFactorExample.run" "AnharmonicFactorExample.cpp" $(FLG)
+	$(CC) -o AnharmonicFactorExample.run AnharmonicFactorExample.cpp $(FLG)
 
 
 make clean:

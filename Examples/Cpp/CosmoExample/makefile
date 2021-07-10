@@ -12,8 +12,8 @@ CC=g++ #compiler. I use g++, and haven't tested anything else.
 STD=c++17
 # STD=c++11 #this should also work
 
-LONG=$(shell cat $(rootDir)/.prep.long) 
-PATH_INCLUDE=  -I"$(rootDir)"
+LONG=$(shell cat $(rootDir).prep.long) 
+PATH_INCLUDE=  -I$(rootDir)
 
 FLG= -$(OPT) -std=$(STD) -DLONG=$(LONG) $(PATH_INCLUDE) 
 
@@ -28,7 +28,7 @@ all: CosmoExample.run
 
 CosmoExample.run: CosmoExample.cpp makefile $(Cosmo_Headers) $(DataFiles) $(PathHead) $(SPLINE_Headers)
 
-	$(CC) -o "CosmoExample.run" "CosmoExample.cpp" $(FLG)
+	$(CC) -o CosmoExample.run CosmoExample.cpp $(FLG)
 
 
 make clean:

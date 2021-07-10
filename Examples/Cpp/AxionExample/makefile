@@ -12,8 +12,9 @@ CC=g++ #compiler. I use g++, and haven't tested anything else.
 STD=c++17
 # STD=c++11 #this should also work
 
-LONG=$(shell cat $(rootDir)/.prep.long) 
-PATH_INCLUDE=  -I"$(rootDir)"
+LONG=$(shell cat $(rootDir).prep.long) 
+METHOD=$(shell cat $(rootDir).prep.method) 
+PATH_INCLUDE=  -I$(rootDir)
 
 FLG= -$(OPT) -std=$(STD) -DLONG=$(LONG) $(PATH_INCLUDE) 
 
@@ -40,7 +41,7 @@ AxionExample.run: AxionExample.cpp makefile\
 					$(DataFiles) $(PathHead) $(Static_Headers)\
 					$(Ros_Headers) $(SPLINE_Headers)
 
-	$(CC) -o "AxionExample.run" "AxionExample.cpp" $(FLG) -DMETHOD=RODASPR2 
+	$(CC) -o AxionExample.run AxionExample.cpp $(FLG) -DMETHOD=$(METHOD) 
 
 
 make clean:

@@ -153,8 +153,14 @@ namespace mimes{
 
         //these variables will be used to fill points (the points the solver takes)
     
-        LD theta,zeta,t,a,T,tmp,H2,ma2;
+        LD theta,zeta,t,a,T,H2,ma2;
         LD rho_axion;
+
+        // we will need these for the peaks
+        LD zeta_prev,t_prev,theta_prev;
+        LD theta_peak,zeta_peak,t_peak,a_peak,T_peak,ma2_peak;
+        LD adInv_peak,rho_axion_peak;
+
         std::vector<LD> adiabatic_invariant;
         LD an_diff;
 
@@ -226,17 +232,35 @@ namespace mimes{
             //check if current point is a peak
             if(zeta>0){check=false;}
             if(zeta<=0 and check==false){
-                //increas the total number of peaks 
+                //increase the total number of peaks 
                 Npeaks++;
                 //set check=true (this resets the check until the next peak)
                 check=true; 
                 
+                // use linear interpolation to find t at zeta=0
+                t_prev=std::log(points[current_step-1][0]);
+                theta_prev=points[current_step-1][2];
+                zeta_prev=points[current_step-1][3];
+                // these are all quantities at the peak
+                t_peak=(-zeta_prev*t+zeta*t_prev)/(zeta-zeta_prev);
+                a_peak=std::exp(t_peak);
+                theta_peak=((theta-theta_prev)*t_peak+(theta_prev*t-theta*t_prev))/(t-t_prev);
+                zeta_peak=((zeta-zeta_prev)*t_peak+(zeta_prev*t-zeta*t_prev))/(t-t_prev);
+                T_peak=axionEOM.Temperature(t_prev);
+                ma2_peak=axionMass.ma2(T_peak,fa);
+
                 //compute the adiabatic invariant
-                tmp=anharmonicFactor(theta)*theta*theta *std::sqrt(ma2) * a*a*a ;
-                peaks.push_back(std::vector<LD>{a,T,theta,zeta,rho_axion,tmp});
+                adInv_peak=anharmonicFactor(theta_peak)*theta_peak*theta_peak *std::sqrt(ma2_peak) * a_peak*a_peak*a_peak ;
+                
+                if(std::abs(theta)<1e-3){rho_axion_peak=fa*fa*(ma2_peak*0.5*theta_peak*theta_peak);}
+                else{rho_axion_peak=fa*fa*(ma2_peak*(1 - std::cos(theta_peak)));}
+
+
+                peaks.push_back(std::vector<LD>{a_peak,T_peak,theta_peak,zeta_peak,rho_axion_peak,adInv_peak});
+                
 
                 //store current adiabatic invariant
-                adiabatic_invariant.push_back(tmp);
+                adiabatic_invariant.push_back(adInv_peak);
 
 
                 // if the total number of peaks is greater than 2, then you can check for convergence
@@ -258,12 +282,19 @@ namespace mimes{
             if(N_convergence>=N_convergence_max){
                 //entropy injection from the point of the last peak until T_stop (the point where interpolation stops)
                 //the assumption is that at T_stop the universe is radiation dominated with constant entropy.
-                gamma=cosmo.s(axionEOM.T_stop)/cosmo.s(T)*std::exp(3*(axionEOM.t_stop-System.tn));
+                gamma=cosmo.s(axionEOM.T_stop)/cosmo.s(T_peak)*std::exp(3*(axionEOM.t_stop-t_peak));
                 
                 //the relic of the axion
-                relic=h_hub*h_hub/rho_crit*cosmo.s(T0)/cosmo.s(T)/gamma*0.5*
-                       std::sqrt(axionMass.ma2(T0,1)*axionMass.ma2(T,1))*
-                       theta*theta*anharmonicFactor(theta);
+                relic=h_hub*h_hub/rho_crit*cosmo.s(T0)/cosmo.s(T_peak)/gamma*0.5*
+                       std::sqrt(axionMass.ma2(T0,1)*axionMass.ma2(T_peak,1))*
+                       theta_peak*theta_peak*anharmonicFactor(theta_peak);
+                
+
+                //this is equivalent
+                // relic=h_hub*h_hub/rho_crit*
+                    //    cosmo.s(T0)/cosmo.s(axionEOM.T_stop)*std::exp(3*(t_peak-axionEOM.t_stop))*0.5*
+                    //    std::sqrt(axionMass.ma2(T0,1)*axionMass.ma2(T_peak,1))*
+                    //    theta_peak*theta_peak*anharmonicFactor(theta_peak);
                 
 
                 break;

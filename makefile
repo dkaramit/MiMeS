@@ -58,23 +58,6 @@ lib/Axion_py.so: $(PathHead)  $(PathHeadPy) $(PathTypePy) $(Axion_py) $(Ros_Head
 	 $(CC)  -fPIC "src/Axion/Axion-py.cpp" -shared -o "lib/Axion_py.so"  $(FLG) -DMETHOD=RODASPR2  -I"src/Axion"
 
 
-
-##---copy paths where useful data cabe found in header files. 
-##---These paths can be used from c++ files to load the data  
-$(PathHead):  $(DataFiles) makefile
-	@echo "#ifndef PATHS_HEAD\n#define PATHS_HEAD\n"> "$(PathHead)"
-
-	@echo "#define cosmo_PATH \"$(PWD)/src/data/eos2020.dat\" ">> "$(PathHead)"
-	@echo "#define chi_PATH \"$(PWD)/src/data/chi.dat\" ">> "$(PathHead)"
-	@echo "#define anharmonic_PATH \"$(PWD)/src/data/anharmonic_factor.dat\" ">> "$(PathHead)"
-	@echo "#define PWD \"$(PWD)\" ">> "$(PathHead)"
-
-	@echo "\n#endif">> "$(PathHead)"
-
-#python files contain the current path so that python files can find it easily 
-$(PathHeadPy):  $(DataFiles) makefile
-	@echo "_PATH_=\"$(PWD)\" "> "$(PathHeadPy)"
-
 #python files that define either double or long double ctypes. 
 #This is extremely useful, since it allows both c++ and shared libraries used by python to have the same type definitions. 
 $(PathTypePy):  $(DataFiles) makefile
@@ -89,7 +72,6 @@ examples: $(PathHead)
 clean:
 	rm -rf $(wildcard lib/*)
 	rm -rf $(wildcard exec/*)
-	rm -rf $(wildcard src/misc_dir/*)
 	rm -rf $(wildcard Examples/Python/*_examplePlot.pdf)
 	cd Examples/Cpp && $(MAKE) clean
 
@@ -97,6 +79,7 @@ clean:
 #deletes directories that configure.sh made
 deepClean: clean
 
+	rm -rf $(wildcard src/misc_dir/*)
 	rm -rf lib
 	rm -rf exec
 	rm -rf src/misc_dir

@@ -1,10 +1,31 @@
 #!/bin/bash
-
-# cloc --match-f='(\.cpp|\.hpp|\.py)' ./ | awk '(NR>5)'
-RED='\033[0;31m'
-BLUE='\033[0;34m'
-
 srcPath="src"
+PathHead="src/misc_dir/path.hpp"
+PathHeadPy="src/misc_dir/path.py"
+PathTypePy="src/misc_dir/type.py"
+
+
+
+mkdir "lib" 2> /dev/null
+mkdir "exec" 2> /dev/null
+# ---------these are needed for python and c++---------------- #
+mkdir "$srcPath/misc_dir" 2> /dev/null
+
+echo "#ifndef PATHS_HEAD
+#define PATHS_HEAD
+
+#define cosmo_PATH \"/media/200Gb/work/work_PD/MiMeS/src/data/eos2020.dat\" 
+#define chi_PATH \"/media/200Gb/work/work_PD/MiMeS/src/data/chi.dat\" 
+#define anharmonic_PATH \"/media/200Gb/work/work_PD/MiMeS/src/data/anharmonic_factor.dat\" 
+#define PWD \"/media/200Gb/work/work_PD/MiMeS\" 
+
+#endif
+">$PathHead
+
+echo "_PATH_=\"$PWD\" "> $PathHeadPy
+
+
+
 
 ##------clone ODE solver and iinterpolation from my github repos------##
 if [ -d "$srcPath/Rosenbrock" ]
@@ -21,10 +42,10 @@ else
     bash $srcPath/clone_Spline.sh
 fi
 
-mkdir "lib" 2> /dev/null
-mkdir "exec" 2> /dev/null
-mkdir "$srcPath/misc_dir" 2> /dev/null
 
+# cloc --match-f='(\.cpp|\.hpp|\.py)' ./ | awk '(NR>5)'
+RED='\033[0;31m'
+BLUE='\033[0;34m'
 
 echo -e "${RED}License:"
 cat LICENSE

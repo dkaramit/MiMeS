@@ -1,5 +1,6 @@
-# In order to use long double (Slower, but safer for extreme cases, as we avoid roundoff errors). Leave it blank if you want to use doubles.
-long
+# true: in order to use long doubles (Slower, but safer for extreme cases, as we avoid roundoff errors). 
+# false: in order to use doubles.
+true
 #
 # Rosenbrock method. This is good enough but one can provide another Butcher tableu and use it.
 RODASPR2
@@ -11,5 +12,3 @@ src/data/chi.dat
 #
 # relative path to anharmonic factor data
 src/data/anharmonic_factor.dat
-#
-#

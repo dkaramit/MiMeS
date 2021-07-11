@@ -4,7 +4,7 @@ OPT=O3 #this should be fast and safe
 # OPT=Ofast #this is usually bit faster than O3 but can cause issues (I haven't observed any though)
 
 #you can inlude more things here
-PATH_INCLUDE=  -I"./" 
+PATH_INCLUDE=  -I./
 
 #compiler. I use g++, and haven't tested anything else.
 CC=g++  
@@ -70,7 +70,6 @@ examples: $(PathHead)
 #cleans whatever make all created
 clean:
 
-	rm -rf $(wildcard .prep.*)
 	rm -rf $(wildcard lib/*)
 	rm -rf $(wildcard exec/*)
 	rm -rf $(wildcard Examples/Python/*_examplePlot.pdf)
@@ -80,6 +79,7 @@ clean:
 #deletes directories that configure.sh made
 deepClean: clean
 
+	rm -rf $(wildcard .prep.*)
 	rm -rf $(wildcard src/misc_dir/*)
 	rm -rf lib
 	rm -rf exec
@@ -112,9 +112,9 @@ exec/AxionMass_check.run: $(PathHead)  $(AxM_cpp) $(DataFiles) $(SPLINE_Headers)
 AxionEOM_cpp=$(wildcard src/Axion/checks/AxionEOM_check.cpp)
 # check interpolations of the Axion_eom class 
 exec/AxionEOM_check.run: $(Axion_Headers) $(PathHead) $(AxionEOM_cpp) $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) makefile $(AxionMisc_Headers) $(Static_Headers)
-	$(CC) -o "exec/AxionEOM_check.run" "src/Axion/checks/AxionEOM_check.cpp"   $(FLG)    -DMETHOD=RODASPR2  -I"src/Axion"
+	$(CC) -o "exec/AxionEOM_check.run" "src/Axion/checks/AxionEOM_check.cpp"   $(FLG)    -DMETHOD=RODASPR2  
 
 AxionSolve_cpp=$(wildcard src/Axion/checks/AxionSolve_check.cpp)
 # check interpolations of the Axion_eom class 
 exec/AxionSolve_check.run: $(Axion_Headers) $(PathHead) $(AxionSolve_cpp) $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) makefile $(AxionMisc_Headers) $(Static_Headers)
-	$(CC) -o "exec/AxionSolve_check.run" "src/Axion/checks/AxionSolve_check.cpp"   $(FLG)    -DMETHOD=RODASPR2  -I"src/Axion"
+	$(CC) -o "exec/AxionSolve_check.run" "src/Axion/checks/AxionSolve_check.cpp"   $(FLG)    -DMETHOD=RODASPR2  

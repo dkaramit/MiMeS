@@ -1,15 +1,29 @@
 #!/bin/bash
 listVars=(`grep -v "^#" List.txt`)
 
-
-
 LONG=${listVars[0]}
 METHOD=${listVars[1]}
 cosmoDat=${listVars[2]}
 axMDat=${listVars[3]}
 anFDat=${listVars[4]}
 
-echo $LONG>.prep.long
+[ -f $cosmoDat ] || { echo "$cosmoDat file does not exit. You need to provide a valid path for it!" ;  exit 1; }
+[ -f $axMDat ] || { echo "$axMDat file does not exit. You need to provide a valid path for it!" ; exit 1; }
+[ -f $anFDat ] || { echo "$anFDat file does not exit. You need to provide a valid path for it!" ; exit 1; }
+
+if [ "$LONG" != "true" ] && [ "$LONG" != "false" ]; then
+    echo "The first line in List.txt must be true or false."
+    echo "true: in order to use long doubles (Slower, but safer for extreme cases, as we avoid roundoff errors)."
+    echo "false: in order to use doubles."
+    exit 1
+fi
+
+if [ $LONG == "true" ]; then
+    echo "long">.prep.long
+else
+    echo " ">.prep.long
+fi
+
 echo $METHOD>.prep.method
 
 
@@ -25,10 +39,10 @@ mkdir "src/misc_dir" 2> /dev/null
 echo "#ifndef PATHS_HEAD
 #define PATHS_HEAD
 
-#define cosmo_PATH \"/media/200Gb/work/work_PD/MiMeS/$cosmoDat\" 
-#define chi_PATH \"/media/200Gb/work/work_PD/MiMeS/$axMDat\" 
-#define anharmonic_PATH \"/media/200Gb/work/work_PD/MiMeS/$anFDat\" 
-#define PWD \"/media/200Gb/work/work_PD/MiMeS\" 
+#define cosmo_PATH \"$cosmoDat\" 
+#define chi_PATH \"$axMDat\" 
+#define anharmonic_PATH \"$anFDat\" 
+#define PWD \"$PWD\" 
 
 #endif
 ">$PathHead

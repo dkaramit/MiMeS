@@ -1,4 +1,4 @@
-# use long doubles. Slower, but safer for extreme cases, as we avoid roundoff errors. 
+# In order to use long double (Slower, but safer for extreme cases, as we avoid roundoff errors). Leave it blank if you want to use doubles.
 long
 #
 # Rosenbrock method. This is good enough but one can provide another Butcher tableu and use it.

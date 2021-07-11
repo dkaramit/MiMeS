@@ -1,12 +1,13 @@
 #!/bin/bash
-listVars=(`awk '{if($1!="#"){print $1}}' List.txt`)
+listVars=(`grep -v "^#" List.txt`)
+
+
 
 LONG=${listVars[0]}
 METHOD=${listVars[1]}
 cosmoDat=${listVars[2]}
 axMDat=${listVars[3]}
 anFDat=${listVars[4]}
-
 
 echo $LONG>.prep.long
 echo $METHOD>.prep.method

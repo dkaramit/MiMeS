@@ -1,5 +1,5 @@
-# true: in order to use long doubles (Slower, but safer for extreme cases, as we avoid roundoff errors). 
-# false: in order to use doubles.
+# true: in order to use long doubles. This is slower, but generally more accurate, since we can use tolerances down to 10^-11 (or below that). 
+# false: in order to use doubles. This is faster. However the tolerances of the ODE solver cannt be below 1e-8.
 true
 #
 # Rosenbrock method. This is good enough but one can provide another Butcher tableu and use it.

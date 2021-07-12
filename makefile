@@ -19,7 +19,7 @@ LONG=$(shell cat .prep.long)
 METHOD=$(shell cat .prep.method)
 DataFiles=$(wildcard src/data/*.dat)
 
-FLG= -$(OPT) -std=$(STD) -DLONG=$(LONG) $(PATH_INCLUDE) -Wall
+FLG= -$(OPT) -std=$(STD) -DLONG=$(LONG) $(PATH_INCLUDE)
 
 Ros_Headers= $(wildcard src/Rosenbrock/*.hpp) $(wildcard src/Rosenbrock/LU/*.hpp)   
 SPLINE_Headers=$(wildcard src/Interpolation/*.hpp)

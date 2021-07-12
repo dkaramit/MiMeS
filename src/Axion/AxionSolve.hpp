@@ -140,7 +140,7 @@ namespace mimes{
                         absolute_tolerance, relative_tolerance, beta, fac_max,fac_min);
 
         // these parameters are helpful..
-        unsigned int current_step=0;//count the steps the solver takes
+        int current_step=0;//count the steps the solver takes
 
         //check is used to identify the peaks, osc_check is used to find the oscillation temperature
         bool check=true, osc_check=true;

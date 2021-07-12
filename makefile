@@ -19,7 +19,7 @@ LONG=$(shell cat .prep.long)
 METHOD=$(shell cat .prep.method)
 DataFiles=$(wildcard src/data/*.dat)
 
-FLG= -$(OPT) -std=$(STD) -DLONG=$(LONG) $(PATH_INCLUDE) 
+FLG= -$(OPT) -std=$(STD) -DLONG=$(LONG) $(PATH_INCLUDE) -Wall
 
 Ros_Headers= $(wildcard src/Rosenbrock/*.hpp) $(wildcard src/Rosenbrock/LU/*.hpp)   
 SPLINE_Headers=$(wildcard src/Interpolation/*.hpp)
@@ -43,13 +43,13 @@ exec: check
 
 #shared libraries that can be used from python
 lib/libCosmo.so: $(PathHead)  $(PathHeadPy) $(PathTypePy) $(DataFiles) $(SPLINE_Headers) $(Cosmo_Headers) $(Static_Headers) makefile
-	$(CC)  -o lib/libCosmo.so -fPIC src/Cosmo/Cosmo.cpp -shared   $(FLG) -Wall
+	$(CC)  -o lib/libCosmo.so -fPIC src/Cosmo/Cosmo.cpp -shared   $(FLG) 
 
 lib/libma.so: $(PathHead)  $(PathHeadPy) $(PathTypePy) $(DataFiles) $(SPLINE_Headers) $(AxionMisc_Headers) $(Static_Headers) makefile
-	$(CC) -o lib/libma.so -fPIC src/AxionMass/AxionMass.cpp -shared  $(FLG) -Wall
+	$(CC) -o lib/libma.so -fPIC src/AxionMass/AxionMass.cpp -shared  $(FLG) 
 
 lib/libanfac.so: $(PathHead)  $(PathHeadPy) $(PathTypePy) $(DataFiles) $(SPLINE_Headers) $(AxionMisc_Headers) $(Static_Headers) makefile
-	$(CC)  -o lib/libanfac.so -fPIC src/AnharmonicFactor/AnharmonicFactor.cpp -shared $(FLG) -Wall
+	$(CC)  -o lib/libanfac.so -fPIC src/AnharmonicFactor/AnharmonicFactor.cpp -shared $(FLG) 
 #######################################################################################################
 
 
@@ -94,18 +94,18 @@ check: exec/AxionEOM_check.run exec/AxionSolve_check.run exec/AnharmonicFactor_c
 Cosmo_cpp=$(wildcard src/Cosmo/checks/Cosmo_check.cpp)
 # check anharmonic factor interpolation
 exec/Cosmo_check.run: $(PathHead)  $(Cosmo_cpp) $(DataFiles) $(SPLINE_Headers) makefile
-	$(CC) -o exec/Cosmo_check.run src/Cosmo/checks/Cosmo_check.cpp $(FLG) -Wall
+	$(CC) -o exec/Cosmo_check.run src/Cosmo/checks/Cosmo_check.cpp $(FLG) 
 
 
 AnFac_cpp=$(wildcard src/AnharmonicFactor/checks/AnharmonicFactor_check.cpp)
 # check anharmonic factor interpolation
 exec/AnharmonicFactor_check.run: $(PathHead)  $(AnFac_cpp) $(DataFiles) $(SPLINE_Headers) $(AxionMisc_Headers)  makefile
-	$(CC) -o exec/AnharmonicFactor_check.run src/AnharmonicFactor/checks/AnharmonicFactor_check.cpp $(FLG) -Wall
+	$(CC) -o exec/AnharmonicFactor_check.run src/AnharmonicFactor/checks/AnharmonicFactor_check.cpp $(FLG) 
 
 AxM_cpp=$(wildcard src/AxionMass/checks/AxionMass_check.cpp)
 # check axion mass interpolation
 exec/AxionMass_check.run: $(PathHead)  $(AxM_cpp) $(DataFiles) $(SPLINE_Headers) $(AxionMisc_Headers)  makefile
-	$(CC) -o exec/AxionMass_check.run src/AxionMass/checks/AxionMass_check.cpp $(FLG) -Wall
+	$(CC) -o exec/AxionMass_check.run src/AxionMass/checks/AxionMass_check.cpp $(FLG) 
 
 
 AxionEOM_cpp=$(wildcard src/Axion/checks/AxionEOM_check.cpp)

@@ -39,7 +39,6 @@ int main(int argc, char **argv){
     Ax.solveAxion();
 
 
-    unsigned int N=Ax.peaks.size();
 
     std::cout<<std::setprecision(5)
     <<"theta_i="<<theta_i<<" "<<"f_a="<< fa<<" GeV\n"<<"theta_osc~="<<Ax.theta_osc<<" "
@@ -51,7 +50,7 @@ int main(int argc, char **argv){
     #ifdef preintPoints
     std::cout<<"---------------------points:---------------------\n";
     std::cout<<"a/a_i\tT [GeV]\ttheta\tzeta\trho_a [GeV^4]"<<std::endl;
-    for(int i=0; i<Ax.pointSize; ++i ){
+    for(size_t i=0; i<Ax.pointSize; ++i ){
         for(int j=0; j<5; ++j){
             std::cout<<Ax.points[i][j];
             if(j==4){std::cout<<"\n";}else{std::cout<<"\t";}
@@ -63,7 +62,7 @@ int main(int argc, char **argv){
     #ifdef printPeaks
     std::cout<<"---------------------peaks:---------------------\n";
     std::cout<<"a/a_i\tT [GeV]\ttheta\tzeta\trho_a [GeV^4]\tadiabatic_inv [GeV]"<<std::endl;
-    for(int i=0; i<Ax.peakSize; ++i ){
+    for(size_t i=0; i<Ax.peakSize; ++i ){
         for(int j=0; j<6; ++j){
             std::cout<<Ax.peaks[i][j];
             if(j==5){std::cout<<"\n";}else{std::cout<<"\t";}

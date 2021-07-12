@@ -36,15 +36,15 @@ namespace mimes{
             this->fa=fa;
             this->ratio_ini=ratio_ini;
 
-            LD t,T,logH;//current line in file
-            LD t_prev,T_prev,logH_prev;//previous line in file
+            LD t=0,T=0,logH=0;//current line in file
+            LD t_prev=0,T_prev=0,logH_prev=0;//previous line in file
 
             std::ifstream data_file(inputFile,std::ios::in);
             bool ini_check=true; //check when ratio_ini is reached
             bool osc_check=true; //check when T_osc is reached
-            LD t_ini; //check when ratio_ini is reached in order to rescale t to start at 0 in the interpolations
+            LD t_ini=0; //check when ratio_ini is reached in order to rescale t to start at 0 in the interpolations
 
-            LD ratio;// I will use ratio to store 3H/m_a as I read the file
+            LD ratio=0;// I will use ratio to store 3H/m_a as I read the file
             //read the file and fill t_tab, T_tab, and  logH2_tab; and find T_osc.
 
             unsigned int N=0;

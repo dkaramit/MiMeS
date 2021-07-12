@@ -38,7 +38,7 @@ int main(int argc, char **argv){
     // check if the file is read
     #ifdef readCheck
     std::cout<<"------------check if the file is read-----------"<<std::endl;
-    for( int i=0; i<axionEOM.t_tab.size(); ++i ){
+    for(size_t i=0; i<axionEOM.t_tab.size(); ++i ){
         std::cout<<axionEOM.t_tab[i]<<"\t"<<axionEOM.T_tab[i]<<"\t"<<axionEOM.logH2_tab[i]<<"\n";
     }
     #endif
@@ -48,7 +48,7 @@ int main(int argc, char **argv){
     // check if interpolation gives the same numbers on the points from the file
     #ifdef interpolationVSreadCheck
     std::cout<<"------------check if interpolation gives the same numbers on the points from the file-----------"<<std::endl;
-    for(auto i=0; i<axionEOM.t_tab.size(); ++i ){
+    for(size_t i=0; i<axionEOM.t_tab.size(); ++i ){
         t=axionEOM.t_tab[i];
         std::cout<<t<<"\t";
         T=axionEOM.T_tab[i];

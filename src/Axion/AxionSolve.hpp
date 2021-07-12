@@ -165,14 +165,14 @@ namespace mimes{
 
         //these variables will be used to fill points (the points the solver takes)
     
-        LD theta,zeta,t,a,T,H2,ma2;
-        LD rho_axion;
+        LD theta=0,zeta=0,t=0,a=0,T=0,H2=0,ma2=0;
+        LD rho_axion=0;
 
         // we will need these for the peaks
-        LD zeta_prev,t_prev,theta_prev;
-        LD theta_peak,zeta_peak,t_peak,a_peak,T_peak,ma2_peak;
-        LD adInv_peak,rho_axion_peak;
-        LD an_diff;
+        LD zeta_prev=0,t_prev=0,theta_prev=0;
+        LD theta_peak=0,zeta_peak=0,t_peak=0,a_peak=0,T_peak=0,ma2_peak=0;
+        LD adInv_peak=0,rho_axion_peak=0;
+        LD an_diff=0;
 
         // this is the initial step (ie points[0])
         theta=y0[0];

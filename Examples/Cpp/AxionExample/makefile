@@ -16,7 +16,7 @@ LONG=$(shell cat $(rootDir).prep.long)
 METHOD=$(shell cat $(rootDir).prep.method) 
 PATH_INCLUDE=  -I$(rootDir)
 
-FLG= -$(OPT) -std=$(STD) -DLONG=$(LONG) $(PATH_INCLUDE) 
+FLG= -$(OPT) -std=$(STD) -DLONG=$(LONG) $(PATH_INCLUDE) -Wall
 
 DataFiles=$(wildcard $(rootDir)src/data/*.dat)
 Ros_Headers= $(wildcard $(rootDir)src/Rosenbrock/*.hpp) $(wildcard $(rootDir)src/Rosenbrock/LU/*.hpp)   

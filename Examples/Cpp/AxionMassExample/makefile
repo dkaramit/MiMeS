@@ -16,7 +16,7 @@ STD=c++17
 LONG=$(shell cat $(rootDir).prep.long) 
 PATH_INCLUDE=  -I$(rootDir)
 
-FLG= -$(OPT) -std=$(STD) -DLONG=$(LONG) $(PATH_INCLUDE) 
+FLG= -$(OPT) -std=$(STD) -DLONG=$(LONG) $(PATH_INCLUDE)  -Wall
 
 DataFiles=$(wildcard $(rootDir)src/data/*.dat)
 SPLINE_Headers=$(wildcard $(rootDir)src/Interpolation/*.hpp)

@@ -27,6 +27,8 @@ fi
 echo $METHOD>.prep.method
 
 
+LONG=`cat .prep.long`
+
 PathHead=src/misc_dir/path.hpp
 PathHeadPy=src/misc_dir/path.py
 PathTypePy=src/misc_dir/type.py
@@ -39,15 +41,16 @@ mkdir "src/misc_dir" 2> /dev/null
 echo "#ifndef PATHS_HEAD
 #define PATHS_HEAD
 
-#define cosmo_PATH \"$cosmoDat\" 
-#define chi_PATH \"$axMDat\" 
-#define anharmonic_PATH \"$anFDat\" 
+#define cosmo_PATH \"$PWD/$cosmoDat\" 
+#define chi_PATH \"$PWD/$axMDat\" 
+#define anharmonic_PATH \"$PWD/$anFDat\" 
 #define PWD \"$PWD\" 
 
 #endif
 ">$PathHead
 
 echo "_PATH_=\"$PWD\" "> $PathHeadPy
+
 
 echo "from ctypes import c_$LONG""double as cdouble"> $PathTypePy
 

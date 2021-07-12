@@ -19,7 +19,7 @@ LONG=$(shell cat .prep.long)
 METHOD=$(shell cat .prep.method)
 DataFiles=$(wildcard src/data/*.dat)
 
-FLG= -$(OPT) -std=$(STD) -DLONG=$(LONG) $(PATH_INCLUDE)
+FLG= -$(OPT) -std=$(STD) -DLONG=$(LONG) $(PATH_INCLUDE) -Wall
 
 Ros_Headers= $(wildcard src/Rosenbrock/*.hpp) $(wildcard src/Rosenbrock/LU/*.hpp)   
 SPLINE_Headers=$(wildcard src/Interpolation/*.hpp)
@@ -79,7 +79,7 @@ clean:
 deepClean: clean
 
 	rm -rf $(wildcard .prep.*)
-	rm -rf $(wildcard src/misc_dir/*)
+	rm -f $(wildcard Examples/scan/*.xtx)
 	rm -rf lib
 	rm -rf exec
 	rm -rf src/misc_dir

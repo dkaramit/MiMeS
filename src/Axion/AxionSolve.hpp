@@ -69,11 +69,11 @@ namespace mimes{
     template<class LD>
     class Axion{
         //-----Function type--------//
-        using sys= std::function<void (Array<LD> &lhs, Array<LD> &y, LD t)>;
+        using sys= std::function<void (Array<LD> &lhs, Array<LD> &y, LD u)>;
         using Solver=Ros<sys, Neqs, METHOD<LD>, Jacobian<sys, Neqs, LD>, LD>;
 
         public:
-        LD theta_i,fa,tmax,TSTOP,ratio_ini;
+        LD theta_i,fa,umax,TSTOP,ratio_ini;
         LD theta_osc, T_osc, a_osc; 
 
         LD gamma;//gamma is the entropy injection from the point of the last peak until T_stop (the point where interpolation stops)
@@ -93,7 +93,7 @@ namespace mimes{
         /*
         theta_i: initial angle
         fa: PQ scale in GeV (the temperature dependent mass is defined as m_a^2(T) = \chi(T)/f^2)
-        tmax: if t>tmax the integration stops (rempember that t=log(a/a_i))
+        umax: if u>umax the integration stops (rempember that u=log(a/a_i))
         TSTOP: if the temperature drops below this, integration stops
         ratio_ini: integration starts when 3H/m_a<~ratio_ini (this is passed to AxionEOM, 
         in order to make the interpolations start at this point)
@@ -101,14 +101,14 @@ namespace mimes{
         N_convergence_max and convergence_lim: integration stops after the adiabatic invariant 
         hasn't changed more than convergence_lim% for N_convergence_max consecutive peaks
 
-        inputFile: file that describes the cosmology. the columns should be: t T[GeV] logH
+        inputFile: file that describes the cosmology. the columns should be: u T[GeV] logH
         */ 
-        Axion(LD theta_i, LD fa, LD tmax, LD TSTOP, LD ratio_ini, 
+        Axion(LD theta_i, LD fa, LD umax, LD TSTOP, LD ratio_ini, 
                 unsigned int N_convergence_max, LD convergence_lim, std::string inputFile){
             this->theta_i=theta_i;
             this->fa=fa;
 
-            this->tmax=tmax;
+            this->umax=umax;
             this->TSTOP=TSTOP;
             this->ratio_ini=ratio_ini;
 
@@ -138,18 +138,18 @@ namespace mimes{
 
         AxionEOM<LD> axionEOM(theta_i, fa, ratio_ini, inputFile);
         
-        axionEOM.makeInt();//make the interpolations of t,T,logH from inputFile
+        axionEOM.makeInt();//make the interpolations of u,T,logH from inputFile
         
         //You find these as you load the data from inputFile 
         //(it is done automatically in the constructor of axionEOM)
         T_osc=axionEOM.T_osc;
-        a_osc=std::exp(axionEOM.t_osc);
+        a_osc=std::exp(axionEOM.u_osc);
 
         //use a lambda to pass axionEOM in the solver (the overhead should be minimal)
-        sys EOM = [&axionEOM](Array<LD> &lhs, Array<LD> &y, LD t){axionEOM(lhs, y, t);};
+        sys EOM = [&axionEOM](Array<LD> &lhs, Array<LD> &y, LD u){axionEOM(lhs, y, u);};
 
         // instance of the solver
-        Solver System(EOM, y0, tmax,
+        Solver System(EOM, y0, umax,
                         initial_step_size, minimum_step_size, maximum_step_size, maximum_No_steps,
                         absolute_tolerance, relative_tolerance, beta, fac_max,fac_min);
 
@@ -165,12 +165,12 @@ namespace mimes{
 
         //these variables will be used to fill points (the points the solver takes)
     
-        LD theta=0,zeta=0,t=0,a=0,T=0,H2=0,ma2=0;
+        LD theta=0,zeta=0,u=0,a=0,T=0,H2=0,ma2=0;
         LD rho_axion=0;
 
         // we will need these for the peaks
-        LD zeta_prev=0,t_prev=0,theta_prev=0;
-        LD theta_peak=0,zeta_peak=0,t_peak=0,a_peak=0,T_peak=0,ma2_peak=0;
+        LD zeta_prev=0,u_prev=0,theta_prev=0;
+        LD theta_peak=0,zeta_peak=0,u_peak=0,a_peak=0,T_peak=0,ma2_peak=0;
         LD adInv_peak=0,rho_axion_peak=0;
         LD an_diff=0;
 
@@ -192,14 +192,14 @@ namespace mimes{
         while (true){
             current_step++;// incease number of steps that the solver takes
 
-            //stop if you exceed tmax or if the solver takes more than maximum_No_steps, stop
+            //stop if you exceed umax or if the solver takes more than maximum_No_steps, stop
             if(System.tn>=System.tmax or current_step==System.max_N){break;}
             
             //take the next step
             System.next_step(); 
             //update y (y[0]=theta, y[1]=zeta)
             for (int eq = 0; eq < 2; eq++){System.yprev[eq]=System.ynext[eq];}
-            // increase t
+            // increase tn
             System.tn+=System.h;
 
             //rescale theta and zeta which will be stored in points
@@ -207,14 +207,14 @@ namespace mimes{
             theta=System.ynext[0]/theta_ini*theta_i;
             zeta=System.ynext[1]/theta_ini*theta_i;
 
-            //remember that t=log(a/a_i)
-            t=System.tn;
-            a=std::exp(t);
+            //remember that u=log(a/a_i)
+            u=System.tn;
+            a=std::exp(u);
 
-            //get the temperature which corresponds to t
-            T=axionEOM.Temperature(t);
-            //get the Hubble parameter squared which corresponds to t
-            H2=std::exp(axionEOM.logH2(t));
+            //get the temperature which corresponds to u
+            T=axionEOM.Temperature(u);
+            //get the Hubble parameter squared which corresponds to u
+            H2=std::exp(axionEOM.logH2(u));
 
             // If you use as T_osc the one provided by axionEOM, you will not have theta_osc.
             // So use this (it doesn't really matter, as T_osc is not a very well defined parameter)
@@ -249,16 +249,16 @@ namespace mimes{
                 //set check=true (this resets the check until the next peak)
                 check=true; 
                 
-                // use linear interpolation to find t at zeta=0
-                t_prev=std::log(points[current_step-1][0]);
+                // use linear interpolation to find u at zeta=0
+                u_prev=std::log(points[current_step-1][0]);
                 theta_prev=points[current_step-1][2];
                 zeta_prev=points[current_step-1][3];
                 // these are all the quantities at the peak
-                t_peak=(-zeta_prev*t+zeta*t_prev)/(zeta-zeta_prev);
-                a_peak=std::exp(t_peak);
-                theta_peak=((theta-theta_prev)*t_peak+(theta_prev*t-theta*t_prev))/(t-t_prev);
-                zeta_peak=((zeta-zeta_prev)*t_peak+(zeta_prev*t-zeta*t_prev))/(t-t_prev);
-                T_peak=axionEOM.Temperature(t_prev);
+                u_peak=(-zeta_prev*u+zeta*u_prev)/(zeta-zeta_prev);
+                a_peak=std::exp(u_peak);
+                theta_peak=((theta-theta_prev)*u_peak+(theta_prev*u-theta*u_prev))/(u-u_prev);
+                zeta_peak=((zeta-zeta_prev)*u_peak+(zeta_prev*u-zeta*u_prev))/(u-u_prev);
+                T_peak=axionEOM.Temperature(u_prev);
                 ma2_peak=axionMass.ma2(T_peak,fa);
 
                 //compute the adiabatic invariant
@@ -290,7 +290,7 @@ namespace mimes{
             if(N_convergence>=N_convergence_max){
                 //entropy injection from the point of the last peak until T_stop (the point where interpolation stops)
                 //the assumption is that at T_stop the universe is radiation dominated with constant entropy.
-                gamma=cosmo.s(axionEOM.T_stop)/cosmo.s(T_peak)*std::exp(3*(axionEOM.t_stop-t_peak));
+                gamma=cosmo.s(axionEOM.T_stop)/cosmo.s(T_peak)*std::exp(3*(axionEOM.u_stop-u_peak));
                 
                 //the relic of the axion
                 relic=h_hub*h_hub/rho_crit*cosmo.s(T0)/cosmo.s(T_peak)/gamma*0.5*

@@ -24,7 +24,7 @@ int main(int argc, char **argv){
     LD fa = 1e12;
 
     // solver parameters
-    LD tmax = 500; //t at which the integration stops 
+    LD umax = 500; //t at which the integration stops 
     LD TSTOP = 1e-3; // temperature at which integration stops
     LD ratio_ini=1e3; // 3H/m_a at which integration begins (should be larger than 500 or so)
     
@@ -34,7 +34,7 @@ int main(int argc, char **argv){
     unsigned int N_convergence_max=5;
     LD convergence_lim=1e-2;
     std::string  inputFile=std::string(PWD)+std::string("/Examples/InputExamples/RDinput.dat");
-    mimes::Axion<LD> Ax(theta_i, fa, tmax, TSTOP, ratio_ini, N_convergence_max,convergence_lim,inputFile);
+    mimes::Axion<LD> Ax(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max,convergence_lim,inputFile);
 
     Ax.solveAxion();
 

@@ -22,17 +22,17 @@
 int main(int argc, char **argv){ 
 
     if(argc!=9){
-        std::cout<<"usage: AxionExample.run theta_i f_a tmax TSTOP ratio_ini N_convergence_max convergence_lim inputFile\n";
+        std::cout<<"usage: AxionExample.run theta_i f_a umax TSTOP ratio_ini N_convergence_max convergence_lim inputFile\n";
         std::cout<<"With:\n\n \
         theta_i: initial angle\n\n \
         fa: PQ scale in GeV (the temperature dependent mass is defined as m_a^2(T) = \\chi(T)/f^2)\n\n \
-        tmax: if t>tmax the integration stops (rempember that t=log(a/a_i))\n\n \
+        umax: if u>umax the integration stops (rempember that u=log(a/a_i))\n\n \
         TSTOP: if the temperature drops below this, integration stops\n\n \
         ratio_ini: integration starts when 3H/m_a<~ratio_ini (this is passed to AxionEOM,\n \
         in order to make the interpolations start at this point)\n\n \
         N_convergence_max and convergence_lim: integration stops after the adiabatic invariant\n \
         hasn't changed more than convergence_lim% for N_convergence_max consecutive peaks\n\n \
-        inputFile: file that describes the cosmology. the columns should be: t T[GeV] logH\n";
+        inputFile: file that describes the cosmology. the columns should be: u T[GeV] logH\n";
 
         return 0;
     }
@@ -42,7 +42,7 @@ int main(int argc, char **argv){
     LD theta_i = atof(argv[1]) ;
     LD fa = atof(argv[2]);
     // solver parameters
-    LD tmax = atof(argv[3]); //t at which the integration stops 
+    LD umax = atof(argv[3]); //u at which the integration stops 
     LD TSTOP = atof(argv[4]); // temperature at which integration stops
     LD ratio_ini=atof(argv[5]); // 3H/m_a at which integration begins (should be larger than 500 or so)
     // stopping conditions.
@@ -50,12 +50,12 @@ int main(int argc, char **argv){
     // more than  convergence_lim% for N_convergence_max consecutive peaks
     unsigned int N_convergence_max=atoi(argv[6]);
     LD convergence_lim=atof(argv[7]);
-    //file in which the cosmology is defined. the columns should be : t T[GeV] logH
+    //file in which the cosmology is defined. the columns should be : u T[GeV] logH
     std::string  inputFile=argv[8];
     
 
     // instance of Axion
-    mimes::Axion<LD> Ax(theta_i, fa, tmax, TSTOP, ratio_ini, N_convergence_max,convergence_lim,inputFile);
+    mimes::Axion<LD> Ax(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max,convergence_lim,inputFile);
 
     // Solve the Axion EOM
     Ax.solveAxion();

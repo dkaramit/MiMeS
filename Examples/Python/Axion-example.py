@@ -10,7 +10,7 @@ from interfacePy.Cosmo import Hubble
 
 theta_i, fa=0.9445, 1e12
 
-tmax=500
+umax=500
 TSTOP=1e-4
 ratio_ini=1e2
 
@@ -26,7 +26,7 @@ inputFile="../InputExamples/RDinput.dat"
 
 
 # Axion instance
-ax=Axion(theta_i, fa, tmax, TSTOP, ratio_ini, N_convergence_max, convergence_lim, inputFile)
+ax=Axion(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max, convergence_lim, inputFile)
 
 # solve the EOM (this only gives you the relic, T_osc, theta_osc, and a_osc)
 ax.solve()

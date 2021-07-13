@@ -32,14 +32,14 @@ int main(int argc, char **argv){
     axionEOM.makeInt();
 
     std::cout<<"T_osc~= "<<axionEOM.T_osc<<" GeV"<<std::endl;
-    std::cout<<"a_osc~= "<<std::exp(axionEOM.t_osc)<<std::endl;
+    std::cout<<"a_osc~= "<<std::exp(axionEOM.u_osc)<<std::endl;
 
     LD t, T, logH2;
     // check if the file is read
     #ifdef readCheck
     std::cout<<"------------check if the file is read-----------"<<std::endl;
-    for(size_t i=0; i<axionEOM.t_tab.size(); ++i ){
-        std::cout<<axionEOM.t_tab[i]<<"\t"<<axionEOM.T_tab[i]<<"\t"<<axionEOM.logH2_tab[i]<<"\n";
+    for(size_t i=0; i<axionEOM.u_tab.size(); ++i ){
+        std::cout<<axionEOM.u_tab[i]<<"\t"<<axionEOM.T_tab[i]<<"\t"<<axionEOM.logH2_tab[i]<<"\n";
     }
     #endif
 
@@ -48,8 +48,8 @@ int main(int argc, char **argv){
     // check if interpolation gives the same numbers on the points from the file
     #ifdef interpolationVSreadCheck
     std::cout<<"------------check if interpolation gives the same numbers on the points from the file-----------"<<std::endl;
-    for(size_t i=0; i<axionEOM.t_tab.size(); ++i ){
-        t=axionEOM.t_tab[i];
+    for(size_t i=0; i<axionEOM.u_tab.size(); ++i ){
+        t=axionEOM.u_tab[i];
         std::cout<<t<<"\t";
         T=axionEOM.T_tab[i];
         std::cout<<std::abs((T - axionEOM.Temperature(t))/T) <<"\t";
@@ -67,8 +67,8 @@ int main(int argc, char **argv){
         std::cout<<t<<"\t";
         std::cout<<axionEOM.Temperature(t) <<"\t";
         std::cout<<axionEOM.logH2(t)<<"\t";
-        std::cout<<axionEOM.dlogH2dt(t)<<"\n";
-        t+=axionEOM.t_stop/(Npoints-10) ;///the last few points should be the same as I make the interpolation return T_stop and logH2_stop if I go beyond t_stop 
+        std::cout<<axionEOM.dlogH2du(t)<<"\n";
+        t+=axionEOM.u_stop/(Npoints-10) ;///the last few points should be the same as I make the interpolation return T_stop and logH2_stop if I go beyond t_stop 
     }
     #endif
 

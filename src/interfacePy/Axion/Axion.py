@@ -59,13 +59,13 @@ class Axion:
     However, the only thing one needs to remember is to delete any instance of this class
     once the calculations are done. 
     '''
-    def __init__(self, theta_i, fa, tmax, TSTOP, ratio_ini, N_convergence_max,convergence_lim,inputFile):
+    def __init__(self, theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max,convergence_lim,inputFile):
         '''
         The constructor of the Axion class. 
         
         theta_i: initial angle
         fa: PQ scale in GeV (the temperature dependent mass is defined as m_a^2(T) = \chi(T)/f^2)
-        tmax: if t>tmax the integration stops (rempember that t=log(a/a_i))
+        umax: if u>umax the integration stops (rempember that u=log(a/a_i))
         TSTOP: if the temperature drops below this, integration stops
         ratio_ini: integration starts when 3H/m_a<~ratio_ini (this is passed to AxionEOM, 
         in order to make the interpolations start at this point)
@@ -73,7 +73,7 @@ class Axion:
         N_convergence_max and convergence_lim: integration stops after the adiabatic invariant 
         hasn't changed more than convergence_lim% for N_convergence_max consecutive peaks
 
-        inputFile: file that describes the cosmology. the columns should be: t T[GeV] logH
+        inputFile: file that describes the cosmology. the columns should be: u T[GeV] logH
         '''
         
         self.theta_i, self.fa=theta_i, fa
@@ -81,7 +81,7 @@ class Axion:
         self.voidAx=void_p()
         _file_=char_p(bytes(inputFile, encoding='utf-8'))
 
-        self.voidAx=axionLib.INIT(theta_i, fa, tmax, TSTOP, ratio_ini, N_convergence_max, convergence_lim, _file_)
+        self.voidAx=axionLib.INIT(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max, convergence_lim, _file_)
 
         self.a_peak=[]
         self.T_peak=[]

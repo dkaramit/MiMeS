@@ -3,7 +3,7 @@ from numpy import logspace
 
 from sys import path as sysPath
 from os import path as osPath
-sysPath.append(osPath.join(osPath.dirname(__file__), '../../'))
+sysPath.append(osPath.join(osPath.dirname(__file__), '../../src'))
 
 #load the module
 import interfacePy.Cosmo as Cosmo

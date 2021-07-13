@@ -3,7 +3,7 @@ from numpy import linspace, pi
 
 from sys import path as sysPath
 from os import path as osPath
-sysPath.append(osPath.join(osPath.dirname(__file__), '../../'))
+sysPath.append(osPath.join(osPath.dirname(__file__), '../../src'))
 #load the module
 from interfacePy.AnharmonicFactor import anharmonicFactor #load the anharmonicFactor function form the AnharmonicFactor module
 

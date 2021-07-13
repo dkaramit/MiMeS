@@ -18,3 +18,5 @@
 *.bbl 
 *.blg 
 *.synctex.gz
+*MiMeS.pdf
+*_minted-MiMeS*

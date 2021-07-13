@@ -13,6 +13,10 @@
 \usepackage{float}
 \usepackage{subcaption}
 
+\usepackage{minted}
+\usepackage[dvipsnames]{xcolor}
+
+
 \renewcommand{\theequation}{\arabic{section}.\arabic{equation}}
 
 
@@ -41,27 +45,27 @@
 \maketitle
 
 \begin{abstract}
-	We introduce a \cpp header-only library that solves the Axion equation of motion, \mimes.  
+	We introduce a \CPP header-only library that solves the Axion equation of motion, \mimes.  
 	\mimes makes no assumptions regarding the cosmology and the thermal mass of the axion, which allows the user 
 	to consider various cosmological scenarios and axion-like models.
-	Moreover, although is written entirely in \cpp, \mimes comes with a convenient \py interface, which does not require the
-	user to write any code in \cpp.
+	Moreover, although is written entirely in \CPP, \mimes comes with a convenient \PY interface, which does not require the
+	user to write any code in \CPP.
 \end{abstract}
 
 
 \section{Introduction}\label{sec:intro}
 \setcounter{equation}{0}
 
-\section{Installation}\label{sec:install}
+About the axion...
+
+
+
+\section{Download and first steps}\label{sec:install}
 \setcounter{equation}{0}
 
-The library can be found in 
+The library can downloaded from \href{https://github.com/dkaramit/MiMeS}{github.com/dkaramit/MiMeS}. Once download is complete, we can go inside the \mimes directory, and run {\tt bash configure.sh} and  {\tt make}.  The {\tt bash} script {\tt configure.sh}, downloads parts of {\tt NaBBODES} and {\tt SimpleSplines}~\footnote{\href{https://github.com/dkaramit/NaBBODES}{\tt NaBBODES} is header-only library for ODE integration, and \href{https://github.com/dkaramit/SimpleSplines}{\tt SimpleSplines} is header-only library for spline interpolation.}, writes some files, and  makes some directories, needed \mimes. The {\tt makefile} is responsible for compiling some examples and checks, as well as the shared libraries that we need, for the \PY interface.  If everything runs successfully, there should be two new directories {\tt exec} and {\tt lib}. Inside {\tt exec}, there are several executables that we can run, in order to ensure that the code runs (\eg no segmentation fault occurs). For example, {\tt exec/AxionSolve\_check.run}, should print the values of the parameters $\thetai$ and $\fa$, the oscillation temperature and the corresponding value of $\theta$, the evolution of the axion (\eg temperature, $\theta$, $\rho_a$, etc.), and the values of various quantities on the peaks of the oscillation.  In the directory {\tt lib}, there are several shared libraries, that the \PY interface needs.
 
-
-
-
-
-
+For the first steps, there is a directory that contains several examples in \CPP, \PY, and \JUPY notebooks, that show in detail how \mimes can be used.
 
 
 \section{Axion density}\label{sec:density}

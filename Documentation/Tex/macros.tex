@@ -1,5 +1,5 @@
 \usepackage{ifthen}
-\usepackage[dvipsnames]{xcolor}
+
 \usepackage{tikz}
 
 
@@ -12,7 +12,14 @@
 \newenvironment{DKres}[1]{{\color{BrickRed}RESTRUCTURED from D: #1}}
 
 
+\definecolor{mediumjunglegreen}{rgb}{0.11, 0.21, 0.18}
+\definecolor{bg}{HTML}{282828}
 
+
+
+\newenvironment{cpp}{\usemintedstyle{xcode}\VerbatimEnvironment\begin{minted}[frame=lines,framesep=5mm,baselinestretch=1.2,fontsize=\footnotesize,linenos,mathescape]{cpp}}{\end{minted}} 
+
+\newenvironment{py}{\usemintedstyle{xcode}\VerbatimEnvironment\begin{minted}[frame=lines,framesep=5mm,baselinestretch=1.2,fontsize=\footnotesize,linenos,mathescape]{py}}{\end{minted}} 
 
 \newcommand{\dint}{  \displaystyle \int }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -25,10 +32,12 @@
 
 \newcommand{\mimes}{{\tt MiMeS} }
 
-\newcommand{\cpp}{{\tt C++} }
+\newcommand{\CPP}{{\tt C++} }
 
-\newcommand{\py}{{\tt python} }
+\newcommand{\PY}{{\tt python} }
 	
+\newcommand{\JUPY}{{\tt jupyter } }
+
 \newcommand{\rhs}{RHS }
 \newcommand{\lhs}{LHS }
 

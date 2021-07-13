@@ -1,30 +1,24 @@
 TEX=pdflatex
 BIB=bibtex
 
-figs = $(wildcard *.pdf)
+figs = $(wildcard figs/*.pdf)
 
 #make the pdf
-all:  axion_analytical.pdf
+all:  ../MiMeS.pdf
 
 #run pdflatex and bibtex (runs only if you update something in pdfs or in the tex file)
-axion_analytical.pdf:  $(figs) axion_analytical.tex refs.bib
-	$(TEX) "axion_analytical.tex" 
-	$(BIB) "axion_analytical" || true
-	$(TEX) "axion_analytical.tex" 
-	$(TEX) -synctex=1  "axion_analytical.tex"
-	rm *.aux || true
-	rm *.log || true
-	rm *.out || true
-	rm *.blg || true
+../MiMeS.pdf:  $(figs) MiMeS.tex refs.bib makefile
+	$(TEX) MiMeS.tex 
+	$(BIB) MiMeS || true
+	$(TEX) MiMeS.tex
+	mv MiMeS.pdf ../
 
-
-#remove all output except the pdf file
+	#remove all output except the pdf file
+	rm -f *.aux 
+	rm -f *.log 
+	rm -f *.out 
+	rm -f *.bbl 
+	rm -f *.blg 
 clean:
-	rm "axion_analytical.pdf" || true
-	rm *.synctex.gz || true
-	rm *.aux || true
-	rm *.log || true
-	rm *.out || true
-	rm *.bbl || true
-	rm *.blg || true
+	rm -f ../MiMeS.pdf 
 	

@@ -35,7 +35,7 @@ AxionMisc_Headers= $(wildcard src/AxionMass/AxionMass.cpp) $(wildcard src/AxionM
 
 Static_Headers= $(wildcard src/static.hpp) 
 
-all: lib exec examples
+all: lib exec examples doc
 
 lib: lib/libCosmo.so lib/libma.so lib/libanfac.so lib/Axion_py.so
 	
@@ -73,6 +73,7 @@ clean:
 	rm -rf $(wildcard exec/*)
 	rm -rf $(wildcard Examples/Python/*_examplePlot.pdf)
 	cd Examples/Cpp && $(MAKE) clean
+	cd Documentation/Tex && $(MAKE) clean
 
 
 #deletes directories that configure.sh made
@@ -117,3 +118,7 @@ AxionSolve_cpp=$(wildcard src/Axion/checks/AxionSolve_check.cpp)
 # check interpolations of the Axion_eom class 
 exec/AxionSolve_check.run: $(Axion_Headers) $(PathHead) $(AxionSolve_cpp) $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) makefile $(AxionMisc_Headers) $(Static_Headers)
 	$(CC) -o exec/AxionSolve_check.run src/Axion/checks/AxionSolve_check.cpp $(FLG) -DMETHOD=$(METHOD) 
+
+
+doc:
+	cd Documentation/Tex && $(MAKE)

@@ -1,0 +1,9 @@
+\providecommand{\href}[2]{#2}\begingroup\raggedright\begin{thebibliography}{1}
+
+\bibitem{Borsanyi:2016ksw}
+S.~Borsanyi et~al., {\it {Calculation of the axion mass based on
+  high-temperature lattice quantum chromodynamics}},  {\em Nature} {\bf 539}
+  (2016), no.~7627 69--71, [\href{http://arxiv.org/abs/1606.07494}{{\tt
+  arXiv:1606.07494}}].
+
+\end{thebibliography}\endgroup

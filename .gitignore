@@ -12,3 +12,9 @@
 *src/Interpolation
 .prep.*
 *.xtx
+*.aux 
+*.log 
+*.out 
+*.bbl 
+*.blg 
+*.synctex.gz

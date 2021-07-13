@@ -60,14 +60,44 @@ if [ -d "src/Rosenbrock" ]
 then
     echo "Rosenbrock exists. Nothing to do here."
 else
-    bash src/clone_Ros.sh
+    # bash src/clone_Ros.sh
+    curl -JLO https://github.com/dkaramit/NaBBODES/archive/refs/heads/stable.zip
+    unzip NaBBODES-stable.zip 
+    rm NaBBODES-stable.zip 
+
+    cd NaBBODES-stable/Rosenbrock
+
+    mv METHOD.hpp Ros_METHOD.hpp 
+
+    cd ../../
+
+    mkdir src/Rosenbrock
+    mkdir src/Rosenbrock/LU
+
+    mv  NaBBODES-stable/Rosenbrock/*.hpp src/Rosenbrock
+    mv NaBBODES-stable/Rosenbrock/Jacobian/Jacobian.hpp src/Rosenbrock
+    
+    mv  NaBBODES-stable/Rosenbrock/LU/*.hpp src/Rosenbrock/LU
+
+    rm -r NaBBODES-stable
 fi
 
 if [ -d "src/Interpolation" ]
 then
     echo "Spline exists. Nothing to do here."
 else
-    bash src/clone_Spline.sh
+    # bash src/clone_Spline.sh
+    curl -JLO https://github.com/dkaramit/SimpleSplines/archive/refs/heads/stable.zip
+
+    unzip SimpleSplines-stable.zip 
+    rm SimpleSplines-stable.zip 
+
+
+    mkdir src/Interpolation
+    mv  SimpleSplines-stable/*.hpp src/Interpolation
+
+    rm -r SimpleSplines-stable
+
 fi
 
 

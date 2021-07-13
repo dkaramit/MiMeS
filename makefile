@@ -35,7 +35,7 @@ AxionMisc_Headers= $(wildcard src/AxionMass/AxionMass.cpp) $(wildcard src/AxionM
 
 Static_Headers= $(wildcard src/static.hpp) 
 
-all: lib exec examples doc
+all: lib exec examples
 
 lib: lib/libCosmo.so lib/libma.so lib/libanfac.so lib/Axion_py.so
 	
@@ -120,5 +120,6 @@ exec/AxionSolve_check.run: $(Axion_Headers) $(PathHead) $(AxionSolve_cpp) $(Ros_
 	$(CC) -o exec/AxionSolve_check.run src/Axion/checks/AxionSolve_check.cpp $(FLG) -DMETHOD=$(METHOD) 
 
 
+# produce the documentation pdf
 doc:
 	cd Documentation/Tex && $(MAKE)

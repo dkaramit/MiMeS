@@ -72,23 +72,23 @@ fi
 
 
 # cloc --match-f='(\.cpp|\.hpp|\.py)' ./ | awk '(NR>5)'
-RED='\033[0;31m'
-BLUE='\033[0;34m'
-
-echo -e "${RED}License:"
+echo -e "License:"
 cat LICENSE
 
-printf "\n\n\n"
+echo ""
+echo ""
+echo ""
 
-echo  -e "${BLUE}Welcome to\n 
+echo  -e "\033[1;5;35m 
   __  __   _   __  __           _____ 
  |  \/  | (_) |  \/  |         / ____|
  | \  / |  _  | \  / |   ___  | (___  
  | |\/| | | | | |\/| |  / _ \  \___ \ 
  | |  | | | | | |  | | |  __/  ____) |
- |_|  |_| |_| |_|  |_|  \___| |_____/ 
-
+ |_|  |_| |_| |_|  |_|  \___| |_____/
 "
+
+
 echo  -e "\033[0;97m 
 You can run \"make\" to compile everything. After that, you will find several examples in Examples/, 
 and you can run the executables in exec/ in order to see if the code actually works.

@@ -4,10 +4,10 @@ OPT=O3 #this should be fast and safe
 # OPT=Ofast #this is usually bit faster than O3 but can cause issues (I haven't observed any though)
 
 #you can inlude more things here
-PATH_INCLUDE=  -I./
+PATH_INCLUDE= -I./
 
 #compiler. I use g++, and haven't tested anything else.
-CC=g++  
+CC=g++ 
 
 #c++ std
 STD=c++17
@@ -21,10 +21,10 @@ DataFiles=$(wildcard src/data/*.dat)
 
 FLG= -$(OPT) -std=$(STD) -DLONG=$(LONG) $(PATH_INCLUDE) -Wall
 
-Ros_Headers= $(wildcard src/Rosenbrock/*.hpp) $(wildcard src/Rosenbrock/LU/*.hpp)   
+Ros_Headers= $(wildcard src/Rosenbrock/*.hpp) $(wildcard src/Rosenbrock/LU/*.hpp) 
 SPLINE_Headers=$(wildcard src/Interpolation/*.hpp)
 
-Axion_Headers= $(wildcard src/Axion/*.hpp)   
+Axion_Headers= $(wildcard src/Axion/*.hpp) 
 
 PathHead=src/misc_dir/path.hpp
 PathHeadPy=src/misc_dir/path.py
@@ -37,26 +37,26 @@ Static_Headers= $(wildcard src/static.hpp)
 
 all: lib exec examples
 
-lib: lib/libCosmo.so lib/libma.so lib/libanfac.so  lib/Axion_py.so
+lib: lib/libCosmo.so lib/libma.so lib/libanfac.so lib/Axion_py.so
 	
 exec: check
 
 #shared libraries that can be used from python
-lib/libCosmo.so: $(PathHead)  $(PathHeadPy) $(PathTypePy) $(DataFiles) $(SPLINE_Headers) $(Cosmo_Headers) $(Static_Headers) makefile
-	$(CC)  -o lib/libCosmo.so -fPIC src/Cosmo/Cosmo.cpp -shared   $(FLG) 
+lib/libCosmo.so: $(PathHead) $(PathHeadPy) $(PathTypePy) $(DataFiles) $(SPLINE_Headers) $(Cosmo_Headers) $(Static_Headers) makefile
+	$(CC) -o lib/libCosmo.so -fPIC src/Cosmo/Cosmo.cpp -shared $(FLG) 
 
-lib/libma.so: $(PathHead)  $(PathHeadPy) $(PathTypePy) $(DataFiles) $(SPLINE_Headers) $(AxionMisc_Headers) $(Static_Headers) makefile
-	$(CC) -o lib/libma.so -fPIC src/AxionMass/AxionMass.cpp -shared  $(FLG) 
+lib/libma.so: $(PathHead) $(PathHeadPy) $(PathTypePy) $(DataFiles) $(SPLINE_Headers) $(AxionMisc_Headers) $(Static_Headers) makefile
+	$(CC) -o lib/libma.so -fPIC src/AxionMass/AxionMass.cpp -shared $(FLG) 
 
-lib/libanfac.so: $(PathHead)  $(PathHeadPy) $(PathTypePy) $(DataFiles) $(SPLINE_Headers) $(AxionMisc_Headers) $(Static_Headers) makefile
-	$(CC)  -o lib/libanfac.so -fPIC src/AnharmonicFactor/AnharmonicFactor.cpp -shared $(FLG) 
+lib/libanfac.so: $(PathHead) $(PathHeadPy) $(PathTypePy) $(DataFiles) $(SPLINE_Headers) $(AxionMisc_Headers) $(Static_Headers) makefile
+	$(CC) -o lib/libanfac.so -fPIC src/AnharmonicFactor/AnharmonicFactor.cpp -shared $(FLG) 
 #######################################################################################################
 
 
 #shared library for the evolution of the axion that can be used from python
 Axion_py=$(wildcard src/Axion/Axion-py.cpp)
-lib/Axion_py.so: $(PathHead)  $(PathHeadPy) $(PathTypePy) $(Axion_py) $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) $(Axion_Headers) makefile $(AxionMisc_Headers) $(Static_Headers) lib/libCosmo.so lib/libma.so lib/libanfac.so 
-	 $(CC)  -o lib/Axion_py.so -fPIC src/Axion/Axion-py.cpp -shared  $(FLG) -DMETHOD=$(METHOD)
+lib/Axion_py.so: $(PathHead) $(PathHeadPy) $(PathTypePy) $(Axion_py) $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) $(Axion_Headers) makefile $(AxionMisc_Headers) $(Static_Headers) lib/libCosmo.so lib/libma.so lib/libanfac.so 
+	 $(CC) -o lib/Axion_py.so -fPIC src/Axion/Axion-py.cpp -shared $(FLG) -DMETHOD=$(METHOD)
 
 
 
@@ -93,27 +93,27 @@ check: exec/AxionEOM_check.run exec/AxionSolve_check.run exec/AnharmonicFactor_c
 
 Cosmo_cpp=$(wildcard src/Cosmo/checks/Cosmo_check.cpp)
 # check anharmonic factor interpolation
-exec/Cosmo_check.run: $(PathHead)  $(Cosmo_cpp) $(DataFiles) $(SPLINE_Headers) makefile
+exec/Cosmo_check.run: $(PathHead) $(Cosmo_cpp) $(DataFiles) $(SPLINE_Headers) makefile
 	$(CC) -o exec/Cosmo_check.run src/Cosmo/checks/Cosmo_check.cpp $(FLG) 
 
 
 AnFac_cpp=$(wildcard src/AnharmonicFactor/checks/AnharmonicFactor_check.cpp)
 # check anharmonic factor interpolation
-exec/AnharmonicFactor_check.run: $(PathHead)  $(AnFac_cpp) $(DataFiles) $(SPLINE_Headers) $(AxionMisc_Headers)  makefile
+exec/AnharmonicFactor_check.run: $(PathHead) $(AnFac_cpp) $(DataFiles) $(SPLINE_Headers) $(AxionMisc_Headers) makefile
 	$(CC) -o exec/AnharmonicFactor_check.run src/AnharmonicFactor/checks/AnharmonicFactor_check.cpp $(FLG) 
 
 AxM_cpp=$(wildcard src/AxionMass/checks/AxionMass_check.cpp)
 # check axion mass interpolation
-exec/AxionMass_check.run: $(PathHead)  $(AxM_cpp) $(DataFiles) $(SPLINE_Headers) $(AxionMisc_Headers)  makefile
+exec/AxionMass_check.run: $(PathHead) $(AxM_cpp) $(DataFiles) $(SPLINE_Headers) $(AxionMisc_Headers) makefile
 	$(CC) -o exec/AxionMass_check.run src/AxionMass/checks/AxionMass_check.cpp $(FLG) 
 
 
 AxionEOM_cpp=$(wildcard src/Axion/checks/AxionEOM_check.cpp)
 # check interpolations of the Axion_eom class 
 exec/AxionEOM_check.run: $(Axion_Headers) $(PathHead) $(AxionEOM_cpp) $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) makefile $(AxionMisc_Headers) $(Static_Headers)
-	$(CC) -o exec/AxionEOM_check.run src/Axion/checks/AxionEOM_check.cpp   $(FLG)    -DMETHOD=$(METHOD)  
+	$(CC) -o exec/AxionEOM_check.run src/Axion/checks/AxionEOM_check.cpp $(FLG) -DMETHOD=$(METHOD) 
 
 AxionSolve_cpp=$(wildcard src/Axion/checks/AxionSolve_check.cpp)
 # check interpolations of the Axion_eom class 
 exec/AxionSolve_check.run: $(Axion_Headers) $(PathHead) $(AxionSolve_cpp) $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) makefile $(AxionMisc_Headers) $(Static_Headers)
-	$(CC) -o exec/AxionSolve_check.run src/Axion/checks/AxionSolve_check.cpp   $(FLG)    -DMETHOD=$(METHOD)  
+	$(CC) -o exec/AxionSolve_check.run src/Axion/checks/AxionSolve_check.cpp $(FLG) -DMETHOD=$(METHOD) 

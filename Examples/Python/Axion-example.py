@@ -2,7 +2,7 @@ from numpy import array as np_array
 
 from sys import path as sysPath
 from os import path as osPath
-sysPath.append(osPath.join(osPath.dirname(__file__), '../../'))
+sysPath.append(osPath.join(osPath.dirname(__file__), '../../src'))
 
 #load the module
 from interfacePy.Axion import Axion 

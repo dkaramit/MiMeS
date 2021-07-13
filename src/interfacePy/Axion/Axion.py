@@ -3,8 +3,13 @@ from numpy import array as np_array
 
 from time import time
 
-from src.misc_dir.path import _PATH_
-from src.misc_dir.type import cdouble
+from sys import path as sysPath
+from os import path as osPath
+
+sysPath.append(osPath.join(osPath.dirname(__file__), '../../'))
+
+from misc_dir.path import _PATH_
+from misc_dir.type import cdouble
 
 cint=c_int
 void_p=c_void_p

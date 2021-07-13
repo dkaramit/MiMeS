@@ -63,7 +63,7 @@ lib/Axion_py.so: $(PathHead)  $(PathHeadPy) $(PathTypePy) $(Axion_py) $(Ros_Head
 
 # make the examples in Examples/Cpp
 examples: $(PathHead)
-	cd Examples/Cpp && $(MAKE)
+	$(MAKE) -C Examples/Cpp
 
 
 #cleans whatever make all created

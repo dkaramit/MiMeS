@@ -1,23 +1,23 @@
 #make the examples
 
 
-all: AnharmonicFactor  Axion  AxionMass  Cosmo 
+all: anharmonicFactor  axion  axionMass  aosmo 
 
-AnharmonicFactor:
-	cd AnharmonicFactorExample && $(MAKE)
+anharmonicFactor:
+	cd AnharmonicFactor && $(MAKE)
 
-Axion:
-	cd AxionExample && $(MAKE)
+axion:
+	cd Axion && $(MAKE)
 
-AxionMass:
-	cd AxionMassExample && $(MAKE)
+axionMass:
+	cd AxionMass && $(MAKE)
 
-Cosmo:
-	cd CosmoExample && $(MAKE)
+aosmo:
+	cd Cosmo && $(MAKE)
 
 
 clean:
-	rm -f AnharmonicFactorExample/*.run
-	rm -f AxionExample/*.run
-	rm -f AxionMassExample/*.run
-	rm -f CosmoExample/*.run
+	rm -f AnharmonicFactor/*.run
+	rm -f Axion/*.run
+	rm -f AxionMass/*.run
+	rm -f Cosmo/*.run

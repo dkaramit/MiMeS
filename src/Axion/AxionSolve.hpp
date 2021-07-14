@@ -18,8 +18,8 @@
 #include "src/Rosenbrock/Ros_step_control-simple.hpp"
 // #include "src/Rosenbrock/Ros_step_control-PI.hpp"
 #include "src/Rosenbrock/Ros_steps.hpp"
-#include "src/Rosenbrock/Jacobian.hpp"
-#include "src/Rosenbrock/Ros_METHOD.hpp"
+#include "src/Rosenbrock/Jacobian/Jacobian.hpp"
+#include "src/Rosenbrock/METHOD.hpp"
 
 
 
@@ -35,20 +35,22 @@
 but generally if it is safer to be clase to the maximum allowed one.*/
 #define initial_step_size 1e-2
 /*maximum stepsize. This limits the sepsize to an upper limit.*/ 
-#define maximum_step_size 1e-2 
+#define maximum_step_size 1e-2
 //-----------------------------------------------//
 /*If the solver takes more than maximum_No_steps, it quits, even if integration is not complete. 
 One should tweak the other parameters, in order to avoid this. */
 #define maximum_No_steps int(1e7)
-/*relative and absolute tolerances. Generally, 1e-8 is good, but in some case one may need more accurate result. 
-However, if the tolerances are below 1e-8, long doubles *must* beused.*/
+/*relative and absolute tolerances. Generally, 1e-8 should be enough, 
+but in some case one may need more accurate result. However, if the 
+tolerances are below 1e-8, long doubles *must* beused.*/
 #define absolute_tolerance 1e-8
 #define relative_tolerance 1e-8
-/*beta controls how agreesive the adaptation is. Generally, it should be around 0.9.*/
-#define beta 0.9
+/*beta controls how agreesive the adaptation is. Generally, it should be around but less than 1.*/
+#define beta 0.95
 /*the stepsize does not increase more than fac_max, and less than fac_min. This ensure
-a better stability. Ideally, both should be close to 1, but in reality one must tweak them.*/
-#define fac_max 1.05
+a better stability. Ideally, fac_max=inf and fac_min=0, but in reality one must tweak them in order to 
+avoid instabilities.*/
+#define fac_max 1.2
 #define fac_min 0.8
 /*================================*/
 

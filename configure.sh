@@ -50,8 +50,6 @@ echo "#ifndef PATHS_HEAD
 ">$PathHead
 
 echo "_PATH_=\"$PWD\" "> $PathHeadPy
-
-
 echo "from ctypes import c_$LONG""double as cdouble"> $PathTypePy
 
 
@@ -67,17 +65,17 @@ else
 
     cd NaBBODES-stable/Rosenbrock
 
-    mv METHOD.hpp Ros_METHOD.hpp 
+    mv METHOD.hpp METHOD.hpp 
 
     cd ../../
 
     mkdir src/Rosenbrock
     mkdir src/Rosenbrock/LU
+    mkdir src/Rosenbrock/Jacobian
 
-    mv  NaBBODES-stable/Rosenbrock/*.hpp src/Rosenbrock
-    mv NaBBODES-stable/Rosenbrock/Jacobian/Jacobian.hpp src/Rosenbrock
-    
-    mv  NaBBODES-stable/Rosenbrock/LU/*.hpp src/Rosenbrock/LU
+    mv  NaBBODES-stable/Rosenbrock/*.hpp                 src/Rosenbrock
+    mv  NaBBODES-stable/Rosenbrock/Jacobian/Jacobian.hpp src/Rosenbrock/Jacobian
+    mv  NaBBODES-stable/Rosenbrock/LU/*.hpp              src/Rosenbrock/LU
 
     rm -r NaBBODES-stable
 fi
@@ -92,12 +90,10 @@ else
     unzip SimpleSplines-stable.zip 
     rm SimpleSplines-stable.zip 
 
-
     mkdir src/Interpolation
     mv  SimpleSplines-stable/*.hpp src/Interpolation
 
     rm -r SimpleSplines-stable
-
 fi
 
 

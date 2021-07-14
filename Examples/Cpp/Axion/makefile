@@ -34,15 +34,15 @@ Static_Headers= $(wildcard $(rootDir)src/static.hpp)
 
 
 
-all: AxionExample.run
+all: Axion.run
 
-AxionExample.run: AxionExample.cpp makefile\
+Axion.run: Axion.cpp makefile\
 					$(Axion_Headers) $(AxionMisc_Headers) $(Cosmo_Headers)\
 					$(DataFiles) $(PathHead) $(Static_Headers)\
 					$(Ros_Headers) $(SPLINE_Headers)
 
-	$(CC) -o AxionExample.run AxionExample.cpp $(FLG) -DMETHOD=$(METHOD) 
+	$(CC) -o Axion.run Axion.cpp $(FLG) -DMETHOD=$(METHOD) 
 
 
 make clean:
-	rm -f AxionExample.run
+	rm -f Axion.run

@@ -12,24 +12,26 @@ CC=g++ #compiler. I use g++, and haven't tested anything else.
 STD=c++17
 # STD=c++11 #this should also work
 
-LONG=$(shell cat $(rootDir).prep.long) 
+
+LONG=$(shell cat $(rootDir)/.prep.long) 
+
 PATH_INCLUDE=  -I$(rootDir)
 
-FLG= -$(OPT) -std=$(STD) -DLONG=$(LONG) $(PATH_INCLUDE) -Wall
+FLG= -$(OPT) -std=$(STD) -DLONG=$(LONG) $(PATH_INCLUDE)  -Wall
 
 DataFiles=$(wildcard $(rootDir)src/data/*.dat)
 SPLINE_Headers=$(wildcard $(rootDir)src/Interpolation/*.hpp)
 
 PathHead=$(rootDir)src/misc_dir/path.hpp
 
-Cosmo_Headers=$(wildcard $(rootDir)src/Cosmo/Cosmo.hpp)
+AnFac_Headers=$(wildcard $(rootDir)src/AnharmonicFactor/AnharmonicFactor.hpp)
 
-all: CosmoExample.run
+all: AnharmonicFactor.run
 
-CosmoExample.run: CosmoExample.cpp makefile $(Cosmo_Headers) $(DataFiles) $(PathHead) $(SPLINE_Headers)
+AnharmonicFactor.run: AnharmonicFactor.cpp makefile $(AnFac_Headers) $(DataFiles) $(PathHead) $(SPLINE_Headers)
 
-	$(CC) -o CosmoExample.run CosmoExample.cpp $(FLG)
+	$(CC) -o AnharmonicFactor.run AnharmonicFactor.cpp $(FLG)
 
 
 make clean:
-	rm -f CosmoExample.run
+	rm -f AnharmonicFactor.run

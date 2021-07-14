@@ -13,8 +13,7 @@ STD=c++17
 # STD=c++11 #this should also work
 
 
-LONG=$(shell cat $(rootDir)/.prep.long) 
-
+LONG=$(shell cat $(rootDir).prep.long) 
 PATH_INCLUDE=  -I$(rootDir)
 
 FLG= -$(OPT) -std=$(STD) -DLONG=$(LONG) $(PATH_INCLUDE)  -Wall
@@ -24,14 +23,14 @@ SPLINE_Headers=$(wildcard $(rootDir)src/Interpolation/*.hpp)
 
 PathHead=$(rootDir)src/misc_dir/path.hpp
 
-AnFac_Headers=$(wildcard $(rootDir)src/AnharmonicFactor/AnharmonicFactor.hpp)
+AxionMass_Headers=$(wildcard $(rootDir)src/AxionMass/AxionMass.hpp)
 
-all: AnharmonicFactorExample.run
+all: AxionMass.run
 
-AnharmonicFactorExample.run: AnharmonicFactorExample.cpp makefile $(AnFac_Headers) $(DataFiles) $(PathHead) $(SPLINE_Headers)
+AxionMass.run: AxionMass.cpp makefile $(AxionMass_Headers) $(DataFiles) $(PathHead) $(SPLINE_Headers)
 
-	$(CC) -o AnharmonicFactorExample.run AnharmonicFactorExample.cpp $(FLG)
+	$(CC) -o AxionMass.run AxionMass.cpp $(FLG)
 
 
 make clean:
-	rm -f AnharmonicFactor.run
+	rm -f Cosmo.run

@@ -24,7 +24,8 @@ FLG= -$(OPT) -std=$(STD) -DLONG=$(LONG) $(PATH_INCLUDE) -Wall
 Ros_Headers= $(wildcard src/Rosenbrock/*.hpp) $(wildcard src/Rosenbrock/LU/*.hpp) 
 SPLINE_Headers=$(wildcard src/Interpolation/*.hpp)
 
-Axion_Headers= $(wildcard src/Axion/*.hpp) 
+AxionSolve_Headers= $(wildcard src/Axion/AxionSolve.hpp) 
+AxionEOM_Headers= $(wildcard src/Axion/AxionEOM.hpp) 
 
 PathHead=src/misc_dir/path.hpp
 PathHeadPy=src/misc_dir/path.py
@@ -55,7 +56,7 @@ lib/libanfac.so: $(PathHead) $(PathHeadPy) $(PathTypePy) $(DataFiles) $(SPLINE_H
 
 #shared library for the evolution of the axion that can be used from python
 Axion_py=$(wildcard src/Axion/Axion-py.cpp)
-lib/Axion_py.so: $(PathHead) $(PathHeadPy) $(PathTypePy) $(Axion_py) $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) $(Axion_Headers) makefile $(AxionMisc_Headers) $(Static_Headers) lib/libCosmo.so lib/libma.so lib/libanfac.so 
+lib/Axion_py.so: $(PathHead) $(PathHeadPy) $(PathTypePy) $(Axion_py) $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) $(AxionEOM_Headers) $(AxionSolve_Headers) makefile $(AxionMisc_Headers) $(Static_Headers) lib/libCosmo.so lib/libma.so lib/libanfac.so 
 	 $(CC) -o lib/Axion_py.so -fPIC src/Axion/Axion-py.cpp -shared $(FLG) -DMETHOD=$(METHOD)
 
 
@@ -111,12 +112,12 @@ exec/AxionMass_check.run: $(PathHead) $(AxM_cpp) $(DataFiles) $(SPLINE_Headers) 
 
 AxionEOM_cpp=$(wildcard src/Axion/checks/AxionEOM_check.cpp)
 # check interpolations of the Axion_eom class 
-exec/AxionEOM_check.run: $(Axion_Headers) $(PathHead) $(AxionEOM_cpp) $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) makefile $(AxionMisc_Headers) $(Static_Headers)
+exec/AxionEOM_check.run: $(AxionEOM_Headers) $(PathHead) $(AxionEOM_cpp) $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) makefile $(AxionMisc_Headers) $(Static_Headers)
 	$(CC) -o exec/AxionEOM_check.run src/Axion/checks/AxionEOM_check.cpp $(FLG) -DMETHOD=$(METHOD) 
 
 AxionSolve_cpp=$(wildcard src/Axion/checks/AxionSolve_check.cpp)
 # check interpolations of the Axion_eom class 
-exec/AxionSolve_check.run: $(Axion_Headers) $(PathHead) $(AxionSolve_cpp) $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) makefile $(AxionMisc_Headers) $(Static_Headers)
+exec/AxionSolve_check.run: $(AxionEOM_Headers) $(AxionSolve_Headers) $(PathHead) $(AxionSolve_cpp) $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) makefile $(AxionMisc_Headers) $(Static_Headers)
 	$(CC) -o exec/AxionSolve_check.run src/Axion/checks/AxionSolve_check.cpp $(FLG) -DMETHOD=$(METHOD) 
 
 

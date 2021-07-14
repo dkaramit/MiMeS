@@ -7,12 +7,12 @@ from interfacePy.Scan import Scan
 from interfacePy.Cosmo import relicDM_obs 
 
 
-from numpy import logspace 
+from numpy import logspace
 
 scan=Scan(
     cpus=8,
-    table_fa=logspace(10,20,120),
-    len_theta=200,
+    table_fa= logspace(10,20,150),
+    len_theta=250,
     umax=500,
     TSTOP=1e-4,
     ratio_ini=1e3,

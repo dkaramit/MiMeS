@@ -30,8 +30,9 @@ int main(int argc, char **argv){
         TSTOP: if the temperature drops below this, integration stops\n\n \
         ratio_ini: integration starts when 3H/m_a<~ratio_ini (this is passed to AxionEOM,\n \
         in order to make the interpolations start at this point)\n\n \
-        N_convergence_max and convergence_lim: integration stops after the adiabatic invariant\n \
-        hasn't changed more than convergence_lim% for N_convergence_max consecutive peaks\n\n \
+        N_convergence_max and convergence_lim: integration stops when the relative difference\n \
+        between two consecutive peaks is less than convergence_lim for N_convergence_max\n \
+        consecutive peaks\n\n \
         inputFile: file that describes the cosmology. the columns should be: u T[GeV] logH\n";
 
         return 0;

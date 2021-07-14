@@ -101,8 +101,9 @@ namespace mimes{
         ratio_ini: integration starts when 3H/m_a<~ratio_ini (this is passed to AxionEOM, 
         in order to make the interpolations start at this point)
         
-        N_convergence_max and convergence_lim: integration stops after the adiabatic invariant 
-        hasn't changed more than convergence_lim% for N_convergence_max consecutive peaks
+        N_convergence_max and convergence_lim: integration stops when the relative difference 
+        between two consecutive peaks is less than convergence_lim for N_convergence_max 
+        consecutive peaks
 
         inputFile: file that describes the cosmology. the columns should be: u T[GeV] logH
         */ 

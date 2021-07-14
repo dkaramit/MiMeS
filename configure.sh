@@ -101,7 +101,7 @@ else
 fi
 
 
-# cloc --match-f='(\.cpp|\.hpp|\.py)' ./ | awk '(NR>5)'
+# cloc --match-f='(\.cpp|\.hpp|\.py)' ./ | tail +6
 echo -e "License:"
 cat LICENSE
 

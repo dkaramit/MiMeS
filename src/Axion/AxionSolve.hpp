@@ -41,10 +41,11 @@ but generally if it is safer to be clase to the maximum allowed one.*/
 One should tweak the other parameters, in order to avoid this. */
 #define maximum_No_steps int(1e7)
 /*relative and absolute tolerances. Generally, 1e-8 should be enough, 
-but in some case one may need more accurate result. However, if the 
-tolerances are below 1e-8, long doubles *must* beused.*/
-#define absolute_tolerance 1e-8
-#define relative_tolerance 1e-8
+but in some cases one may need more accurate result (eg if f_a is extremely high , 
+the oscillations happen violently, and the ODE destabilizes). Whatever the case, if the 
+tolerances are below 1e-8, long doubles *must* be used.*/
+#define absolute_tolerance 1e-11
+#define relative_tolerance 1e-11
 /*beta controls how agreesive the adaptation is. Generally, it should be around but less than 1.*/
 #define beta 0.95
 /*the stepsize does not increase more than fac_max, and less than fac_min. This ensure

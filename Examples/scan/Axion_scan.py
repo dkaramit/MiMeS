@@ -5,12 +5,14 @@ sysPath.append(osPath.join(osPath.dirname(__file__), '../../src'))
 
 from interfacePy.Scan import Scan 
 from interfacePy.Cosmo import relicDM_obs 
+
+
 from numpy import logspace 
 
 scan=Scan(
     cpus=8,
-    table_fa=logspace(9,20,10),
-    len_theta=5,
+    table_fa=logspace(10,20,120),
+    len_theta=200,
     umax=500,
     TSTOP=1e-4,
     ratio_ini=1e3,

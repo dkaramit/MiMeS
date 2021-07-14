@@ -154,7 +154,7 @@ class Scan:
 
             ########################---find theta_i (assuming theta_i<<1) such that Omega h^=0.12---########################
 
-            theta_small=1e-5
+            theta_small=1e-3
             ax=Axion(theta_small,fa,self.umax,self.TSTOP,self.ratio_ini,self.Npeaks,self.conv,self.inputFile)
 
             ax.solve()
@@ -169,20 +169,23 @@ class Scan:
             relic=s(T0)/s(T)*0.5*sqrt(ma2(0,1)*ma2(T,1))*theta_obs**2*h_hub**2/rho_crit
 
             theta_small_i=theta_small*theta_obs/theta
-            if theta_small_i>pi:
-                theta_small_i=pi
-
-            Table_theta_i=linspace(min([theta_small_i*0.85,1]),min([theta_small_i*1.2,pi]),self.len_theta)
-
+            
+            if theta_small_i < theta_small:
+                Table_theta_i = array([theta_small_i])
+            else:
+                if theta_small_i>pi:
+                    theta_small_i=pi
+                Table_theta_i=linspace(min([theta_small_i*0.85,1]),min([theta_small_i*1.2,pi]),self.len_theta)
+                            
             del ax
             ########################---END---########################
-
             file=open(self.in_file , 'w')
             for theta_i in Table_theta_i :
                 file.write( '{0} {1} {2} {3} {4} {5} {6} {7} \n'.format(theta_i, fa, self.umax, self.TSTOP, self.ratio_ini, self.Npeaks, self.conv, self.inputFile) )
             file.close()
             
             self.run_batch()
+
             
             batch+=1
             totalT+=time()-time0

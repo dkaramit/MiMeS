@@ -37,13 +37,14 @@ from pathlib import Path
 
 
 
+parallelScan=_PATH_+r"/src/interfacePy/ScanScript/parallel_scan"
 
 
-class Scan:
+class ScanObs:
     def __init__(self,cpus,table_fa,len_theta,umax,TSTOP,ratio_ini,N_convergence_max,convergence_lim,inputFile,
                 PathToCppExecutable,relic_obs,relic_err_up,relic_err_low, break_after=0,break_time=60,break_command=''):
         '''
-        scan for different values of fa (in table_fa) and find the theta_i closer to reloc_obs.
+        scan for different values of fa (in table_fa) and find the theta_i closer to relic_obs.
         The result file is timecoded (so it would be difficult to write over it), and the columns correspond to
         theta_i fa [GeV] theta_osc T_osc [GeV] relic (Omega h^2) 
         
@@ -119,7 +120,7 @@ class Scan:
         run a batch.
         '''
         # get the result     
-        points=subprocess_check_output( [_PATH_+r"/src/interfacePy/Scan/parallel_scan",  self.PathToCppExecutable, str(self.cpus),self.in_file]).decode(sys_stdout.encoding)
+        points=subprocess_check_output( [parallelScan,  self.PathToCppExecutable, str(self.cpus),self.in_file]).decode(sys_stdout.encoding)
         points=points.split('\n')
         
 

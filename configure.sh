@@ -58,7 +58,6 @@ if [ -d "src/Rosenbrock" ]
 then
     echo "Rosenbrock exists. Nothing to do here."
 else
-    # bash src/clone_Ros.sh
     curl -JLO https://github.com/dkaramit/NaBBODES/archive/refs/heads/stable.zip
     unzip NaBBODES-stable.zip 
     rm NaBBODES-stable.zip 
@@ -84,7 +83,6 @@ if [ -d "src/Interpolation" ]
 then
     echo "Spline exists. Nothing to do here."
 else
-    # bash src/clone_Spline.sh
     curl -JLO https://github.com/dkaramit/SimpleSplines/archive/refs/heads/stable.zip
 
     unzip SimpleSplines-stable.zip 

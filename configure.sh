@@ -38,23 +38,23 @@ echo "_PATH_=\"$PWD\" "> $PathHeadPy
 
 
 ##------clone ODE solver and iinterpolation from my github repos------##
-if [ -d "src/Rosenbrock" ]
+if [ -d "src/Rosenbrock" ] && [ -d "src/RKF" ]  
 then
-    echo "Rosenbrock exists. Nothing to do here."
+    echo " Rosenbrock and RKF directories exist. Nothing to do here."
 else
     curl -JLO https://github.com/dkaramit/NaBBODES/archive/refs/heads/stable.zip
     unzip NaBBODES-stable.zip 
     rm NaBBODES-stable.zip 
 
-    mkdir src/Rosenbrock
-    mkdir src/Rosenbrock/LU
-    mkdir src/Rosenbrock/Jacobian
+    mkdir src/Rosenbrock 2>/dev/null
+    mkdir src/Rosenbrock/LU  2>/dev/null
+    mkdir src/Rosenbrock/Jacobian 2>/dev/null
+    mkdir src/RKF 2>/dev/null
 
     mv  NaBBODES-stable/Rosenbrock/*.hpp                 src/Rosenbrock
     mv  NaBBODES-stable/Rosenbrock/Jacobian/Jacobian.hpp src/Rosenbrock/Jacobian
     mv  NaBBODES-stable/Rosenbrock/LU/*.hpp              src/Rosenbrock/LU
 
-    mkdir src/RKF
     mv  NaBBODES-stable/RKF/*.hpp src/RKF
 
 

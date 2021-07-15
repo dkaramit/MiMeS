@@ -19,7 +19,7 @@ char_p=c_char_p
 axionLib = CDLL(_PATH_+'/lib/Axion_py.so')
 
 # set the argumet and return types of the different functions
-axionLib.INIT.argtypes= cdouble, cdouble, cdouble, cdouble, cdouble, cint, cdouble, char_p
+axionLib.INIT.argtypes= cdouble, cdouble, cdouble, cdouble, cdouble, cint, cdouble, char_p, cdouble, cdouble, cdouble, cdouble, cdouble, cdouble, cdouble, cdouble, cint
 axionLib.INIT.restype = void_p
 
 axionLib.DEL.argtypes= void_p,
@@ -59,7 +59,10 @@ class Axion:
     However, the only thing one needs to remember is to delete any instance of this class
     once the calculations are done. 
     '''
-    def __init__(self, theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max,convergence_lim,inputFile):
+    def __init__(self, theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max,convergence_lim,inputFile,
+                initial_step_size=1e-2, minimum_step_size=1e-8, maximum_step_size=1e-2, 
+                absolute_tolerance=1e-8, relative_tolerance=1e-8,
+                beta=0.9, fac_max=1.2, fac_min=0.8, maximum_No_steps=int(1e7)):
         '''
         The constructor of the Axion class. 
         
@@ -75,6 +78,30 @@ class Axion:
         consecutive peaks
 
         inputFile: file that describes the cosmology. the columns should be: u T[GeV] logH
+
+        -----------Optional arguments------------------------
+        initial_stepsize: initial step the solver takes. 
+
+        maximum_stepsize: This limits the sepsize to an upper limit. 
+        minimum_stepsize: This limits the sepsize to a lower limit. 
+        
+        absolute_tolerance: absolute tolerance of the RK solver
+
+        relative_tolerance: relative tolerance of the RK solver
+        Note:
+        Generally, both absolute and relative tolerances should be 1e-8. 
+        In some cases, however, one may need more accurate result (eg if f_a is extremely high, 
+        the oscillations happen violently, and the ODE destabilizes). Whatever the case, if the  
+        tolerances are below 1e-8, long doubles *must* be used.
+
+        beta: controls how agreesive the adaptation is. Generally, it should be around but less than 1.
+        
+        fac_max,  fac_min: the stepsize does not increase more than fac_max, and less than fac_min. 
+        This ensures a better stability. Ideally, fac_max=inf and fac_min=0, but in reality one must 
+        tweak them in order to avoid instabilities.
+
+        maximum_No_steps: maximum steps the solver can take Quits if this number is reached even if integration
+        is not finished. 
         '''
         
         self.theta_i, self.fa=theta_i, fa
@@ -82,7 +109,9 @@ class Axion:
         self.voidAx=void_p()
         _file_=char_p(bytes(inputFile, encoding='utf-8'))
 
-        self.voidAx=axionLib.INIT(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max, convergence_lim, _file_)
+        self.voidAx=axionLib.INIT(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max, convergence_lim, _file_,
+        initial_step_size,minimum_step_size, maximum_step_size, absolute_tolerance, relative_tolerance, beta,
+        fac_max, fac_min, maximum_No_steps)
 
         self.a_peak=[]
         self.T_peak=[]

@@ -39,35 +39,6 @@
     #define METHOD RODASPR2
 #endif
 
-// macros for the solver
-#define minimum_step_size 1e-8 //minimum stepsize of integration.
-/*---------------------------------------------------*/
-/*initial stepsize. This can be quite large, 
-but generally if it is safer to be clase to the maximum allowed one.*/
-#define initial_step_size 1e-2
-/*maximum stepsize. This limits the sepsize to an upper limit.*/ 
-#define maximum_step_size 1e-2
-//-----------------------------------------------//
-/*If the solver takes more than maximum_No_steps, it quits, even if integration is not complete. 
-One should tweak the other parameters, in order to avoid this. */
-#define maximum_No_steps int(1e7)
-/*relative and absolute tolerances. Generally, 1e-8 should be enough, 
-but in some cases one may need more accurate result (eg if f_a is extremely high , 
-the oscillations happen violently, and the ODE destabilizes). Whatever the case, if the 
-tolerances are below 1e-8, long doubles *must* be used.*/
-#define absolute_tolerance 1e-8
-#define relative_tolerance 1e-8
-/*beta controls how agreesive the adaptation is. Generally, it should be around but less than 1.*/
-#define beta 0.95
-/*the stepsize does not increase more than fac_max, and less than fac_min. This ensure
-a better stability. Ideally, fac_max=inf and fac_min=0, but in reality one must tweak them in order to 
-avoid instabilities.*/
-#define fac_max 1.2
-#define fac_min 0.8
-/*================================*/
-
-
-
 
 //---Get the eom of the axion--//
 #include "src/Axion/AxionEOM.hpp"
@@ -93,8 +64,16 @@ namespace mimes{
         using Solver=RKF<sys, Neqs, METHOD<LD>, LD>;
         #endif
 
-        public:
         LD theta_i,fa,umax,TSTOP,ratio_ini;
+        unsigned int N_convergence_max;
+        LD convergence_lim;
+        std::string inputFile;
+
+        LD initial_step_size, minimum_step_size, maximum_step_size, absolute_tolerance, relative_tolerance;
+        LD beta,fac_max,fac_min;
+        int maximum_No_steps;
+        
+        public:
         LD theta_osc, T_osc, a_osc; 
 
         LD gamma;//gamma is the entropy injection from the point of the last peak until T_stop (the point where interpolation stops)
@@ -105,10 +84,6 @@ namespace mimes{
 
 
         unsigned int pointSize,peakSize;
-        unsigned int N_convergence_max;
-        LD convergence_lim;
-
-        std::string inputFile;
 
         // constructor of Axion.
         /*
@@ -124,9 +99,39 @@ namespace mimes{
         consecutive peaks
 
         inputFile: file that describes the cosmology. the columns should be: u T[GeV] logH
+
+        // #define minimum_step_size 1e-8 //minimum stepsize of integration.
+
+        -----------Optional arguments------------------------
+        initial_stepsize: initial step the solver takes. 
+
+        maximum_stepsize: This limits the sepsize to an upper limit. 
+        minimum_stepsize: This limits the sepsize to a lower limit. 
+        
+        absolute_tolerance: absolute tolerance of the RK solver
+
+        relative_tolerance: relative tolerance of the RK solver
+        Note:
+        Generally, both absolute and relative tolerances should be 1e-8. 
+        In some cases, however, one may need more accurate result (eg if f_a is extremely high, 
+        the oscillations happen violently, and the ODE destabilizes). Whatever the case, if the  
+        tolerances are below 1e-8, long doubles *must* be used.
+
+        beta: controls how agreesive the adaptation is. Generally, it should be around but less than 1.
+        
+        fac_max,  fac_min: the stepsize does not increase more than fac_max, and less than fac_min. 
+        This ensures a better stability. Ideally, fac_max=inf and fac_min=0, but in reality one must 
+        tweak them in order to avoid instabilities.
+
+        maximum_No_steps: maximum steps the solver can take Quits if this number is reached even if integration
+        is not finished. 
         */ 
+
         Axion(LD theta_i, LD fa, LD umax, LD TSTOP, LD ratio_ini, 
-                unsigned int N_convergence_max, LD convergence_lim, std::string inputFile){
+                unsigned int N_convergence_max, LD convergence_lim, std::string inputFile,
+                LD initial_step_size=1e-2, LD minimum_step_size=1e-8, LD maximum_step_size=1e-2, 
+                LD absolute_tolerance=1e-8, LD relative_tolerance=1e-8,
+                LD beta=0.9, LD fac_max=1.2, LD fac_min=0.8, int maximum_No_steps=int(1e7)){
             this->theta_i=theta_i;
             this->fa=fa;
 
@@ -138,6 +143,16 @@ namespace mimes{
             this->convergence_lim=convergence_lim;
 
             this->inputFile=inputFile;
+
+            this->initial_step_size=initial_step_size;
+            this->minimum_step_size=minimum_step_size;
+            this->maximum_step_size=maximum_step_size;
+            this->absolute_tolerance=absolute_tolerance;
+            this->relative_tolerance=relative_tolerance;
+            this->beta=beta;
+            this->fac_max=fac_max;
+            this->fac_min=fac_min;
+            this->maximum_No_steps=maximum_No_steps;
         }
         Axion(){}
         

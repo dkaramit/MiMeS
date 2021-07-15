@@ -15,8 +15,13 @@
 
 extern "C"{
     //constructor
-    void* INIT(LD theta_i, LD fa, LD umax, LD TSTOP, LD ratio_ini, unsigned int N_convergence_max, LD convergence_lim, char* inputFile){ 
-        return new mimes::Axion<LD>(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max,convergence_lim, static_cast<std::string>(inputFile));
+    void* INIT(LD theta_i, LD fa, LD umax, LD TSTOP, LD ratio_ini, unsigned int N_convergence_max, LD convergence_lim, char* inputFile, 
+                LD initial_step_size, LD minimum_step_size, LD maximum_step_size, 
+                LD absolute_tolerance, LD relative_tolerance, LD beta, LD fac_max, 
+                LD fac_min, int maximum_No_steps){ 
+        return new mimes::Axion<LD>(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max,convergence_lim, static_cast<std::string>(inputFile),
+        initial_step_size,minimum_step_size, maximum_step_size, absolute_tolerance, relative_tolerance, beta,
+        fac_max, fac_min, maximum_No_steps);
     }
     // destructor to delete the void*
     void DEL(void *Ax){  delete static_cast<mimes::Axion<LD>*>(Ax); Ax=nullptr; }

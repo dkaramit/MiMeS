@@ -8,11 +8,11 @@ sysPath.append(osPath.join(osPath.dirname(__file__), '../../src'))
 from interfacePy.Axion import Axion 
 from interfacePy.Cosmo import Hubble
 
-theta_i, fa=0.9445, 1e12
+theta_i, fa=0.94435, 1e12
 
 umax=500
 TSTOP=1e-4
-ratio_ini=1e2
+ratio_ini=1e3
 
 N_convergence_max, convergence_lim=5, 1e-2 #this is fine, but you can experiment a bit. 
 
@@ -25,8 +25,30 @@ inputFile="../InputExamples/RDinput.dat"
 # inputFile="../InputExamples/NSCinput.dat" 
 
 
+
+# options for the solver
+# These variables are optional. Yoou can use the Axion class without them.
+initial_step_size=1e-2; #initial step the solver takes. 
+minimum_step_size=1e-8; #This limits the sepsize to an upper limit. 
+maximum_step_size=1e-2; #This limits the sepsize to a lower limit.
+absolute_tolerance=1e-8; #absolute tolerance of the RK solver
+relative_tolerance=1e-8; #relative tolerance of the RK solver
+beta=0.9; #controls how agreesive the adaptation is. Generally, it should be around but less than 1.
+
+#The stepsize does not increase more than fac_max, and less than fac_min. 
+#This ensures a better stability. Ideally, fac_max=inf and fac_min=0, but in reality one must 
+#tweak them in order to avoid instabilities.
+fac_max=1.2; 
+fac_min=0.8;
+maximum_No_steps=int(1e7); #maximum steps the solver can take Quits if this number is reached even if integration is not finished.
+
+
 # Axion instance
-ax=Axion(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max, convergence_lim, inputFile)
+ax=Axion(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max, convergence_lim, inputFile,
+        initial_step_size,minimum_step_size, maximum_step_size, absolute_tolerance, 
+        relative_tolerance, beta, fac_max, fac_min, maximum_No_steps)
+
+# ax=Axion(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max, convergence_lim, inputFile)
 
 # solve the EOM (this only gives you the relic, T_osc, theta_osc, and a_osc)
 ax.solve()

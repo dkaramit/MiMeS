@@ -46,10 +46,6 @@ else
     unzip NaBBODES-stable.zip 
     rm NaBBODES-stable.zip 
 
-    cd NaBBODES-stable/Rosenbrock
-
-    cd ../../
-
     mkdir src/Rosenbrock
     mkdir src/Rosenbrock/LU
     mkdir src/Rosenbrock/Jacobian

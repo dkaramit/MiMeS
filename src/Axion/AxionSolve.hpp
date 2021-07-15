@@ -6,6 +6,17 @@
 #include <vector>
 
 
+//----Solver-----//
+#include "src/RKF/RKF_class.hpp"
+#include "src/RKF/RKF_costructor.hpp"
+#include "src/RKF/RKF_calc_k.hpp"
+#include "src/RKF/RKF_sums.hpp"
+#include "src/RKF/RKF_step_control-simple.hpp"
+// #include "src/RKF/RKF_step_control-PI.hpp"
+#include "src/RKF/RKF_steps.hpp"
+#include "src/RKF/METHOD.hpp"
+
+
 
 
 //----Solver-----//
@@ -44,8 +55,8 @@ One should tweak the other parameters, in order to avoid this. */
 but in some cases one may need more accurate result (eg if f_a is extremely high , 
 the oscillations happen violently, and the ODE destabilizes). Whatever the case, if the 
 tolerances are below 1e-8, long doubles *must* be used.*/
-#define absolute_tolerance 1e-11
-#define relative_tolerance 1e-11
+#define absolute_tolerance 1e-8
+#define relative_tolerance 1e-8
 /*beta controls how agreesive the adaptation is. Generally, it should be around but less than 1.*/
 #define beta 0.95
 /*the stepsize does not increase more than fac_max, and less than fac_min. This ensure
@@ -73,7 +84,14 @@ namespace mimes{
     class Axion{
         //-----Function type--------//
         using sys= std::function<void (Array<LD> &lhs, Array<LD> &y, LD u)>;
+        
+        #if solver==1
         using Solver=Ros<sys, Neqs, METHOD<LD>, Jacobian<sys, Neqs, LD>, LD>;
+        #endif
+
+        #if solver==2
+        using Solver=RKF<sys, Neqs, METHOD<LD>, LD>;
+        #endif
 
         public:
         LD theta_i,fa,umax,TSTOP,ratio_ini;

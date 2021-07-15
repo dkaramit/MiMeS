@@ -12,13 +12,24 @@ LONGpy=long
 # use doubles in python
 # LONGpy=
 
-#######################################-Rosenbrock method-#######################################
+#######################################-Runge Kutta method-#######################################
+#------------------These are Rosenbrock (semi implicit) methods: RECOMMENDED---------------------#
+Solver=1
+
 # RODASPR2 is fairly accurate and fast enough (faster than the other two from NaBBODES), but one 
 # can use the others or provide another Butcher tableu and use it.
 METHOD=RODASPR2 
-#METHOD=ROS34PW2
-#METHOD=ROS3w
+# METHOD=ROS34PW2
+# METHOD=ROS3w
 
+#-------------------------These are explicit RK methods: NOT RECOMMENDED--------------------------#
+# Solver=2
+
+# DormandPrince is fairly fast. However, it's not as accurate as the Rosenbrock methods. The other
+# two can't even finish...
+# METHOD=DormandPrince
+# METHOD=CashKarp
+# METHOD=RKF45
 
 
 ################################-the data files are here. change them from List.txt-##############
@@ -75,13 +86,11 @@ lib/libma.so: $(PathHead) $(PathTypePy) $(axMDat) $(SPLINE_Headers) $(AxionMisc_
 
 lib/libanfac.so: $(PathHead) $(PathTypePy) $(anFDat) $(SPLINE_Headers) $(AxionMisc_Headers) $(Static_Headers) makefile
 	$(CC) -o lib/libanfac.so src/AnharmonicFactor/AnharmonicFactor.cpp -fPIC -shared $(FLG) -DLONG=$(LONGpy) 
-#######################################################################################################
-
 
 #shared library for the evolution of the axion that can be used from python
 Axion_py=$(wildcard src/Axion/Axion-py.cpp)
 lib/Axion_py.so: $(PathHead) $(PathTypePy) $(Axion_py) $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) $(AxionEOM_Headers) $(AxionSolve_Headers) makefile $(AxionMisc_Headers) $(Static_Headers) 
-	$(CC) -o lib/Axion_py.so src/Axion/Axion-py.cpp -fPIC -shared $(FLG) -DLONG=$(LONGpy) -DMETHOD=$(METHOD)
+	$(CC) -o lib/Axion_py.so src/Axion/Axion-py.cpp -fPIC -shared $(FLG) -DLONG=$(LONGpy) -DMETHOD=$(METHOD) -Dsolver=$(Solver)
 
 
 $(PathTypePy): makefile
@@ -113,6 +122,7 @@ deepClean: clean
 	rm -rf src/misc_dir
 	rm -rf src/Interpolation
 	rm -rf src/Rosenbrock
+	rm -rf src/RKF
 
 
 
@@ -144,7 +154,7 @@ exec/AxionEOM_check.run: $(AxionEOM_Headers) $(PathHead) $(AxionEOM_cpp) $(Ros_H
 AxionSolve_cpp=$(wildcard src/Axion/checks/AxionSolve_check.cpp)
 # check interpolations of the Axion_eom class 
 exec/AxionSolve_check.run: $(AxionEOM_Headers) $(AxionSolve_Headers) $(PathHead) $(AxionSolve_cpp) $(Ros_Headers) $(DataFiles) $(SPLINE_Headers) makefile $(AxionMisc_Headers) $(Static_Headers)
-	$(CC) -o exec/AxionSolve_check.run src/Axion/checks/AxionSolve_check.cpp $(FLG) -DLONG=$(LONG) -DMETHOD=$(METHOD) 
+	$(CC) -o exec/AxionSolve_check.run src/Axion/checks/AxionSolve_check.cpp $(FLG) -DLONG=$(LONG) -DMETHOD=$(METHOD) -Dsolver=$(Solver)
 
 
 # produce the documentation pdf

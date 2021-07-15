@@ -54,6 +54,11 @@ else
     mv  NaBBODES-stable/Rosenbrock/Jacobian/Jacobian.hpp src/Rosenbrock/Jacobian
     mv  NaBBODES-stable/Rosenbrock/LU/*.hpp              src/Rosenbrock/LU
 
+    mkdir src/RKF
+    mv  NaBBODES-stable/RKF/*.hpp src/RKF
+
+
+
     rm -r NaBBODES-stable
 fi
 

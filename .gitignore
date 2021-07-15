@@ -9,6 +9,7 @@
 *.run
 *_examplePlot.pdf
 *src/Rosenbrock
+*src/RKF
 *src/Interpolation
 .cosmoDat
 .axMDat

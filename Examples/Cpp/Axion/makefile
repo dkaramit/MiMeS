@@ -10,13 +10,24 @@ LONG=long
 # use doubles in C++
 # LONG= 
 
-#######################################-Rosenbrock method-#######################################
+#######################################-Runge Kutta method-#######################################
+#------------------These are Rosenbrock (semi implicit) methods: RECOMMENDED---------------------#
+Solver=1
+
 # RODASPR2 is fairly accurate and fast enough (faster than the other two from NaBBODES), but one 
 # can use the others or provide another Butcher tableu and use it.
 METHOD=RODASPR2 
-#METHOD=ROS34PW2
-#METHOD=ROS3w
+# METHOD=ROS34PW2
+# METHOD=ROS3w
 
+#-------------------------These are explicit RK methods: NOT RECOMMENDED--------------------------#
+# Solver=2
+
+# DormandPrince is fairly fast. However, it's not as accurate as the Rosenbrock methods. The other
+# two can't even finish...
+# METHOD=DormandPrince
+# METHOD=CashKarp
+# METHOD=RKF45
 
 
 #---optimization options---#
@@ -31,7 +42,7 @@ STD=c++17
 # STD=c++11 #this should also work
 
 PATH_INCLUDE= -I$(rootDir)
-FLG= -$(OPT) -std=$(STD) $(PATH_INCLUDE) -Wall -DLONG=$(LONG) -DMETHOD=$(METHOD)
+FLG= -$(OPT) -std=$(STD) $(PATH_INCLUDE) -Wall -DLONG=$(LONG) -DMETHOD=$(METHOD) -Dsolver=$(Solver)
 
 cosmoDat=$(shell cat .cosmoDat) 
 axMDat=$(shell cat .axMDat)

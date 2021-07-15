@@ -8,7 +8,7 @@
 *.so
 *.run
 Examples/Python/*_examplePlot.pdf
-Examples/scan/*.dat
+Examples/scan/*/*.dat
 *src/Rosenbrock
 *src/RKF
 *src/Interpolation

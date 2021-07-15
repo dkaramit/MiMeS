@@ -37,12 +37,15 @@ from pathlib import Path
 
 
 
-parallelScan=_PATH_+r"/src/interfacePy/ScanScript/parallel_scan"
+parallelScan=_PATH_+r"/src/interfacePy/ScanScript/parallel_scan.sh"
 
 
 class ScanObs:
     def __init__(self,cpus,table_fa,len_theta,umax,TSTOP,ratio_ini,N_convergence_max,convergence_lim,inputFile,
-                PathToCppExecutable,relic_obs,relic_err_up,relic_err_low, break_after=0,break_time=60,break_command=''):
+                PathToCppExecutable, relic_obs,relic_err_up,relic_err_low,break_after,break_time,break_command='',
+                initial_step_size=1e-2, minimum_step_size=1e-8, maximum_step_size=1e-2, 
+                absolute_tolerance=1e-8, relative_tolerance=1e-8,
+                beta=0.9, fac_max=1.2, fac_min=0.8, maximum_No_steps=int(1e7)):
         '''
         scan for different values of fa (in table_fa) and find the theta_i closer to relic_obs.
         The result file is timecoded (so it would be difficult to write over it), and the columns correspond to
@@ -84,8 +87,32 @@ class ScanObs:
         relic_err_low: lower error bar around relic_obs (example, relic_err_low=0.001)
 
         break_after,break_time: take a break after break_after seconds for break_time seconds
-        break_command: before it takes a break, run this system command (this may be a script to send the results
+        (optional) break_command: before it takes a break, run this system command (this may be a script to send the results
         to an e-mail, or back them up)
+
+        -----------Optional arguments------------------------
+        initial_stepsize: initial step the solver takes. 
+
+        maximum_stepsize: This limits the sepsize to an upper limit. 
+        minimum_stepsize: This limits the sepsize to a lower limit. 
+        
+        absolute_tolerance: absolute tolerance of the RK solver
+
+        relative_tolerance: relative tolerance of the RK solver
+        Note:
+        Generally, both absolute and relative tolerances should be 1e-8. 
+        In some cases, however, one may need more accurate result (eg if f_a is extremely high, 
+        the oscillations happen violently, and the ODE destabilizes). Whatever the case, if the  
+        tolerances are below 1e-8, long doubles *must* be used.
+
+        beta: controls how agreesive the adaptation is. Generally, it should be around but less than 1.
+        
+        fac_max,  fac_min: the stepsize does not increase more than fac_max, and less than fac_min. 
+        This ensures a better stability. Ideally, fac_max=inf and fac_min=0, but in reality one must 
+        tweak them in order to avoid instabilities.
+
+        maximum_No_steps: maximum steps the solver can take Quits if this number is reached even if integration
+        is not finished. 
         '''
         
         self.cpus=cpus
@@ -108,7 +135,17 @@ class ScanObs:
         self.break_time=break_time
         self.break_command=break_command
         
-        
+        self.initial_step_size=initial_step_size
+        self.minimum_step_size=minimum_step_size
+        self.maximum_step_size= maximum_step_size
+        self.absolute_tolerance=absolute_tolerance
+        self.relative_tolerance=relative_tolerance
+        self.beta=beta
+        self.fac_max=fac_max
+        self.fac_min=fac_min
+        self.maximum_No_steps=maximum_No_steps
+
+
         self.FileDate=datetime.now()
         self.FileName = "{}".format(self.FileDate.strftime('%d-%m-%Y_%H-%M-%S')) 
         self._p = Path(self.FileName+'.dat')
@@ -183,7 +220,10 @@ class ScanObs:
             ########################---END---########################
             file=open(self.in_file , 'w')
             for theta_i in Table_theta_i :
-                file.write( '{0} {1} {2} {3} {4} {5} {6} {7} \n'.format(theta_i, fa, self.umax, self.TSTOP, self.ratio_ini, self.Npeaks, self.conv, self.inputFile) )
+                file.write( '{0} {1} {2} {3} {4} {5} {6} {7} {8} {9} {10} {11} {12} {13} {14} {15} {16} \n'.
+                format(theta_i, fa, self.umax, self.TSTOP, self.ratio_ini, self.Npeaks, self.conv, self.inputFile,
+                self.initial_step_size, self.minimum_step_size, self.maximum_step_size, self.absolute_tolerance, self.relative_tolerance, self.beta,
+                self.fac_max, self.fac_min, self.maximum_No_steps) )
             file.close()
             
             self.run_batch()

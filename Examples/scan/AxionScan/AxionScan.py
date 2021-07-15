@@ -18,8 +18,8 @@ from numpy import logspace,linspace
 
 scan=Scan(
     cpus=8,
-    table_fa= logspace(10,20,150),
-    table_theta_i=linspace(0.2,2,50),
+    table_fa= logspace(10,20,10),
+    table_theta_i=linspace(0.2,2,20),
     umax=500,
     TSTOP=1e-4,
     ratio_ini=1e3,
@@ -29,7 +29,16 @@ scan=Scan(
     PathToCppExecutable=r"../../Cpp/Axion/Axion.run",
     break_after=60*60*3,
     break_time=60,
-    break_command=''
+    break_command='',
+    initial_step_size=1e-2, 
+    minimum_step_size=1e-8,
+    maximum_step_size=1e-2,
+    absolute_tolerance=1e-8,
+    relative_tolerance=1e-8,
+    beta=0.9,
+    fac_max=1.2, 
+    fac_min=0.8,
+    maximum_No_steps=int(1e7)
 )
 
 

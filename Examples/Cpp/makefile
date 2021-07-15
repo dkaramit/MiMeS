@@ -1,7 +1,5 @@
 #make the examples
-
-
-all: anharmonicFactor  axion  axionMass  aosmo 
+all: anharmonicFactor  axion  axionMass  cosmo 
 
 anharmonicFactor:
 	cd AnharmonicFactor && $(MAKE)
@@ -12,9 +10,8 @@ axion:
 axionMass:
 	cd AxionMass && $(MAKE)
 
-aosmo:
+cosmo:
 	cd Cosmo && $(MAKE)
-
 
 clean:
 	rm -f AnharmonicFactor/*.run

@@ -1,5 +1,13 @@
 rootDir=../../../#the root directory of MiMeS
 
+#######################################-precision-#######################################
+# LONG=long : in order to use long doubles. This is slower, but generally more accurate, since we can use tolerances down to 10^-11 (or below that). 
+# LONG= : in order to use doubles. This is faster. However the tolerances of the ODE solver cannt be below 1e-8.
+
+# use long doubles in C++
+LONG=long
+# use doubles in C++
+# LONG= 
 
 #---optimization options---#
 OPT=O3 #this should be fast and safe
@@ -12,11 +20,8 @@ CC=g++ #compiler. I use g++, and haven't tested anything else.
 STD=c++17
 # STD=c++11 #this should also work
 
-
-LONG=$(shell cat $(rootDir).prep.long) 
-PATH_INCLUDE=  -I$(rootDir)
-
-FLG= -$(OPT) -std=$(STD) -DLONG=$(LONG) $(PATH_INCLUDE)  -Wall
+PATH_INCLUDE= -I$(rootDir)
+FLG= -$(OPT) -std=$(STD) $(PATH_INCLUDE) -Wall -DLONG=$(LONG)
 
 DataFiles=$(wildcard $(rootDir)src/data/*.dat)
 SPLINE_Headers=$(wildcard $(rootDir)src/Interpolation/*.hpp)

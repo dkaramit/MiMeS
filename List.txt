@@ -1,12 +1,3 @@
-# true: in order to use long doubles. This is slower, but generally more accurate, since we can use tolerances down to 10^-11 (or below that). 
-# false: in order to use doubles. This is faster. However the tolerances of the ODE solver cannt be below 1e-8.
-true
-#false
-#
-# Rosenbrock method. RODASPR2 is fairly accurate and fast enough (faster than the other two from NaBBODES), but one use the others or provide another Butcher tableu and use it.
-RODASPR2
-#ROS34PW2
-#ROS3w
 # relative path to comoslogical data
 src/data/eos2020.dat
 #

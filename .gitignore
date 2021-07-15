@@ -10,7 +10,9 @@
 *_examplePlot.pdf
 *src/Rosenbrock
 *src/Interpolation
-.prep.*
+.cosmoDat
+.axMDat
+.anFDat
 *.xtx
 *.aux 
 *.log 

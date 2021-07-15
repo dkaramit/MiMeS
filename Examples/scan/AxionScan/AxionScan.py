@@ -14,12 +14,12 @@ sysPath.append(osPath.join(osPath.dirname(__file__), '../../../src'))
 from interfacePy.ScanScript import Scan 
 
 
-from numpy import logspace,linspace
+from numpy import logspace,linspace,log10,pi
 
 scan=Scan(
     cpus=8,
-    table_fa= logspace(10,20,10),
-    table_theta_i=linspace(0.2,2,20),
+    table_fa= logspace(5,20,50),
+    table_theta_i=logspace(-3,log10(pi),50),
     umax=500,
     TSTOP=1e-4,
     ratio_ini=1e3,

@@ -11,7 +11,7 @@ LONG=long
 # LONG= 
 
 #######################################-Runge Kutta method-#######################################
-#------------------These are Rosenbrock (semi implicit) methods: RECOMMENDED---------------------#
+#------------------These are Rosenbrock (semi implicit) methods: Generally RECOMMENDED---------------------#
 Solver=1
 
 # RODASPR2 is fairly accurate and fast enough (faster than the other two from NaBBODES), but one 
@@ -20,11 +20,11 @@ METHOD=RODASPR2
 # METHOD=ROS34PW2
 # METHOD=ROS3w
 
-#-------------------------These are explicit RK methods: NOT RECOMMENDED--------------------------#
+#-------------------------These are explicit RK methods: Generally NOT RECOMMENDED--------------------------#
 # Solver=2
 
-# DormandPrince is fairly fast. However, it's not as accurate as the Rosenbrock methods. The other
-# two can't even finish...
+# DormandPrince is fairly fast. It can be better than RODASPR2 at very low tolerances 
+# because it is higher order. The other two can't even finish...
 # METHOD=DormandPrince
 # METHOD=CashKarp
 # METHOD=RKF45

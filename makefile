@@ -117,6 +117,9 @@ clean:
 deepClean: clean
 
 	rm -f $(wildcard Examples/scan/*.xtx)
+	rm -f .cosmoDat
+	rm -f .axMDat
+	rm -f .anFDat
 	rm -rf lib
 	rm -rf exec
 	rm -rf src/misc_dir

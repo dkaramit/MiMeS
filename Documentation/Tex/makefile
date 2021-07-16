@@ -9,7 +9,7 @@ figs = $(wildcard figs/*.pdf)
 all:  ../MiMeS.pdf
 
 #run pdflatex and bibtex (runs only if you update something in pdfs or in the tex file)
-../MiMeS.pdf:  $(figs) MiMeS.tex refs.bib makefile
+../MiMeS.pdf:  $(figs) MiMeS.tex refs.bib
 	$(TEX) $(FLG) MiMeS.tex 
 	$(BIB) MiMeS || true
 	$(TEX) $(FLG) MiMeS.tex

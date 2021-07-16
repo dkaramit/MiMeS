@@ -9,7 +9,7 @@
 #include "src/static.hpp"
 
 namespace mimes{
-    #define Neqs 2
+    constexpr int Neqs=2;
     template<class LD> using  Array = LD[Neqs]; 
 
     template<class LD>

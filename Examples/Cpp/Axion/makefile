@@ -44,21 +44,22 @@ STD=c++17
 PATH_INCLUDE= -I$(rootDir)
 FLG= -$(OPT) -std=$(STD) $(PATH_INCLUDE) -Wall -DLONG=$(LONG) -DMETHOD=$(METHOD) -Dsolver=$(Solver)
 
-cosmoDat=$(shell cat .cosmoDat) 
-axMDat=$(shell cat .axMDat)
-anFDat=$(shell cat .anFDat)
+cosmoDat=$(shell cat $(rootDir).cosmoDat) 
+axMDat=$(shell cat $(rootDir).axMDat)
+anFDat=$(shell cat $(rootDir).anFDat)
 DataFiles= $(cosmoDat) $(axMDat) $(anFDat)
 
 DataFiles=$(wildcard $(rootDir)src/data/*.dat)
-Ros_Headers= $(wildcard $(rootDir)src/Rosenbrock/*.hpp) $(wildcard $(rootDir)src/Rosenbrock/LU/*.hpp)
+Ros_Headers= $(wildcard $(rootDir)src/Rosenbrock/*.hpp) $(wildcard $(rootDir)src/Rosenbrock/LU/*.hpp) $(wildcard $(rootDir)src/Rosenbrock/Jacobian/*.hpp)
+RKF_Headers= $(wildcard $(rootDir)src/RKF/*.hpp) 
 SPLINE_Headers=$(wildcard $(rootDir)src/Interpolation/*.hpp)
 
 Axion_Headers= $(wildcard $(rootDir)src/Axion/*.hpp)  
 
 PathHead=$(rootDir)src/misc_dir/path.hpp
 
-Cosmo_Headers=$(wildcard $(rootDir)src/Cosmo/Cosmo.cpp) $(wildcard $(rootDir)src/Cosmo/Cosmo.hpp)
-AxionMisc_Headers= $(wildcard $(rootDir)src/AxionMass/AxionMass.cpp) $(wildcard $(rootDir)src/AxionMass/AxionMass.hpp) $(wildcard $(rootDir)src/AnharmonicFactor/AnharmonicFactor.cpp) $(wildcard $(rootDir)src/AnharmonicFactor/AnharmonicFactor.hpp) 
+Cosmo_Headers=$(wildcard $(rootDir)src/Cosmo/Cosmo.hpp)
+AxionMisc_Headers= $(wildcard $(rootDir)src/AxionMass/AxionMass.hpp) $(wildcard $(rootDir)src/AnharmonicFactor/AnharmonicFactor.hpp) 
 
 Static_Headers= $(wildcard $(rootDir)src/static.hpp) 
 
@@ -67,7 +68,7 @@ all: Axion.run
 Axion.run: Axion.cpp\
 					$(Axion_Headers) $(AxionMisc_Headers) $(Cosmo_Headers)\
 					$(DataFiles) $(PathHead) $(Static_Headers)\
-					$(Ros_Headers) $(SPLINE_Headers)
+					$(Ros_Headers) $(RKF_Headers) $(SPLINE_Headers)
 
 	$(CC) -o Axion.run Axion.cpp $(FLG) 
 

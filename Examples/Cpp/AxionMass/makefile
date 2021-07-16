@@ -23,7 +23,7 @@ STD=c++17
 PATH_INCLUDE= -I$(rootDir)
 FLG= -$(OPT) -std=$(STD) $(PATH_INCLUDE) -Wall -DLONG=$(LONG)
 
-DataFiles=$(wildcard $(rootDir)src/data/*.dat)
+axMDat=$(shell cat $(rootDir).axMDat)
 SPLINE_Headers=$(wildcard $(rootDir)src/Interpolation/*.hpp)
 
 PathHead=$(rootDir)src/misc_dir/path.hpp
@@ -32,7 +32,7 @@ AxionMass_Headers=$(wildcard $(rootDir)src/AxionMass/AxionMass.hpp)
 
 all: AxionMass.run
 
-AxionMass.run: AxionMass.cpp $(AxionMass_Headers) $(DataFiles) $(PathHead) $(SPLINE_Headers)
+AxionMass.run: AxionMass.cpp $(AxionMass_Headers) $(axMDat) $(PathHead) $(SPLINE_Headers)
 
 	$(CC) -o AxionMass.run AxionMass.cpp $(FLG)
 

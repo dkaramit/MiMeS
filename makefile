@@ -58,19 +58,26 @@ STD=c++17
 FLG= -$(OPT) -std=$(STD) $(PATH_INCLUDE) -Wall
 
 Ros_Headers= $(wildcard src/Rosenbrock/*.hpp) $(wildcard src/Rosenbrock/LU/*.hpp) $(wildcard src/Rosenbrock/Jacobian/*.hpp) 
-RKF_Headers= $(wildcard src/Rosenbrock/*.hpp)  
+RKF_Headers= $(wildcard src/RKF/*.hpp)  
 SPLINE_Headers=$(wildcard src/Interpolation/*.hpp)
-
-AxionSolve_Headers= $(wildcard src/Axion/AxionSolve.hpp) 
-AxionEOM_Headers= $(wildcard src/Axion/AxionEOM.hpp) 
 
 PathHead=src/misc_dir/path.hpp
 PathTypePy=src/misc_dir/type.py
 
-Cosmo_Headers=$(wildcard src/Cosmo/Cosmo.cpp) $(wildcard src/Cosmo/Cosmo.hpp)
-AxionMisc_Headers= $(wildcard src/AxionMass/AxionMass.cpp) $(wildcard src/AxionMass/AxionMass.hpp) $(wildcard src/AnharmonicFactor/AnharmonicFactor.cpp) $(wildcard src/AnharmonicFactor/AnharmonicFactor.hpp) 
 
-Static_Headers= $(wildcard src/static.hpp) 
+Cosmo_Headers= $(wildcard src/Cosmo/Cosmo.hpp)
+Cosmo_Cpp= $(wildcard src/Cosmo/Cosmo.cpp) 
+
+AxionMass_Headers= $(wildcard src/AxionMass/AxionMass.hpp)
+AxionAnF_Headers= $(wildcard src/AnharmonicFactor/AnharmonicFactor.hpp) 
+
+AxionMass_Cpp= $(wildcard src/AxionMass/AxionMass.cpp)
+AxionAnF_Cpp=   $(wildcard src/AnharmonicFactor/AnharmonicFactor.cpp) 
+
+AxionSolve_Headers= $(wildcard src/Axion/AxionSolve.hpp) 
+AxionEOM_Headers= $(wildcard src/Axion/AxionEOM.hpp) 
+
+Static_Funcs= $(wildcard src/static.hpp) 
 
 all: lib exec examples
 
@@ -79,18 +86,25 @@ lib: lib/libCosmo.so lib/libma.so lib/libanfac.so lib/Axion_py.so
 exec: check
 
 #shared libraries that can be used from python
-lib/libCosmo.so: $(PathHead) $(PathTypePy) $(cosmoDat) $(SPLINE_Headers) $(Cosmo_Headers) $(Static_Headers)
+lib/libCosmo.so: $(PathHead) $(PathTypePy) $(cosmoDat)\
+				 $(Cosmo_Headers) $(Cosmo_Cpp) $(SPLINE_Headers) $(Static_Funcs)
 	$(CC) -o lib/libCosmo.so src/Cosmo/Cosmo.cpp -fPIC -shared $(FLG) -DLONG=$(LONGpy)
 
-lib/libma.so: $(PathHead) $(PathTypePy) $(axMDat) $(SPLINE_Headers) $(AxionMisc_Headers) $(Static_Headers)
+lib/libma.so: $(PathHead) $(PathTypePy) $(axMDat)\
+				 $(AxionMass_Headers) $(AxionMass_Cpp) $(SPLINE_Headers) $(Static_Funcs)
 	$(CC) -o lib/libma.so src/AxionMass/AxionMass.cpp -fPIC -shared $(FLG) -DLONG=$(LONGpy)
 
-lib/libanfac.so: $(PathHead) $(PathTypePy) $(anFDat) $(SPLINE_Headers) $(AxionMisc_Headers) $(Static_Headers)
+lib/libanfac.so: $(PathHead) $(PathTypePy) $(anFDat)\
+				 $(AxionAnF_Headers) $(AxionAnF_Cpp) $(SPLINE_Headers) $(Static_Funcs)
 	$(CC) -o lib/libanfac.so src/AnharmonicFactor/AnharmonicFactor.cpp -fPIC -shared $(FLG) -DLONG=$(LONGpy) 
 
 #shared library for the evolution of the axion that can be used from python
 Axion_py=$(wildcard src/Axion/Axion-py.cpp)
-lib/Axion_py.so: $(PathHead) $(PathTypePy) $(Axion_py) $(Ros_Headers) $(RKF_Headers) $(DataFiles) $(SPLINE_Headers) $(AxionEOM_Headers) $(AxionSolve_Headers) $(AxionMisc_Headers) $(Static_Headers) 
+lib/Axion_py.so: $(PathHead) $(PathTypePy) $(DataFiles)\
+				 $(Cosmo_Headers) $(AxionAnF_Headers) $(AxionMass_Headers)\
+				 $(Axion_py) $(AxionEOM_Headers) $(AxionSolve_Headers)\
+				 $(Ros_Headers) $(RKF_Headers)  $(SPLINE_Headers)\
+				 $(Static_Funcs) 
 	$(CC) -o lib/Axion_py.so src/Axion/Axion-py.cpp -fPIC -shared $(FLG) -DLONG=$(LONGpy) -DMETHOD=$(METHOD) -Dsolver=$(Solver)
 
 
@@ -133,31 +147,38 @@ deepClean: clean
 ##--------------------------------make checks----------------------------------------##
 check: exec/AxionEOM_check.run exec/AxionSolve_check.run exec/AnharmonicFactor_check.run exec/AxionMass_check.run exec/Cosmo_check.run
 
-Cosmo_cpp=$(wildcard src/Cosmo/checks/Cosmo_check.cpp)
+Cosmo_check_cpp=$(wildcard src/Cosmo/checks/Cosmo_check.cpp)
 # check anharmonic factor interpolation
-exec/Cosmo_check.run: $(PathHead) $(Cosmo_cpp) $(DataFiles) $(SPLINE_Headers)
+exec/Cosmo_check.run: $(PathHead) $(Cosmo_check_cpp) $(Cosmo_Headers) $(DataFiles) $(SPLINE_Headers)
 	$(CC) -o exec/Cosmo_check.run src/Cosmo/checks/Cosmo_check.cpp $(FLG) 
 
 
-AnFac_cpp=$(wildcard src/AnharmonicFactor/checks/AnharmonicFactor_check.cpp)
+AnFac_check_cpp=$(wildcard src/AnharmonicFactor/checks/AnharmonicFactor_check.cpp)
 # check anharmonic factor interpolation
-exec/AnharmonicFactor_check.run: $(PathHead) $(AnFac_cpp) $(DataFiles) $(SPLINE_Headers) $(AxionMisc_Headers)
+exec/AnharmonicFactor_check.run: $(PathHead) $(anFDat) $(AnFac_check_cpp) $(AxionAnF_Headers)\
+								 $(SPLINE_Headers)
 	$(CC) -o exec/AnharmonicFactor_check.run src/AnharmonicFactor/checks/AnharmonicFactor_check.cpp $(FLG) -DLONG=$(LONG)
 
-AxM_cpp=$(wildcard src/AxionMass/checks/AxionMass_check.cpp)
+AxM_check_cpp=$(wildcard src/AxionMass/checks/AxionMass_check.cpp)
 # check axion mass interpolation
-exec/AxionMass_check.run: $(PathHead) $(AxM_cpp) $(DataFiles) $(SPLINE_Headers) $(AxionMisc_Headers)
+exec/AxionMass_check.run: $(PathHead) $(axMDat) $(AxM_check_cpp) $(AxionMass_Headers)\
+						  $(SPLINE_Headers)
 	$(CC) -o exec/AxionMass_check.run src/AxionMass/checks/AxionMass_check.cpp $(FLG) -DLONG=$(LONG)
 
 
-AxionEOM_cpp=$(wildcard src/Axion/checks/AxionEOM_check.cpp)
+AxionEOM_check_cpp=$(wildcard src/Axion/checks/AxionEOM_check.cpp)
 # check interpolations of the Axion_eom class 
-exec/AxionEOM_check.run: $(AxionEOM_Headers) $(PathHead) $(AxionEOM_cpp) $(Ros_Headers) $(RKF_Headers) $(DataFiles) $(SPLINE_Headers) $(AxionMisc_Headers) $(Static_Headers)
+exec/AxionEOM_check.run: $(PathHead) $(AxionEOM_check_cpp) $(AxionEOM_Headers)\
+						 $(Cosmo_Headers) $(AxionAnF_Headers) $(AxionMass_Headers)\
+						 $(DataFiles) $(Static_Funcs) $(SPLINE_Headers)
 	$(CC) -o exec/AxionEOM_check.run src/Axion/checks/AxionEOM_check.cpp $(FLG) -DLONG=$(LONG) 
 
-AxionSolve_cpp=$(wildcard src/Axion/checks/AxionSolve_check.cpp)
+AxionSolve_check_cpp=$(wildcard src/Axion/checks/AxionSolve_check.cpp)
 # check interpolations of the Axion_eom class 
-exec/AxionSolve_check.run: $(AxionEOM_Headers) $(AxionSolve_Headers) $(PathHead) $(AxionSolve_cpp) $(Ros_Headers) $(RKF_Headers) $(DataFiles) $(SPLINE_Headers) $(AxionMisc_Headers) $(Static_Headers)
+exec/AxionSolve_check.run: $(PathHead) $(AxionSolve_check_cpp) $(AxionSolve_Headers)\
+						   $(Cosmo_Headers) $(AxionAnF_Headers) $(AxionMass_Headers)\
+						   $(DataFiles) $(Static_Funcs)\
+						   $(Ros_Headers) $(RKF_Headers) $(SPLINE_Headers)
 	$(CC) -o exec/AxionSolve_check.run src/Axion/checks/AxionSolve_check.cpp $(FLG) -DLONG=$(LONG) -DMETHOD=$(METHOD) -Dsolver=$(Solver)
 
 

@@ -1,8 +1,8 @@
 # relative path to comoslogical data
-src/data/eos2020.dat
+cosmoDat=src/data/eos2020.dat
 #
 # relative path to chi data
-src/data/chi.dat
+axMDat=src/data/chi.dat
 #
 # relative path to anharmonic factor data
-src/data/anharmonic_factor.dat
+anFDat=src/data/anharmonic_factor.dat

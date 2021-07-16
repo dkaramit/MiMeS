@@ -32,10 +32,10 @@ AxionMass_Headers=$(wildcard $(rootDir)src/AxionMass/AxionMass.hpp)
 
 all: AxionMass.run
 
-AxionMass.run: AxionMass.cpp makefile $(AxionMass_Headers) $(DataFiles) $(PathHead) $(SPLINE_Headers)
+AxionMass.run: AxionMass.cpp $(AxionMass_Headers) $(DataFiles) $(PathHead) $(SPLINE_Headers)
 
 	$(CC) -o AxionMass.run AxionMass.cpp $(FLG)
 
 
-make clean:
+clean:
 	rm -f Cosmo.run

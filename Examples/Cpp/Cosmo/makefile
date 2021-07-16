@@ -32,10 +32,10 @@ Cosmo_Headers=$(wildcard $(rootDir)src/Cosmo/Cosmo.hpp)
 
 all: Cosmo.run
 
-Cosmo.run: Cosmo.cpp makefile $(Cosmo_Headers) $(DataFiles) $(PathHead) $(SPLINE_Headers)
+Cosmo.run: Cosmo.cpp $(Cosmo_Headers) $(DataFiles) $(PathHead) $(SPLINE_Headers)
 
 	$(CC) -o Cosmo.run Cosmo.cpp $(FLG)
 
 
-make clean:
+clean:
 	rm -f Cosmo.run

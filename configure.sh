@@ -1,9 +1,5 @@
 #!/bin/bash
-listVars=($(grep -v "^#" List.txt))
-
-cosmoDat=${listVars[0]}
-axMDat=${listVars[1]}
-anFDat=${listVars[2]}
+source DataPaths.txt
 
 [ -f $cosmoDat ] || { echo "$cosmoDat file does not exit. You need to provide a valid path for it!" ;  exit 1; }
 echo $cosmoDat > .cosmoDat

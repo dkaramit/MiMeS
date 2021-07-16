@@ -33,10 +33,10 @@ AnFac_Headers=$(wildcard $(rootDir)src/AnharmonicFactor/AnharmonicFactor.hpp)
 
 all: AnharmonicFactor.run
 
-AnharmonicFactor.run: AnharmonicFactor.cpp makefile $(AnFac_Headers) $(DataFiles) $(PathHead) $(SPLINE_Headers)
+AnharmonicFactor.run: AnharmonicFactor.cpp $(AnFac_Headers) $(DataFiles) $(PathHead) $(SPLINE_Headers)
 
 	$(CC) -o AnharmonicFactor.run AnharmonicFactor.cpp $(FLG) 
 
 
-make clean:
+clean:
 	rm -f AnharmonicFactor.run

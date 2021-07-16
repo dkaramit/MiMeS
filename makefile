@@ -150,7 +150,7 @@ check: exec/AxionEOM_check.run exec/AxionSolve_check.run exec/AnharmonicFactor_c
 Cosmo_check_cpp=$(wildcard src/Cosmo/checks/Cosmo_check.cpp)
 # check anharmonic factor interpolation
 exec/Cosmo_check.run: $(PathHead) $(Cosmo_check_cpp) $(Cosmo_Headers) $(DataFiles) $(SPLINE_Headers)
-	$(CC) -o exec/Cosmo_check.run src/Cosmo/checks/Cosmo_check.cpp $(FLG) 
+	$(CC) -o exec/Cosmo_check.run src/Cosmo/checks/Cosmo_check.cpp $(FLG) -DLONG=$(LONG)
 
 
 AnFac_check_cpp=$(wildcard src/AnharmonicFactor/checks/AnharmonicFactor_check.cpp)

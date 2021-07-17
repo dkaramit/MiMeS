@@ -23,7 +23,8 @@ STD=c++17
 PATH_INCLUDE= -I$(rootDir)
 FLG= -$(OPT) -std=$(STD) $(PATH_INCLUDE) -Wall -DLONG=$(LONG)
 
-axMDat=$(shell cat $(rootDir).axMDat)
+axMDat=$(rootDir)$(shell cat $(rootDir).axMDat)
+
 SPLINE_Headers=$(wildcard $(rootDir)src/Interpolation/*.hpp)
 
 PathHead=$(rootDir)src/misc_dir/path.hpp

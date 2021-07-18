@@ -10,7 +10,7 @@
 #include "src/static.hpp"
 
 namespace mimes{
-    constexpr int Neqs=2;
+    constexpr unsigned int Neqs=2;
     template<class LD> using  Array = std::array<LD,Neqs>; 
 
     template<class LD>

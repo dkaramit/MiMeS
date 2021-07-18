@@ -236,7 +236,7 @@ namespace mimes{
             //take the next step
             System.next_step(); 
             //update y (y[0]=theta, y[1]=zeta)
-            for (int eq = 0; eq < Neqs; eq++){System.yprev[eq]=System.ynext[eq];}
+            for (unsigned int eq = 0; eq < Neqs; eq++){System.yprev[eq]=System.ynext[eq];}
             // increase tn
             System.tn+=System.h;
 

@@ -174,7 +174,7 @@ namespace mimes{
         Array<LD> y0={theta_ini, 0.};//initial conditions
         /*================================*/
 
-        AxionEOM<LD> axionEOM(theta_i, fa, ratio_ini, inputFile);
+        AxionEOM<LD> axionEOM(theta_ini, fa, ratio_ini, inputFile);
         
         axionEOM.makeInt();//make the interpolations of u,T,logH from inputFile
         
@@ -213,8 +213,8 @@ namespace mimes{
         LD an_diff=0;
 
         // this is the initial step (ie points[0])
-        theta=y0[0];
-        zeta=y0[1];
+        theta=y0[0]/theta_ini*theta_i;
+        zeta=y0[1]/theta_ini*theta_i;
         T=axionEOM.Temperature(0);
         H2=std::exp(axionEOM.logH2(0));
         ma2=axionMass.ma2(T,fa);

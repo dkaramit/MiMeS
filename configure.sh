@@ -38,24 +38,24 @@ if [ -d "src/Rosenbrock" ] && [ -d "src/RKF" ]
 then
     echo " Rosenbrock and RKF directories exist. Nothing to do here."
 else
-    curl -JLO https://github.com/dkaramit/NaBBODES/archive/refs/heads/stable.zip
-    unzip NaBBODES-stable.zip 
-    rm NaBBODES-stable.zip 
+    curl -JLO https://github.com/dkaramit/NaBBODES/archive/refs/heads/bcp_before_UpdateTypes.zip
+    unzip NaBBODES-bcp_before_UpdateTypes.zip 
+    rm NaBBODES-bcp_before_UpdateTypes.zip 
 
     mkdir src/Rosenbrock 2>/dev/null
     mkdir src/Rosenbrock/LU  2>/dev/null
     mkdir src/Rosenbrock/Jacobian 2>/dev/null
     mkdir src/RKF 2>/dev/null
 
-    mv  NaBBODES-stable/Rosenbrock/*.hpp                 src/Rosenbrock
-    mv  NaBBODES-stable/Rosenbrock/Jacobian/Jacobian.hpp src/Rosenbrock/Jacobian
-    mv  NaBBODES-stable/Rosenbrock/LU/*.hpp              src/Rosenbrock/LU
+    mv  NaBBODES-bcp_before_UpdateTypes/Rosenbrock/*.hpp                 src/Rosenbrock
+    mv  NaBBODES-bcp_before_UpdateTypes/Rosenbrock/Jacobian/Jacobian.hpp src/Rosenbrock/Jacobian
+    mv  NaBBODES-bcp_before_UpdateTypes/Rosenbrock/LU/*.hpp              src/Rosenbrock/LU
 
-    mv  NaBBODES-stable/RKF/*.hpp src/RKF
+    mv  NaBBODES-bcp_before_UpdateTypes/RKF/*.hpp src/RKF
 
 
 
-    rm -r NaBBODES-stable
+    rm -r NaBBODES-bcp_before_UpdateTypes
 fi
 
 if [ -d "src/Interpolation" ]

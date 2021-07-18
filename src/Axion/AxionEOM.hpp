@@ -2,6 +2,7 @@
 #define SYSTEM_AxionEOM
 #include<fstream>
 #include <cmath>
+#include <array>
 #include <string>
 #include"src/Interpolation/Interpolation.hpp"
 
@@ -10,7 +11,7 @@
 
 namespace mimes{
     constexpr int Neqs=2;
-    template<class LD> using  Array = LD[Neqs]; 
+    template<class LD> using  Array = std::array<LD,Neqs>; 
 
     template<class LD>
     class AxionEOM{  

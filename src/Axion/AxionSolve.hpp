@@ -72,7 +72,7 @@ namespace mimes{
 
         LD initial_step_size, minimum_step_size, maximum_step_size, absolute_tolerance, relative_tolerance;
         LD beta,fac_max,fac_min;
-        int maximum_No_steps;
+        unsigned int maximum_No_steps;
         
         public:
         LD theta_osc, T_osc, a_osc; 
@@ -132,7 +132,7 @@ namespace mimes{
                 unsigned int N_convergence_max, LD convergence_lim, std::string inputFile,
                 LD initial_step_size=1e-2, LD minimum_step_size=1e-8, LD maximum_step_size=1e-2, 
                 LD absolute_tolerance=1e-8, LD relative_tolerance=1e-8,
-                LD beta=0.9, LD fac_max=1.2, LD fac_min=0.8, int maximum_No_steps=int(1e7)){
+                LD beta=0.9, LD fac_max=1.2, LD fac_min=0.8, unsigned int maximum_No_steps=10000000){
             this->theta_i=theta_i;
             this->fa=fa;
 
@@ -192,7 +192,7 @@ namespace mimes{
                         absolute_tolerance, relative_tolerance, beta, fac_max,fac_min);
 
         // these parameters are helpful..
-        int current_step=0;//count the steps the solver takes
+        unsigned int current_step=0;//count the steps the solver takes
 
         //check is used to identify the peaks, osc_check is used to find the oscillation temperature
         bool check=true, osc_check=true;
@@ -231,7 +231,7 @@ namespace mimes{
             current_step++;// incease number of steps that the solver takes
 
             //stop if you exceed umax or if the solver takes more than maximum_No_steps, stop
-            if(System.tn>=System.tmax or current_step==System.max_N){break;}
+            if(System.tn>=System.tmax or current_step==maximum_No_steps){break;}
             
             //take the next step
             System.next_step(); 

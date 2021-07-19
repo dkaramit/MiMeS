@@ -21,7 +21,6 @@ Ros_Headers= $(wildcard src/NaBBODES/Rosenbrock/*.hpp) $(wildcard src/NaBBODES/R
 RKF_Headers= $(wildcard src/NaBBODES/RKF/*.hpp) 
 SPLINE_Headers=$(wildcard src/SimpleSplines/*.hpp)
 
-
 Cosmo_Headers= $(wildcard src/Cosmo/Cosmo.hpp)
 Cosmo_Cpp= $(wildcard src/Cosmo/Cosmo.cpp) 
 
@@ -43,21 +42,21 @@ lib: lib/libCosmo.so lib/libma.so lib/libanfac.so lib/Axion_py.so
 exec: check
 
 #shared libraries that can be used from python
-lib/libCosmo.so: $(Cosmo_Cpp)  $(PathTypePy)\
+lib/libCosmo.so: $(Cosmo_Cpp)\
 				 $(Cosmo_Headers) $(SPLINE_Headers) $(Static_Funcs)
 	$(CC) -o $@ $< -fPIC -shared $(FLG) -DLONG=$(LONGpy)
 
-lib/libma.so: $(AxionMass_Cpp)  $(PathTypePy)\
+lib/libma.so: $(AxionMass_Cpp)\
 				 $(AxionMass_Headers) $(SPLINE_Headers) $(Static_Funcs)
 	$(CC) -o $@ $< -fPIC -shared $(FLG) -DLONG=$(LONGpy)
 
-lib/libanfac.so: $(AxionAnF_Cpp)  $(PathTypePy)\
+lib/libanfac.so: $(AxionAnF_Cpp)\
 				 $(AxionAnF_Headers) $(SPLINE_Headers) $(Static_Funcs)
 	$(CC) -o $@ $< -fPIC -shared $(FLG) -DLONG=$(LONGpy) 
 
 #shared library for the evolution of the axion that can be used from python
 Axion_py=$(wildcard src/Axion/Axion-py.cpp)
-lib/Axion_py.so: $(Axion_py)  $(PathTypePy)\
+lib/Axion_py.so: $(Axion_py)\
 				 $(Cosmo_Headers) $(AxionAnF_Headers) $(AxionMass_Headers)\
 				 $(AxionEOM_Headers) $(AxionSolve_Headers)\
 				 $(Ros_Headers) $(RKF_Headers)  $(SPLINE_Headers)\
@@ -75,7 +74,6 @@ clean:
 	rm -rf $(wildcard lib/*)
 	rm -rf $(wildcard exec/*)
 	rm -rf $(wildcard Examples/Python/*_examplePlot.pdf)
-	rm -rf $(PathTypePy)
 	cd Examples/Cpp && $(MAKE) clean
 	cd Documentation/Tex && $(MAKE) clean
 

@@ -18,13 +18,11 @@ FLG= -$(OPT) -std=$(STD) $(PATH_INCLUDE) -Wall -DLONG=$(LONG)
 
 SPLINE_Headers=$(wildcard $(rootDir)src/SimpleSplines/*.hpp)
 
-PathHead=$(rootDir)src/misc_dir/path.hpp
-
 AxionMass_Headers=$(wildcard $(rootDir)src/AxionMass/AxionMass.hpp)
 
 all: AxionMass.run
 
-AxionMass.run: AxionMass.cpp $(AxionMass_Headers) $(PathHead) $(SPLINE_Headers)
+AxionMass.run: AxionMass.cpp $(AxionMass_Headers) $(SPLINE_Headers)
 
 	$(CC) -o $@ $< $(FLG)
 

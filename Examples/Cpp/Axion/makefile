@@ -14,15 +14,11 @@ STD=c++17
 PATH_INCLUDE= -I$(rootDir)
 FLG= -$(OPT) -std=$(STD) $(PATH_INCLUDE) -Wall -DLONG=$(LONG) -DMETHOD=$(METHOD) -Dsolver=$(Solver)
 
-
-
 Ros_Headers= $(wildcard $(rootDir)src/NaBBODES/Rosenbrock/*.hpp) $(wildcard $(rootDir)src/NaBBODES/Rosenbrock/LU/*.hpp) $(wildcard $(rootDir)src/NaBBODES/Rosenbrock/Jacobian/*.hpp)
 RKF_Headers= $(wildcard $(rootDir)src/NaBBODES/RKF/*.hpp) 
 SPLINE_Headers=$(wildcard $(rootDir)src/SimpleSplines/*.hpp)
 
 Axion_Headers= $(wildcard $(rootDir)src/Axion/*.hpp)  
-
-PathHead=$(rootDir)src/misc_dir/path.hpp
 
 Cosmo_Headers=$(wildcard $(rootDir)src/Cosmo/Cosmo.hpp)
 AxionMisc_Headers= $(wildcard $(rootDir)src/AxionMass/AxionMass.hpp) $(wildcard $(rootDir)src/AnharmonicFactor/AnharmonicFactor.hpp) 
@@ -32,8 +28,7 @@ Static_Headers= $(wildcard $(rootDir)src/static.hpp)
 all: Axion.run
 
 Axion.run: Axion.cpp\
-					$(Axion_Headers) $(AxionMisc_Headers) $(Cosmo_Headers)\
-					$(PathHead) $(Static_Headers)\
+					$(Axion_Headers) $(AxionMisc_Headers) $(Cosmo_Headers) $(Static_Headers)\
 					$(Ros_Headers) $(RKF_Headers) $(SPLINE_Headers)
 
 	$(CC) -o $@ $< $(FLG) 

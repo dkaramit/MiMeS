@@ -27,10 +27,6 @@ echo "#ifndef PATHS_HEAD
 
 echo "_PATH_=\"$PWD\" "> $PathHeadPy
 
-
-
-
-# cloc --match-f='(\.cpp|\.hpp|\.py)' ./ | tail +6
 echo -e "License:"
 cat LICENSE
 

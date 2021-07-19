@@ -1,13 +1,5 @@
-rootDir=../../../#the root directory of MiMeS
 
-#######################################-precision-#######################################
-# LONG=long : in order to use long doubles. This is slower, but generally more accurate, since we can use tolerances down to 10^-11 (or below that). 
-# LONG= : in order to use doubles. This is faster. However the tolerances of the ODE solver cannt be below 1e-8.
-
-# use long doubles in C++
-LONG=long
-# use doubles in C++
-# LONG= 
+-include Definitions.mk
 
 #---optimization options---#
 OPT=O3 #this should be fast and safe
@@ -23,7 +15,6 @@ STD=c++17
 PATH_INCLUDE= -I$(rootDir)
 FLG= -$(OPT) -std=$(STD) $(PATH_INCLUDE) -Wall -DLONG=$(LONG)
 
-axMDat=$(rootDir)$(shell cat $(rootDir).axMDat)
 
 SPLINE_Headers=$(wildcard $(rootDir)src/Interpolation/*.hpp)
 
@@ -33,10 +24,10 @@ AxionMass_Headers=$(wildcard $(rootDir)src/AxionMass/AxionMass.hpp)
 
 all: AxionMass.run
 
-AxionMass.run: AxionMass.cpp $(AxionMass_Headers) $(axMDat) $(PathHead) $(SPLINE_Headers)
+AxionMass.run: AxionMass.cpp $(AxionMass_Headers) $(PathHead) $(SPLINE_Headers)
 
-	$(CC) -o AxionMass.run AxionMass.cpp $(FLG)
+	$(CC) -o $@ $< $(FLG)
 
 
 clean:
-	rm -f Cosmo.run
+	rm -f AxionMass.run

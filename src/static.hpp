@@ -39,5 +39,6 @@ static mimes::AxionMass<LD> axionMass(chi_PATH,1e-5,3e3);
 
 
 #undef LD
+#undef LONG
 
 #endif

@@ -15,9 +15,10 @@ PATH_INCLUDE= -I$(rootDir)
 FLG= -$(OPT) -std=$(STD) $(PATH_INCLUDE) -Wall -DLONG=$(LONG) -DMETHOD=$(METHOD) -Dsolver=$(Solver)
 
 
-Ros_Headers= $(wildcard $(rootDir)src/Rosenbrock/*.hpp) $(wildcard $(rootDir)src/Rosenbrock/LU/*.hpp) $(wildcard $(rootDir)src/Rosenbrock/Jacobian/*.hpp)
-RKF_Headers= $(wildcard $(rootDir)src/RKF/*.hpp) 
-SPLINE_Headers=$(wildcard $(rootDir)src/Interpolation/*.hpp)
+
+Ros_Headers= $(wildcard $(rootDir)src/NaBBODES/Rosenbrock/*.hpp) $(wildcard $(rootDir)src/NaBBODES/Rosenbrock/LU/*.hpp) $(wildcard $(rootDir)src/NaBBODES/Rosenbrock/Jacobian/*.hpp)
+RKF_Headers= $(wildcard $(rootDir)src/NaBBODES/RKF/*.hpp) 
+SPLINE_Headers=$(wildcard $(rootDir)src/SimpleSplines/*.hpp)
 
 Axion_Headers= $(wildcard $(rootDir)src/Axion/*.hpp)  
 

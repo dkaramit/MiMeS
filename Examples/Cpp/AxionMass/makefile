@@ -16,7 +16,7 @@ PATH_INCLUDE= -I$(rootDir)
 FLG= -$(OPT) -std=$(STD) $(PATH_INCLUDE) -Wall -DLONG=$(LONG)
 
 
-SPLINE_Headers=$(wildcard $(rootDir)src/Interpolation/*.hpp)
+SPLINE_Headers=$(wildcard $(rootDir)src/SimpleSplines/*.hpp)
 
 PathHead=$(rootDir)src/misc_dir/path.hpp
 

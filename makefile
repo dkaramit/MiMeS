@@ -17,9 +17,9 @@ STD=c++17
 
 FLG= -$(OPT) -std=$(STD) $(PATH_INCLUDE) -Wall
 
-Ros_Headers= $(wildcard src/Rosenbrock/*.hpp) $(wildcard src/Rosenbrock/LU/*.hpp) $(wildcard src/Rosenbrock/Jacobian/*.hpp) 
-RKF_Headers= $(wildcard src/RKF/*.hpp)  
-SPLINE_Headers=$(wildcard src/Interpolation/*.hpp)
+Ros_Headers= $(wildcard src/NaBBODES/Rosenbrock/*.hpp) $(wildcard src/NaBBODES/Rosenbrock/LU/*.hpp) $(wildcard src/NaBBODES/Rosenbrock/Jacobian/*.hpp)
+RKF_Headers= $(wildcard src/NaBBODES/RKF/*.hpp) 
+SPLINE_Headers=$(wildcard src/SimpleSplines/*.hpp)
 
 
 Cosmo_Headers= $(wildcard src/Cosmo/Cosmo.hpp)

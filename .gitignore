@@ -9,12 +9,6 @@
 *.run
 Examples/Python/*_examplePlot.pdf
 Examples/scan/*/*.dat
-*src/Rosenbrock
-*src/RKF
-*src/Interpolation
-.cosmoDat
-.axMDat
-.anFDat
 *.xtx
 *.aux 
 *.log 

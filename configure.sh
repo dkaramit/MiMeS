@@ -11,7 +11,7 @@ PathHead=src/misc_dir/path.hpp
 PathHeadPy=src/misc_dir/path.py
 PathTypePy=src/misc_dir/type.py
 
-echo "from ctypes import c_$(LONGpy)double as cdouble" > $PathTypePy
+echo "from ctypes import c_"$LONGpy"double as cdouble" > $PathTypePy
 
 
 echo "#ifndef PATHS_HEAD

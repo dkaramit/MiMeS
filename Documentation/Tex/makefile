@@ -9,10 +9,10 @@ figs = $(wildcard figs/*.pdf)
 all:  ../MiMeS.pdf
 
 #run pdflatex and bibtex (runs only if you update something in pdfs or in the tex file)
-../MiMeS.pdf:  $(figs) MiMeS.tex refs.bib
-	$(TEX) $(FLG) MiMeS.tex 
+../MiMeS.pdf:  MiMeS.tex $(figs) refs.bib
+	$(TEX) $(FLG) $< 
 	$(BIB) MiMeS || true
-	$(TEX) $(FLG) MiMeS.tex
+	$(TEX) $(FLG) $< 
 	mv MiMeS.pdf ../
 
 	#remove all output except the pdf file

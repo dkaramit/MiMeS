@@ -13,7 +13,7 @@ STD=c++17
 # STD=c++11 #this should also work
 
 PATH_INCLUDE= -I$(rootDir)
-FLG= -$(OPT) -std=$(STD) $(PATH_INCLUDE) -Wall -DLONG=$(LONG)
+FLG= -$(OPT) -std=$(STD) $(PATH_INCLUDE) -std=$(STD) -lstdc++ -Wall -DLONG=$(LONG)
 
 
 SPLINE_Headers=$(wildcard $(rootDir)src/SimpleSplines/*.hpp)

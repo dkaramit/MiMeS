@@ -12,7 +12,7 @@ STD=c++17
 # STD=c++11 #this should also work
 
 PATH_INCLUDE= -I$(rootDir)
-FLG= -$(OPT) -std=$(STD) $(PATH_INCLUDE) -Wall -DLONG=$(LONG) -DMETHOD=$(METHOD) -Dsolver=$(Solver)
+FLG= -$(OPT) -std=$(STD) $(PATH_INCLUDE) -std=$(STD) -lstdc++ -Wall -DLONG=$(LONG) -DMETHOD=$(METHOD) -Dsolver=$(Solver)
 
 Ros_Headers= $(wildcard $(rootDir)src/NaBBODES/Rosenbrock/*.hpp) $(wildcard $(rootDir)src/NaBBODES/Rosenbrock/LU/*.hpp) $(wildcard $(rootDir)src/NaBBODES/Rosenbrock/Jacobian/*.hpp)
 RKF_Headers= $(wildcard $(rootDir)src/NaBBODES/RKF/*.hpp) 

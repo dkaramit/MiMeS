@@ -21,7 +21,7 @@
 
 int main(int argc, char **argv){ 
     
-    if(argc!=9 and argc!=18){
+    if(argc!=18){
         std::cerr<<"usage: AxionExample.run theta_i f_a umax TSTOP ratio_ini N_convergence_max convergence_lim inputFile\n \
         initial_step_size minimum_step_size maximum_step_size absolute_tolerance relative_tolerance beta \n \
         fac_max fac_min maximum_No_steps\n";
@@ -77,33 +77,22 @@ int main(int argc, char **argv){
     std::string  inputFile=argv[++ar];
     
     /*options for the solver (These variables are optional. Yoou can use the Axion class without them).*/
-    LD initial_step_size=1e-2; //initial step the solver takes. 
-    LD minimum_step_size=1e-8; //This limits the sepsize to an upper limit. 
-    LD maximum_step_size=1e-2; //This limits the sepsize to a lower limit.
-    LD absolute_tolerance=1e-8; //absolute tolerance of the RK solver
-    LD relative_tolerance=1e-8; //relative tolerance of the RK solver
-    LD beta=0.9; //controls how agreesive the adaptation is. Generally, it should be around but less than 1.
+    LD initial_step_size=atof(argv[++ar]); //initial step the solver takes. 
+    LD minimum_step_size=atof(argv[++ar]); //This limits the sepsize to an upper limit. 
+    LD maximum_step_size=atof(argv[++ar]); //This limits the sepsize to a lower limit.
+    LD absolute_tolerance=atof(argv[++ar]); //absolute tolerance of the RK solver
+    LD relative_tolerance=atof(argv[++ar]); //relative tolerance of the RK solver
+    LD beta=atof(argv[++ar]); //controls how agreesive the adaptation is. Generally, it should be around but less than 1.
     /*
     the stepsize does not increase more than fac_max, and less than fac_min. 
     This ensures a better stability. Ideally, fac_max=inf and fac_min=0, but in reality one must 
     tweak them in order to avoid instabilities.
     */
-    LD fac_max=1.2; 
-    LD fac_min=0.8;
-    unsigned int maximum_No_steps=int(1e7); //maximum steps the solver can take Quits if this number is reached even if integration is not finished.
+    LD fac_max=atof(argv[++ar]); 
+    LD fac_min=atof(argv[++ar]);
+    unsigned int maximum_No_steps=atoi(argv[++ar]); //maximum steps the solver can take Quits if this number is reached even if integration is not finished.
     
 
-    if(argc>9){
-        initial_step_size=atof(argv[++ar]);
-        minimum_step_size=atof(argv[++ar]); 
-        maximum_step_size=atof(argv[++ar]);
-        absolute_tolerance=atof(argv[++ar]);
-        relative_tolerance=atof(argv[++ar]);
-        beta=atof(argv[++ar]);
-        fac_max=atof(argv[++ar]); 
-        fac_min=atof(argv[++ar]);
-        maximum_No_steps=atoi(argv[++ar]); 
-    }
 
     // instance of Axion
     mimes::Axion<LD> Ax(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max,convergence_lim,inputFile,

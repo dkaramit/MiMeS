@@ -18,14 +18,14 @@ from numpy import logspace,linspace,log10,pi
 
 scan=Scan(
     cpus=8,
-    table_fa= logspace(5,20,50),
-    table_theta_i=logspace(-3,log10(pi),50),
+    table_fa= logspace(9,19,250),
+    table_theta_i=[1e-2],
     umax=500,
     TSTOP=1e-4,
     ratio_ini=1e3,
     N_convergence_max=5,
     convergence_lim=1e-2,
-    inputFile="../../InputExamples/RDinput.dat",#"../../InputExamples/NSCinput.dat"
+    inputFile="../../InputExamples/NSCinput.dat",#"../../InputExamples/NSCinput.dat"
     PathToCppExecutable=r"../../Cpp/Axion/Axion.run",
     break_after=60*60*3,
     break_time=60,

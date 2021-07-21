@@ -9,7 +9,7 @@ def relic(Tosc,theta_osc,gamma=1.):
     The axion relic abundance using the WKB approximation.
     Tosc: the oscillation temperature
     theta_osc:the  angle at T_osc (usually one uses theta_osc = theta_ini)
-    gamma: entropy ratio betweem Tosc and today (gamma = S(Tosc)/S(T0)) 
+    gamma: entropy ratio betweem Tosc and today (gamma = S(T0)/S(Tosc)) 
     '''
 
     correction=(3/4)**(0.5)#this factor gives more acurate form of WKB result

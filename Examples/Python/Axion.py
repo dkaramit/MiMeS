@@ -21,7 +21,7 @@ inputFile="../InputExamples/RDinput.dat"
 
 # Matter Domination example. 
 # the NSC parameters (using the notation of 2012.07202) are:
-# T_end=1e-1 (GeV), c=3, T_ini=1e12 (GeV), and r=1e-1
+# T_end=1e-2 (GeV), c=3, T_ini=1e12 (GeV), and r=1e-1
 # inputFile="../InputExamples/MatterInput.dat" 
 
 # Kination Domination example. 

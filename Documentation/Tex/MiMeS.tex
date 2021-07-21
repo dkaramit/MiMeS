@@ -141,11 +141,19 @@ Applying, then, the initial conditions $ \dot \theta |_{t=\ti} = 0$ and  $\theta
 In order to further simplify this approximate result, we note that $\theta$ deviates from $\thetai$ only after the mass becomes comparable to the expansion rate of the Universe, \ie after $\maT|_{t = \tosc} = 3 H|_{t = \tosc}$. This observation allows us to use $\ti = \tosc$.  Moreover, at $t> \tosc$, we can approximate $\Omega \approx \maT$, as $H^2$ and $\dot H$ become much smaller than $\maT^2$ quickly after $t=\tosc$. Finally, the axion angle takes the form
 %
 \begin{equation}
+	\theta(t) \approx \thetaosc \lrb{\dfrac{3}{4}}^{1/4} \sqrt{ \dfrac{ \maT|_{t=\tosc} }{\maT  (t)} } \exp\lrb{-\dfrac{3}{2} \int_{\tosc}^t d t^\prime  \ H(t^\prime)} \  \cos\lrb{ \int_{\tosc}^t d t^\prime  \ \maT(t^\prime)}   \;,
+	\label{eq:solution_eom_approx_theta_osc} 
+\end{equation}
+%
+where $\thetaosc = \theta|_{t=\tosc}$. This equation is further simplified if we assume that $\thetaosc \approx \thetai$, \ie
+%
+\begin{equation}
 	\theta(t) \approx \thetai \lrb{\dfrac{3}{4}}^{1/4} \sqrt{ \dfrac{ \maT|_{t=\tosc} }{\maT  (t)} } \exp\lrb{-\dfrac{3}{2} \int_{\tosc}^t d t^\prime  \ H(t^\prime)} \  \cos\lrb{ \int_{\tosc}^t d t^\prime  \ \maT(t^\prime)}   \;.
 	\label{eq:solution_eom_approx_final} 
 \end{equation}
 %
-Notice that we have assumed $\thetai \approx \theta|_{t=\tosc}$ as initial condition, which can impact the accuracy of the WKB approximation, as $\dot \theta|_{t=\tosc} \neq 0$.
+It is worth mentioning that the accuracy of this approximation depends, in general, on $\Tosc$; it determines the difference between $\thetai$ and $\thetaosc$, the deviation of $\dot \theta|_{t=\tosc}$ from $0$, and whether $\dot \Omega \ll \Omega^2$. 
+
 
 \paragraph{Axion energy density}
 %
@@ -258,28 +266,26 @@ where  $\gamma_{\rm osc}$ is the entropy injection between $\Ti$ and $\Tosc$. No
 	\label{eq:rho_a_NLO} 
 \end{eqnarray}
 %
-which implies that the WKB approximation overestimates the energy density of the axion, especially if entropy is being injected close to the oscillation temperature.
+which implies that the WKB approximation overestimates the energy density of the axion, since $\gamma_{\rm osc}$, $H_{\rm ini}$, and $\Tosc$ can vary. 
 
-\DK{Show examples of relic vs $\thetai$ and relic vs $\thetaosc$ for RD and NSC for bot WKB and numeric. This will help you argue that $\thetaosc$ is needed, \ie \mimes is needed.}
 
-In order to demonstrate the effect of the deviation between $\thetai$ and $\thetaosc$, we show \Figs{fig:RD_WKB_diff,fig:NSC_WKB_diff}, for two different cosmological scenarios and $10^9 ~\GeV \leq \fa \leq 10^{19}~\GeV$; a radiation dominated Universe, and an NSC with $\gamma_osc$ shown in \Figs{fig:gamma_osc}.
-In \Figs{fig:RD_WKB_diff} we show the relative difference between $\Omega h^2$ using the WKB approximation and the result obtained from \mimes, for a radiation dominated Universe. The black line corresponds to the approximation of \eqs{eq:solution_eom_approx_final}, while for the red one we numerically compute $\thetaosc$. In this case, both estimates result in a similar result up to $\fa \sim 10^{17}~\GeV$. At higher $\fa$,  the two approaches result in quite different relic abundance, with the one obtained from \eqs{eq:solution_eom_approx_final} being very inaccurate. We should note that both estimates of the relic abundance are quite inaccurate for $\fa \lesssim 10^{17}~\GeV$, which indicates that the adiabatic conditions are not satisfied. At high $\fa$, $\Tosc$ drops closer to a temperature where the axion evolves adiabatically.
+In order to demonstrate the effect of the deviation between $\thetai$ and $\thetaosc$, we show \Figs{fig:WKB_diff_i,fig:WKB_diff_osc}, for different cosmological scenarios. In \Figs{fig:WKB_diff_i} we show the relative difference between $\Omega h^2$ using \eqs{eq:solution_eom_approx_final} and the result obtained from \mimes; with blue, red (dotted), and black (dashed) lines correspond to radiation, kination, and matter dominated Universe, respectively. It should be apparent that the accuracy of the estimate based on \eqs{eq:solution_eom_approx_final} depends of $\fa$, since for high values of $\fa$, $\Tosc$ is low. That is, the deviation between $\thetai$ and $\thetaosc$ is greater than the corresponding difference for lower $\fa$, especially for the matter dominated case, where the entropy injection is great.
 %
-In \Figs{fig:NSC_WKB_diff} we show the relative difference between $\Omega h^2$ using the WKB approximation and the result obtained from \mimes, for a cosmological scenario where entropy is injected to the plasma both before and after $\Tosc$ (the colors are the same as iin \Figs{fig:RD_WKB_diff}). It becomes apparent that an accurate determination of $\thetaosc$ is needed in order to improve the WKB approximation. Moreover, we observe that for $\fa \lesssim 10^{18}~\GeV$ the discrepancy between the the numerical result and the estimate based on the numerical evaluation of $\thetaosc$ is at around $10\%$, while the difference between the \mimes result and the estimate based of \eqs{eq:solution_eom_approx_final} is much larger. The reason is the entropy injection, which significantly reduces $\thetaosc/\thetai$. Moreover, we observe that as $\gamma_{\rm osc} \to 1$ (see \Figs{fig:gamma_osc}), \ie $\fa \gtrsim 10^{18} ~\GeV$ both estimates return to the levels of \Figs{fig:RD_WKB_diff}. 
+In \Figs{fig:WKB_diff_osc} we show the relative difference between $\Omega h^2$ numerical integration of \eqs{eq:eom_u} (\ie \mimes) and using \eqs{eq:solution_eom_approx_theta_osc} by numerically determining $\thetaosc$ (in order to avoid introducing additional errors), with the colour coding being the same as in \Figs{fig:WKB_diff_i}. The relative difference between the two estimates, once again, depends $\fa$. For $\fa \lesssim 10^{16}~\GeV$ the discrepancy is of the same level as in \Figs{fig:WKB_diff_i}, as $\Tosc$ is relatively high and the adiabatic conditions are not met. However, for higher values of $\fa$, $\Tosc$ drops closer to the adiabatic limit. Hence \eqs{eq:solution_eom_approx_theta_osc} becomes more accurate than \eqs{eq:solution_eom_approx_final}, regardless of the underlying cosmology.
 %
 \begin{figure}[t]
 	\begin{subfigure}[]{0.5\textwidth}
-		\includegraphics[width=1\textwidth]{figs/RD_WKB_diff.pdf}
+		\includegraphics[width=1\textwidth]{figs/WKB_diff_i.pdf}
 		\caption{}
-		\label{fig:RD_WKB_diff}
+		\label{fig:WKB_diff_i}
 	\end{subfigure}
 	\begin{subfigure}[]{0.5\textwidth}
-		\includegraphics[width=1\textwidth]{figs/NSC_WKB_diff.pdf}
+		\includegraphics[width=1\textwidth]{figs/WKB_diff_osc.pdf}
 		\caption{}
-		\label{fig:NSC_WKB_diff}
+		\label{fig:WKB_diff_osc}
 	\end{subfigure}
 	\begin{center}
-		\begin{subfigure}[]{.5\textwidth}
+	\begin{subfigure}[]{0.5\textwidth}
 		\includegraphics[width=1\textwidth]{figs/gamma_osc.pdf}
 		\caption{}
 		\label{fig:gamma_osc}
@@ -289,6 +295,8 @@ In \Figs{fig:NSC_WKB_diff} we show the relative difference between $\Omega h^2$ 
 \label{fig:WKB_diff}
 \end{figure}
 %
+
+Nevertheless, neither the estimates based on \eqs{eq:solution_eom_approx_theta_osc,eq:solution_eom_approx_final} seem provide a result comparable to the numerical integration of \eqs{eq:eom_u}. Therefore, numerical integration should be preferred. 
 
 \subsubsection{Adiabatic invariant and the anharmonic factor}\label{sec:an_fac}
 %

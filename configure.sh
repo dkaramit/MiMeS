@@ -12,6 +12,7 @@ PathHeadPy=src/misc_dir/path.py
 PathTypePy=src/misc_dir/type.py
 
 echo "from ctypes import c_"$LONGpy"double as cdouble" > $PathTypePy
+echo "_PATH_=\"$PWD\" "> $PathHeadPy
 
 
 echo "#ifndef PATHS_HEAD
@@ -25,7 +26,6 @@ echo "#ifndef PATHS_HEAD
 #endif
 ">$PathHead
 
-echo "_PATH_=\"$PWD\" "> $PathHeadPy
 
 echo -e "License:"
 cat LICENSE

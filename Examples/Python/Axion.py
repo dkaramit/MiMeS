@@ -19,10 +19,15 @@ N_convergence_max, convergence_lim=5, 1e-2 #this is fine, but you can experiment
 #radiation dominated example
 inputFile="../InputExamples/RDinput.dat" 
 
-# non-standard cosmological example. 
+# Matter Domination example. 
 # the NSC parameters (using the notation of 2012.07202) are:
-# T_end=1e-1 (GeV), c=2, T_ini=1e7 (GeV), and r=1e-3
-# inputFile="../InputExamples/NSCinput.dat" 
+# T_end=1e-1 (GeV), c=3, T_ini=1e12 (GeV), and r=1e-1
+# inputFile="../InputExamples/MatterInput.dat" 
+
+# Kination Domination example. 
+# the NSC parameters (using the notation of 2012.07202) are:
+# T_end=0, c=6, T_ini=1e3 (GeV), and r=1e10
+# inputFile="../InputExamples/KinationInput.dat" 
 
 
 

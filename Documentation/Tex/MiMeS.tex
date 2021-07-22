@@ -216,9 +216,9 @@ The EOM in terms of $u$, then, becomes
 Notice that in a radiation dominated Universe
 %
 $$
-\dfrac{d \log H^2}{du} = -\lrb{ \dfrac{d \log g_*}{d \log T} +4 } \delta_h^{-1}\;,
+\dfrac{d \log H^2}{du} = -\lrb{ \dfrac{d \log \geff}{d \log T} +4 } \delta_h^{-1}\;,
 $$
-with  $ \delta_h = 1+ \dfrac{1}{3} \dfrac{d \log h_*}{d \log T} $. 
+with  $ \delta_h = 1+ \dfrac{1}{3} \dfrac{d \log \heff}{d \log T} $. 
 %
 In a general cosmological setting, the expansion rate is dominated by an energy density that scales as $\rho \sim R^{-c}$, which results in $\dfrac{d \log H^2}{du}  = -c$. However, close to rapid particle annihilations and decays, the evolution of the energy densities change, and $\dfrac{d \log H^2}{du}$ can only be computed numerically.
 
@@ -239,12 +239,12 @@ The accuracy of the approximate evolution of the axion angle given in \eqs{eq:so
 and, solve the EOM~\ref{eq:eom} for $\theta(\ti + \delta t)$. This results in
 %
 \begin{equation}
-	\theta(\ti + \delta t)  \approx  \thetai -\dfrac{\delta t^2}{1+3 \ H \ \delta t} \  \maT^2  \sin \theta(\ti + \delta t)  
-	\approx   \thetai - \delta t^2 \ \maT^2 \ \sin \thetai  \ + \mathcal{O}(\delta t^3)\;, 
+	\theta(\ti + \delta t)  \approx  \thetai -\dfrac{\delta t^2}{1+3\ \delta t \ H(\ti + \delta t) } \  \maT^2(\ti + \delta t)  \sin \theta(\ti + \delta t)  
+	\approx   \thetai - \delta t^2 \ \maT^2(\ti) \ \sin \thetai  \ + \mathcal{O}(\delta t^3)\;, 
 	\label{eq:theta_dt}
 \end{equation}
 %
-which indicates that the angle decreases (increases) as the temperature drops if $\thetai>0$ ($\thetai<0$). Using the notation introduced in section~\ref{sec:notation}\eqs{eq:deriv_u}, \eqs{eq:theta_dt} takes the form
+which indicates that the angle decreases (increases) as the temperature drops if $\thetai>0$ ($\thetai<0$). Using the notation introduced in section~\ref{sec:notation}, \eqs{eq:theta_dt} takes the form
 %
 \begin{eqnarray}
 	\theta \approx    \thetai - \delta u^2 \ \lrb{\dfrac{\maT}{H}}_{t=\ti}^2 \ \sin \thetai \;,
@@ -254,15 +254,16 @@ which indicates that the angle decreases (increases) as the temperature drops if
 which can be used to estimate the angle at the oscillation temperature
 %
 \begin{eqnarray}
-	\theta_{\rm osc} \approx    \thetai -  \lrb{\dfrac{\maT}{H}}_{t=\ti}^2 \lrsb{ \lrb{\dfrac{h_{\rm osc}}{\gamma_{\rm osc} \ h_{\rm ini}}}^{1/3} \dfrac{T_{\rm osc}}{T_{\rm ini}} -1 } ^{2}   \ \sin \thetai \;,
+	\theta_{\rm osc} \approx    \thetai -  \lrb{\dfrac{\maT}{H}}_{t=\ti}^2 
+	\lrsb{1- \dfrac{\Ti}{\Tosc}\lrb{\dfrac{\heff_{,\rm ini}}{\heff_{,\rm osc}}\gamma_{\rm osc}}^{1/3}}^{2}   \ \sin \thetai \;,
 	\label{eq:theta_osc}
 \end{eqnarray}
 %
 where  $\gamma_{\rm osc}$ is the entropy injection between $\Ti$ and $\Tosc$. Notice that in the derivation of \eqs{eq:solution_eom_approx_final} we used $\theta_{\rm osc} = \thetai$ as our first approximation. Thus, \eqs{eq:theta_osc} provides a correction that takes into account the deviation between $\theta_{\rm osc} $ and $ \thetai$, and \eqs{eq:rho_a_approx} becomes (for $\thetai \ll 1$)
 %
 \begin{eqnarray}
-	\rho_{a,0} = \gamma^{-1}  \dfrac{s_0}{s_{\rm osc}} \  \dfrac{1 }{2}  \ \fa^2 \ \ma \ \maT_{,{\rm osc}} \ \thetai^2 \lrBiggsb{
-		1 -2 \ \lrb{\dfrac{\maT}{H}}_{t=\ti}^2 \  \lrb{\lrb{\dfrac{h_{\rm osc}}{\gamma_{\rm osc} \ h_{\rm ini}}}^{1/3} \dfrac{T_{\rm osc}}{T_{\rm ini}}-1 } ^{2}   }^2    \;,
+	\rho_{a,0} = \gamma^{-1}  \dfrac{s_0}{s_{\rm osc}} \  \dfrac{1 }{2}  \ \fa^2 \ \ma \ \maT_{,{\rm osc}} \ \thetai^2 \lrBiggcb{
+		1 -2 \ \lrb{\dfrac{\maT}{H}}_{t=\ti}^2 \  \lrb{1- \dfrac{\Ti}{\Tosc}\lrb{\dfrac{\heff_{,\rm ini}}{\heff_{,\rm osc}}\gamma_{\rm osc}}^{1/3}}^{2}   }    \;,
 	\label{eq:rho_a_NLO} 
 \end{eqnarray}
 %

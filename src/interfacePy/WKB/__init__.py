@@ -1,2 +1,2 @@
-from .WKB import relic
+from .WKB import relic,theta_osc
 

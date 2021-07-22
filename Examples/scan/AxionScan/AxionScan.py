@@ -18,15 +18,15 @@ from numpy import logspace,linspace,log10,pi
 
 scan=Scan(
     cpus=8,
-    table_fa= logspace(9,19,250),
+    table_fa= logspace(10,19,100),
     table_theta_i=[1e-2],
     umax=500,
     TSTOP=1e-4,
     ratio_ini=1e3,
     N_convergence_max=5,
     convergence_lim=1e-2,
-    # inputFile="../../InputExamples/RDinput.dat", 
-    inputFile="../../InputExamples/MatterInput.dat", 
+    inputFile="../../InputExamples/RDinput.dat", 
+    # inputFile="../../InputExamples/MatterInput.dat", 
     # inputFile="../../InputExamples/KinationInput.dat",
     PathToCppExecutable=r"../../Cpp/Axion/Axion.run",
     break_after=60*60*3,

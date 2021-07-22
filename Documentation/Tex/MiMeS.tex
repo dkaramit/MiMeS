@@ -58,28 +58,35 @@
 
 About the axion...
 
-\section{Axion relic abundance}\label{sec:abundance}
+\section{Physics background}\label{sec:abundance}
 \setcounter{equation}{0}
 %
-Although there are several works in the literature that (such as~\cite{Chang:1998ys}) that can also provide a useful insight on the solution of the axion equation of motion (EOM), it would be useful to derive and define the quantities we need in this section, in order to understand how \mimes works in detail.
+Although there are several works in the literature (such as~\cite{Chang:1998ys}) that can provide a insight on the solution of the axion equation of motion (EOM), in this section we define, derive, and discuss the various quantities we need, in order to understand how \mimes works in detail.
 
-\paragraph{The EOM} The axion field is written as 
+\paragraph{The EOM} %The axion field is written as 
 %
-\begin{equation}
-	a  \equiv \fa \ \theta,
-	\label{eq:fa_def}
-\end{equation}
+%\begin{equation}
+%	A  \equiv \fa \ \theta,
+%	\label{eq:fa_def}
+%\end{equation}
+%%
+%with $\fa$ the scale of the axion that determines the the scale at which the PQ symmetry breaks. 
 %
-with $\fa$ the scale of the axion that determines the the scale at which the PQ symmetry breaks. 
-
-The EOM in terms of $\theta$ is 
+The EOM in terms of the axion angle, $\theta$, is 
 %
 \begin{equation}
 	\lrb{\dfrac{d^2}{d t^2} + 3 H(t) \ \dfrac{d}{d t} } \theta(t) + \maT^2(t) \ \sin \theta(t) = 0 \; ,
 	\label{eq:eom}
 \end{equation}
 %
-with $H(t)$ the Hubble parameter (determined by the cosmology), and $\maT(t)$  the time (temperature) dependent mass of the axion. 
+with $H(t)$ the Hubble parameter (determined by the cosmology), and $\maT(t)$  the time (temperature) dependent mass of the axion, with 
+\begin{equation}
+	\maT^2(T) = \dfrac{\chi(T)}{\fa^2}\;,
+	\label{eq:axion_mass_def}
+\end{equation} 
+%
+and $\chi$ a function of the temperature, and $\fa$ the scale at which the Peccei Quinn symmetry breaks \DK{ref??}. For the QCD axion, this has been calculated using lattice simulations in~\cite{Borsanyi:2016ksw}.~\footnote{The data provided by ref.~\cite{Borsanyi:2016ksw} are used by  \mimes out-of-the-box. However, the user is free to change them.}
+
 
 \paragraph{Initial conditions}
 %
@@ -89,14 +96,14 @@ with $H(t)$ the Hubble parameter (determined by the cosmology), and $\maT(t)$  t
 	\label{fig:axion_mass}
 \end{figure}
 %
-Assuming that the PQ symmetry breaks before inflation, the initial conditions (\ie at some $t=0$, after inflation) for the EOM is random. However, we note that $\maT \to 0$ (see \Figs{fig:axion_mass}) -- \ie $\maT \ll H$ -- at very early times. Therefore, after inflation, the EOM becomes
+Assuming that the PQ symmetry breaks before inflation, the initial conditions (\ie at some $t=0$, after inflation) for the EOM is random. However, we note that $\maT \to 0$ (see \Figs{fig:axion_mass}) -- \ie $\maT \ll H$ -- at very early times. Therefore, after inflation, the EOM is simply
 %
 \begin{equation}
 	\lrb{\dfrac{d^2}{d t^2} + 3 H(t) \ \dfrac{d}{d t}  } \theta(t) = 0 \; ,
 	\label{eq:massless_eom}
 \end{equation}
 %
-which is solved by $\theta = \thetai + C \dint_{0}^t d t \ \lrb{ \dfrac{R_{0}}{R(t)} }^3$. That is, as the Universe expands, $\theta \approx \thetai$. Since we would like to calculate the relic abundance of axions, we can integrate \eqs{eq:eom} from a time after inflation (call it $t = \ti$) such that $ \dot \theta |_{t=\ti} = 0$ and  $\theta|_{t=\ti} \approx \thetai$.   
+which is solved by $\theta = \thetai + C \dint_{0}^t d t \ \lrb{ \dfrac{a_{0}}{a(t)} }^3$, with $\thetai$ some constant. That is, as the Universe expands, $\theta \approx \thetai$. Since we would like to calculate the relic abundance of axions, we can integrate \eqs{eq:eom} from a time after inflation (call it $t = \ti$) such that $ \dot \theta |_{t=\ti} = 0$ and  $\theta|_{t=\ti} \approx \thetai$.   
 
 
 
@@ -109,7 +116,7 @@ In order to solve analytically \eqs{eq:eom}, we assume $\theta \ll 1$, which res
 	\label{eq:linear_eom}
 \end{equation}
 
-Using a trial solution $\psi = \exp\lrsb{ i \dint d t \ \lrBigb{u(t) +3/2 \ i \ H(t)} }$, and defining $\Omega^2 = \maT^2 - \dfrac{9}{4} H^2 -  \dfrac{3}{2} \dot H $ we can transform the \eqs{eq:linear_eom} to 
+Using a trial solution $\theta_{\rm trial} = \exp\lrsb{ i \dint d t \ \lrBigb{u(t) +3/2 \ i \ H(t)} }$, and defining $\Omega^2 = \maT^2 - \dfrac{9}{4} H^2 -  \dfrac{3}{2} \dot H $ we can transform the \eqs{eq:linear_eom} to 
 %
 \begin{equation}
 	u^2 = \Omega^2 + i \ \dot u \; ,
@@ -130,7 +137,7 @@ which results in the general solution of \eqs{eq:linear_eom}
 	\label{eq:general_solution_eom_approx}
 \end{equation}
 
-Applying, then, the initial conditions $ \dot \theta |_{t=\ti} = 0$ and  $\theta|_{t=\ti} \approx \thetai$, we arrive with the solution 
+Applying, then, the initial conditions $ \dot \theta |_{t=\ti} = 0$ and  $\theta|_{t=\ti} \approx \thetai$, we arrive at 
 %
 \begin{equation}
 	\theta(t) \approx \thetai \sqrt{ \dfrac{ \Omegai }{\Omega (t)} } \exp\lrb{-\dfrac{3}{2} \int_{\ti}^t d t^\prime  \ H(t^\prime)} \  \cos\lrb{ \int_{\ti}^t d t^\prime  \ \Omega(t^\prime)}   \;.
@@ -138,7 +145,9 @@ Applying, then, the initial conditions $ \dot \theta |_{t=\ti} = 0$ and  $\theta
 \end{equation}
 
 
-In order to further simplify this approximate result, we note that $\theta$ deviates from $\thetai$ only after the mass becomes comparable to the expansion rate of the Universe, \ie after $\maT|_{t = \tosc} = 3 H|_{t = \tosc}$. This observation allows us to use $\ti = \tosc$.  Moreover, at $t> \tosc$, we can approximate $\Omega \approx \maT$, as $H^2$ and $\dot H$ become much smaller than $\maT^2$ quickly after $t=\tosc$. Finally, the axion angle takes the form
+In order to further simplify this approximate result, we note that $\theta$ deviates from $\thetai$ close to $t=\tosc$ -- corresponding to $T = \Tosc$, the so-called ``oscillation temperature" -- $\maT|_{t = \tosc} = 3 H|_{t = \tosc}$, which is defined as the point at which the axion begins to oscillate. 
+%
+This observation allows us to set $\ti = \tosc$.  Moreover, at $t > \tosc$, we approximate $\Omega \approx \maT$, as $H^2$ and $\dot H$ become much smaller than $\maT^2$ quickly after $t=\tosc$. Finally, the axion angle takes the form
 %
 \begin{equation}
 	\theta(t) \approx \thetaosc \lrb{\dfrac{3}{4}}^{1/4} \sqrt{ \dfrac{ \maT|_{t=\tosc} }{\maT  (t)} } \exp\lrb{-\dfrac{3}{2} \int_{\tosc}^t d t^\prime  \ H(t^\prime)} \  \cos\lrb{ \int_{\tosc}^t d t^\prime  \ \maT(t^\prime)}   \;,
@@ -164,25 +173,26 @@ The energy density of the axion is
 	\label{eq:rho_a_def} 
 \end{eqnarray}
 %
-For the relic abundance of axions, we need to calculate their energy density at very late times. That is, $\dot \maT = 0$, $\maT \gg H$ and $\dot H \ll H^2$. After some algebra, we obtain the approximate form of the energy density (as a function of the scale factor $R$) 
+For the relic abundance of axions, we need to calculate their energy density at very late times. That is, $\dot{\tilde{m}}_a = 0$, $\maT \gg H$ and $\dot H \ll H^2$. After some algebra, we obtain the approximate form of the energy density (as a function of the scale factor $a$) 
 %
 \begin{eqnarray}
-	\rho_{a} \approx \dfrac{\ma }{2}  \ \fa^2 \ \thetai^2  \ \maT(R_{\rm osc}) \ \lrb{\dfrac{R_{\rm osc}}{R}}^3 \;,
+	\rho_{a} \approx \dfrac{\ma }{2}  \ \fa^2 \ \thetai^2  \ \maT(a_{\rm osc}) \ \lrb{\dfrac{a_{\rm osc}}{a}}^3 \;,
 	\label{eq:rho_a0} 
 \end{eqnarray}
 %
-which shows that the energy density of axions at late times scales as the energy density of matter. Thus, today, the energy density of axions can be found by calculating the entropy injection ($\gamma$) between $\tosc$ and today, \ie
+which shows that the energy density of axions at late times scales as the energy density of matter. If there is a period of entropy injection to the plasma for $T<\Tosc$, the axion energy density gets diluted, since 
 %
 \begin{equation}
-	R^3 \ s = \gamma \ R_{\rm osc}^3 \ s_{\rm osc} \Rightarrow  \lrb{\dfrac{R_{\rm osc}}{R}}^3 = \gamma^{-1} \dfrac{s}{s_{\rm osc}} \;,
+	a^3 \ s = \gamma \ a_{\rm osc}^3 \ s_{\rm osc} \Rightarrow  \lrb{\dfrac{a_{\rm osc}}{a}}^3 = \gamma^{-1} \dfrac{s}{s_{\rm osc}} \;,
 \end{equation}
 %
-which results in the energy density today
+with $\gamma$ the amount of entropy injection to the plasma between $\tosc$ and $t$. Therefore, the present (at $T=T_0$) energy density of the axion, becomes
+%
 \begin{eqnarray}
 	\rho_{a,0} = \gamma^{-1}  \dfrac{s_0}{s_{\rm osc}} \  \dfrac{1 }{2}  \ \fa^2 \ \ma \ \maT_{,{\rm osc}} \ \thetai^2    \;,
 	\label{eq:rho_a_approx} 
 \end{eqnarray}
-with $\ma$ the mass of the axion at $T=0$.
+with $\ma$ the mass of the axion at $T=T_0$. Notice that the explicit dependence on $\fa$ cancels, since $\maT \sim 1/\fa$. That is, $\fa$ only affects the energy density of the axions through its impact on $\Tosc$. 
 %
 
 \subsection{Notation}\label{sec:notation}
@@ -192,7 +202,7 @@ with $\ma$ the mass of the axion at $T=0$.
 The EOM~(\ref{eq:eom}) depends on time, which is not very useful variable in a non-standard comsological setting. Therefore, we introduce 
 %
 \begin{eqnarray}
-	u = -\log \dfrac{\Ri}{R} \;,
+	u = -\log \dfrac{\ai}{a} \;,
 	\label{eq:natation}
 \end{eqnarray}
 %
@@ -220,7 +230,7 @@ $$
 $$
 with  $ \delta_h = 1+ \dfrac{1}{3} \dfrac{d \log \heff}{d \log T} $. 
 %
-In a general cosmological setting, the expansion rate is dominated by an energy density that scales as $\rho \sim R^{-c}$, which results in $\dfrac{d \log H^2}{du}  = -c$. However, close to rapid particle annihilations and decays, the evolution of the energy densities change, and $\dfrac{d \log H^2}{du}$ can only be computed numerically.
+In a general cosmological setting, the expansion rate is dominated by an energy density that scales as $\rho \sim a^{-c}$, which results in $\dfrac{d \log H^2}{du}  = -c$. However, close to rapid particle annihilations and decays, the evolution of the energy densities change, and $\dfrac{d \log H^2}{du}$ can only be computed numerically.
 
 \subsection{Beyond the WKB approximation}\label{sec:beyond_WKB}
 %
@@ -263,16 +273,19 @@ where  $\gamma_{\rm osc}$ is the entropy injection between $\Ti$ and $\Tosc$. No
 %
 \begin{eqnarray}
 	\rho_{a,0} = \gamma^{-1}  \dfrac{s_0}{s_{\rm osc}} \  \dfrac{1 }{2}  \ \fa^2 \ \ma \ \maT_{,{\rm osc}} \ \thetai^2 \lrBiggcb{
-		1 -2 \ \lrb{\dfrac{\maT}{H}}_{t=\ti}^2 \  \lrb{1- \dfrac{\Ti}{\Tosc}\lrb{\dfrac{\heff_{,\rm ini}}{\heff_{,\rm osc}}\gamma_{\rm osc}}^{1/3}}^{2}   }    \;,
+		1 - \ \lrb{\dfrac{\maT}{H}}_{t=\ti}^2 \  \lrb{1- \dfrac{\Ti}{\Tosc}\lrb{\dfrac{\heff_{,\rm ini}}{\heff_{,\rm osc}}\gamma_{\rm osc}}^{1/3}}^{2}   }^2    \;,
 	\label{eq:rho_a_NLO} 
 \end{eqnarray}
 %
 which implies that the WKB approximation overestimates the energy density of the axion, since $\gamma_{\rm osc}$, $H_{\rm ini}$, and $\Tosc$ can vary. 
 
 
-In order to demonstrate the effect of the deviation between $\thetai$ and $\thetaosc$, we show \Figs{fig:WKB_diff_i,fig:WKB_diff_osc}, for different cosmological scenarios. In \Figs{fig:WKB_diff_i} we show the relative difference between $\Omega h^2$ using \eqs{eq:solution_eom_approx_final} and the result obtained from \mimes; with blue, red (dotted), and black (dashed) lines correspond to radiation, kination, and matter dominated Universe, respectively. It should be apparent that the accuracy of the estimate based on \eqs{eq:solution_eom_approx_final} depends of $\fa$, since for high values of $\fa$, $\Tosc$ is low. That is, the deviation between $\thetai$ and $\thetaosc$ is greater than the corresponding difference for lower $\fa$, especially for the matter dominated case, where the entropy injection is great.
-%
-In \Figs{fig:WKB_diff_osc} we show the relative difference between $\Omega h^2$ numerical integration of \eqs{eq:eom_u} (\ie \mimes) and using \eqs{eq:solution_eom_approx_theta_osc} by numerically determining $\thetaosc$ (in order to avoid introducing additional errors), with the colour coding being the same as in \Figs{fig:WKB_diff_i}. The relative difference between the two estimates, once again, depends $\fa$. For $\fa \lesssim 10^{16}~\GeV$ the discrepancy is of the same level as in \Figs{fig:WKB_diff_i}, as $\Tosc$ is relatively high and the adiabatic conditions are not met. However, for higher values of $\fa$, $\Tosc$ drops closer to the adiabatic limit. Hence \eqs{eq:solution_eom_approx_theta_osc} becomes more accurate than \eqs{eq:solution_eom_approx_final}, regardless of the underlying cosmology.
+In order to demonstrate the effect of the deviation between $\thetai$ and $\thetaosc$, we show \Figs{fig:WKB_diff_i,fig:WKB_diff_osc}, for different cosmological scenarios. In both figures, the red and black (dashed) lines correspond to radiation and matter dominated Universe, respectively.~\footnote{For the matter dominated case (following the notation of refs.~\cite{Arias:2019uol,Arias:2020qty}), we have used 
+$T_{\rm end}=10^{-2} ~\GeV,\; c=3, \; T_{\rm ini}=10^{12} ~\GeV, \; \text{and}\; r=0.1$.} For the matter dominated case, entropy is injected to the plasma both before and after $\Tosc$. The entropy injection factor, $\gamma_{\rm osc}$, as a function of $\fa$ is shown in \Figs{fig:gamma_osc}.
+
+In \Figs{fig:WKB_diff_i} we show the relative difference between $\Omega h^2$ using \eqs{eq:solution_eom_approx_final} and the result obtained from \mimes. It should be apparent that the accuracy of the estimate based on \eqs{eq:solution_eom_approx_final} depends of $\fa$, since for high values of $\fa$, $\Tosc$ is low. That is, the deviation between $\thetai$ and $\thetaosc$ is greater than the corresponding difference for lower $\fa$, especially for the matter dominated case, where the entropy injection is great (see \Figs{fig:gamma_osc}).
+
+In \Figs{fig:WKB_diff_osc} we show the relative difference between $\Omega h^2$ obtained by integrating numerically \eqs{eq:eom_u}  and using \eqs{eq:solution_eom_approx_theta_osc} with \eqs{eq:theta_osc}. The relative difference between the two estimates, once again, depends $\fa$. It should be noted that the estimate for $\thetaosc$ depends on the choice of $\Ti$. For \Figs{fig:WKB_diff_osc}, we define $\Ti$ as the temperature at which $3H/\maT = 2$. We note that this estimate is more accurate, its accuracy still depends on whether the axion evolves adiabatically at $T<\Tosc$. Moreover, an increase of $\gamma_{\rm osc}$ invalidates the estimate of $\thetaosc$; higher powers of $\delta u$ may be needed.    
 %
 \begin{figure}[t]
 	\begin{subfigure}[]{0.5\textwidth}
@@ -297,7 +310,7 @@ In \Figs{fig:WKB_diff_osc} we show the relative difference between $\Omega h^2$ 
 \end{figure}
 %
 
-Nevertheless, neither the estimates based on \eqs{eq:solution_eom_approx_theta_osc,eq:solution_eom_approx_final} seem provide a result comparable to the numerical integration of \eqs{eq:eom_u}. Therefore, numerical integration should be preferred. 
+Nevertheless, neither estimates based on \eqs{eq:solution_eom_approx_theta_osc,eq:solution_eom_approx_final} seem to provide a result comparable to numerically integrating \eqs{eq:eom_u}. Therefore, numerical integration should be preferred. 
 
 \subsubsection{Adiabatic invariant and the anharmonic factor}\label{sec:an_fac}
 %
@@ -344,14 +357,14 @@ where the integral is over a closed path (\eg a period, $T$), and $C$ indicates 
 The Hamiltonian that results in the EOM of \eqs{eq:eom} is
 %
 \begin{equation}
-	\Ham = \dfrac{1}{2} \dfrac{p^2}{\fa^2 \ R^3} + V(\theta) \ R^3\;,
+	\Ham = \dfrac{1}{2} \dfrac{p^2}{\fa^2 \ a^3} + V(\theta) \ a^3\;,
 	\label{eq:axion_H}
 \end{equation}
 %
 with 
 %
 \begin{eqnarray}
-	& p = \fa^2 \ R^3 \ \dot \theta \\
+	& p = \fa^2 \ a^3 \ \dot \theta \\
 	\label{eq:momentum}
 	& V(\theta) = \maT^2 \fa^2 (1-\cos \theta) \;.
 	\label{eq:potential}
@@ -360,24 +373,24 @@ with
 Notice that the Hamiltonian varies slowly if $\dot \maT/\maT \ll \maT$ and $H \ll \maT$, which are the adiabatic conditions.  When these conditions are met, the adiabatic invariant for this system becomes
 %
 \begin{equation}
-	J = \dfrac{\oint p \ d \theta}{\pi \fa^2} = \dfrac{1}{\pi \fa^2} \oint \sqrt{ 2\lrb{ \Ham(\theta) - V(\theta) \ R^3} \ \fa^2 R^3 \ }  \ d \theta  =
-	 \dfrac{2}{\pi \fa^2} \int_{-\thetamax}^{\thetamax} \sqrt{ 2\lrb{ \Ham(\thetamax) - V(\theta) \ R^3} \ \fa^2 R^3 \ } d \theta \;,
+	J = \dfrac{\oint p \ d \theta}{\pi \fa^2} = \dfrac{1}{\pi \fa^2} \oint \sqrt{ 2\lrb{ \Ham(\theta) - V(\theta) \ a^3} \ \fa^2 a^3 \ }  \ d \theta  =
+	 \dfrac{2}{\pi \fa^2} \int_{-\thetamax}^{\thetamax} \sqrt{ 2\lrb{ \Ham(\thetamax) - V(\theta) \ a^3} \ \fa^2 a^3 \ } d \theta \;,
 	 \label{eq:J_axion_definition}
 \end{equation}
 %
-where we note that $\thetamax$ denotes the maximum of $\theta$ -- the peak of the oscillation, which corresponds to $p=0$. That is, $\Ham(\thetamax) = V(\thetamax) \ R^3$. Therefore, the adiabatic invariant, takes the form 
+where we note that $\thetamax$ denotes the maximum of $\theta$ -- the peak of the oscillation, which corresponds to $p=0$. That is, $\Ham(\thetamax) = V(\thetamax) \ a^3$. Therefore, the adiabatic invariant, takes the form 
 
 \begin{eqnarray}
-	J=&  \dfrac{2 \sqrt{2} }{\pi \fa}  \int_{- \thetamax} ^{\thetamax}  \sqrt{ V(\theta_{\rm max}) - V(\theta) } R^{3} d \theta = 
-	\dfrac{2 \sqrt{2} }{\pi} \ \maT \, R^3 \ \dint_{- \thetamax}^{\thetamax} \sqrt{\cos \theta - \cos \thetamax} \ d \theta  
+	J=&  \dfrac{2 \sqrt{2} }{\pi \fa}  \int_{- \thetamax} ^{\thetamax}  \sqrt{ V(\theta_{\rm max}) - V(\theta) } a^{3} d \theta = 
+	\dfrac{2 \sqrt{2} }{\pi} \ \maT \, a^3 \ \dint_{- \thetamax}^{\thetamax} \sqrt{\cos \theta - \cos \thetamax} \ d \theta  
 	\;,
 	\label{eq:J_axion_derivation}
 \end{eqnarray}
 %
-where, for the last equality. we have used the adiabatic conditions, \ie negligible change of $\maT$ and $R$ during one period. Usually, the adiabatic invariant is written as~\cite{Lyth:1991ub,Bae:2008ue} 
+where, for the last equality. we have used the adiabatic conditions, \ie negligible change of $\maT$ and $a$ during one period. Usually, the adiabatic invariant is written as~\cite{Lyth:1991ub,Bae:2008ue} 
 %
 \begin{equation}
-	J = R^3 \ \maT \ \thetamax^2  \, f(\thetamax)  \;,
+	J = a^3 \ \maT \ \thetamax^2  \, f(\thetamax)  \;,
 	\label{eq:J_axion_final_form}
 \end{equation}
 %
@@ -402,10 +415,10 @@ is called the anharmonic factor, with $ 0.5 \lesssim f(\thetamax) \leq 1$ (see \
 %
 The adiabatic invariant allows us to calculate the maximum value of the angle $\theta$ at late times from its corresponding value at some point after the adiabatic conditions where met. It allows us to calculate the energy density of the axions field for $\theta \gtrsim 1$ since we have taken into account the exact potential.
 
-In order to do this, we can numerically integrate \eqs{eq:eom}, and identify the maxima of $\theta$. Once the adiabatic conditions are fulfilled, we can stop the integration at a peak, $\thetamax_{,*}$ -- which corresponds to $T=T_{*}$ and $R=R_{*}$. Then, the value of the maximum angle today ($\thetamax_{,0} \ll 1$) is related to $\thetamax_{,*}$ via
+In order to do this, we can numerically integrate \eqs{eq:eom}, and identify the maxima of $\theta$. Once the adiabatic conditions are fulfilled, we can stop the integration at a peak, $\thetamax_{,*}$ -- which corresponds to $T=T_{*}$ and $a=a_{*}$. Then, the value of the maximum angle today ($\thetamax_{,0} \ll 1$) is related to $\thetamax_{,*}$ via
 %
 \begin{eqnarray}
-	\thetamax_{,0}^2 &=  \lrb{\dfrac{R_*}{R_0}}^3 \ \dfrac{\maT_{,*}}{\ma} \ f(\thetamax_{,*}) \ \thetamax_{,*}^2  =
+	\thetamax_{,0}^2 &=  \lrb{\dfrac{a_*}{a_0}}^3 \ \dfrac{\maT_{,*}}{\ma} \ f(\thetamax_{,*}) \ \thetamax_{,*}^2  =
 	\gamma^{-1} \ \dfrac{s_0}{s_*} \ \dfrac{\maT_{,*}}{\ma} \ f(\thetamax_{,*}) \ \thetamax_{,*}^2 
 	\; .
 	\label{eq:theta_relation}
@@ -427,29 +440,71 @@ Notice that this is form of $\rho_{a,0}$  is similar to the the WKB result~(\ref
 
 \section{How to start using \mimes}\label{sec:start}
 \setcounter{equation}{0}
+%
+The library can downloaded from \href{https://github.com/dkaramit/MiMeS}{github.com/dkaramit/MiMeS}. Since the library depends on {\tt NaBBODES}~\cite{NaBBODES} {\tt SpleSplines}~\cite{SimpleSplines}, one has to download the, too. However, in order to get \mimes ready, one can run the following commands
+%
+\begin{bash}
+git clone git@github.com:dkaramit/MiMeS.git
+cd MiMeS
+git submodule init
+git submodule update --remote
+\end{bash}
+%
+Although this method should be preferred in order to get the latest version, one can also just download \mimes from \href{https://mimes.hepforge.org/downloads/}{mimes.hepforge.org/downloads}.
 
-The library can downloaded from \href{https://github.com/dkaramit/MiMeS}{github.com/dkaramit/MiMeS}. Once download is complete, we can go inside the \mimes directory, and run {\tt bash configure.sh} and  {\tt make}.  The {\tt bash} script {\tt configure.sh}, downloads parts of {\tt NaBBODES} and {\tt SimpleSplines}~\footnote{\href{https://github.com/dkaramit/NaBBODES}{\tt NaBBODES} is header-only library for ODE integration, and \href{https://github.com/dkaramit/SimpleSplines}{\tt SimpleSplines} is header-only library for spline interpolation.}, writes some files, and  makes some directories, needed \mimes. The {\tt makefile} is responsible for compiling some examples and checks, as well as the shared libraries that we need, for the \PY interface.  If everything runs successfully, there should be two new directories {\tt exec} and {\tt lib}. Inside {\tt exec}, there are several executables that we can run, in order to ensure that the code runs (\eg no segmentation fault occurs). For example, {\tt exec/AxionSolve\_check.run}, should print the values of the parameters $\thetai$ and $\fa$, the oscillation temperature and the corresponding value of $\theta$, the evolution of the axion (\eg temperature, $\theta$, $\rho_{a}$, etc.), and the values of various quantities on the peaks of the oscillation.  In the directory {\tt lib}, there are several shared libraries, that the \PY interface needs.
 
-\paragraph{First steps} There are several examples in \CPP ({\tt Examples/Cpp}) and \PY ({\tt Examples/Python}), as well as \JUPY  notebooks ({Examples/JupyterNotebooks} and {\tt Examples/scan}), that show in detail how \mimes can be used.
+Once everything is downloaded successfully, we can go inside the \mimes directory, and run {\tt bash configure.sh}~\footnote{Instead of {\tt bash}, shells such {\tt sh} should also work.} and {\tt make}.  The {\tt bash} script {\tt configure.sh}, just writes some paths to some files, and  makes some directories, needed by \mimes. The {\tt makefile} is responsible for compiling some examples and checks, as well as the shared libraries that needed for the \PY interface.  If everything runs successfully, there should be two new directories {\tt exec} and {\tt lib}. Inside {\tt exec}, there are several executables that one can run, in order to ensure that the code runs (\eg no segmentation fault occurs). For example, {\tt exec/AxionSolve\_check.run}, should print the values of the parameters $\thetai$ and $\fa$, the oscillation temperature and the corresponding value of $\theta$, the evolution of the axion (\eg temperature, $\theta$, $\rho_{a}$, etc.), and the values of various quantities on the peaks of the oscillation.  In the directory {\tt lib}, there are several shared libraries for the \PY interface.
 
-\paragraph{Using \mimes in \CPP} \DK{Describe the {\tt mimes::Axion} class}.
+\paragraph{First steps} There are several examples in \CPP ({\tt Examples/Cpp}) and \PY ({\tt Examples/Python}), as well as \JUPY  notebooks ({Examples/JupyterNotebooks}), that show in detail how \mimes can be used. 
 
-\paragraph{Using \mimes in \PY} \DK{Describe the {\tt Axion} class in {\tt interfacePy.Axion} module}.
+\paragraph{Using \mimes in \PY} \DK{Describe how to use the {\tt Axion} class in {\tt interfacePy.Axion} module}.
+
+
+\paragraph{Using \mimes in \CPP} \DK{Describe how to use the {\tt mimes::Axion} class}.
+
 
 
 \section{Assumptions and user input}\label{sec:assumptions}
 \setcounter{equation}{0}
-
-\mimes makes only a few, fairly general assumptions. First of all, it is assumed that the axion energy density is always subdominant compared to radiation or any other component of the Universe, and that decays and annihilations of particles have a negligible effect on the axion energy density. Moreover, the initial condition are always assumed to be $\thetai = const$ (\ie $\dot \theta|_{t=\ti}=0$).
-
-\DK{since you have described the classes, you can now talk about {\tt ratio\_ini} and the others!}
+%
+\mimes makes only a few, fairly general, assumptions. First of all, it is assumed that the axion energy density is always subdominant compared to radiation or any other component of the Universe, and that decays and annihilations of particles have a negligible effect on the axion energy density. Moreover, the initial condition is always assumed to be $\thetai = const$ (\ie $\dot \theta|_{t=\ti}=0$). Moreover, it is also assumed that the axion mass deceases monotonically at high temperatures. 
 
 
+\paragraph{User input at compile-time} \DK{Describe the files for the plasma related quantities, the mass of the axion, and the anharmonic factor.
+Mention optimization options, and {\tt g++} and {\tt clang} seem to work. Describe the available solvers (appendix for more details).}.
 
 
-\newpage
+\paragraph{User input at run-time} \DK{Since you have described the classes, you can now talk about {\tt ratio\_ini} and the others! Mention the solver parameters and redirect to the appendix for more info.}.
+
+\subsection{Complete Examples}\label{sec:complete_examples}
+
+\paragraph{A complete \CPP example}\DK{Give the code with explanation of {\tt Examples/CPP/Axion}, along with the compilation options.}
+
+\paragraph{A complete \PY example}\DK{Give th/e code with explanation of {\tt Examples/Python/Axion.py}, say that the compilation options are set in the root directory of \mimes.}
+
+
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% APPENDICES
+%\pagebreak
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setcounter{section}{0}
+\section*{Appendix}
+\appendix
+
+\renewcommand{\theequation}{\Alph{section}.\arabic{equation}}
+\setcounter{equation}{0}  % reset counter
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Basics of embedded Runge-Kutta Mehtods}\label{app:RK}
+\setcounter{equation}{0}
+\DK{Basically, take a few things you have written in ASAP and explain them (give a link to ASAP, in case someone wants to take a  closer look).}
+\paragraph{Explicit methods}{\DK{Show the basic equations and butcher tableu}}
+\paragraph{Rosenbrock methods}{\DK{Show the basic equations and butcher tableu}}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- \bibliography{refs}{}
- \bibliographystyle{JHEP}                        
+\newpage
+\bibliography{refs}{}
+\bibliographystyle{JHEP}                        
 
 \end{document}

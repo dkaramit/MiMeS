@@ -1,2 +1,2 @@
-from .WKB import relic,theta_osc
+from .WKB import relic, theta_osc, getPoints
 

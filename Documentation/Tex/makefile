@@ -11,7 +11,9 @@ all:  ../MiMeS.pdf
 #run pdflatex and bibtex (runs only if you update something in pdfs or in the tex file)
 ../MiMeS.pdf:  MiMeS.tex $(figs) refs.bib
 	$(TEX) $(FLG) $< 
+	$(TEX) $(FLG) $< 
 	$(BIB) MiMeS || true
+	$(TEX) $(FLG) $< 
 	$(TEX) $(FLG) $< 
 	mv MiMeS.pdf ../
 

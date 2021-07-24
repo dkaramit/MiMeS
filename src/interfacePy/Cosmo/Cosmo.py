@@ -20,23 +20,37 @@ for i,f in enumerate (CppFunc):
     f.restype = cdouble
 ###############################################
 
-# heff(T): h_eff at temperature T [GeV]
-heff=func.heff
-# geff(T): g_eff at temperature T [GeV]
-geff=func.geff
-# dgeffdT(T): \dfrac{dg_eff}{dT} at temperature T [GeV]
-dgeffdT=func.dgeffdT
-# dheffdT(T): \dfrac{dh_eff}{dT} at temperature T [GeV]
-dheffdT=func.dheffdT
-# dh(T): \delta_h(T)=1+1/3 \frac{d log h_eff}{d log T} at temperature T [GeV]
-dh=func.dh
+def heff(T):
+    '''h_eff at temperature T [GeV]'''
+    return func.heff(T)
 
-# rhoR(T): \rho_R (energy density of the plasma) at temperature T [GeV]
-rhoR=func.rhoR
-# Hubble(T): H at temperature T [GeV]
-Hubble=func.Hubble
-# s(T): s (entropy density of the plasma) at temperature T [GeV]
-s=func.s
+def geff(T):
+    '''g_eff at temperature T [GeV] '''
+    return func.geff(T)
+
+def dgeffdT(T):
+    '''\\dfrac{dg_eff}{dT} at temperature T [GeV]'''
+    return func.dgeffdT(T)
+
+def dheffdT(T):
+    '''\\dfrac{dh_eff}{dT} at temperature T [GeV]'''
+    return func.dheffdT(T)
+
+def dh(T):
+    '''\\delta_h(T)=1+1/3 \frac{d log h_eff}{d log T} at temperature T [GeV]'''
+    return func.dh(T)
+
+def rhoR(T):
+    '''energy density of the plasma at temperature T [GeV]'''
+    return func.rhoR(T)
+
+def Hubble(T): 
+    '''H at temperature T [GeV]'''
+    return func.Hubble(T)
+
+def s(T): 
+    '''s (entropy density of the plasma) at temperature T [GeV]'''
+    return func.s(T)
 
 func.getT0.argtypes =None
 func.getT0.restype =cdouble

@@ -17,8 +17,10 @@ func._anharmonicFactor.argtypes = cdouble,
 func._anharmonicFactor.restype = cdouble
 ###############################################
 
-#anharmonicFactor: returns the anharmonic factor at a theta_max
-anharmonicFactor=func._anharmonicFactor
+
+def anharmonicFactor(theta_max):
+    '''returns the anharmonic factor at theta_max'''
+    return func._anharmonicFactor(theta_max)
 
 
 if __name__=="__main__":

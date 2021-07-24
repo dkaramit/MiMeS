@@ -183,11 +183,11 @@ namespace mimes{
         T_osc=axionEOM.T_osc;
         a_osc=std::exp(axionEOM.u_osc);
 
-        //use a lambda to pass axionEOM in the solver (the overhead should be minimal)
-        sys EOM = [&axionEOM](Array<LD> &lhs, Array<LD> &y, LD u){axionEOM(lhs, y, u);};
+        //use can also use lambda to pass axionEOM in the solver (the overhead should be minimal)
+        // sys EOM = [&axionEOM](Array<LD> &lhs, Array<LD> &y, LD u){axionEOM(lhs, y, u);};
 
         // instance of the solver
-        Solver System(EOM, y0, umax,
+        Solver System(axionEOM, y0, umax,
                         initial_step_size, minimum_step_size, maximum_step_size, maximum_No_steps,
                         absolute_tolerance, relative_tolerance, beta, fac_max,fac_min);
 

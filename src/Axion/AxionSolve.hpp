@@ -2,7 +2,6 @@
 #define SolveAxion_included
 #include <cmath>
 #include <string>
-#include <functional>
 #include <vector>
 
 
@@ -54,15 +53,12 @@ namespace mimes{
 
     template<class LD>
     class Axion{
-        //-----Function type--------//
-        using sys= std::function<void (Array<LD> &lhs, Array<LD> &y, LD u)>;
-        
         #if solver==1
-        using Solver=Ros<sys, Neqs, METHOD<LD>, Jacobian<sys, Neqs, LD>, LD>;
+        using Solver=Ros<Neqs, METHOD<LD>, Jacobian<Neqs, LD>, LD>;
         #endif
 
         #if solver==2
-        using Solver=RKF<sys, Neqs, METHOD<LD>, LD>;
+        using Solver=RKF<Neqs, METHOD<LD>, LD>;
         #endif
 
         LD theta_i,fa,umax,TSTOP,ratio_ini;

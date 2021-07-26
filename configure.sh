@@ -1,6 +1,9 @@
 #!/bin/bash
 source Definitions.mk
 
+bash src/FormatFile.sh $cosmoDat
+bash src/FormatFile.sh $axMDat
+bash src/FormatFile.sh $anFDat
 
 # ---------these are needed for python and c++---------------- #
 mkdir "lib" 2> /dev/null

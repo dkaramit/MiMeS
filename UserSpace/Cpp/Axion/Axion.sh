@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#This script reads a file (whihc is passed as argument) with the inputs for Axion.run, 
+#This script reads a file (which is passed as argument) with the inputs for Axion.run, 
 # and prints the result. 
 # Also, in stderr, print the time it took (is seconds) to run it.
 

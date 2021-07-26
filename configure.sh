@@ -1,9 +1,15 @@
 #!/bin/bash
 source Definitions.mk
 
+chmod +x src/FormatFile.sh
+chmod +x UserSpace/Cpp/Axion/Axion.sh
+chmod +x src/interfacePy/ScanScript/parallel_scan.sh
+
+
 bash src/FormatFile.sh $cosmoDat
 bash src/FormatFile.sh $axMDat
 bash src/FormatFile.sh $anFDat
+
 
 # ---------these are needed for python and c++---------------- #
 mkdir "lib" 2> /dev/null

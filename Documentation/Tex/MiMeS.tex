@@ -441,19 +441,22 @@ Notice that this is form of $\rho_{a,0}$  is similar to the the WKB result~(\ref
 \section{How to start using \mimes}\label{sec:start}
 \setcounter{equation}{0}
 %
-The library can downloaded from \href{https://github.com/dkaramit/MiMeS}{github.com/dkaramit/MiMeS}. Since the library depends on {\tt NaBBODES}~\cite{NaBBODES} {\tt SpleSplines}~\cite{SimpleSplines}, one has to download the, too. However, in order to get \mimes ready, one can run the following commands
+\begin{listing}
+	\begin{bash}
+		git clone git@github.com:dkaramit/MiMeS.git
+		cd MiMeS
+		git submodule init
+		git submodule update --remote
+	\end{bash}
+	%
+	\caption{Commands in order to download \mimes, the differential equation solvers, and the interpolation libraries.}
+	\label{listing:git_download}
+\end{listing}
 %
-\begin{bash}
-git clone git@github.com:dkaramit/MiMeS.git
-cd MiMeS
-git submodule init
-git submodule update --remote
-\end{bash}
-%
-Although this method should be preferred in order to get the latest version, one can also just download \mimes from \href{https://mimes.hepforge.org/downloads/}{mimes.hepforge.org/downloads}.
+The library can downloaded from \href{https://github.com/dkaramit/MiMeS}{github.com/dkaramit/MiMeS}. Since the library depends on {\tt NaBBODES}~\cite{NaBBODES} {\tt SpleSplines}~\cite{SimpleSplines}, one has to download the, too. However, in order to get \mimes ready, one can run the commands shown in listing~\ref{listing:git_download}. Although this method should be preferred in order to get the latest version, \mimes can also be downloaded from \href{https://mimes.hepforge.org/downloads/}{mimes.hepforge.org/downloads}.
 
 
-Once everything is downloaded successfully, we can go inside the \mimes directory, and run {\tt bash configure.sh}~\footnote{Instead of {\tt bash}, shells such {\tt sh} should also work.} and {\tt make}.  The {\tt bash} script {\tt configure.sh}, just writes some paths to some files, and  makes some directories, needed by \mimes. The {\tt makefile} is responsible for compiling some examples and checks, as well as the shared libraries that needed for the \PY interface.  If everything runs successfully, there should be two new directories {\tt exec} and {\tt lib}. Inside {\tt exec}, there are several executables that one can run, in order to ensure that the code runs (\eg no segmentation fault occurs). For example, {\tt exec/AxionSolve\_check.run}, should print the values of the parameters $\thetai$ and $\fa$, the oscillation temperature and the corresponding value of $\theta$, the evolution of the axion (\eg temperature, $\theta$, $\rho_{a}$, etc.), and the values of various quantities on the peaks of the oscillation.  In the directory {\tt lib}, there are several shared libraries for the \PY interface.
+Once everything is downloaded successfully, we can go inside the \mimes directory, and run {\tt bash configure.sh}~\footnote{Instead of {\tt bash}, shells such {\tt sh} should also work.} and {\tt make}.  The {\tt bash} script {\tt configure.sh}, just writes some paths to some files, formats the data files provided in a acceptable format (in section~\ref{sec:input} the format is explained), and makes some directories. The {\tt makefile} is responsible for compiling some examples and checks, as well as the shared libraries that needed for the \PY interface.  If everything runs successfully, there should be two new directories {\tt exec} and {\tt lib}. Inside {\tt exec}, there are several executables that ready to run, in order to ensure that the code runs (\eg no segmentation fault occurs). For example, {\tt exec/AxionSolve\_check.run}, should print the values of the parameters $\thetai$ and $\fa$, the oscillation temperature and the corresponding value of $\theta$, the evolution of the axion (\eg temperature, $\theta$, $\rho_{a}$, etc.), and the values of various quantities on the peaks of the oscillation.  In the directory {\tt lib}, there are several shared libraries for the \PY interface.
 
 \paragraph{First steps} There are several examples in \CPP ({\tt Examples/Cpp}) and \PY ({\tt Examples/Python}), as well as \JUPY  notebooks ({Examples/JupyterNotebooks}), that show in detail how \mimes can be used. 
 
@@ -522,6 +525,12 @@ The paths to these files should be set at compile time. That is, once {\tt Defin
 \section{Quick guide to user input}\label{app:usr_input}
 \setcounter{equation}{0}
 \DK{make a table with all the variables one can change}
+
+
+\section{Utilities that make running \mimes easier}\label{app:usr_input}
+\setcounter{equation}{0}
+\DK{Describe {\tt FormatFile.sh}.}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage

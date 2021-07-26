@@ -29,20 +29,14 @@ namespace mimes{
             LD theta,anF;
             std::ifstream data_file(path,std::ios::in);
 
-            //use this to prevent problems caused by empty lines...
-            LD theta_prev=-1;
             while (not data_file.eof()){
                 data_file>>theta;
                 data_file>>anF;
-
-                //if there is an empty line theta does not change, so do skip it.
-                if(N>1 and theta==theta_prev){continue;}
 
                 theta_tab.push_back(theta);  
                 anF_tab.push_back(anF);         
                 
                 N++;
-                theta_prev=theta;
             }
             data_file.close();
             maxTheta=theta_tab[N-1];

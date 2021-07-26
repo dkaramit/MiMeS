@@ -12,8 +12,8 @@
 namespace mimes{
     template<class LD>
     class AxionMass {
+        private:
         using VecLD=std::vector<LD>;
-        protected:
         CubicSpline<LD> chi;
         VecLD Ttab,chitab;
         LD TMin, TMax, chiMin, chiMax;
@@ -24,7 +24,6 @@ namespace mimes{
             
             unsigned int N=0;
             LD T,chi;
-            LD T_prev=-1;
             
             std::ifstream data_file(path,std::ios::in);
 
@@ -34,14 +33,12 @@ namespace mimes{
                 
                 if(T>=minT and T<=maxT){
                     //if there is an empty line the temperature does not change, so do skip it.
-                    if(N>1 and T_prev==T){continue;}
  
                     Ttab.push_back(T*1e-3); //temperature in GeV
                     chitab.push_back(chi*0.197*0.197*0.197*0.197); //chi in GeV**4
                     
                     N++;
                 }
-                T_prev=T;
             }
             data_file.close();
 

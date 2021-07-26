@@ -33,7 +33,7 @@ int main(int argc, char **argv){
     // more than  convergence_lim% for N_convergence_max consecutive peaks
     unsigned int N_convergence_max=5;
     LD convergence_lim=1e-2;
-    std::string  inputFile=std::string(PWD)+std::string("/Examples/InputExamples/RDinput.dat");
+    std::string  inputFile=std::string(PWD)+std::string("/UserSpace/InputExamples/RDinput.dat");
 
 
     /*options for the solver*/

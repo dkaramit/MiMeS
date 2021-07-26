@@ -7,8 +7,8 @@
 *__pycache__*
 *.so
 *.run
-Examples/Python/*_examplePlot.pdf
-Examples/scan/*/*.dat
+UserSpace/Python/*_examplePlot.pdf
+UserSpace/scan/*/*.dat
 *.xtx
 *.aux 
 *.log 

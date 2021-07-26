@@ -97,7 +97,6 @@ namespace mimes{
 
         inputFile: file that describes the cosmology. the columns should be: u T[GeV] logH
 
-        // #define minimum_step_size 1e-8 //minimum stepsize of integration.
 
         -----------Optional arguments------------------------
         initial_stepsize: initial step the solver takes. 

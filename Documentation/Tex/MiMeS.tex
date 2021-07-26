@@ -450,22 +450,139 @@ Notice that this is form of $\rho_{a,0}$  is similar to the the WKB result~(\ref
 	\end{bash}
 	%
 	\caption{Commands in order to download \mimes, the differential equation solvers, and the interpolation libraries.}
-	\label{listing:git_download}
+	\label{list:git_download}
 \end{listing}
 %
-The library can downloaded from \href{https://github.com/dkaramit/MiMeS}{github.com/dkaramit/MiMeS}. Since the library depends on {\tt NaBBODES}~\cite{NaBBODES} {\tt SpleSplines}~\cite{SimpleSplines}, one has to download the, too. However, in order to get \mimes ready, one can run the commands shown in listing~\ref{listing:git_download}. Although this method should be preferred in order to get the latest version, \mimes can also be downloaded from \href{https://mimes.hepforge.org/downloads/}{mimes.hepforge.org/downloads}.
+The library can downloaded from \href{https://github.com/dkaramit/MiMeS}{github.com/dkaramit/MiMeS}. Since the library depends on {\tt NaBBODES}~\cite{NaBBODES} {\tt SpleSplines}~\cite{SimpleSplines}, one has to download the, too. However, in order to get \mimes ready, one can run the commands shown in listing~\ref{list:git_download}. Although this method should be preferred in order to get the latest version, \mimes can also be downloaded from \href{https://mimes.hepforge.org/downloads/}{mimes.hepforge.org/downloads}.
 
 
 Once everything is downloaded successfully, we can go inside the \mimes directory, and run {\tt bash configure.sh}~\footnote{Instead of {\tt bash}, shells such {\tt sh} should also work.} and {\tt make}.  The {\tt bash} script {\tt configure.sh}, just writes some paths to some files, formats the data files provided in a acceptable format (in section~\ref{sec:input} the format is explained), and makes some directories. The {\tt makefile} is responsible for compiling some examples and checks, as well as the shared libraries that needed for the \PY interface.  If everything runs successfully, there should be two new directories {\tt exec} and {\tt lib}. Inside {\tt exec}, there are several executables that ready to run, in order to ensure that the code runs (\eg no segmentation fault occurs). For example, {\tt exec/AxionSolve\_check.run}, should print the values of the parameters $\thetai$ and $\fa$, the oscillation temperature and the corresponding value of $\theta$, the evolution of the axion (\eg temperature, $\theta$, $\rho_{a}$, etc.), and the values of various quantities on the peaks of the oscillation.  In the directory {\tt lib}, there are several shared libraries for the \PY interface.
 
-\paragraph{First steps} There are several examples in \CPP ({\tt Examples/Cpp}) and \PY ({\tt Examples/Python}), as well as \JUPY  notebooks ({Examples/JupyterNotebooks}), that show in detail how \mimes can be used. 
+\subsection{First steps} There are several examples in \CPP ({\tt UserSpace/Cpp}) and \PY ({\tt UserSpace/Python}), as well as \JUPY  notebooks ({UserSpace/JupyterNotebooks}), that show in detail how \mimes can be used. 
 
-\paragraph{Using \mimes in \PY} \DK{Describe how to use the {\tt Axion} class in {\tt interfacePy.Axion} module}.
+\subsubsection{Using \mimes in \CPP} 
+%
+In order to use the {\tt mimes::Axion} class in a \CPP program, we need ti include the header file {\tt AxionSolve.hpp} located in {\tt src/Axion}. That is, on top of the {\tt .cpp}, we need to write 
+%
+\begin{cpp}
+	#include "src/Axion/AxionSolve.hpp"
+\end{cpp}
+%
+Notice that if the  {\tt .cpp} is not in the root directory of \mimes, we need to compile it using the flag {\tt -Ipath-to-root}, "path-to-root" the relative path to the root directory of \mimes; \eg if the {\tt .cpp} is in the {\tt UserSpace/Cpp/Axion} directory, this flag should be {\tt -I../../../}.
+
+Then, we can assign an instance of {\tt mimes::Axion} in a variable using
+%
+\begin{cpp}
+	mimes::Axion ax(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max,convergence_lim,
+	inputFile, initial_step_size,minimum_step_size, maximum_step_size, absolute_tolerance, 
+	relative_tolerance, beta, fac_max, fac_min, maximum_No_steps);
+\end{cpp}
+%
+The various parameters are as follows:
+%
+\begin{enumerate}
+	\item {\tt theta\_i}: initial angle.
+	\item {\tt fa}: the PQ scale.
+	\item {\tt umax }: if $u>${\tt umax} the integration stops (remember that $u=\log(a/a_i)$). Typically, this should be a large number ($\sim 1000$), in order to avoid stopping the integration before the axion begins to evolve  adiabatically.    
+	\item {\tt TSTOP}: if the temperature drops below this, integration stops. In most cases this should be around 
+	$10^{-4}~\GeV$, in order to be sure that any entropy injection has stopped before integration stops (since BBN bounds~\cite{Kolb:206230,Peebles:1993} should not be violated).
+	\item {\tt ratio\_ini}: integration starts when $3H/\maT \approx${\tt ratio\_ini} (the exact point depends on the file ``{\tt inputFile}", which we will see later). 
+	\item  {\tt N\_convergence\_max} and {\tt convergence\_lim}: integration stops when the relative difference 
+	between two consecutive peaks is less than {\tt convergence\_lim} for {\tt N\_convergence\_max} 
+	consecutive peaks.
+	\item  {\tt inputFile}: relative (or absolute) path to a file that describes the cosmology. the columns should be: $u$ $T ~[\GeV]$ $\log H$, sorted so that $u$ increases.~\footnote{One can run {\tt bash src/FormatFile.sh inputFile} in order to sort it and remove any unwanted duplicates. See Appendix~\ref{app:util} for details of {\tt src/FormatFile.sh}.}
+	%
+	It is important to remember that \mimes assumes that the entropy injection has stopped before the lowest temperature of given in {\tt inputFile}. Since \mimes is unable to guess the cosmology beyond what is given in this file, the user has to make sure that there are data between the initial temperature (which corresponds to {\tt ratio\_ini}, and {\tt TSTOP}).
+	
+	\item {\tt initial\_stepsize} (optional): initial step the solver takes. 
+	
+	\item {\tt maximum\_stepsize} (optional): This limits the step-size to an upper limit. 
+	\item {\tt minimum\_stepsize} (optional): This limits the step-size to a lower limit. 
+	
+	\item {\tt absolute\_tolerance} (optional): absolute tolerance of the RK solver
+	
+	\item {\tt relative\_tolerance} (optional): relative tolerance of the RK solver.
+	%
+	Generally, both absolute and relative tolerances should be $10^{-8}$. 
+	In some cases, however, one may need more accurate result (\eg if {\tt f\_a} is extremely high, 
+	the oscillations happen violently, and the system destabilizes). Whatever the case, if the  
+	tolerances are below $10^{-8}$, long doubles have be used. \mimes by default uses {long double} variables, 
+	in order to change it see the options available in section~\ref{sec:input}.
+	
+	\item {\tt beta} (optional): controls how agreesive the adaptation is. Generally, it should be around but less than 1.
+	
+	\item {\tt fac\_max},  {\tt fac\_min} (optional): the stepsize does not increase more than fac\_max, and less than fac\_min. 
+	This ensures a better stability. Ideally, {\tt fac\_max}$=\infty$ and {\tt fac\_min}$=0$, but in reality one must 
+	tweak them in order to avoid instabilities.
+	
+	\item {\tt maximum\_No\_steps} (optional): maximum steps the solver can take Quits if this number is reached even if integration
+	is not finished. 
+\end{enumerate}
+%
+in order to understand the usage of the optional parameters, some basic techniques of Runge-Kutta methods are discussed in Appendix~\ref{app:RK}. 
+
+The EOM~(\ref{eq:eom_u}), then can be solved using 
+%
+\begin{cpp}
+	ax.solve()
+\end{cpp}
+%
+This, if this runs successfully (in simple cases, such as a radiation dominated Universe, this should take a fraction of a second), then  $\Tosc$, $\thetaosc$, and $\Omega h^2$ are accessed via {\tt ax.T\_osc}, {\tt ax.theta\_osc}, and {\tt ax.relic}. The entire evolution (the points the integrator took) of the axion angle is stored in {\tt ax.points}, which is a two-dimensional {\tt std::vector}, with the columns corresponding to  $a$, $T~[\GeV]$, 
+$\theta$, $d\theta/du$, $\rho_a$. Moreover, the peaks of he oscillation are stored in another two-dimensional {\tt std::vector}, with the columns corresponding to $a$, $T~[\GeV]$, $\thetamax$, $d\theta/du=0$, $\rho_a$, $J$. We should note that the peaks are identified using linear interpolation between integration points, in order to ensure that $d\theta/du = 0$. That is, the values stored in {\tt mimes::Axion::peaks} do not exist in {\tt mimes::Axion::points}.
 
 
-\paragraph{Using \mimes in \CPP} \DK{Describe how to use the {\tt mimes::Axion} class}.
+\subsubsection{Using \mimes in \PY} The modules for the \PY interface are located in {\tt src/interfacePy}. Since, the most useful module is the one that actually solves the EOM~\ref{eq:eom_u}, we will explain here it can be used, and describe the others in Appendix~\ref{app:modules}.
 
+The {\tt Axion} class in the module {\tt interfacePy.Axion} can be loaded in a \PY script as 
+%
+\begin{py}
+	from sys import path as sysPath
+	from os import path as osPath
+	sysPath.append(osPath.join(osPath.dirname(__file__), 'path_to_src'))
+	from interfacePy.Axion import Axion
+\end{py}
+%
+It is important that \mintinline{python}{'path_to_src'} provides the relative path to the {\tt src} directory. For example, if the script is located in {\tt UserSpace/Python}, \mintinline{python}{'path_to_src'} should be \mintinline{python}{'../../src'}.
 
+Once the module is imported, we can define an {\tt Axion} instance as follows 
+%
+\begin{py}
+	ax=Axion(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max, convergence_lim, inputFile,
+	initial_step_size,minimum_step_size, maximum_step_size, absolute_tolerance, 
+	relative_tolerance, beta, fac_max, fac_min, maximum_No_steps)
+\end{py}
+%
+Here, {\tt Axion} is the constructor of the {\tt Axion} class, and {\tt ax} the variable -- which can have any name, and the input parameters are exactly the same as in the \CPP case (the usage of the class can be found by running {\tt ?Axion} after loading the module). 
+
+Using the defined variable ({\tt ax} in this example), we can simply run  
+%
+\begin{py}
+	ax.solve()
+\end{py}
+%
+in order to solve the EOM of the axion. In contrast to the \CPP implementation, this only gives us access to $\Tosc$, $\thetaosc$, and $\Omega h^2$; the corresponding variables are {\tt ax.T\_osc}, {\tt ax.theta\_osc}, and {\tt ax.relic}. In order to get the evolution of the axion field, we need to run 
+%
+\begin{py}
+	ax.getPoints()
+\end{py}
+%
+This will make {\tt numpy} arrays that contain the scale factor ({\tt ax.a}), temperature ({\tt ax.T}), $\theta$ ({\tt ax.theta}), its derivative with respect to $u$ ({\tt ax.zeta}), and the energy density of the axion ({\tt ax.rho\_axion}).
+
+Moreover, in order to get the various quantities on the peaks of the oscillation, we can run
+%
+\begin{py}
+	ax.getPeaks()
+\end{py}
+%
+This makes {\tt numpy} arrays that contain the scale factor ({\tt ax.a\_peak}), temperature ({\tt ax.T\_peak}), $\theta$ ({\tt ax.theta\_peak}), its derivative with respect to $u$ ({\tt ax.zeta\_peak}, which should be equal to $0$), the energy density of the axion ({\tt ax.rho\_axion\_peak}), and the values of the adiabatic invariant on the peaks ({\tt ax.adiabatic\_invariant}).
+
+\paragraph{Importand} Th {\tt Axion} class constructs a {\tt mimes::Axion} pointer, which has to be manually deleted. Therefore, once {\tt ax} is used it must be deleted, \ie we need to run 
+%
+\begin{py}
+	del ax
+\end{py}
+%
+We should note that this must run even if we assign another instance to the same variable {\tt ax}, otherwise we risk running out of memory.
 
 \section{Assumptions and user input}\label{sec:assumptions}
 \setcounter{equation}{0}
@@ -489,16 +606,14 @@ The paths to these files should be set at compile time. That is, once {\tt Defin
 
 \subsubsection{Required input}
 
-\DK{Since you have described the classes, you can now talk about {\tt ratio\_ini} and the others!}
+\DK{Since you have described them, talk about why you need them. For example say that {\tt umax} should not be omitted because \mimes is designed to be as general as possible.}
 
-\subsubsection{Optional input}
-\DK{Mention the solver parameters and redirect to the appendix for more info.}
 
 \subsection{Complete Examples}\label{sec:complete_examples}
 
-\paragraph{A complete \CPP example}\DK{Give the code with explanation of {\tt Examples/CPP/Axion}, along with the compilation options.}
+\paragraph{A complete \CPP example}\DK{Give the code with explanation of {\tt UserSpace/CPP/Axion}, along with the compilation options.}
 
-\paragraph{A complete \PY example}\DK{Give th/e code with explanation of {\tt Examples/Python/Axion.py}, say that the compilation options are set in the root directory of \mimes.}
+\paragraph{A complete \PY example}\DK{Give th/e code with explanation of {\tt UserSpace/Python/Axion.py}, say that the compilation options are set in the root directory of \mimes.}
 
 \DK{Mention optimization options, and {\tt g++} and {\tt clang} seem to work. Describe the available solvers (appendix for more details).}.
 
@@ -521,15 +636,23 @@ The paths to these files should be set at compile time. That is, once {\tt Defin
 \paragraph{Explicit methods}{\DK{Show the basic equations and butcher tableu}}
 \paragraph{Rosenbrock methods}{\DK{Show the basic equations and butcher tableu}}
 
+\section{\CPP classes}\label{app:classes}
+\setcounter{equation}{0}
+\DK{Describe all the classes.}
+
+\section{\PY modules}\label{app:modules}
+\setcounter{equation}{0}
+\DK{Describe the modules.}
+
+
+
+\section{Utilities that make running \mimes easier}\label{app:util}
+\setcounter{equation}{0}
+\DK{Describe {\tt FormatFile.sh} and {\tt Axion.sh}.}
 
 \section{Quick guide to user input}\label{app:usr_input}
 \setcounter{equation}{0}
 \DK{make a table with all the variables one can change}
-
-
-\section{Utilities that make running \mimes easier}\label{app:usr_input}
-\setcounter{equation}{0}
-\DK{Describe {\tt FormatFile.sh} and {\tt Axion.sh}.}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

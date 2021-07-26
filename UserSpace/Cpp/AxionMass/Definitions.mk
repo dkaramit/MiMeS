@@ -10,9 +10,9 @@ LONG=long
 # use doubles
 # LONG= 
 
-#compiler. I use g++, but clang -x c++ seems to work as well.
-CC=g++ 
-# CC=clang -x c++  
+#compiler. I use g++, but clang -lstdc++
+CC=g++
+#CC=clang -lstdc++
 
 #---optimization options---#
 OPT=O3 #this should be fast and safe

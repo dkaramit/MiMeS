@@ -2,7 +2,10 @@
 
 PATH_INCLUDE=-I$(rootDir)
 
-FLG= -$(OPT) -std=$(STD) $(PATH_INCLUDE) -Wall -DLONG=$(LONG)
+#c++ std
+STD=c++17
+
+FLG= -$(OPT) -std=$(STD) -lm $(PATH_INCLUDE) -Wall -DLONG=$(LONG)
 
 SPLINE_Headers=$(wildcard $(rootDir)src/SimpleSplines/*.hpp)
 

@@ -11,9 +11,9 @@ LONG=long
 # LONG= 
 
 
-#compiler. I use g++, but clang seems to work as well.
+#compiler. I use g++, but clang -x c++ seems to work as well.
 CC=g++ 
-# CC=clang  
+# CC=clang -x c++  
 
 #---optimization options---#
 OPT=O3 #this should be fast and safe

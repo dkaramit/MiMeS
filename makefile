@@ -6,7 +6,7 @@ STD=c++17
 #you can inlude more things here
 PATH_INCLUDE= -I$(rootDir)
 
-FLG= -$(OPT) -std=$(STD) -lstdc++ -lm $(PATH_INCLUDE) -Wall
+FLG= -$(OPT) -std=$(STD) -lm $(PATH_INCLUDE) -Wall
 
 Ros_Headers= $(wildcard $(rootDir)src/NaBBODES/Rosenbrock/*.hpp) $(wildcard $(rootDir)src/NaBBODES/Rosenbrock/LU/*.hpp) $(wildcard $(rootDir)src/NaBBODES/Rosenbrock/Jacobian/*.hpp)
 RKF_Headers= $(wildcard $(rootDir)src/NaBBODES/RKF/*.hpp) 

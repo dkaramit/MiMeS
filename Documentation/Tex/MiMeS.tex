@@ -140,8 +140,8 @@ which results in the general solution of \eqs{eq:linear_eom}
 Applying, then, the initial conditions $ \dot \theta |_{t=\ti} = 0$ and  $\theta|_{t=\ti} \approx \thetai$, we arrive at 
 %
 \begin{equation}
-	\theta(t) \approx \thetai \sqrt{ \dfrac{ \Omegai }{\Omega (t)} } \exp\lrb{-\dfrac{3}{2} \int_{\ti}^t d t^\prime  \ H(t^\prime)} \  \cos\lrb{ \int_{\ti}^t d t^\prime  \ \Omega(t^\prime)}   \;.
-	\label{eq:solution_eom_approx} 
+\theta(t) \approx \thetai \sqrt{ \dfrac{ \Omegai }{\Omega (t)} } \lrb{\dfrac{a}{\ai}}^{-3/2} \  \cos\lrb{ \int_{\ti}^t d t^\prime  \ \Omega(t^\prime)}   \;.
+\label{eq:solution_eom_approx} 
 \end{equation}
 
 
@@ -150,14 +150,14 @@ In order to further simplify this approximate result, we note that $\theta$ devi
 This observation allows us to set $\ti = \tosc$.  Moreover, at $t > \tosc$, we approximate $\Omega \approx \maT$, as $H^2$ and $\dot H$ become much smaller than $\maT^2$ quickly after $t=\tosc$. Finally, the axion angle takes the form
 %
 \begin{equation}
-	\theta(t) \approx \thetaosc \lrb{\dfrac{3}{4}}^{1/4} \sqrt{ \dfrac{ \maT|_{t=\tosc} }{\maT  (t)} } \exp\lrb{-\dfrac{3}{2} \int_{\tosc}^t d t^\prime  \ H(t^\prime)} \  \cos\lrb{ \int_{\tosc}^t d t^\prime  \ \maT(t^\prime)}   \;,
+	\theta(t) \approx \thetaosc \lrb{\dfrac{3}{4}}^{1/4} \sqrt{ \dfrac{ \maT|_{t=\tosc} }{\maT  (t)} } \lrb{\dfrac{a}{\aosc}}^{-3/2} \  \cos\lrb{ \int_{\tosc}^t d t^\prime  \ \maT(t^\prime)}   \;,
 	\label{eq:solution_eom_approx_theta_osc} 
 \end{equation}
 %
 where $\thetaosc = \theta|_{t=\tosc}$. This equation is further simplified if we assume that $\thetaosc \approx \thetai$, \ie
 %
 \begin{equation}
-	\theta(t) \approx \thetai \lrb{\dfrac{3}{4}}^{1/4} \sqrt{ \dfrac{ \maT|_{t=\tosc} }{\maT  (t)} } \exp\lrb{-\dfrac{3}{2} \int_{\tosc}^t d t^\prime  \ H(t^\prime)} \  \cos\lrb{ \int_{\tosc}^t d t^\prime  \ \maT(t^\prime)}   \;.
+	\theta(t) \approx \thetai \lrb{\dfrac{3}{4}}^{1/4} \sqrt{ \dfrac{ \maT|_{t=\tosc} }{\maT  (t)} } \lrb{\dfrac{a}{\aosc}}^{-3/2} \  \cos\lrb{ \int_{\tosc}^t d t^\prime  \ \maT(t^\prime)}   \;.
 	\label{eq:solution_eom_approx_final} 
 \end{equation}
 %
@@ -176,14 +176,14 @@ The energy density of the axion is
 For the relic abundance of axions, we need to calculate their energy density at very late times. That is, $\dot{\tilde{m}}_a = 0$, $\maT \gg H$ and $\dot H \ll H^2$. After some algebra, we obtain the approximate form of the energy density (as a function of the scale factor $a$) 
 %
 \begin{eqnarray}
-	\rho_{a} \approx \dfrac{\ma }{2}  \ \fa^2 \ \thetai^2  \ \maT(a_{\rm osc}) \ \lrb{\dfrac{a_{\rm osc}}{a}}^3 \;,
+	\rho_{a} \approx \dfrac{\ma }{2}  \ \fa^2 \ \thetai^2  \ \maT(\aosc) \ \lrb{\dfrac{\aosc}{a}}^3 \;,
 	\label{eq:rho_a0} 
 \end{eqnarray}
 %
 which shows that the energy density of axions at late times scales as the energy density of matter. If there is a period of entropy injection to the plasma for $T<\Tosc$, the axion energy density gets diluted, since 
 %
 \begin{equation}
-	a^3 \ s = \gamma \ a_{\rm osc}^3 \ s_{\rm osc} \Rightarrow  \lrb{\dfrac{a_{\rm osc}}{a}}^3 = \gamma^{-1} \dfrac{s}{s_{\rm osc}} \;,
+	a^3 \ s = \gamma \ \aosc^3 \ s_{\rm osc} \Rightarrow  \lrb{\dfrac{\aosc}{a}}^3 = \gamma^{-1} \dfrac{s}{s_{\rm osc}} \;,
 \end{equation}
 %
 with $\gamma$ the amount of entropy injection to the plasma between $\tosc$ and $t$. Therefore, the present (at $T=T_0$) energy density of the axion, becomes
@@ -202,7 +202,7 @@ with $\ma$ the mass of the axion at $T=T_0$. Notice that the explicit dependence
 The EOM~(\ref{eq:eom}) depends on time, which is not very useful variable in a non-standard comsological setting. Therefore, we introduce 
 %
 \begin{eqnarray}
-	u = -\log \dfrac{\ai}{a} \;,
+	u = \log \dfrac{a}{\ai} \;,
 	\label{eq:natation}
 \end{eqnarray}
 %
@@ -264,7 +264,7 @@ which indicates that the angle decreases (increases) as the temperature drops if
 which can be used to estimate the angle at the oscillation temperature
 %
 \begin{eqnarray}
-	\theta_{\rm osc} \approx    \thetai -  \lrb{\dfrac{\maT}{H}}_{t=\ti}^2 
+	\thetaosc \approx    \thetai -  \lrb{\dfrac{\maT}{H}}_{t=\ti}^2 
 	\lrsb{1- \dfrac{\Ti}{\Tosc}\lrb{\dfrac{\heff_{,\rm ini}}{\heff_{,\rm osc}}\gamma_{\rm osc}}^{1/3}}^{2}   \ \sin \thetai \;,
 	\label{eq:theta_osc}
 \end{eqnarray}

@@ -55,23 +55,23 @@ lib/Axion_py.so: $(Axion_py)\
 	$(CC) -o $@ $< -fPIC -shared $(FLG) -DLONG=$(LONGpy) -DMETHOD=$(METHOD) -Dsolver=$(Solver)
 
 
-# make the examples in Examples/Cpp
+# make the examples in UserSpace/Cpp
 examples: 
-	cd Examples/Cpp && $(MAKE)
+	cd UserSpace/Cpp && $(MAKE)
 
 
 #cleans whatever make all created
 clean:
 	rm -rf $(wildcard lib/*)
 	rm -rf $(wildcard exec/*)
-	rm -rf $(wildcard Examples/Python/*_examplePlot.pdf)
-	cd Examples/Cpp && $(MAKE) clean
+	rm -rf $(wildcard UserSpace/Python/*_examplePlot.pdf)
+	cd UserSpace/Cpp && $(MAKE) clean
 	cd Documentation/Tex && $(MAKE) clean
 
 
 #deletes directories that configure.sh made
 deepClean: clean
-	rm -f $(wildcard Examples/scan/*.xtx)
+	rm -f $(wildcard UserSpace/scan/*.xtx)
 	rm -rf lib
 	rm -rf exec
 	rm -rf $(rootDir)src/misc_dir

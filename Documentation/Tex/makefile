@@ -26,4 +26,11 @@ all:  ../MiMeS.pdf
 	rm -rf _minted-MiMeS
 clean:
 	rm -f ../MiMeS.pdf 
+	rm -f MiMeS.pdf
+	rm -f *.aux 
+	rm -f *.log 
+	rm -f *.out 
+	rm -f *.bbl 
+	rm -f *.blg 
+	rm -rf _minted-MiMeS
 	

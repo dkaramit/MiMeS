@@ -1,16 +1,16 @@
 #make the examples
-all: AnharmonicFactor/AnharmonicFactor.run Axion/Axion.run AxionMass/AxionMass.run Cosmo/Cosmo.run 
+all: anF axion axM cosmo 
 
-AnharmonicFactor/AnharmonicFactor.run:
+anF:
 	cd AnharmonicFactor && $(MAKE)
 
-Axion/Axion.run:
+axion:
 	cd Axion && $(MAKE)
 
-AxionMass/AxionMass.run:
+axM:
 	cd AxionMass && $(MAKE)
 
-Cosmo/Cosmo.run:
+cosmo:
 	cd Cosmo && $(MAKE)
 
 clean:

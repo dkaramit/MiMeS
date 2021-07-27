@@ -61,16 +61,22 @@ namespace mimes{
         using Solver=RKF<Neqs, METHOD<LD>, LD>;
         #endif
 
-        LD theta_i,fa,umax,TSTOP,ratio_ini;
+        LD umax,TSTOP,ratio_ini;
         unsigned int N_convergence_max;
         LD convergence_lim;
         std::string inputFile;
+
+        AxionEOM<LD> axionEOM;
 
         LD initial_step_size, minimum_step_size, maximum_step_size, absolute_tolerance, relative_tolerance;
         LD beta,fac_max,fac_min;
         unsigned int maximum_No_steps;
         
+        constexpr static LD theta_small=1e-3;
+        LD theta_ini; //use this to rescale theta_i is it is less than theta_small
+        
         public:
+        LD theta_i,fa;
         LD theta_osc, T_osc, a_osc; 
 
         LD gamma;//gamma is the entropy injection from the point of the last peak until T_stop (the point where interpolation stops)
@@ -149,10 +155,31 @@ namespace mimes{
             this->fac_max=fac_max;
             this->fac_min=fac_min;
             this->maximum_No_steps=maximum_No_steps;
+
+            axionEOM = AxionEOM<LD>(fa, ratio_ini, inputFile);
+        
+            axionEOM.makeInt();//make the interpolations of u,T,logH from inputFile
+
         }
         Axion(){}
         
         void solveAxion();
+
+        //use setTheta to set another initial condition
+        // Warning: this resets public variables (except fa)!
+        void setTheta_i(LD theta_i){
+            this->theta_i=theta_i;
+            points.clear();
+            peaks.clear();
+            pointSize=points.size();
+            peakSize=peaks.size();
+            theta_osc=theta_i;
+            T_osc=axionEOM.T_osc;
+            a_osc=1;
+            gamma=1;
+            relic=0;
+
+        }
     };
 
 
@@ -162,24 +189,18 @@ namespace mimes{
         //whem theta_i<<1, we can refactor the eom so that it becomes independent from theta_i.
         // So, we can solve for theta_i=1e-3, and rescale the result to our desired initial theta.
         // This helps avoid any roundoff errors when the amplitude of the oscillation becomes very small.
-        LD theta_ini=theta_i;
+        theta_ini=theta_i;
         if(theta_ini<1e-3){theta_ini=1e-3;}
 
         /*================================*/
         Array<LD> y0={theta_ini, 0.};//initial conditions
         /*================================*/
 
-        AxionEOM<LD> axionEOM(theta_ini, fa, ratio_ini, inputFile);
-        
-        axionEOM.makeInt();//make the interpolations of u,T,logH from inputFile
         
         //You find these as you load the data from inputFile 
         //(it is done automatically in the constructor of axionEOM)
         T_osc=axionEOM.T_osc;
         a_osc=std::exp(axionEOM.u_osc);
-
-        //use can also use lambda to pass axionEOM in the solver (the overhead should be minimal)
-        // sys EOM = [&axionEOM](Array<LD> &lhs, Array<LD> &y, LD u){axionEOM(lhs, y, u);};
 
         // instance of the solver
         Solver System(axionEOM, y0, umax,

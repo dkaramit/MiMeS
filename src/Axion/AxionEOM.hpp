@@ -16,7 +16,7 @@ namespace mimes{
     template<class LD>
     class AxionEOM{  
         public:
-        LD theta_i,fa,ratio_ini;
+        LD fa,ratio_ini;
         LD T_stop, logH2_stop, u_stop;//temperature, logH^2, and u where we stop interpolation (the end of the file). They should be AFTER entropy conservation resumes (I usually stop any intergation at T<1 MeV or so, where the Universe expands in a standard way)!
         LD T_ini, logH2_ini;//temperature and logH^2 (t=0 by definition) where we start interpolation (the end of the file). They should be AFTER entropy conservation resumes (I usually stop any intergation at T<1 MeV or so, where the Universe expands in a standard way)!
         LD u_osc, T_osc;//temperature and logH^2 (t=0 by definition) where we start interpolation (the end of the file). They should be AFTER entropy conservation resumes (I usually stop any intergation at T<1 MeV or so, where the Universe expands in a standard way)!
@@ -25,15 +25,16 @@ namespace mimes{
         CubicSpline<LD> T_int; //interpolation of the temperature
         CubicSpline<LD> logH2_int; //interpolation of logH^2
 
+        AxionEOM()=default;
+        ~AxionEOM()=default;
+
         // constructor of AxionEOM.
         /*
-        theta_i: initial angle (we don't need it here, but it could be useful)
         fa: PQ scale in GeV (the temperature dependent mass is defined as m_a^2(T) = \chi(T)/f^2)
         ratio_ini: interpolations start when 3H/m_a<~ratio_ini
         inputFile: file that describes the cosmology. the columns should be: u T[GeV] logH
         */ 
-        AxionEOM(LD theta_i, LD fa, LD ratio_ini, std::string inputFile){
-            this->theta_i=theta_i;
+        AxionEOM(LD fa, LD ratio_ini, std::string inputFile){
             this->fa=fa;
             this->ratio_ini=ratio_ini;
 
@@ -122,9 +123,6 @@ namespace mimes{
             if(u>=u_stop){return 0;}
             return logH2_int.derivative_1(u); 
         }
-
-
-        ~AxionEOM(){};
 
         //overload operator() in order to call it from the solver
         void operator()(Array<LD> &lhs, Array<LD> &y, LD u){

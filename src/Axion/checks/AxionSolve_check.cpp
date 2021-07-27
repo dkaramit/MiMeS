@@ -61,13 +61,10 @@ int main(int argc, char **argv){
 
     Ax.solveAxion();
 
-
-
     std::cout<<std::setprecision(5)
     <<"theta_i="<<theta_i<<" "<<"f_a="<< fa<<" GeV\n"<<"theta_osc~="<<Ax.theta_osc<<" "
     <<"T_osc~="<<Ax.T_osc<<"GeV \n"
     <<"Omega h^2="<<Ax.relic<<"\n";
-
 
     // print all the points
     #ifdef preintPoints

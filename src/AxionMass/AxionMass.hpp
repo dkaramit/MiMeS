@@ -30,6 +30,8 @@ namespace mimes{
                 m_a^2(T)=chiMin/f_a^2*(T/TMax)^{-8.16},
             with chiMin=chi(TMax), and TMax the temberature closest to maxT.
 
+        Note: If the file has only one point, the mass is assumed to be constant!
+
         */
         AxionMass(std::string path, LD minT=0, LD maxT=1e5){    
             
@@ -55,12 +57,14 @@ namespace mimes{
             chiMin=chitab[N-1];
             chiMax=chitab[0];
 
-            this->chi=CubicSpline<LD>(&Ttab,&chitab);
+            // if TMin == TMax, the mass assumed to be constant
+            if(TMin != TMax){ this->chi=CubicSpline<LD>(&Ttab,&chitab); }
 
             LambdaQCD=0.4;
         }
 
         LD ma2(LD T, LD fa){
+            if(TMin==TMax){return chiMin/fa/fa;}
             // axion mass squared at temperature T and f_\alpha=fa
             if(T>=TMax){return chiMin/fa/fa*std::pow(T/TMax,-8.16);}
             if(T<=TMin){return chiMax/fa/fa;}
@@ -69,6 +73,8 @@ namespace mimes{
 
 
         LD dma2dT(LD T, LD fa){
+            if(TMin==TMax){return 0;}
+
             // axion mass squared derivative
             if(T>=TMax){return -8.16*chiMin/fa/fa*std::pow(T/TMax,-9.16);}
             
@@ -79,6 +85,8 @@ namespace mimes{
 
         LD ma2_approx(LD T, LD fa){
             // axion mass squared at temperature T and f_\alpha=fa
+            if(TMin==TMax){return chiMin/fa/fa;}
+
             LD ma20=chiMax/fa/fa;
             LD b=4e-4;
             LD fT=std::pow(T/LambdaQCD,-8.16);
@@ -88,6 +96,8 @@ namespace mimes{
         }
         LD dma2dT_approx(LD T, LD fa){
             // axion mass squared at temperature T and f_\alpha=fa
+            if(TMin==TMax){return 0;}
+
             LD ma20=chiMax/fa/fa;
             LD b=4e-4;
             LD fT=std::pow(T/LambdaQCD,-8.16);

@@ -18,7 +18,7 @@
 
 /*cosmological parameters*/
 //it is better not to use all the available data h_PATH, because there are a lot of points.
-//interpolating up to T=3GeV should be enough (the difference is less than 1%)...
+//interpolating up to T=3 TeV should be enough (the difference is less than 1%)...
 static mimes::Cosmo<LD> cosmo(cosmo_PATH,1e-5,3e3);
 
 static const LD T0=  mimes::Cosmo<LD>::T0;
@@ -28,15 +28,15 @@ static const LD relicDM_obs=mimes::Cosmo<LD>::relicDM_obs;
 static const LD mP=mimes::Cosmo<LD>::mP;
 
 
-// anharmonic factor 
-static mimes::AnharmonicFactor<LD> anharmonicFactor(anharmonic_PATH);
-
 // axion mass
 //it is better not to use all the available data chi_PATH, 
 //because there could a lot of useless points that would make the interpolation slow.
 //interpolating up to T=3TeV should be enough...
 static mimes::AxionMass<LD> axionMass(chi_PATH,1e-5,3e3);
 
+
+// anharmonic factor 
+static mimes::AnharmonicFactor<LD> anharmonicFactor(anharmonic_PATH);
 
 #undef LD
 

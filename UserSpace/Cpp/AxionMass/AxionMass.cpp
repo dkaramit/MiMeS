@@ -40,8 +40,15 @@ int main(int argc, char **argv){
     LD minT=atof(argv[2]);
     LD maxT=atof(argv[3]);
     
+
+
     mimes::AxionMass<LD> axM(chi_PATH,minT,maxT);
 
+
+    if(minT==maxT){
+        std::cout<<axM.ma2(minT,fa)<<"\t"<<axM.ma2(maxT,fa)<<"\n";
+        return 0;
+    }
     // print N points
     unsigned int N=50;
     

@@ -56,10 +56,10 @@ ax=Axion(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max, convergence_lim
 # ax=Axion(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max, convergence_lim, inputFile)
 
 # solve the EOM (this only gives you the relic, T_osc, theta_osc, and a_osc)
-ax.solve()
+ax.solveAxion()
 
 
-print(theta_i, fa, ax.theta_osc, ax.T_osc ,ax.relic)
+print(ax.theta_i, ax.fa, ax.theta_osc, ax.T_osc ,ax.relic)
 
 
 
@@ -137,7 +137,6 @@ if True:
     
     sub.axvline(ax.T_osc,linestyle='--',color='xkcd:gray',linewidth=1.5)
     fig.savefig('rho_a-T_examplePlot.pdf',bbox_inches='tight')
-
 
 
 

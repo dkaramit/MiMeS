@@ -524,7 +524,7 @@ in order to understand the usage of the optional parameters, some basic techniqu
 The EOM~(\ref{eq:eom_u}), then can be solved using 
 %
 \begin{cpp}
-	ax.solve()
+	ax.solveAxion()
 \end{cpp}
 %
 This, if this runs successfully (in simple cases, such as a radiation dominated Universe, this should take a fraction of a second), then  $\Tosc$, $\thetaosc$, and $\Omega h^2$ are accessed via {\tt ax.T\_osc}, {\tt ax.theta\_osc}, and {\tt ax.relic}. The entire evolution (the points the integrator took) of the axion angle is stored in {\tt ax.points}, which is a two-dimensional {\tt std::vector}, with the columns corresponding to  $a$, $T~[\GeV]$, 
@@ -557,7 +557,7 @@ Here, {\tt Axion} is the constructor of the {\tt Axion} class, and {\tt ax} the 
 Using the defined variable ({\tt ax} in this example), we can simply run  
 %
 \begin{py}
-	ax.solve()
+	ax.solveAxion()
 \end{py}
 %
 in order to solve the EOM of the axion. In contrast to the \CPP implementation, this only gives us access to $\Tosc$, $\thetaosc$, and $\Omega h^2$; the corresponding variables are {\tt ax.T\_osc}, {\tt ax.theta\_osc}, and {\tt ax.relic}. In order to get the evolution of the axion field, we need to run 

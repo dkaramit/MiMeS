@@ -25,6 +25,8 @@ axionLib.INIT.restype = void_p
 axionLib.DEL.argtypes= void_p,
 axionLib.DEL.restype = None
 
+axionLib.setTheta_i.argtypes= cdouble, void_p
+axionLib.setTheta_i.restype = None
 
 axionLib.MAKE.argtypes= void_p,
 axionLib.MAKE.restype = None
@@ -50,7 +52,25 @@ axionLib.getPeaks.restype=None
 class Axion:
     '''
     class that solves the axion eom and stores the resulting evolution of different quantities (eg the angle),
-    as well as the relic. 
+    as well as the relic.
+
+    Methods: 
+        solveAxion(): solves the EOM and stores the T_osc, \\theta_osc, and \\Omega h^2; 
+                        the corresponding variables are self.T_osc, self.theta_osc, and self.relic
+        
+        getPoints(): This will make numpy arrays that contain the scale factor (self.a), 
+                    temperature (self.T), \\theta (self.theta), its derivative with respect to u (self.zeta), 
+                    and the energy density of the axion (self.rho_axion).
+        
+        getPeaks(): This will make numpy arrays that contain the scale factor (self.a), 
+                    temperature (self.T), \\theta (self.theta), its derivative with respect to u (self.zeta), 
+                    the energy density of the axion (self.rho_axion), and the adiabatic invariant (self.adiabatic_invariant)
+                    on the peaks of the oscillation.
+        
+        setTheta_i(theta_i): This sets another initial value for theta, without rebuilding 
+                                the interpolations (should be faster than declaring another instance).
+ 
+
 
     Under the hood, the constructor gets a new (pointer to an) instance of 
     mimes::Axion and casts it to void*. Then every member function of this class casts this void* to 
@@ -152,8 +172,27 @@ class Axion:
         del self.zeta
         del self.rho_axion
 
-        
-    def solve(self):
+    def setTheta_i(self,theta_i):
+        '''set another initial value of \\theta without rebuilding the interpolations'''
+        axionLib.setTheta_i(theta_i,self.voidAx)
+        self.theta_i=theta_i
+        self.theta_osc=theta_i
+        self.relic=0
+        self.a_peak=[]
+        self.T_peak=[]
+        self.theta_peak=[]
+        self.zeta_peak=[]
+        self.adiabatic_invariant=[]
+        self.rho_axion_peak=[]
+
+        self.a=[]
+        self.T=[]
+        self.theta=[]
+        self.zeta=[]
+        self.rho_axion=[]
+
+
+    def solveAxion(self):
         '''
         Solve the Axion eom. 
         

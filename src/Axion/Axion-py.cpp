@@ -25,10 +25,13 @@ extern "C"{
     }
     // destructor to delete the void*
     void DEL(void *Ax){  delete static_cast<mimes::Axion<LD>*>(Ax); Ax=nullptr; }
-
+    // set theta_i
+    void setTheta_i(LD theta_i, void * Ax){  Cast(Ax) -> setTheta_i(theta_i); }
+    
     void MAKE(void * Ax){  Cast(Ax) -> solveAxion(); }
     unsigned int getPointSize(void * Ax){  return Cast(Ax) -> pointSize; }
     unsigned int getPeakSize(void * Ax){  return Cast(Ax) -> peakSize; }
+
 
 
     void getResults(LD *results, void *Ax){

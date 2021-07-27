@@ -19,9 +19,9 @@ extern "C"{
     }
 
     LD dma2dT(LD T, LD fa){
-        return axionMass.ma2_derivative_1(T,fa);
+        return axionMass.dma2dT(T,fa);
     }
     LD dma2dT_approx(LD T, LD fa){
-        return axionMass.ma2_derivative_1_approx(T,fa);
+        return axionMass.dma2dT_approx(T,fa);
     }
 }

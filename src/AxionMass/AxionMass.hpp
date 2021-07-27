@@ -60,7 +60,7 @@ namespace mimes{
         }
 
 
-        LD ma2_derivative_1(LD T, LD fa){
+        LD dma2dT(LD T, LD fa){
             // axion mass squared derivative
             if(T>=TMax){return -8.16*chiMin/fa/fa*std::pow(T/TMax,-9.16);}
             
@@ -78,7 +78,7 @@ namespace mimes{
             else{return ma20;}    
         
         }
-        LD ma2_derivative_1_approx(LD T, LD fa){
+        LD dma2dT_approx(LD T, LD fa){
             // axion mass squared at temperature T and f_\alpha=fa
             LD ma20=chiMax/fa/fa;
             LD b=4e-4;

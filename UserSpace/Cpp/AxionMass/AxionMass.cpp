@@ -52,13 +52,13 @@ int main(int argc, char **argv){
     std::cout<<"-----Interpolation-----\n";
     std::cout<<"T[GeV]\tm_a^2[GeV^2]\tdm_a^2dT[GeV]\n";
     for(unsigned int i = 0; i < N; ++i){
-        std::cout<<T[i]<<"\t"<<axM.ma2(T[i],fa)<<"\t"<<axM.ma2_derivative_1(T[i],fa)<<"\n";
+        std::cout<<T[i]<<"\t"<<axM.ma2(T[i],fa)<<"\t"<<axM.dma2dT(T[i],fa)<<"\n";
     }
     
     std::cout<<"-----Approximations-----\n";
     std::cout<<"T[GeV]\tm_{a,approx}^2[GeV^2]\tdm_a^2dT_{approx}[GeV]\n";
     for(unsigned int i = 0; i < N; ++i){
-        std::cout<<T[i]<<"\t"<<axM.ma2_approx(T[i],fa)<<"\t"<<axM.ma2_derivative_1_approx(T[i],fa)<<"\n";
+        std::cout<<T[i]<<"\t"<<axM.ma2_approx(T[i],fa)<<"\t"<<axM.dma2dT_approx(T[i],fa)<<"\n";
     }
     
 

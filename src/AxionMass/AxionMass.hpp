@@ -43,8 +43,8 @@ namespace mimes{
                 data_file>>chi;
                 
                 if(T>=minT and T<=maxT){
-                    Ttab.push_back(T*1e-3); //temperature in GeV
-                    chitab.push_back(chi*0.197*0.197*0.197*0.197); //chi in GeV**4
+                    Ttab.push_back(T); //temperature in GeV
+                    chitab.push_back(chi); //chi in GeV**4
                     N++;
                 }
             }

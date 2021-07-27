@@ -37,8 +37,6 @@ int main(){
             data_file>>chi;
 
 
-            T=T*1e-3; //T in GeV 
-            chi=chi*0.197*0.197*0.197*0.197; //chi in GeV**4
             std::cout<<++i<<"\t"<<T<<"\t"<<std::abs((chi-axM.ma2(T,1))/chi)<<"\n";
 
             if(data_file.eof()){data_file.close();break;}

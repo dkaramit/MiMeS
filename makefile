@@ -109,7 +109,7 @@ exec/AxionEOM_check.run: $(AxionEOM_check_cpp)  $(AxionEOM_Headers)\
 
 AxionSolve_check_cpp=$(wildcard $(rootDir)src/Axion/checks/AxionSolve_check.cpp)
 # check interpolations of the Axion_eom class 
-exec/AxionSolve_check.run: $(AxionSolve_check_cpp)  $(AxionSolve_Headers)\
+exec/AxionSolve_check.run: $(AxionSolve_check_cpp)  $(AxionSolve_Headers) $(AxionEOM_Headers)\
 						   $(Cosmo_Headers) $(AxionAnF_Headers) $(AxionMass_Headers)\
 						   $(DataFiles) $(Static_Funcs)\
 						   $(Ros_Headers) $(RKF_Headers) $(SPLINE_Headers)

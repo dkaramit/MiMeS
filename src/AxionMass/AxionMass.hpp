@@ -19,7 +19,18 @@ namespace mimes{
         LD TMin, TMax, chiMin, chiMax;
         LD LambdaQCD;
         public:
+        /*
+        The constructor of the class.
+        path: a string with a valid path of the data file. The columns of the file must be:
+                    T [GeV] chi [GeV^4]
+            Here chi is defined through m_a^2(T) = chi(T)/f_a^2, ie chi=m_a^2_{f_a=1 GeV}.
 
+        minT: minimum temperature of interpolation. Below this temperature m_a assumed to be constant.
+        maxT: maximum temperature of interpolation. Above this temperature m_a assumed to follow
+                m_a^2(T)=chiMin/f_a^2*(T/TMax)^{-8.16},
+            with chiMin=chi(TMax), and TMax the temberature closest to maxT.
+
+        */
         AxionMass(std::string path, LD minT=0, LD maxT=1e5){    
             
             unsigned int N=0;
@@ -32,11 +43,8 @@ namespace mimes{
                 data_file>>chi;
                 
                 if(T>=minT and T<=maxT){
-                    //if there is an empty line the temperature does not change, so do skip it.
- 
                     Ttab.push_back(T*1e-3); //temperature in GeV
                     chitab.push_back(chi*0.197*0.197*0.197*0.197); //chi in GeV**4
-                    
                     N++;
                 }
             }

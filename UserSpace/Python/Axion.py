@@ -53,16 +53,11 @@ ax=Axion(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max, convergence_lim
         initial_step_size,minimum_step_size, maximum_step_size, absolute_tolerance, 
         relative_tolerance, beta, fac_max, fac_min, maximum_No_steps)
 
-# ax=Axion(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max, convergence_lim, inputFile)
 
 # solve the EOM (this only gives you the relic, T_osc, theta_osc, and a_osc)
 ax.solveAxion()
 
-
 print(ax.theta_i, ax.fa, ax.theta_osc, ax.T_osc ,ax.relic)
-
-
-
 
 if True:
     ax.getPeaks()#this gives you the peaks of the oscillation

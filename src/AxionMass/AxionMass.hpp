@@ -6,6 +6,7 @@
 #include<vector>
 #include<cmath>
 #include<string>
+#include"src/Cosmo/Cosmo.hpp"
 
 #include "src/SimpleSplines/Interpolation.hpp"
 
@@ -33,7 +34,7 @@ namespace mimes{
         Note: If the file has only one point, the mass is assumed to be constant!
 
         */
-        AxionMass(std::string path, LD minT=0, LD maxT=1e5){    
+        AxionMass(std::string path, LD minT=0, LD maxT=Cosmo<LD>::mP){    
             
             unsigned int N=0;
             LD T,chi;
@@ -64,11 +65,11 @@ namespace mimes{
         }
 
         LD ma2(LD T, LD fa){
-            if(TMin==TMax){return chiMin/fa/fa;}
             // axion mass squared at temperature T and f_\alpha=fa
-            if(T>=TMax){return chiMin/fa/fa*std::pow(T/TMax,-8.16);}
-            if(T<=TMin){return chiMax/fa/fa;}
-            return chi(T)/fa/fa;
+            if(TMin==TMax){return chiMin/fa/fa;}//if TMin==TMax, the mass is assumed to be constant 
+            if(T>=TMax){return chiMin/fa/fa*std::pow(T/TMax,-8.16);}//use this beyond the upper limit
+            if(T<=TMin){return chiMax/fa/fa;}//use this beyond the lower limit
+            return chi(T)/fa/fa;//interpolate chi if TMin!=TMax and T is between TMin nad TMax 
         }
 
 

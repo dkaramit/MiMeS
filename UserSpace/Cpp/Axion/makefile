@@ -17,11 +17,12 @@ Cosmo_Headers=$(wildcard $(rootDir)src/Cosmo/Cosmo.hpp)
 AxionMisc_Headers= $(wildcard $(rootDir)src/AxionMass/AxionMass.hpp) $(wildcard $(rootDir)src/AnharmonicFactor/AnharmonicFactor.hpp) 
 
 Static_Headers= $(wildcard $(rootDir)src/static.hpp) 
+PathHead=$(rootDir)src/misc_dir/path.hpp
 
 all: Axion.run
 
 Axion.run: Axion.cpp\
-					$(Axion_Headers) $(AxionMisc_Headers) $(Cosmo_Headers) $(Static_Headers)\
+					$(Axion_Headers) $(AxionMisc_Headers) $(Cosmo_Headers) $(PathHead) $(Static_Headers)\
 					$(Ros_Headers) $(RKF_Headers) $(SPLINE_Headers)
 
 	$(CC) -o $@ $< $(FLG) 

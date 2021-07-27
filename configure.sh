@@ -7,10 +7,14 @@ for file in $(find . -regex ".*\.sh");do
 done
 
 for dataFile in $cosmoDat $axMDat $anFDat;do
-  echo "format $dataFile" 
-  bash src/FormatFile.sh $dataFile
+  if [ -f "$dataFile" ]; then 
+    echo "format $dataFile" 
+    bash src/FormatFile.sh $dataFile 
+  else 
+    echo  "$dataFile does not exist! Make sure that you provide valid paths in Definitions.mk"
+    exit 
+  fi
 done
-
 
 # ---------these are needed for python and c++---------------- #
 echo "make lib directory"
@@ -45,7 +49,7 @@ echo "#ifndef PATHS_HEAD
 #endif
 ">$PathHead
 
-echo "Run configure.sh License in order to read the License, or read the file named LICENSE."
+echo "Run \"bash configure.sh License\" in order to read the License, or read the file named LICENSE."
 if test "$1" = "License" 
 then 
   echo -e "License:"

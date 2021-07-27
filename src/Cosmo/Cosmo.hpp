@@ -26,7 +26,7 @@ namespace mimes{
         constexpr static  LD relicDM_obs=0.12; //DM relic abandance today
         constexpr static LD mP=1.22e19;//Planck mass
 
-        Cosmo(std::string path, LD minT=0, LD maxT=1e10){    
+        Cosmo(std::string path, LD minT=0, LD maxT=Cosmo<LD>::mP){    
             /*
             path is the path of the data
             minT (maxT) the minimum (maximum) T you need for the interpolation

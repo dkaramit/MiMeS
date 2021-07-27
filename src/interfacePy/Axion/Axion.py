@@ -176,7 +176,7 @@ class Axion:
         '''set another initial value of \\theta without rebuilding the interpolations'''
         axionLib.setTheta_i(theta_i,self.voidAx)
         self.theta_i=theta_i
-        self.theta_osc=theta_i
+        self.theta_osc=0
         self.relic=0
         self.a_peak=[]
         self.T_peak=[]

@@ -456,9 +456,13 @@ Notice that this is form of $\rho_{a,0}$  is similar to the the WKB result~(\ref
 The library can downloaded from \href{https://github.com/dkaramit/MiMeS}{github.com/dkaramit/MiMeS}. Since the library depends on {\tt NaBBODES}~\cite{NaBBODES} {\tt SpleSplines}~\cite{SimpleSplines}, one has to download the, too. However, in order to get \mimes ready, one can run the commands shown in listing~\ref{list:git_download}. Although this method should be preferred in order to get the latest version, \mimes can also be downloaded from \href{https://mimes.hepforge.org/downloads/}{mimes.hepforge.org/downloads}.
 
 
-Once everything is downloaded successfully, we can go inside the \mimes directory, and run {\tt bash configure.sh}~\footnote{Instead of {\tt bash}, shells such {\tt sh} should also work.} and {\tt make}.  The {\tt bash} script {\tt configure.sh}, just writes some paths to some files, formats the data files provided in a acceptable format (in section~\ref{sec:input} the format is explained), and makes some directories. The {\tt makefile} is responsible for compiling some examples and checks, as well as the shared libraries that needed for the \PY interface.  If everything runs successfully, there should be two new directories {\tt exec} and {\tt lib}. Inside {\tt exec}, there are several executables that ready to run, in order to ensure that the code runs (\eg no segmentation fault occurs). For example, {\tt exec/AxionSolve\_check.run}, should print the values of the parameters $\thetai$ and $\fa$, the oscillation temperature and the corresponding value of $\theta$, the evolution of the axion (\eg temperature, $\theta$, $\rho_{a}$, etc.), and the values of various quantities on the peaks of the oscillation.  In the directory {\tt lib}, there are several shared libraries for the \PY interface.
+Once everything is downloaded successfully, we can go inside the \mimes directory, and run \run{bash configure.sh}~\footnote{It is recommended to use {\tt bash}.} and \run{make}.  The {\tt bash} script {\tt configure.sh}, just writes some paths to some files, formats the data files provided in a acceptable format (in section~\ref{sec:input} the format is explained), and makes some directories.
+%
+The {\tt makefile} is responsible for compiling some examples and checks, as well as the shared libraries that needed for the \PY interface.  If everything runs successfully, there should be two new directories {\tt exec} and {\tt lib}. Inside {\tt exec}, there are several executables that ready to run, in order to ensure that the code runs (\eg no segmentation fault occurs). For example, {\tt exec/AxionSolve\_check.run}, should print the values of the parameters $\thetai$ and $\fa$, the oscillation temperature and the corresponding value of $\theta$, the evolution of the axion (\eg temperature, $\theta$, $\rho_{a}$, etc.), and the values of various quantities on the peaks of the oscillation.  In the directory {\tt lib}, there are several shared libraries for the \PY interface.
 
-\subsection{First steps} There are several examples in \CPP ({\tt UserSpace/Cpp}) and \PY ({\tt UserSpace/Python}), as well as \JUPY  notebooks ({UserSpace/JupyterNotebooks}), that show in detail how \mimes can be used. 
+\subsection{First steps}\label{sec:first_steps} 
+%
+There are several examples in \CPP ({\tt UserSpace/Cpp}) and \PY ({\tt UserSpace/Python}), as well as \JUPY  notebooks ({UserSpace/JupyterNotebooks}), that show in detail how \mimes can be used. 
 
 \subsubsection{Using \mimes in \CPP} 
 %
@@ -490,7 +494,7 @@ The various parameters are as follows:
 	\item  {\tt N\_convergence\_max} and {\tt convergence\_lim}: integration stops when the relative difference 
 	between two consecutive peaks is less than {\tt convergence\_lim} for {\tt N\_convergence\_max} 
 	consecutive peaks.
-	\item  {\tt inputFile}: relative (or absolute) path to a file that describes the cosmology. the columns should be: $u$ $T ~[\GeV]$ $\log H$, sorted so that $u$ increases.~\footnote{One can run {\tt bash src/FormatFile.sh inputFile} in order to sort it and remove any unwanted duplicates. See Appendix~\ref{app:util} for details of {\tt src/FormatFile.sh}.}
+	\item  {\tt inputFile}: relative (or absolute) path to a file that describes the cosmology. the columns should be: $u$ $T ~[\GeV]$ $\log H$, sorted so that $u$ increases.~\footnote{One can run \run{bash src/FormatFile.sh inputFile} in order to sort it and remove any unwanted duplicates. See Appendix~\ref{app:util} for details of {\tt src/FormatFile.sh}.}
 	%
 	It is important to remember that \mimes assumes that the entropy injection has stopped before the lowest temperature of given in {\tt inputFile}. Since \mimes is unable to guess the cosmology beyond what is given in this file, the user has to make sure that there are data between the initial temperature (which corresponds to {\tt ratio\_ini}, and {\tt TSTOP}).
 	
@@ -524,12 +528,19 @@ in order to understand the usage of the optional parameters, some basic techniqu
 The EOM~(\ref{eq:eom_u}), then can be solved using 
 %
 \begin{cpp}
-	ax.solveAxion()
+	ax.solveAxion();
 \end{cpp}
 %
 This, if this runs successfully (in simple cases, such as a radiation dominated Universe, this should take a fraction of a second), then  $\Tosc$, $\thetaosc$, and $\Omega h^2$ are accessed via {\tt ax.T\_osc}, {\tt ax.theta\_osc}, and {\tt ax.relic}. The entire evolution (the points the integrator took) of the axion angle is stored in {\tt ax.points}, which is a two-dimensional {\tt std::vector}, with the columns corresponding to  $a$, $T~[\GeV]$, 
 $\theta$, $d\theta/du$, $\rho_a$. Moreover, the peaks of he oscillation are stored in another two-dimensional {\tt std::vector}, with the columns corresponding to $a$, $T~[\GeV]$, $\thetamax$, $d\theta/du=0$, $\rho_a$, $J$. We should note that the peaks are identified using linear interpolation between integration points, in order to ensure that $d\theta/du = 0$. That is, the values stored in {\tt mimes::Axion::peaks} do not exist in {\tt mimes::Axion::points}.
 
+The final member function is {\tt mimes::Axion::setTheta\_i}, which allows the user to set a different $\thetai$ without generating another instance.~\footnote{Since the interpolations of the data of {\tt inputFile} are made inside the constructor of the {\tt mimes::Axion} class, {\tt mimes::Axion::setTheta\_i} is a faster choice if ones needs to solve the EOM for a different initial condition.} This function is used as    
+%
+\begin{cpp}
+	ax.setTeta_i(new_theta_ini);
+\end{cpp}
+%
+where {\tt new\_theta\_ini} is the new value of $\thetai$. Running this function resets all variables to $0$ (except {\tt T\_osc} and {\tt a\_osc}, since they should not change), and clears all {\tt std::vector} variables, which allows the user to simply run \run{ax.solveAxion();} as if {\tt ax} was a freshly defined instance.  
 
 \subsubsection{Using \mimes in \PY} The modules for the \PY interface are located in {\tt src/interfacePy}. Since, the most useful module is the one that actually solves the EOM~\ref{eq:eom_u}, we will explain here it can be used, and describe the others in Appendix~\ref{app:modules}.
 
@@ -576,6 +587,14 @@ Moreover, in order to get the various quantities on the peaks of the oscillation
 %
 This makes {\tt numpy} arrays that contain the scale factor ({\tt ax.a\_peak}), temperature ({\tt ax.T\_peak}), $\theta$ ({\tt ax.theta\_peak}), its derivative with respect to $u$ ({\tt ax.zeta\_peak}, which should be equal to $0$), the energy density of the axion ({\tt ax.rho\_axion\_peak}), and the values of the adiabatic invariant on the peaks ({\tt ax.adiabatic\_invariant}).
 
+The initial condition $\thetai$ can be changed using 
+%
+\begin{py}
+	ax.setTeta_i(new_theta_ini)
+\end{py}
+%
+which is faster than running the constructor again, since all the interpolations are reused. However, running this function, erases all the arrays, and resets all variables to $0$ (except {\tt T\_osc} and {\tt a\_osc}, as they should not change). 
+
 \paragraph{Importand} Th {\tt Axion} class constructs a {\tt mimes::Axion} pointer, which has to be manually deleted. Therefore, once {\tt ax} is used it must be deleted, \ie we need to run 
 %
 \begin{py}
@@ -587,26 +606,91 @@ We should note that this must run even if we assign another instance to the same
 \section{Assumptions and user input}\label{sec:assumptions}
 \setcounter{equation}{0}
 %
-\mimes only makes a few, fairly general, assumptions. First of all, it is assumed that the axion energy density is always subdominant compared to radiation or any other component of the Universe, and that decays and annihilations of particles have a negligible effect on the axion energy density. Moreover, the initial condition is always assumed to be $\theta_{t=\ti} = \thetai$ and $\dot \theta|_{t=\ti}=0$. Moreover, it is also assumed that $3H/\maT$ decreases monotonically at high temperatures. 
+\mimes only makes a few, fairly general, assumptions. First of all, it is assumed that the axion energy density is always subdominant compared to radiation or any other component of the Universe, and that decays and annihilations of particles have a negligible effect on the axion energy density. Moreover, the initial condition is always assumed to be $\theta_{t=\ti} = \thetai$ and $\dot \theta|_{t=\ti}=0$. 
+%
+Furthermore, it is also assumed that $3H/\maT$ increases monotonically at high temperatures. 
+%
+Also, it is assumed that the entropy is resumes its conserved status at a temperature higher than the minimum temperature of  {\tt inputFile} (which is required by the constructor of the {\tt mimes::Axion} class).  
+%
+Finally, \mimes does not try to predict anything regarding the cosmology. Therefore, the temperatures in {\tt inputFile} {\em must} cover the entire region of  integration; \ie the maximum temperature has to be larger than the one required to reach {\tt ratio\_ini}, while the minimum one should be lower than {\tt TSTOP}.
 
-The user can provide optional input at compile-time (\eg change the Runge-Kutta method to be used, or provide files with data for the relativistic degree of freedom of the plasma), but is required to provide some input at run-time, in order for \mimes to run. 
+
 
 \subsection{User input}\label{sec:input}
 %
-\subsubsection{Required files} \mimes requires files that provide data for the relativistic degrees of freedom (RDOF) of the plasma, as well as its mass as a function of the temperature. Although \mimes is shipped with the standard model RDOF found in~\cite{Saikawa:2020swg}, and the axion mass from~\cite{Borsanyi:2016ksw}, the user can change the corresponding variables in {\tt Definitions.mk} (found in the root directory of \mimes) to another file path. The variables pointing to these data files are {\tt cosmoDat} and {\tt axMDat}, for the RDOF and axion mass, respectively.~\footnote{One can change the data file for anharmonic factor introduced in \eqs{eq:anharmonic_f} using the variable {\tt anFDat}.}
+\subsubsection{Compile-time input} 
+%
+\paragraph{Files} \mimes requires files that provide data for the relativistic degrees of freedom (RDOF) of the plasma, as well as its mass as a function of the temperature. Although \mimes is shipped with the standard model RDOF found in~\cite{Saikawa:2020swg}, and the axion mass from~\cite{Borsanyi:2016ksw}, the user can change the corresponding variables in {\tt Definitions.mk} (found in the root directory of \mimes) to another file path. The variables pointing to these data files are {\tt cosmoDat} and {\tt axMDat}, for the RDOF and axion mass, respectively.~\footnote{One can change the data file for anharmonic factor introduced in \eqs{eq:anharmonic_f} using the variable {\tt anFDat}.}
 
 The format of the files is the following:~\footnote{The anharmonic factor data are given in $\thetamax$ $f(\thetamax)$, with increasing $\thetamax$.} 
 %
 \begin{itemize}
-	\item The RDOF data must be given in three columns; $T ~[\GeV]$, $\heff$, and $\geff$, and must be sorted so that $T$ is increasing.
-	\item The axion mass data must be given in two columns; $T ~[\GeV]$, $\chi$, sorted so that $T$ is increasing. Here, $\chi$ is defined as in \eqs{eq:axion_mass_def}. 
+	\item The RDOF data must be given in three columns; $T$ (in $\GeV$), $\heff$, and $\geff$.
+	\item The axion mass data must be given in two columns; $T$ (in $\GeV$), $\chi$ (in $\GeV^4$). Here, $\chi$ is defined as in \eqs{eq:axion_mass_def}. 
+	If the user needs the axion mass to be constant, this file should contain only one line that contains a temperature -- its importance will become clear in the next paragraph -- and a value of $\chi$. 
 \end{itemize}
 %
-The paths to these files should be set at compile time. That is, once {\tt Definitions.mk} changes, one has to run {\tt bash configure.sh} and then {\tt make}. The user can change the content of the data files (without changing their paths), in order to use them without compiling \mimes.
+The paths to these files should be given at compile time. That is, once {\tt Definitions.mk} changes, \run{bash configure.sh} and then \run{\tt make} must be ran. The user can change the content of the data files (without changing their paths), in order to use them without compiling \mimes again. However, the user has to make sure that all the files are sorted so that the values of first column increase (with no duplicates or empty lines). In order to ensure this, it is advised to run \run{bash FormatFile.sh path-to-file} (in Appendix~\ref{app:util} there are some details on {\tt src/FormatFile.sh}), in order to format the file (that should exist in \run{path-to-file}) complies with the requirements of \mimes.
 
-\subsubsection{Required input}
+\paragraph{Static variables} The header file {\tt src/static.hpp} contains definitions of various static variables that are used in the \PY modules and the {\tt mimes::Axion} class. These variables are instances of the classes {\tt mimes::Cosmo}, {\tt mimes::AxionMass}, and {\tt mimes::AnharmonicFactor}, and they are responsible for interpolations of the various plasma parameters (\ie $\heff(T)$, $\geff(T)$, $s(T)$, etc.), the axion mass, and the anharmonic factor, respectively.
 
-\DK{Since you have described them, talk about why you need them. For example say that {\tt umax} should not be omitted because \mimes is designed to be as general as possible.}
+The constructors of all these classes need the data files whose paths are provided by the user in {\tt Definitions.mk} (in the root directory of \mimes). Moreover, the user is allowed to choose the minimum and maximum interpolation temperature for the classes {\tt mimes::Cosmo}, {\tt mimes::AxionMass}. \mimes uses, by default, the temperature range $T \in [0,m_P]$,~\footnote{Here $m_P = 1.22 \times 10^{19}~\GeV$, is the Planck mass.} however, this can easily be changed.
+%
+This can be done by changing the second and third argument of these two classes, in order to change the minimum and maximum temperature, respectively. For example, in order to interpolate the plasma parameters between $T_{\rm min} = 1~\GeV$ and $T_{\rm max} = 100~\GeV$, we just change the declaration of the {\tt cosmo} variable form
+%
+\begin{cpp}
+	static nsc::Cosmo<LD> cosmo(cosmo_PATH,0,nsc::Cosmo<LD>::mP);
+\end{cpp} 
+%
+to 
+\begin{cpp}
+	static nsc::Cosmo<LD> cosmo(cosmo_PATH,1,100);
+\end{cpp}
+% 
+Since beyond these limits, $\heff$ and $\geff$ are assumed to be constant, one has to be careful with the choice of the limits as they might severely affect the accuracy of the results. 
+
+Similarly, in order to change the interpolation limits of the {\tt axionMass} variable (instance of {\tt mimes::AxionMass}) to $T_{\rm min} = 1~\GeV$ and $T_{\rm max} = 100~\GeV$, we need to change
+%
+\begin{cpp}
+	static mimes::AxionMass<LD> axionMass(chi_PATH,0,mimes::Cosmo<LD>::mP);
+\end{cpp} 
+%
+to 
+\begin{cpp}
+	static mimes::AxionMass<LD> axionMass(chi_PATH,1,100);
+\end{cpp}
+%
+Beyond these limits, the axion mass is assumed to be~\footnote{This definition can be changed by changing the function
+{\tt mimes::AxionMass::ma2}, which can be found in {\tt src/AxionMass/AxionMass.hpp}.}
+%
+\begin{equation}
+	\maT = \Bigg\{
+	\begin{matrix}
+		\dfrac{\chi(T_{\rm min})}{\fa^2} & \text{for } T<T_{\rm min} 
+		\\ \\
+		\dfrac{\chi(T_{\rm max})}{\fa^2}   \lrb{\dfrac{T}{T_{\rm max}}}^{-8.16} & \text{for } T>T_{\rm max} 
+	\end{matrix} \;.
+\end{equation}
+%
+Therefore, changing the limits can cause inaccurate results.
+
+\paragraph{Important: constant axion mass} If the axion mass is constant -- \ie the corresponding data file contains only one entry -- the limits {\em must} be chosen such that the first column of the data file is between $T_{\rm min}$ and $T_{\rm max}$. Since the mass is constant, the actual value is not important, but it is advised to be in $(0,m_P)$ so that the limits are kept to their default values.~\footnote{The reason for this peculiarity is that it saves extra checks that the constructor would otherwise need to perform.}
+
+\paragraph{Important: The limits are suggestions} If the chosen interpolation limits exceed the minimum and maximum temperatures in the data files, the latter will be used as $T_{\rm min}$ and $T_{\rm max}$.
+
+\subsubsection{Run-time input}
+%
+The run-time user input is described in sec.~\ref{sec:first_steps}. The user has to provide at least the parameters that describe the axion evolution, $\thetai$ and $\fa$. 
+
+Moreover,  the maximum allowed value of $u$ and the minimum value of $T$, allow the user to decide when the integration has to stop even if the axion has not reached its adiabatic evolution. Ideally, {\tt umax}$=\infty$ and {\tt TSTOP}$=0$, but \mimes is designed to be as general as possible and there may be cases where one needs to stop the integration abruptly.~\footnote{These two variables are not optional, because the user must be aware of them, in order to choose them according to their needs.}
+
+Furthermore, {\tt ratio\_ini} allows the user to choose a desired point at which the interpolation of the data in {\tt inputFile} begins. This can save valuable computation time as well as memory, as only the necessary data are stored and searched. Generally, for {\tt ratio\_ini}$>10^{3}$, the relic abundance becomes
+independent from  {\tt ratio\_ini}, but one has to choose it carefully, in order to find a balance between accuracy and computation time.
+
+Finally, the convergence conditions -- \ie {\tt N\_convergence\_max} and {\tt convergence\_lim} -- allow the user to decide when the adiabatic evolution of the axion begins. Generally, the relic abundance does not have a strong dependence on these parameters as log as they are  {\tt N\_convergence\_max}$>3$ and {\tt convergence\_lim}$<10^{-1}$ (\ie the adiabatic invariant does not vary more that $10\%$ for three consecutive peaks of the oscillation). 
+%
+However, we should note that greedy choices (\eg~{\tt N\_convergence\_max}$=100$ and {\tt convergence\_lim}$=10^{-5}$) are dangerous, as $\theta$ tends to oscillate rapidly and destabilize the differential equation solver. Therefore, these parameters should be chosen carefully, in order to ensure that integration stops when axion has reached its adiabatic evolution, without destabilising the EOM.
+
 
 
 \subsection{Complete Examples}\label{sec:complete_examples}

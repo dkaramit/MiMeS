@@ -169,13 +169,12 @@ namespace mimes{
         // Warning: this resets public variables (except fa)!
         void setTheta_i(LD theta_i){
             this->theta_i=theta_i;
+            this->theta_osc=0;
             points.clear();
             peaks.clear();
             pointSize=points.size();
             peakSize=peaks.size();
             theta_osc=theta_i;
-            T_osc=axionEOM.T_osc;
-            a_osc=1;
             gamma=1;
             relic=0;
 

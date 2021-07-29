@@ -17,11 +17,11 @@
 int main(int argc, char **argv){ 
 
     if(argc!=2){
-        std::cout<<"usage: AnharmonicFactor.run theta_max\n";
-        std::cout<<"With:\n \
+        std::cerr<<"usage: AnharmonicFactor.run theta_max\n";
+        std::cerr<<"With:\n \
         theta_max: maximum theta.\n";
 
-        return 0;
+        return 1;
     }
 
 

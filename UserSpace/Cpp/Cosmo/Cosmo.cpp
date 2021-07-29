@@ -25,13 +25,13 @@ void logspace(LD min, LD max, int length, std::vector<LD> &X ){
 int main(int argc, char **argv){ 
 
     if(argc!=3){
-        std::cout<<"usage: Cosmo.run minT maxT\n";
-        std::cout<<"With:\n \
+        std::cerr<<"usage: Cosmo.run minT maxT\n";
+        std::cerr<<"With:\n \
         minT: minimum interpolation tempareture.\n \
         maxT: maximum interpolation tempareture.\n\n \
         Beyond these limits, h_eff and g_eff are taken constant.\n";
 
-        return 0;
+        return 1;
     }
 
 

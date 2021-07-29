@@ -25,14 +25,14 @@ void logspace(LD min, LD max, int length, std::vector<LD> &X ){
 int main(int argc, char **argv){ 
 
     if(argc!=4){
-        std::cout<<"usage: AxionMass.run fa minT maxT\n";
-        std::cout<<"With:\n \
+        std::cerr<<"usage: AxionMass.run fa minT maxT\n";
+        std::cerr<<"With:\n \
         fa: PQ scale.\n \
         minT: minimum interpolation tempareture.\n \
         maxT: maximum interpolation tempareture.\n\n \
         Beyond these limits, everything is taken constant, so one can use minT=1e-5 GeV and maxT=1e3 with good accuracy.\n";
 
-        return 0;
+        return 1;
     }
 
     LD fa=atof(argv[1]);

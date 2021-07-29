@@ -12,8 +12,8 @@ for theta_maX in linspace(0,pi,50):
     print(theta_maX,anharmonicFactor(theta_maX))
 
 
-# plot data alongsode the interpolation (if there are large differences there is something wrong)
-if True:
+# change to True to plot data alongsode the interpolation (if there are large differences there is something wrong)
+if False:
     import matplotlib.pyplot as plt
     fig=plt.figure(figsize=(9,4))
     fig.subplots_adjust(bottom=0.15, left=0.15, top = 0.99, right=0.9,wspace=0.0,hspace=0.25)

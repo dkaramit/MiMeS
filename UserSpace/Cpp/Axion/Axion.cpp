@@ -3,6 +3,7 @@
 #include <cmath> 
 #include <string> 
 #include"src/Axion/AxionSolve.hpp"
+#include"src/util/timeit.hpp"
 
 
 // #define printPoints // print the entire evolution of the axion angle, its derivative, and other quantities
@@ -20,7 +21,7 @@
 #endif
 
 int main(int argc, char **argv){ 
-    
+
     if(argc!=18){
         std::cerr<<"usage: Axion.run theta_i f_a umax TSTOP ratio_ini N_convergence_max convergence_lim inputFile\n \
         initial_step_size minimum_step_size maximum_step_size absolute_tolerance relative_tolerance beta \n \
@@ -57,6 +58,11 @@ int main(int argc, char **argv){
 
         return 1;
     }
+
+    
+    //timeit.sh adds some overhead. Alternatively, you can use
+    // mimes::Timer _time_; 
+    // The _time_ instance  prints the time the program took in stderr.  
 
 
     int ar=0;

@@ -1,4 +1,6 @@
 from numpy import array as np_array
+from time import time
+from sys import stderr
 
 from sys import path as sysPath
 from os import path as osPath
@@ -47,7 +49,7 @@ fac_max=1.2;
 fac_min=0.8;
 maximum_No_steps=int(1e7); #maximum steps the solver can take Quits if this number is reached even if integration is not finished.
 
-
+_=time()
 # Axion instance
 ax=Axion(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max, convergence_lim, inputFile,
         initial_step_size,minimum_step_size, maximum_step_size, absolute_tolerance, 
@@ -58,8 +60,10 @@ ax=Axion(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max, convergence_lim
 ax.solveAxion()
 
 print(ax.theta_i, ax.fa, ax.theta_osc, ax.T_osc ,ax.relic)
+print(round(time()-_,3),file=stderr)
 
-if True:
+# change to True in order to mkae the plots
+if False:
     ax.getPeaks()#this gives you the peaks of the oscillation
     ax.getPoints()#this gives you all the points of integration
 

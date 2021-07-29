@@ -1,6 +1,7 @@
 #ifndef SYSTEM_AxionEOM
 #define SYSTEM_AxionEOM
-#include<fstream>
+#include <iostream>
+#include <fstream>
 #include <cmath>
 #include <array>
 #include <string>
@@ -35,6 +36,7 @@ namespace mimes{
         inputFile: file that describes the cosmology. the columns should be: u T[GeV] logH
         */ 
         AxionEOM(LD fa, LD ratio_ini, std::string inputFile){
+
             this->fa=fa;
             this->ratio_ini=ratio_ini;
 
@@ -42,6 +44,14 @@ namespace mimes{
             LD u_prev=0,T_prev=0,logH_prev=0;//previous line in file
 
             std::ifstream data_file(inputFile,std::ios::in);
+
+            //quit if the file does not exist.
+            if(not data_file.good()){
+                std::cerr << inputFile<< " does not exist.";
+                std::cerr<<" Please make sure to provide a valid path.\n";
+                exit(1);
+            }
+
             bool ini_check=true; //check when ratio_ini is reached
             bool osc_check=true; //check when T_osc is reached
             LD u_ini=0; //check when ratio_ini is reached in order to rescale u to start at 0 in the interpolations

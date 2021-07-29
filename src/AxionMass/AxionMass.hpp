@@ -40,6 +40,13 @@ namespace mimes{
             LD T,chi;
             
             std::ifstream data_file(path,std::ios::in);
+            //quit if the file does not exist.
+            if(not data_file.good()) {
+                std::cerr << path << " does not exist.";
+                std::cerr <<" Please make sure to provide a valid path for the AxionMass datafile";
+                std::cerr <<" in MiMeS/Definitions.mk\n"; 
+                exit(1);
+            }
 
             while (not data_file.eof()){
                 data_file>>T;

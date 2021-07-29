@@ -33,10 +33,13 @@ if [ ! -r $2 ]; then
     exit 
 fi
 
+err_out=$1._mimes_ 
+
+time_out=.time._mimes_ 
 # run the executable ($1) passing as arguments the contents of the file ($2)
-time (xargs -a $2 $1) 2> .time.mimes
+time (xargs -a $2 $1 2>$err_out || cat $err_out; rm -f $err_out ) 2> $time_out
 
 # print the time it took in seconds
-perl -pe 's/m/ /g; s/\,/./g; s/s//g' .time.mimes | awk '$1 ~ /real/ {print 60*$2+$3}' >&2
-rm -f .time.mimes
+perl -pe 's/m/ /g; s/\,/./g; s/s//g' $time_out | awk '$1 ~ /real/ {print 60*$2+$3}' >&2
+rm -f $time_out
 

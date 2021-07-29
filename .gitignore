@@ -9,7 +9,7 @@
 *.run
 UserSpace/Python/*_examplePlot.pdf
 UserSpace/scan/*/*.dat
-*.xtx
+*._mimes_
 *.aux 
 *.log 
 *.out 

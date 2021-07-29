@@ -125,8 +125,8 @@ class Scan:
         self._p = Path(self.FileName+'.dat')
         
         
-        self.in_file="in.xtx"
-        self.count_file="count.xtx"
+        self.in_file="in._mimes_"
+        self.count_file="count._mimes_"
     def run_batch(self):
         '''
         run a batch.

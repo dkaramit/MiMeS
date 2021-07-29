@@ -22,7 +22,7 @@
 int main(int argc, char **argv){ 
     
     if(argc!=18){
-        std::cerr<<"usage: AxionExample.run theta_i f_a umax TSTOP ratio_ini N_convergence_max convergence_lim inputFile\n \
+        std::cerr<<"usage: Axion.run theta_i f_a umax TSTOP ratio_ini N_convergence_max convergence_lim inputFile\n \
         initial_step_size minimum_step_size maximum_step_size absolute_tolerance relative_tolerance beta \n \
         fac_max fac_min maximum_No_steps\n";
         

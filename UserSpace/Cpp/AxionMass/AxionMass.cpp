@@ -25,7 +25,7 @@ void logspace(LD min, LD max, int length, std::vector<LD> &X ){
 int main(int argc, char **argv){ 
 
     if(argc!=4){
-        std::cout<<"usage: AxionMassExample.run fa minT maxT\n";
+        std::cout<<"usage: AxionMass.run fa minT maxT\n";
         std::cout<<"With:\n \
         fa: PQ scale.\n \
         minT: minimum interpolation tempareture.\n \

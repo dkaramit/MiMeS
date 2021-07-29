@@ -18,8 +18,8 @@ from numpy import logspace,linspace,log10,pi
 
 scan=Scan(
     cpus=8,
-    table_fa= logspace(10,19,100),
-    table_theta_i=[1e-2],
+    table_fa= logspace(10,19,50),
+    table_theta_i=linspace(0.1,2,50),
     umax=500,
     TSTOP=1e-4,
     ratio_ini=1e3,

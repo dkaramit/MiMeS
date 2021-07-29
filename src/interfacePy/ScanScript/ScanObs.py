@@ -37,7 +37,7 @@ from pathlib import Path
 
 
 
-parallelScan=_PATH_+r"/src/interfacePy/ScanScript/parallel_scan.sh"
+parallelScan=_PATH_+r"/src/util/parallel_scan.sh"
 
 
 class ScanObs:

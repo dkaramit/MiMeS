@@ -54,7 +54,7 @@ lib/Axion_py.so: $(Axion_py)\
 				 $(AxionEOM_Headers) $(AxionSolve_Headers)\
 				 $(Ros_Headers) $(RKF_Headers)  $(SPLINE_Headers)\
 				 $(PathHead) $(Static_Funcs) 
-	$(CC) -o $@ $< -fPIC -shared $(FLG) -DLONG=$(LONGpy) -DMETHOD=$(METHOD) -Dsolver=$(Solver)
+	$(CC) -o $@ $< -fPIC -shared $(FLG) -DLONG=$(LONGpy) -DMETHOD=$(METHOD) -DSolver=$(Solver)
 
 
 # make the examples in UserSpace/Cpp
@@ -115,7 +115,7 @@ exec/AxionSolve_check.run: $(AxionSolve_check_cpp)  $(AxionSolve_Headers) $(Axio
 						   $(Cosmo_Headers) $(AxionAnF_Headers) $(AxionMass_Headers)\
 						   $(PathHead) $(Static_Funcs)\
 						   $(Ros_Headers) $(RKF_Headers) $(SPLINE_Headers)
-	$(CC) -o $@ $< $(FLG) -DLONG=$(LONG) -DMETHOD=$(METHOD) -Dsolver=$(Solver)
+	$(CC) -o $@ $< $(FLG) -DLONG=$(LONG) -DMETHOD=$(METHOD) -DSolver=$(Solver)
 
 
 # produce the documentation pdf

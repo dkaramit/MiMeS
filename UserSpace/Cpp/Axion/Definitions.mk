@@ -11,7 +11,7 @@ LONG=long
 # LONG= 
 
 #######################################-Runge Kutta method-#######################################
-#------------------These are Rosenbrock (semi implicit) methods: Generally RECOMMENDED---------------------#
+#------------------These are Rosenbrock (linearly implicit) methods: Generally RECOMMENDED---------------------#
 Solver=1
 
 # RODASPR2 is fairly accurate and fast enough (faster than the other two from NaBBODES), but one 

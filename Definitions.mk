@@ -1,15 +1,5 @@
 #MiMeS root directory
 rootDir=./
-#######################################-data files-#######################################
-# relative path to comoslogical data
-cosmoDat=src/data/eos2020.dat
-#
-# relative path to chi data
-axMDat=src/data/chi.dat
-#
-# relative path to anharmonic factor data
-anFDat=src/data/anharmonic_factor.dat
-#
 
 #######################################-precision-#######################################
 # LONG=long : in order to use long doubles. This is slower, but generally more accurate, since we can use tolerances down to 10^-11 (or below that). 
@@ -26,7 +16,7 @@ LONGpy=long
 # LONGpy=
 
 #######################################-Runge Kutta method-#######################################
-#------------------These are Rosenbrock (semi implicit) methods: Generally RECOMMENDED---------------------#
+#------------------These are Rosenbrock (linearly implicit) methods: Generally RECOMMENDED---------------------#
 Solver=1
 
 # RODASPR2 is fairly accurate and fast enough (faster than the other two from NaBBODES), but one 

@@ -616,20 +616,15 @@ Finally, \mimes does not try to predict anything regarding the cosmology. Theref
 
 \subsection{Options at Compile-time}
 %
-The user has a number of options regarding different aspects for the code. The various choices for the shared libraries used by the \PY interface are given in {\tt \mimes/Definitions.mk}. while the corresponding options for the \CPP examples are in the {\tt Definitions.mk} files in the directories inside {\tt \mimes/UserSpace/Cpp}. These options can only be used when the compilation is done using the various {\tt makefile} file. The options correspond to different variables,~\footnote{ these variables are passed to the various {\tt makefile} files} which are
+The user has a number of options regarding different aspects for the code. The various choices for the shared libraries used by the \PY interface are given in {\tt \mimes/Definitions.mk}. while the corresponding options for the \CPP examples are in the {\tt Definitions.mk} files in the directories inside {\tt \mimes/UserSpace/Cpp}.  The options correspond to different variables, which are
 %
 \begin{enumerate}
 	\item {\tt rootDir}: the relative path of root directory of \mimes.  
 	%
-	\item {\tt cosmoDat}: relative path to the data for the relativistic degrees of freedom of the plasma (see section~\ref{sec:compile_time_input} for more information). 
+	\item {\tt LONG}: this should be either {\tt long} or omitted. If omitted, the type of the numeric values is {\tt double} (double precision). On the other hand, if {\tt LONG=long},  the type is  {\tt long double}. Generally, using {\tt double} should enough. For the sake of numerical stability, then, it is advised to always use {\tt LONG=long}, as it a safer option. The reason is that the axion angle redshifts, and can become very small, which introduces ``rounding errors". Moreover, if the parameters {\tt absolute\_tolerance} or {\tt absolute\_tolerance} are chosen to be below $\sim 10^{-8}$, then double precision numbers may not be enough, and {\tt LONG=long} is preferable.  This choice comes at the cost of speed; double precision operations are usually preformed much faster. It is important to note that {\tt LONG} defines a macro with the same name, which then defines the macro {\tt LD} (in {\tt \mimes/src/static.hpp} and all the {\tt .cpp} files) as
+	{\tt \#define LD LONG double}.
 	%
-	\item {\tt axMDat}: relative path to the data needed for the axion mass (see section~\ref{sec:compile_time_input} for more information). This variable may be omitted if the user defines a function instead of providing data.
-	%
-	\item {\tt anFDat}: relative path to the data for the data regarding the anharmonic factor (see section~\ref{sec:compile_time_input} for more information). 
-	%
-	\item {\tt LONG}: this should be either {\tt long} or omitted. If omitted, the type of the numeric values is {\tt double} (double precision). On the other hand, if {\tt LONG=long},  the type is  {\tt long double}. Generally, using {\tt double} should enough. For the sake of numerical stability, then, it is advised to always use {\tt LONG=long}, as it a safer option. The reason is that the axion angle redshifts, and can become very small, which introduces ``rounding errors". Moreover, if the parameters {\tt absolute\_tolerance} or {\tt absolute\_tolerance} are chosen to be below $\sim 10^{-8}$, then double precision numbers may not be enough, and {\tt LONG=long} is preferable.  This choice comes at the cost of speed; double precision operations are usually preformed much faster. 
-	%
-	\item {\tt LONGpy}: the same as {LONG}, but for the \PY interface.
+	\item {\tt LONGpy}: the same as {\tt LONG}, but for the \PY interface.
 	%
 	\item {\tt Solver}: \mimes uses the ordinary differential equation (ODE) integrators of ref.~\cite{NaBBODES}. Currently, there are two available choices; {\tt Rosenbrock} and {\tt RKF}. The former is a general embedded Rosenbrock implementation and it is used if {\tt Solver=1}, while the latter is a general explicit embedded Runge-Kutta implementation and can be chose by using {\tt Solver=2} (a brief description of how these algorithms are implemented can be found in Appendix~\ref{app:RK}). The default option for that \mimes uses is {\tt Solver=1}, because the axion EOM tends to oscillate rapidly. However, in some cases, a high order explicit method may also work.
 	%
@@ -638,20 +633,24 @@ The user has a number of options regarding different aspects for the code. The v
 			\item 	For {\tt Solver=1}, the available methods are 
 			{\tt METHOD=RODASPR2} and {\tt METHOD=ROS34PW2}. The {\tt RODASPR2} choice is a fourth order Rosenbrock-Wanner method (more information can be found in ref.~\cite{RANG2015128}). The {ROS34PW2} choice corresponds to a third order Rosenbrock-Wanner method~\cite{RangAngermann2005}. 
 			%
-			\item 	For {\tt Solver=2}, the only reliable method available in {\tt NaBBODES} is the Dormand-Prince~\cite{DORMAND198019} one chosen if {\tt METHOD=DormandPrince}, which is an explicit Runge-Kutta method of order $7$.
+			\item 	For {\tt Solver=2}, the only reliable method available in {\tt NaBBODES} is the Dormand-Prince~\cite{DORMAND198019} chosen if {\tt METHOD=DormandPrince}, which is an explicit Runge-Kutta method of seventh order.
 		\end{itemize}
+		%
+		It is worth mentioning that {\tt NaBBODES} is built in order to be a template for all possible Rosenbrock and explicit Runge-Kutta embedded methods, and one can provide their own Butcher tableau if they want to use another method, as shown in Appendix~\ref{app:RK}.
 	%
 	\item {\tt CC}: the \CPP compiler that one can use. The default option is {\tt CC=g++}, which is the {\tt GNU} \CPP compiler, and is available for all systems. Another option is to use the {\tt clang} compiler, which is chosen by {\tt CC=clang -lstdc++}. \mimes is mostly tested using {\tt g++}, but {\tt clang} also seems to work (and the resulting executables ae sometimes faster), but the user has to make sure that their version of the compiler of choice supports the \CPP17 standard, otherwise \mimes probably will not work.
 	%
 	\item {\tt OPT}: Optimization level of the compiler. By default, this is {\tt OPT=O3}, which produces executables that are marginally faster than the other choices, {\tt OPT=O1} and {\tt OPT=O2}. There is another choice that is generally considered  dangerous, {\tt OPT=Ofast}, but it can cause various numerical instabilities -- although none is observed when running \mimes. 
 \end{enumerate}
-
+%
+These options can only be used when the compilation is done using the various {\tt makefile} files. For manual compilation of a user provided {\tt .cpp} file, the options {\tt LONG}, {\tt Solver}, and {\tt METHOD} correspond to macros with the same name.~\footnote{Macros can be defined using the {\tt -D} flag
+in the compiler. For example {\tt METHOD=DormandPrince} is the same as passing {\tt -DMETHOD=DormandPrince} to the compiler.} It should be pointed-out that {\tt LONG} is in the examples is used to define a macro {\tt LD} which becomes {\tt double} or {\tt long double} accordingly. the actual choice of numeric type is passed as a template parameter in all classes. Therefore, this macro alone does not automatically mean that the code is compiled using {\tt long double} numbers. In order to understand the template arguments of the classes, see section~\ref{sec:complete_examples}. 
 
 \subsection{User input}\label{sec:input}
 %
 \subsubsection{Compile-time input}\label{sec:compile_time_input} 
 %
-\paragraph{Files} \mimes requires files that provide data for the relativistic degrees of freedom (RDOF) of the plasma, as well as its mass as a function of the temperature. Although \mimes is shipped with the standard model RDOF found in~\cite{Saikawa:2020swg}, and the axion mass from~\cite{Borsanyi:2016ksw}, the user can change the corresponding variables in {\tt Definitions.mk} (found in the root directory of \mimes) to another file path. The variables pointing to these data files are {\tt cosmoDat} and {\tt axMDat}, for the RDOF and axion mass, respectively.~\footnote{One can change the data file for anharmonic factor introduced in \eqs{eq:anharmonic_f} using the variable {\tt anFDat}.}
+\paragraph{Files} \mimes requires files that provide data for the relativistic degrees of freedom (RDOF) of the plasma, as well as its mass as a function of the temperature. Although \mimes is shipped with the standard model RDOF found in~\cite{Saikawa:2020swg}, and the axion mass from~\cite{Borsanyi:2016ksw}, the user can change the corresponding variables in {\tt Paths.mk} (found in the root directory of \mimes) to another file path. The variables pointing to these data files are {\tt cosmoDat} and {\tt axMDat}, for the RDOF and axion mass, respectively.~\footnote{One can change the data file for anharmonic factor introduced in \eqs{eq:anharmonic_f} using the variable {\tt anFDat}.}
 
 The format of the files is the following:~\footnote{The anharmonic factor data are given in $\thetamax$ $f(\thetamax)$, with increasing $\thetamax$.} 
 %
@@ -662,7 +661,7 @@ The format of the files is the following:~\footnote{The anharmonic factor data a
 	The user can provide a function instead of data for the axion mass, by leaving the  {\tt axMDat} variable empty. 
 \end{itemize}
 %
-The paths to these files should be given at compile time. That is, once {\tt Definitions.mk} changes, \run{bash configure.sh} and then \run{\tt make} must be ran. The user can change the content of the data files (without changing their paths), in order to use them without compiling \mimes again. However, the user has to make sure that all the files are sorted so that the values of first column increase (with no duplicates or empty lines). In order to ensure this, it is advised to run \run{bash FormatFile.sh path-to-file} (in Appendix~\ref{app:util} there are some details on {\tt MiMeS/src/FormatFile.sh}), in order to format the file (that should exist in \run{path-to-file}) complies with the requirements of \mimes.
+The paths to these files should be given at compile time. That is, once {\tt Paths.mk} changes, \run{bash configure.sh} and then \run{\tt make} must be ran. The user can change the content of the data files (without changing their paths), in order to use them without compiling \mimes again. However, the user has to make sure that all the files are sorted so that the values of first column increase (with no duplicates or empty lines). In order to ensure this, it is advised to run \run{bash FormatFile.sh path-to-file} (in Appendix~\ref{app:util} there are some details on {\tt MiMeS/src/FormatFile.sh}), in order to format the file (that should exist in \run{path-to-file}) complies with the requirements of \mimes.
 
 \paragraph{Static variables} The header file {\tt MiMeS/src/static.hpp} contains definitions of various static variables that are used in the \PY modules and the {\tt mimes::Axion} class. These variables are instances of the classes {\tt mimes::Cosmo}, {\tt mimes::AxionMass}, and {\tt mimes::AnharmonicFactor}, and they are responsible for interpolation of the various plasma parameters (\ie $\heff(T)$, $\geff(T)$, $s(T)$, etc.), the axion mass, and the anharmonic factor, respectively.
 
@@ -726,6 +725,14 @@ The second way we can declare the {\tt axionMass} variable is
 where {\tt ma2} -- the axion mass squared in $\GeV^2$ -- is a function object with signature {\tt LD ma2 (LD T, LD fa)}. In order to do this, 
 the user may omit a data file path for the {\tt axMDat} variable in {\tt \mimes/src/Definition.mk}.
 
+\subparagraph{{\tt anharmonicFactor}} The static variable {\tt anharmonicFactor} is an instance of {\tt mimes::AnharmonicFactor}. It is expected to be defined in  {\tt MiMeS/src/static.hpp}, as 
+%
+\begin{cpp}
+	static mimes::AnharmonicFactor<LD> anharmonicFactor(anF_PATH);
+\end{cpp}
+%
+Here,~{\tt anF\_PATH} is a macro of a string of the absolute path of the data for the anharmonic factor. This macro is automatically
+written in {\tt MiMeS/src/misc\_dir/path.hpp} when \run{bash configure.sh} is ran. The data should be given in two columns; $\thetamax$, $f(\thetamax)$.
 
 \subsubsection{Run-time input}\label{sec:run_time_input}
 %
@@ -744,7 +751,7 @@ However, we should note that greedy choices (\eg~{\tt N\_convergence\_max}$=100$
 
 \subsection{Complete Examples}\label{sec:complete_examples}
 
-\paragraph{A complete \CPP example}\DK{Give the code with explanation of {\tt MiMeS/UserSpace/CPP/Axion}, along with the compilation options.}
+\paragraph{A complete \CPP example}\DK{Give the code with explanation of {\tt MiMeS/UserSpace/CPP/Axion}, along with the compilation options, and explain the template arguments.}
 
 \paragraph{A complete \PY example}\DK{Give th/e code with explanation of {\tt MiMeS/UserSpace/Python/Axion.py}, say that the compilation options are set in the root directory of \mimes.}
 

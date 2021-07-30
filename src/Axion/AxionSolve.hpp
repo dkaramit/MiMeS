@@ -35,7 +35,7 @@
 
 /*================================*/
 #ifndef METHOD
-    #define solver 1
+    #define Solver 1
     #define METHOD RODASPR2
 #endif
 
@@ -53,12 +53,12 @@ namespace mimes{
 
     template<class LD>
     class Axion{
-        #if solver==1
-        using Solver=Ros<Neqs, METHOD<LD>, Jacobian<Neqs, LD>, LD>;
+        #if Solver==1
+        using RKSolver=Ros<Neqs, METHOD<LD>, Jacobian<Neqs, LD>, LD>;
         #endif
 
-        #if solver==2
-        using Solver=RKF<Neqs, METHOD<LD>, LD>;
+        #if Solver==2
+        using RKSolver=RKF<Neqs, METHOD<LD>, LD>;
         #endif
 
         LD umax,TSTOP,ratio_ini;
@@ -202,7 +202,7 @@ namespace mimes{
         a_osc=std::exp(axionEOM.u_osc);
 
         // instance of the solver
-        Solver System(axionEOM, y0, umax,
+        RKSolver System(axionEOM, y0, umax,
                         initial_step_size, minimum_step_size, maximum_step_size, maximum_No_steps,
                         absolute_tolerance, relative_tolerance, beta, fac_max,fac_min);
 
@@ -373,5 +373,6 @@ namespace mimes{
 
 
 
-
+#undef Solver
+#undef METHOD
 #endif

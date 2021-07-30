@@ -12,9 +12,13 @@ SPLINE_Headers=$(wildcard $(rootDir)src/SimpleSplines/*.hpp)
 AxionMass_Headers=$(wildcard $(rootDir)src/AxionMass/AxionMass.hpp)
 PathHead=$(rootDir)src/misc_dir/path.hpp
 
-all: AxionMass.run
+all: AxionMass.run AxionMassFunc.run
 
 AxionMass.run: AxionMass.cpp $(AxionMass_Headers) $(SPLINE_Headers) $(PathHead)
+
+	$(CC) -o $@ $< $(FLG)
+
+AxionMassFunc.run: AxionMassFunc.cpp $(AxionMass_Headers) $(SPLINE_Headers) $(PathHead)
 
 	$(CC) -o $@ $< $(FLG)
 

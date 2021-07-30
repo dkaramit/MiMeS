@@ -6,19 +6,23 @@
 #include<vector>
 #include<cmath>
 #include<string>
+#include<functional>
 #include"src/Cosmo/Cosmo.hpp"
 
 #include "src/SimpleSplines/Interpolation.hpp"
 
 namespace mimes{
-    template<class LD>
+    template<class LD, bool useData=true>
     class AxionMass {
         private:
         using VecLD=std::vector<LD>;
+        using func=std::function<LD(LD,LD)>;
+        
         CubicSpline<LD> chi;
         VecLD Ttab,chitab;
         LD TMin, TMax, chiMin, chiMax;
         LD LambdaQCD;
+        func ma2_MAX,ma2_MIN;
         public:
         /*
         The constructor of the class.
@@ -69,13 +73,23 @@ namespace mimes{
             if(TMin != TMax){ this->chi=CubicSpline<LD>(&Ttab,&chitab); }
 
             LambdaQCD=0.4;
+
+            ma2_MAX=[this](LD T, LD fa){return this->chiMin/fa/fa*std::pow(T/this->TMax,-8.16);};
+            ma2_MIN=[this](LD T, LD fa){return this->chiMax/fa/fa;};
+
+        }
+
+        void set_ma2_approx(
+            func  ma2_MAX=[this](LD T, LD fa){return this->chiMin/fa/fa*std::pow(T/this->TMax,-8.16);}, 
+            func ma2_MIN=[this](LD T, LD fa){return this->chiMax/fa/fa;}){
+            this->ma2_MAX=ma2_MAX;
+            this->ma2_MIN=ma2_MIN;
         }
 
         LD ma2(LD T, LD fa){
             // axion mass squared at temperature T and f_\alpha=fa
-            if(TMin==TMax){return chiMin/fa/fa;}//if TMin==TMax, the mass is assumed to be constant 
-            if(T>=TMax){return chiMin/fa/fa*std::pow(T/TMax,-8.16);}//use this beyond the upper limit
-            if(T<=TMin){return chiMax/fa/fa;}//use this beyond the lower limit
+            if(T>=TMax){return ma2_MAX(T,fa);}//use this beyond the upper limit
+            if(T<=TMin){return ma2_MIN(T,fa);}//use this beyond the lower limit
             return chi(T)/fa/fa;//interpolate chi if TMin!=TMax and T is between TMin nad TMax 
         }
 
@@ -91,29 +105,51 @@ namespace mimes{
             return chi.derivative_1(T)/fa/fa;
         }
 
-        LD ma2_approx(LD T, LD fa){
-            // axion mass squared at temperature T and f_\alpha=fa
-            if(TMin==TMax){return chiMin/fa/fa;}
+    };
+};
 
-            LD ma20=chiMax/fa/fa;
-            LD b=4e-4;
-            LD fT=std::pow(T/LambdaQCD,-8.16);
-            if(b*fT<=1){return b*fT*ma20;}
-            else{return ma20;}    
+
+namespace mimes{
+    template<class LD>
+    class AxionMass<LD, false> {
+        private:
+        using func=std::function<LD(LD,LD)>;
+        public:
+        func  ma2,dma2dT;
+        /*
+        Constructor.
         
+        LD ma2(LD fa,LD T): the axion mass squared, which is then accessed by AxionMass::ma2.
+        The derivative wrt the temperature (AxionMass::dma2dT) is numerically approximated.
+        Note: LD here is a macro for "double" of "long double"
+        */
+        AxionMass(func ma2){    
+            // the mass of the axion squared
+            this->ma2=ma2;
+
+            // the derivative of ma2. The stepsize parameter, h, is optional and 
+            // determines the stepsize of the numerical differentiation (usually h=1e-8 is enough).
+            this->dma2dT=[this](LD fa,LD T, LD h = 1e-8){
+                h=T*h+h;
+                return (this->ma2(fa,T+h)-this->ma2(fa,T-h))/(2*h);
+            };
         }
-        LD dma2dT_approx(LD T, LD fa){
-            // axion mass squared at temperature T and f_\alpha=fa
-            if(TMin==TMax){return 0;}
 
-            LD ma20=chiMax/fa/fa;
-            LD b=4e-4;
-            LD fT=std::pow(T/LambdaQCD,-8.16);
-            if(b*fT<=1){return -8.16/(T/LambdaQCD)*b*fT*ma20;}
-            else{return 0;}    
+        /*
+        Another constructor.
         
+        LD ma2(LD fa, LD T): the axion mass squared, which is then accessed by AxionMass::ma2.
+        LD dma2dT(LD fa, LD T): The derivative of ma2 wrt the temperature, which is then accessed by AxionMass::dma2dT.
+        Note: LD here is a macro for "double" of "long double"
+        */
+    
+       
+        AxionMass(func ma2,func dma2dT){    
+            this->ma2=ma2;
+            this->dma2dT=dma2dT;
         }
     };
+
 };
 
 #endif

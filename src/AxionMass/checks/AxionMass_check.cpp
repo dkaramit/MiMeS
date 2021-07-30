@@ -3,6 +3,7 @@
 
 
 #include"src/AxionMass/AxionMass.hpp"
+#include"src/Cosmo/Cosmo.hpp"
 #include"src/misc_dir/path.hpp"
 
 
@@ -22,7 +23,7 @@
 #endif
 
 int main(){
-    mimes::AxionMass<LD> axM(chi_PATH);
+    mimes::AxionMass<LD> axM(chi_PATH,0,mimes::Cosmo<LD>::mP);
 
     #ifdef printDiff
     {

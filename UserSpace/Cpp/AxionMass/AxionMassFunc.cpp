@@ -50,7 +50,7 @@ int main(int argc, char **argv){
     {    
         // In this axM instance, you only provide the axion mass squared.
         // It can  give the numerical derivative of ma2 wrt T. 
-        mimes::AxionMass<LD,false> axM(ma2);
+        mimes::AxionMass<LD> axM(ma2);
 
         std::cout<<"m_a^2= "<<axM.ma2(T,fa)<<"\n";
         std::cout<<"dm_a^2/dT= "<<axM.dma2dT(T,fa)<<"\n";
@@ -67,7 +67,7 @@ int main(int argc, char **argv){
     
     {    
         // In this axM instance, you provide both ma2 and its derivative  
-        mimes::AxionMass<LD,false> axM(ma2,dma2dT);
+        mimes::AxionMass<LD> axM(ma2,dma2dT);
 
         std::cout<<"m_a^2= "<<axM.ma2(T,fa)<<"\n";
         std::cout<<"dm_a^2/dT= "<<axM.dma2dT(T,fa)<<"\n";

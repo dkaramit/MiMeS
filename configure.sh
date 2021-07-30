@@ -7,6 +7,7 @@ for file in $(find . -type f -regex ".*\.sh");do
   chmod +x $file
 done
 
+
 # since FormatFile.sh can change directories in future versions, let's find it first 
 formatF=$(find . -type f -regex ".*FormatFile.sh")
 for dataFile in $cosmoDat $axMDat $anFDat;do
@@ -41,16 +42,20 @@ echo "_PATH_=\"$PWD\" "> $PathHeadPy
 
 echo "write paths in $PathHead"
 
-echo "#ifndef PATHS_HEAD
-#define PATHS_HEAD
+rm -f $PathHead
+touch $PathHead
+echo "#ifndef PATHS_HEAD">>$PathHead
+echo "#define PATHS_HEAD">>$PathHead
+echo "">>$PathHead
 
-#define cosmo_PATH \"$PWD/$cosmoDat\" 
-#define chi_PATH \"$PWD/$axMDat\" 
-#define anharmonic_PATH \"$PWD/$anFDat\" 
-#define PWD \"$PWD\" 
+[  -z "$axMDat" ] || echo "#define chi_PATH \"$PWD/$axMDat\"">>$PathHead
+[  -z "$cosmoDat" ] || echo "#define cosmo_PATH \"$PWD/$cosmoDat\"">>$PathHead
+[  -z "$anFDat" ] || echo "#define anharmonic_PATH \"$PWD/$anFDat\"">>$PathHead
+
+echo "#define PWD \"$PWD\" 
 
 #endif
-">$PathHead
+">>$PathHead
 
 echo "Run \"bash configure.sh License\" in order to read the License, or read the file named LICENSE."
 if test "$1" = "License" 
@@ -64,7 +69,7 @@ then
 fi
 
 
-echo  -e "\033[1;5;35m 
+echo  -e "\033[1;5;31m 
   __  __   _   __  __           _____ 
  |  \/  | (_) |  \/  |         / ____|
  | \  / |  _  | \  / |   ___  | (___  
@@ -78,3 +83,7 @@ echo  -e "\033[0;97m
 You can run \"make\" to compile everything. After that, you will find several examples in UserSpace, 
 and you can run the executables in exec/ in order to see if the code actually works.
 "
+
+tput smul
+[ -z "$axMDat" ] && echo -e "NOTE: Data file for axion mass is not given. Please make sure to provide a function in src/static.hpp."
+tput rmul

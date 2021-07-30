@@ -453,7 +453,7 @@ Notice that this is form of $\rho_{a,0}$  is similar to the the WKB result~(\ref
 	\label{list:git_download}
 \end{listing}
 %
-The library can downloaded from \href{https://github.com/dkaramit/MiMeS}{github.com/dkaramit/MiMeS}. Since the library depends on {\tt NaBBODES}~\cite{NaBBODES} {\tt SpleSplines}~\cite{SimpleSplines}, one has to download the, too. However, in order to get \mimes ready, one can run the commands shown in listing~\ref{list:git_download}. Although this method should be preferred in order to get the latest version, \mimes can also be downloaded from \href{https://mimes.hepforge.org/downloads/}{mimes.hepforge.org/downloads}.
+The library can downloaded from \href{https:/github.com/dkaramit/MiMeS}{github.com/dkaramit/MiMeS}. Since the library depends on {\tt NaBBODES}~\cite{NaBBODES} {\tt SpleSplines}~\cite{SimpleSplines}, one has to download the, too. However, in order to get \mimes ready, one can run the commands shown in listing~\ref{list:git_download}. Although this method should be preferred in order to get the latest version, \mimes can also be downloaded from \href{https:/mimes.hepforge.org/downloads/}{mimes.hepforge.org/downloads}.
 
 
 Once everything is downloaded successfully, we can go inside the \mimes directory, and run \run{bash configure.sh}~\footnote{It is recommended to use {\tt bash}.} and \run{make}.  The {\tt bash} script {\tt configure.sh}, just writes some paths to some files, formats the data files provided in a acceptable format (in section~\ref{sec:input} the format is explained), and makes some directories.
@@ -462,7 +462,7 @@ The {\tt makefile} is responsible for compiling some examples and checks, as wel
 
 \subsection{First steps}\label{sec:first_steps} 
 %
-There are several examples in \CPP ({\tt MiMeS/UserSpace//Cpp}) and \PY ({\tt MiMeS/UserSpace//Python}), as well as \JUPY  notebooks ({MiMeS/UserSpace//JupyterNotebooks}), that show in detail how \mimes can be used. 
+There are several examples in \CPP ({\tt MiMeS/UserSpace/Cpp}) and \PY ({\tt MiMeS/UserSpace/Python}), as well as \JUPY  notebooks ({\tt MiMeS/UserSpace/JupyterNotebooks}), that show in detail how \mimes can be used. 
 
 \subsubsection{Using \mimes in \CPP} 
 %
@@ -472,7 +472,7 @@ In order to use the {\tt mimes::Axion} class in a \CPP program, we need ti inclu
 	#include "MiMeS/src/Axion/AxionSolve.hpp"
 \end{cpp}
 %
-Notice that if the  {\tt .cpp} is not in the root directory of \mimes, we need to compile it using the flag {\tt -Ipath-to-root}, "path-to-root" the relative path to the root directory of \mimes; \eg if the {\tt .cpp} is in the {\tt MiMeS/UserSpace//Cpp/Axion} directory, this flag should be {\tt -I../../../}.
+Notice that if the  {\tt .cpp} is not in the root directory of \mimes, we need to compile it using the flag {\tt -Ipath-to-root}, "path-to-root" the relative path to the root directory of \mimes; \eg if the {\tt .cpp} is in the {\tt MiMeS/UserSpace/Cpp/Axion} directory, this flag should be {\tt -I../../../}.
 
 Then, we can assign an instance of {\tt mimes::Axion} in a variable using
 %
@@ -553,7 +553,7 @@ The {\tt Axion} class in the module {\tt interfacePy.Axion} can be loaded in a \
 	from interfacePy.Axion import Axion
 \end{py}
 %
-It is important that \mintinline{python}{'path_to_src'} provides the relative path to the {\tt src} directory. For example, if the script is located in {\tt MiMeS/UserSpace//Python}, \mintinline{python}{'path_to_src'} should be \mintinline{python}{'../../src'}.
+It is important that \mintinline{python}{'path_to_src'} provides the relative path to the {\tt MiMeS/src} directory. For example, if the script is located in {\tt MiMeS/UserSpace/Python}, \mintinline{python}{'path_to_src'} should be \mintinline{python}{'../../src'}.
 
 Once the module is imported, we can define an {\tt Axion} instance as follows 
 %
@@ -614,11 +614,42 @@ Also, it is assumed that the entropy is resumes its conserved status at a temper
 %
 Finally, \mimes does not try to predict anything regarding the cosmology. Therefore, the temperatures in {\tt inputFile} {\em must} cover the entire region of  integration; \ie the maximum temperature has to be larger than the one required to reach {\tt ratio\_ini}, while the minimum one should be lower than {\tt TSTOP}.
 
-\subsection{Options at Compile-time}\DK{Talk about the options, {\tt LONG} and its relation to LD, {\tt solver}, {\tt METHOD} ...}
+\subsection{Options at Compile-time}
+%
+The user has a number of options regarding different aspects for the code. The various choices for the shared libraries used by the \PY interface are given in {\tt \mimes/Definitions.mk}. while the corresponding options for the \CPP examples are in the {\tt Definitions.mk} files in the directories inside {\tt \mimes/UserSpace/Cpp}. These options can only be used when the compilation is done using the various {\tt makefile} file. The options correspond to different variables,~\footnote{ these variables are passed to the various {\tt makefile} files} which are
+%
+\begin{enumerate}
+	\item {\tt rootDir}: the relative path of root directory of \mimes.  
+	%
+	\item {\tt cosmoDat}: relative path to the data for the relativistic degrees of freedom of the plasma (see section~\ref{sec:compile_time_input} for more information). 
+	%
+	\item {\tt axMDat}: relative path to the data needed for the axion mass (see section~\ref{sec:compile_time_input} for more information). This variable may be omitted if the user defines a function instead of providing data.
+	%
+	\item {\tt anFDat}: relative path to the data for the data regarding the anharmonic factor (see section~\ref{sec:compile_time_input} for more information). 
+	%
+	\item {\tt LONG}: this should be either {\tt long} or omitted. If omitted, the type of the numeric values is {\tt double} (double precision). On the other hand, if {\tt LONG=long},  the type is  {\tt long double}. Generally, using {\tt double} should enough. For the sake of numerical stability, then, it is advised to always use {\tt LONG=long}, as it a safer option. The reason is that the axion angle redshifts, and can become very small, which introduces ``rounding errors". Moreover, if the parameters {\tt absolute\_tolerance} or {\tt absolute\_tolerance} are chosen to be below $\sim 10^{-8}$, then double precision numbers may not be enough, and {\tt LONG=long} is preferable.  This choice comes at the cost of speed; double precision operations are usually preformed much faster. 
+	%
+	\item {\tt LONGpy}: the same as {LONG}, but for the \PY interface.
+	%
+	\item {\tt Solver}: \mimes uses the ordinary differential equation (ODE) integrators of ref.~\cite{NaBBODES}. Currently, there are two available choices; {\tt Rosenbrock} and {\tt RKF}. The former is a general embedded Rosenbrock implementation and it is used if {\tt Solver=1}, while the latter is a general explicit embedded Runge-Kutta implementation and can be chose by using {\tt Solver=2} (a brief description of how these algorithms are implemented can be found in Appendix~\ref{app:RK}). The default option for that \mimes uses is {\tt Solver=1}, because the axion EOM tends to oscillate rapidly. However, in some cases, a high order explicit method may also work.
+	%
+	\item {\tt METHOD}: Depending on the type of solver is chosen, there are some available methods. 
+		\begin{itemize}
+			\item 	For {\tt Solver=1}, the available methods are 
+			{\tt METHOD=RODASPR2} and {\tt METHOD=ROS34PW2}. The {\tt RODASPR2} choice is a fourth order Rosenbrock-Wanner method (more information can be found in ref.~\cite{RANG2015128}). The {ROS34PW2} choice corresponds to a third order Rosenbrock-Wanner method~\cite{RangAngermann2005}. 
+			%
+			\item 	For {\tt Solver=2}, the only reliable method available in {\tt NaBBODES} is the Dormand-Prince~\cite{DORMAND198019} one chosen if {\tt METHOD=DormandPrince}, which is an explicit Runge-Kutta method of order $7$.
+		\end{itemize}
+	%
+	\item {\tt CC}: the \CPP compiler that one can use. The default option is {\tt CC=g++}, which is the {\tt GNU} \CPP compiler, and is available for all systems. Another option is to use the {\tt clang} compiler, which is chosen by {\tt CC=clang -lstdc++}. \mimes is mostly tested using {\tt g++}, but {\tt clang} also seems to work (and the resulting executables ae sometimes faster), but the user has to make sure that their version of the compiler of choice supports the \CPP17 standard, otherwise \mimes probably will not work.
+	%
+	\item {\tt OPT}: Optimization level of the compiler. By default, this is {\tt OPT=O3}, which produces executables that are marginally faster than the other choices, {\tt OPT=O1} and {\tt OPT=O2}. There is another choice that is generally considered  dangerous, {\tt OPT=Ofast}, but it can cause various numerical instabilities -- although none is observed when running \mimes. 
+\end{enumerate}
+
 
 \subsection{User input}\label{sec:input}
 %
-\subsubsection{Compile-time input} 
+\subsubsection{Compile-time input}\label{sec:compile_time_input} 
 %
 \paragraph{Files} \mimes requires files that provide data for the relativistic degrees of freedom (RDOF) of the plasma, as well as its mass as a function of the temperature. Although \mimes is shipped with the standard model RDOF found in~\cite{Saikawa:2020swg}, and the axion mass from~\cite{Borsanyi:2016ksw}, the user can change the corresponding variables in {\tt Definitions.mk} (found in the root directory of \mimes) to another file path. The variables pointing to these data files are {\tt cosmoDat} and {\tt axMDat}, for the RDOF and axion mass, respectively.~\footnote{One can change the data file for anharmonic factor introduced in \eqs{eq:anharmonic_f} using the variable {\tt anFDat}.}
 
@@ -626,41 +657,53 @@ The format of the files is the following:~\footnote{The anharmonic factor data a
 %
 \begin{itemize}
 	\item The RDOF data must be given in three columns; $T$ (in $\GeV$), $\heff$, and $\geff$.
+	%
 	\item The axion mass data must be given in two columns; $T$ (in $\GeV$), $\chi$ (in $\GeV^4$). Here, $\chi$ is defined as in \eqs{eq:axion_mass_def}. 
-	If the user needs the axion mass to be constant, this file should contain only one line that contains a temperature -- its importance will become clear in the next paragraph -- and a value of $\chi$. 
+	The user can provide a function instead of data for the axion mass, by leaving the  {\tt axMDat} variable empty. 
 \end{itemize}
 %
 The paths to these files should be given at compile time. That is, once {\tt Definitions.mk} changes, \run{bash configure.sh} and then \run{\tt make} must be ran. The user can change the content of the data files (without changing their paths), in order to use them without compiling \mimes again. However, the user has to make sure that all the files are sorted so that the values of first column increase (with no duplicates or empty lines). In order to ensure this, it is advised to run \run{bash FormatFile.sh path-to-file} (in Appendix~\ref{app:util} there are some details on {\tt MiMeS/src/FormatFile.sh}), in order to format the file (that should exist in \run{path-to-file}) complies with the requirements of \mimes.
 
-\paragraph{Static variables} The header file {\tt MiMeS/src/static.hpp} contains definitions of various static variables that are used in the \PY modules and the {\tt mimes::Axion} class. These variables are instances of the classes {\tt mimes::Cosmo}, {\tt mimes::AxionMass}, and {\tt mimes::AnharmonicFactor}, and they are responsible for interpolations of the various plasma parameters (\ie $\heff(T)$, $\geff(T)$, $s(T)$, etc.), the axion mass, and the anharmonic factor, respectively.
+\paragraph{Static variables} The header file {\tt MiMeS/src/static.hpp} contains definitions of various static variables that are used in the \PY modules and the {\tt mimes::Axion} class. These variables are instances of the classes {\tt mimes::Cosmo}, {\tt mimes::AxionMass}, and {\tt mimes::AnharmonicFactor}, and they are responsible for interpolation of the various plasma parameters (\ie $\heff(T)$, $\geff(T)$, $s(T)$, etc.), the axion mass, and the anharmonic factor, respectively.
 
-The constructors of all these classes need the data files whose paths are provided by the user in {\tt Definitions.mk} (in the root directory of \mimes). Moreover, the user is allowed to choose the minimum and maximum interpolation temperature for the classes {\tt mimes::Cosmo}, {\tt mimes::AxionMass}. \mimes uses, by default, the temperature range $T \in [0,m_P]$,~\footnote{Here $m_P = 1.22 \times 10^{19}~\GeV$, is the Planck mass.} however, this can easily be changed.
-%
-This can be done by changing the second and third argument of these two classes, in order to change the minimum and maximum temperature, respectively. For example, in order to interpolate the plasma parameters between $T_{\rm min} = 1~\GeV$ and $T_{\rm max} = 100~\GeV$, we just change the declaration of the {\tt cosmo} variable form
+\subparagraph{{\tt cosmo}} The static variable {\tt cosmo} is an instance of {\tt mimes::Cosmo}. It is expected to be defined in  {\tt MiMeS/src/static.hpp}, as 
 %
 \begin{cpp}
-	static mimes::Cosmo<LD> cosmo(cosmo_PATH,0,mimes::Cosmo<LD>::mP);
-\end{cpp} 
-%
-to 
-\begin{cpp}
-	static mimes::Cosmo<LD> cosmo(cosmo_PATH,1,100);
-\end{cpp}
-% 
-Since beyond these limits, $\heff$ and $\geff$ are assumed to be constant, one has to be careful with the choice of the limits as they might severely affect the accuracy of the results. 
-
-Similarly, in order to change the interpolation limits of the {\tt axionMass} variable (instance of {\tt mimes::AxionMass}) to $T_{\rm min} = 1~\GeV$ and $T_{\rm max} = 100~\GeV$, we need to change (notice that the second template argument is set to {\tt true}, which indicates that a data file is expected)
-%
-\begin{cpp}
-	static mimes::AxionMass<LD,true> axionMass(chi_PATH,0,mimes::Cosmo<LD>::mP);
-\end{cpp} 
-%
-to 
-\begin{cpp}
-	static mimes::AxionMass<LD,true> axionMass(chi_PATH,1,100);
+	static mimes::Cosmo<LD> cosmo(cosmo_PATH,minT,maxT);
 \end{cpp}
 %
-Beyond these limits, the axion mass is assumed to be
+The arguments of the constructor are
+%
+\begin{enumerate}
+	\item {\tt chi\_PATH}: a string of the absolute path of the relativistic degrees of freedom (RDOF). This macro is automatically
+	written in {\tt MiMeS/src/misc\_dir/path.hpp} when \run{bash configure.sh} is ran. The RDOF data must be given in three columns; $T$ (in $\GeV$), $\heff$, and $\geff$.
+	%
+	\item {\tt minT} (optional): The minimum interpolation temperature. Bellow this limit, $\heff$ and $\geff$ are takes to be constant. Its default value is $0$.
+	%
+	\item {\tt maxT} (optional): The maximum interpolation temperature. Above this limit, $\heff$ and $\geff$ are takes to be constant. Its default value is $m_P$; the Planck mass $m_P = 1.22 \times 10^{19}~\GeV$.
+\end{enumerate} 
+%
+It should be noted that  the interpolation limits {\tt minT} and {\tt maxT} are suggestions; the actual limits will be set to their closest value that exist in the data file.
+
+
+\subparagraph{{\tt axionMass}} The static  variable {\tt axionMass} is an instance of {\tt mimes::AxionMass}. It is expected to be defined in  {\tt MiMeS/src/static.hpp}. The first way one can define the variable {\tt axionMass} is
+%
+\begin{cpp}
+	static mimes::AxionMass<LD> axionMass(chi_PATH,minT,maxT);
+\end{cpp}
+%
+The arguments of the constructor are
+%
+\begin{enumerate}
+	\item {\tt chi\_PATH}: a string of the absolute path of the relativistic degrees of freedom (RDOF). This macro is automatically
+	written in {\tt MiMeS/src/misc\_dir/path.hpp} when \run{bash configure.sh} is ran. The RDOF data must be given in three columns; $T$ (in $\GeV$), $\heff$, and $\geff$.
+	%
+	\item {\tt minT} (optional): The minimum interpolation temperature. Its default value is $0$.
+	%
+	\item {\tt maxT} (optional): The maximum interpolation temperature.Its default value is $m_P$.
+\end{enumerate} 
+%
+As previously, the interpolation limits {\tt minT} and {\tt maxT} are suggestions, as the actual limits will be set to the closest value that exist in the data file. Beyond these limits, the axion mass by default is taken to be 
 %
 \begin{equation}
 	\maT = \Bigg\{
@@ -671,31 +714,20 @@ Beyond these limits, the axion mass is assumed to be
 	\end{matrix} \;.
 \end{equation}
 %
-Therefore, changing the limits can cause inaccurate results. The user can change this definition, by calling 
+This is a good approximation for the QCD axion (the default data \mimes uses), but the user can change them inside the class, which is located in{\tt \mimes/src/AxionMass/AxionMass.hpp} (see Appendix~\ref{app:classes} for details). 
+
+
+The second way we can declare the {\tt axionMass} variable is
 %
 \begin{cpp}
-	axionMass.set_ma2_approx(ma2_MIN, ma2_MAX);
+	static mimes::AxionMass<LD> axionMass(ma2);
 \end{cpp}
 %
-where \run{ma2\_MIN} and \run{ma2\_MAX} are function objects~\footnote{Anything that can be {\tt std::function<LD(LD,LD)>}.} -- with signatures {\tt LD ma2\_MIN (LD T, LD fa)} and {\tt LD ma2\_MAX (LD T, LD fa)}, with {\tt LD} being {\tt double} or {\tt long double} -- that correspond to the limits $T<T_{\rm min}$ and $T>T_{\rm max}$, respectively. Alternatively, since \run{ma2\_MIN} and \run{ma2\_MAX} are  {\tt public} lambda functions of the {\tt mimes::AxionMass} class, one can assign other lambda functions to them. This, one has access to the corresponding instance, and its variables (in Appendix~\ref{app:classes} in order to we list all the variables of this class (\DK{write about \run{this->chiMAX} etc in the Appendix}).   
+where {\tt ma2} -- the axion mass squared in $\GeV^2$ -- is a function object with signature {\tt LD ma2 (LD T, LD fa)}. In order to do this, 
+the user may omit a data file path for the {\tt axMDat} variable in {\tt \mimes/src/Definition.mk}.
 
 
-\paragraph{Important: User defined function of axion mass} The user can define their own axion mass function, without interpolating data form a file, by changing the  \run{axionMass} instance (found in {\tt MiMeS/src/static.hpp}) to 
-%
-\begin{cpp}
-	static mimes::AxionMass<LD,false> axionMass(ma2);
-\end{cpp}
-%
-where {\tt ma2} -- the axion mass squared in $\GeV^2$ -- is function object with signature {\tt LD ma2 (LD T, LD fa)}. Notice also that the second template argument in this case is \run{false}, which indicates that a data file will not be used.
-
-\paragraph{Important: The limits are suggestions} If the chosen interpolation limits exceed the minimum and maximum temperatures in the data files, the latter will be used as $T_{\rm min}$ and $T_{\rm max}$.
-
-
-
-
-
-
-\subsubsection{Run-time input}
+\subsubsection{Run-time input}\label{sec:run_time_input}
 %
 The run-time user input is described in sec.~\ref{sec:first_steps}. The user has to provide at least the parameters that describe the axion evolution, $\thetai$ and $\fa$. 
 
@@ -712,9 +744,9 @@ However, we should note that greedy choices (\eg~{\tt N\_convergence\_max}$=100$
 
 \subsection{Complete Examples}\label{sec:complete_examples}
 
-\paragraph{A complete \CPP example}\DK{Give the code with explanation of {\tt MiMeS/UserSpace//CPP/Axion}, along with the compilation options.}
+\paragraph{A complete \CPP example}\DK{Give the code with explanation of {\tt MiMeS/UserSpace/CPP/Axion}, along with the compilation options.}
 
-\paragraph{A complete \PY example}\DK{Give th/e code with explanation of {\tt MiMeS/UserSpace//Python/Axion.py}, say that the compilation options are set in the root directory of \mimes.}
+\paragraph{A complete \PY example}\DK{Give th/e code with explanation of {\tt MiMeS/UserSpace/Python/Axion.py}, say that the compilation options are set in the root directory of \mimes.}
 
 \DK{Mention optimization options, and {\tt g++} and {\tt clang} seem to work. Describe the available solvers (appendix for more details).}.
 

@@ -614,7 +614,7 @@ Also, it is assumed that the entropy is resumes its conserved status at a temper
 %
 Finally, \mimes does not try to predict anything regarding the cosmology. Therefore, the temperatures in {\tt inputFile} {\em must} cover the entire region of  integration; \ie the maximum temperature has to be larger than the one required to reach {\tt ratio\_ini}, while the minimum one should be lower than {\tt TSTOP}.
 
-\subsection{Options at Compile-time}\DK{Talk about the options, {\tt LONG}, {\tt solver}, {\tt METHOD} ...}
+\subsection{Options at Compile-time}\DK{Talk about the options, {\tt LONG} and its relation to LD, {\tt solver}, {\tt METHOD} ...}
 
 \subsection{User input}\label{sec:input}
 %
@@ -649,15 +649,15 @@ to
 % 
 Since beyond these limits, $\heff$ and $\geff$ are assumed to be constant, one has to be careful with the choice of the limits as they might severely affect the accuracy of the results. 
 
-Similarly, in order to change the interpolation limits of the {\tt axionMass} variable (instance of {\tt mimes::AxionMass}) to $T_{\rm min} = 1~\GeV$ and $T_{\rm max} = 100~\GeV$, we need to change
+Similarly, in order to change the interpolation limits of the {\tt axionMass} variable (instance of {\tt mimes::AxionMass}) to $T_{\rm min} = 1~\GeV$ and $T_{\rm max} = 100~\GeV$, we need to change (notice that the second template argument is set to {\tt true}, which indicates that a data file is expected)
 %
 \begin{cpp}
-	static mimes::AxionMass<LD> axionMass(chi_PATH,0,mimes::Cosmo<LD>::mP);
+	static mimes::AxionMass<LD,true> axionMass(chi_PATH,0,mimes::Cosmo<LD>::mP);
 \end{cpp} 
 %
 to 
 \begin{cpp}
-	static mimes::AxionMass<LD> axionMass(chi_PATH,1,100);
+	static mimes::AxionMass<LD,true> axionMass(chi_PATH,1,100);
 \end{cpp}
 %
 Beyond these limits, the axion mass is assumed to be
@@ -683,10 +683,10 @@ where \run{ma2\_MIN} and \run{ma2\_MAX} are function objects~\footnote{Anything 
 \paragraph{Important: User defined function of axion mass} The user can define their own axion mass function, without interpolating data form a file, by changing the  \run{axionMass} instance (found in {\tt MiMeS/src/static.hpp}) to 
 %
 \begin{cpp}
-	static mimes::AxionMass<LD> axionMass(ma2);
+	static mimes::AxionMass<LD,false> axionMass(ma2);
 \end{cpp}
 %
-where {\tt ma2} -- the axion mass squared in $\GeV^2$ -- is function object with signature {\tt LD ma2 (LD T, LD fa)}.
+where {\tt ma2} -- the axion mass squared in $\GeV^2$ -- is function object with signature {\tt LD ma2 (LD T, LD fa)}. Notice also that the second template argument in this case is \run{false}, which indicates that a data file will not be used.
 
 \paragraph{Important: The limits are suggestions} If the chosen interpolation limits exceed the minimum and maximum temperatures in the data files, the latter will be used as $T_{\rm min}$ and $T_{\rm max}$.
 

@@ -40,7 +40,7 @@ int main(int argc, char **argv){
 
      
     // just a function. This is the approximation for the axion mass! 
-    std::function<LD(LD,LD)> ma2 = [](LD fa, LD T){
+    std::function<LD(LD,LD)> ma2 = [](LD T,LD fa){
         LD TQCD=150*1e-3;
         LD ma20=3.1575e-05/fa/fa;
         if(T<=TQCD){return ma20;}
@@ -52,13 +52,13 @@ int main(int argc, char **argv){
         // It can  give the numerical derivative of ma2 wrt T. 
         mimes::AxionMass<LD,false> axM(ma2);
 
-        std::cout<<"m_a^2= "<<axM.ma2(fa,T)<<"\n";
-        std::cout<<"dm_a^2/dT= "<<axM.dma2dT(fa,T)<<"\n";
+        std::cout<<"m_a^2= "<<axM.ma2(T,fa)<<"\n";
+        std::cout<<"dm_a^2/dT= "<<axM.dma2dT(T,fa)<<"\n";
     }
     
 
     // the approximate derivative of ma2.
-    std::function<LD(LD,LD)> dma2dT = [](LD fa, LD T){
+    std::function<LD(LD,LD)> dma2dT = [](LD T,LD fa){
         LD TQCD=150*1e-3;
         LD ma20=3.1575e-05/fa/fa;
         if(T<=TQCD){return  static_cast<LD>(0);}
@@ -69,8 +69,8 @@ int main(int argc, char **argv){
         // In this axM instance, you provide both ma2 and its derivative  
         mimes::AxionMass<LD,false> axM(ma2,dma2dT);
 
-        std::cout<<"m_a^2= "<<axM.ma2(fa,T)<<"\n";
-        std::cout<<"dm_a^2/dT= "<<axM.dma2dT(fa,T)<<"\n";
+        std::cout<<"m_a^2= "<<axM.ma2(T,fa)<<"\n";
+        std::cout<<"dm_a^2/dT= "<<axM.dma2dT(T,fa)<<"\n";
     }
 
     return 0;

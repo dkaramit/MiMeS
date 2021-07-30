@@ -20,10 +20,19 @@ namespace mimes{
         
         CubicSpline<LD> chi;
         VecLD Ttab,chitab;
-        LD TMin, TMax, chiMin, chiMax;
-        LD LambdaQCD;
-        func ma2_MAX,ma2_MIN;
+        LD TMin, TMax, chiMax, chiMin;
         public:
+        // these are the functions you can use in order to get the mass and its derivative beyond the 
+        // interpolation limits.
+        // They can be set by using 
+        // set_ma2_approx(std::function<LD(LD,LD)> ma2_MAX, std::function<LD(LD,LD)> ma2_MIN) and
+        // set_dma2dT_approx(std::function<LD(LD,LD)> dma2dT_MAX, std::function<LD(LD,LD)> dma2dT_MIN),
+        // where ma2_MAX and dma2dT_MAX denote the approximation for T>TMAX,
+        // and  ma2_MIN and dma2dT_MIN the approximation for T<TMIN.  
+        // Since they are public variables, one can set them direclty as ordinary variables (this is generally
+        // better, since you can have access to "this").
+        func ma2_MAX,ma2_MIN;
+        func dma2dT_MAX,dma2dT_MIN;
         /*
         The constructor of the class.
         path: a string with a valid path of the data file. The columns of the file must be:
@@ -32,8 +41,8 @@ namespace mimes{
 
         minT: minimum temperature of interpolation. Below this temperature m_a assumed to be constant.
         maxT: maximum temperature of interpolation. Above this temperature m_a assumed to follow
-                m_a^2(T)=chiMin/f_a^2*(T/TMax)^{-8.16},
-            with chiMin=chi(TMax), and TMax the temberature closest to maxT.
+                m_a^2(T)=chiMax/f_a^2*(T/TMax)^{-8.16},
+            with chiMax=chi(TMax), and TMax the temberature closest to maxT.
 
         Note: If the file has only one point, the mass is assumed to be constant!
 
@@ -66,24 +75,27 @@ namespace mimes{
 
             TMin=Ttab[0];
             TMax=Ttab[N-1];
-            chiMin=chitab[N-1];
-            chiMax=chitab[0];
+            chiMax=chitab[N-1];
+            chiMin=chitab[0];
 
-            // if TMin == TMax, the mass assumed to be constant
-            if(TMin != TMax){ this->chi=CubicSpline<LD>(&Ttab,&chitab); }
+            this->chi=CubicSpline<LD>(&Ttab,&chitab);
 
-            LambdaQCD=0.4;
+            ma2_MAX=[this](LD T, LD fa){return this->chiMax/fa/fa*std::pow(T/this->TMax,-8.16);};
+            ma2_MIN=[this](LD T, LD fa){return this->chiMin/fa/fa;};
 
-            ma2_MAX=[this](LD T, LD fa){return this->chiMin/fa/fa*std::pow(T/this->TMax,-8.16);};
-            ma2_MIN=[this](LD T, LD fa){return this->chiMax/fa/fa;};
+            dma2dT_MAX=[this](LD T, LD fa){return -8.16*this->chiMax/fa/fa*std::pow(T/this->TMax,-8.16)/T;};
+            dma2dT_MIN=[this](LD T, LD fa){return static_cast<LD>(0.);};
 
         }
 
-        void set_ma2_approx(
-            func  ma2_MAX=[this](LD T, LD fa){return this->chiMin/fa/fa*std::pow(T/this->TMax,-8.16);}, 
-            func ma2_MIN=[this](LD T, LD fa){return this->chiMax/fa/fa;}){
+        void set_ma2_approx(func ma2_MAX, func ma2_MIN){
             this->ma2_MAX=ma2_MAX;
             this->ma2_MIN=ma2_MIN;
+        }
+
+        void set_dma2dT_approx(func dma2dT_MAX, func dma2dT_MIN){
+            this->dma2dT_MAX=dma2dT_MAX;
+            this->dma2dT_MIN=dma2dT_MIN;
         }
 
         LD ma2(LD T, LD fa){
@@ -95,13 +107,9 @@ namespace mimes{
 
 
         LD dma2dT(LD T, LD fa){
-            if(TMin==TMax){return 0;}
-
             // axion mass squared derivative
-            if(T>=TMax){return -8.16*chiMin/fa/fa*std::pow(T/TMax,-9.16);}
-            
-            if(T<=TMin){return 0;}
-
+            if(T>=TMax){return dma2dT_MAX(T,fa);}
+            if(T<=TMin){return dma2dT_MIN(T,fa);}
             return chi.derivative_1(T)/fa/fa;
         }
 
@@ -119,7 +127,7 @@ namespace mimes{
         /*
         Constructor.
         
-        LD ma2(LD fa,LD T): the axion mass squared, which is then accessed by AxionMass::ma2.
+        LD ma2(LD T,LD fa): the axion mass squared, which is then accessed by AxionMass::ma2.
         The derivative wrt the temperature (AxionMass::dma2dT) is numerically approximated.
         Note: LD here is a macro for "double" of "long double"
         */
@@ -129,17 +137,17 @@ namespace mimes{
 
             // the derivative of ma2. The stepsize parameter, h, is optional and 
             // determines the stepsize of the numerical differentiation (usually h=1e-8 is enough).
-            this->dma2dT=[this](LD fa,LD T, LD h = 1e-8){
+            this->dma2dT=[this](LD T,LD fa, LD h = 1e-8){
                 h=T*h+h;
-                return (this->ma2(fa,T+h)-this->ma2(fa,T-h))/(2*h);
+                return (this->ma2(T+h,fa)-this->ma2(T-h,fa))/(2*h);
             };
         }
 
         /*
         Another constructor.
         
-        LD ma2(LD fa, LD T): the axion mass squared, which is then accessed by AxionMass::ma2.
-        LD dma2dT(LD fa, LD T): The derivative of ma2 wrt the temperature, which is then accessed by AxionMass::dma2dT.
+        LD ma2(LD T,LD fa): the axion mass squared, which is then accessed by AxionMass::ma2.
+        LD dma2dT(LD T,LD fa): The derivative of ma2 wrt the temperature, which is then accessed by AxionMass::dma2dT.
         Note: LD here is a macro for "double" of "long double"
         */
     

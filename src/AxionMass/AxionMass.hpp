@@ -25,8 +25,8 @@ namespace mimes{
         // these are the functions you can use in order to get the mass and its derivative beyond the 
         // interpolation limits.
         // They can be set by using 
-        // set_ma2_approx(std::function<LD(LD,LD)> ma2_MAX, std::function<LD(LD,LD)> ma2_MIN) and
-        // set_dma2dT_approx(std::function<LD(LD,LD)> dma2dT_MAX, std::function<LD(LD,LD)> dma2dT_MIN),
+        // set_ma2_approx(std::function<LD(LD,LD)> ma2_MIN, std::function<LD(LD,LD)> ma2_MAX) and
+        // set_dma2dT_approx(std::function<LD(LD,LD)> dma2dT_MIN, std::function<LD(LD,LD)> dma2dT_MAX),
         // where ma2_MAX and dma2dT_MAX denote the approximation for T>TMAX,
         // and  ma2_MIN and dma2dT_MIN the approximation for T<TMIN.  
         // Since they are public variables, one can set them direclty as ordinary variables (this is generally
@@ -88,12 +88,12 @@ namespace mimes{
 
         }
 
-        void set_ma2_approx(func ma2_MAX, func ma2_MIN){
+        void set_ma2_approx(func ma2_MIN, func ma2_MAX){
             this->ma2_MAX=ma2_MAX;
             this->ma2_MIN=ma2_MIN;
         }
 
-        void set_dma2dT_approx(func dma2dT_MAX, func dma2dT_MIN){
+        void set_dma2dT_approx(func dma2dT_MIN, func dma2dT_MAX){
             this->dma2dT_MAX=dma2dT_MAX;
             this->dma2dT_MIN=dma2dT_MIN;
         }

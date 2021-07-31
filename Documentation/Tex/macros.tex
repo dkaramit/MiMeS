@@ -23,6 +23,8 @@
 
 \newenvironment{bash}{\usemintedstyle{xcode}\VerbatimEnvironment\begin{minted}[frame=lines,framesep=5mm,baselinestretch=1.2,fontsize=\footnotesize,linenos,mathescape]{bash}}{\end{minted}} 
 
+%in order to writ maths outside of comments put them inside ?$$?. Theta is for x^2, write ?$x^2$?.
+\newenvironment{pseudo}{\usemintedstyle{xcode}\VerbatimEnvironment\begin{minted}[frame=lines,framesep=5mm,baselinestretch=1.2,fontsize=\footnotesize,linenos,escapeinside=??,mathescape=true]{python}}{\end{minted}} 
 
 \newenvironment{run}[1]{``{\tt #1}"\xspace}
 

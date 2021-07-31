@@ -772,9 +772,196 @@ However, we should note that greedy choices (\eg~{\tt N\_convergence\_max}$=100$
 
 \section{Basics of embedded Runge-Kutta Mehtods}\label{app:RK}
 \setcounter{equation}{0}
-\DK{Basically, take a few things you have written in ASAP and explain them (give a link to ASAP, in case someone wants to take a  closer look).}
-\paragraph{Explicit methods}{\DK{Show the basic equations and butcher tableu}}
-\paragraph{Rosenbrock methods}{\DK{Show the basic equations and butcher tableu}}
+%
+Runge-Kutta (RK) methods are employed in order to solve an ordinary differential equation (ODE), or a system of ODEs of first order.~\footnote{Boundary value problems, and higher order differential equations are expressed as first order ODEs, and then solved.}   Although there are some very insightful sources in the literature (\eg~\cite{Hairer,hairer2010solving,10.5555/1403886}) we give a brief overview of them in order to help the user to make appropriate decisions when using \mimes.
+
+The general form of a system of first order of ODEs is
+%
+\begin{equation}
+	\dfrac{d\vec{y}}{dt}=\vec{f}(\vec{y},t) \;,
+	\label{eq:ODE_definition}
+\end{equation}
+%
+with given initial condition $\vec{y}(0)$. Also, the components of $\vec{y}$ denote the unknown functions. Note that we can always shift $t$ to start at $0$, which simplifies the notation. In order to solve the the system of \eqs{eq:ODE_definition}, an RK method uses an iteration of the form 
+%
+\begin{equation}
+	\vec{y}_{n+1}=\vec{y}_{n}+ h\sum_{i=1}^{s} b_i \ \vec{k}_i \;,
+	\label{eq:RK_iter}
+\end{equation}
+%
+with $n$ denoting the iteration number, $h$ the ``step-size" that is used to progress $t$; $t_{n+1}=t_{n}+h$. Moreover, $s$, $b_i$ and $\vec{k}_i$ define the corresponding RK method. For example,
+the classic Euler method is an RK method with $s=1$, $b=1$, and $\vec{k}_1 = \vec{f}(\vec{y_n , t_n})$. Methods with $\vec{k}$ that depends on previous step (\ie $\vec{k} =\vec{k}\lrsb{y_{n},t_{n}}$), are called explicit, while the ones that try to also predict next step (\ie $\vec{k} =\vec{k}\lrsb{y_{n},t_{n}; y_{n+1},t_{n+1}}$) are called implicit. 
+
+\subsection{Embedded RK methods}
+%
+A large category of RK methods are  the so-called embedded RK methods. These methods make two estimates for the same step simultaneously -- without evaluating  $\vec{k}$ many times within the same iteration. Therefore, together with the iteration of \eqs{eq:RK_iter}, a second estimate is given by
+%
+\begin{equation}
+	\vec{y}_{n+1}^{(*)}=\vec{y}_{n}+ h\sum_{i=1}^{s} b_i^{(*)} \vec{k}_i \;,
+	\label{eq:RK_Embedded_iter}
+\end{equation}
+%
+with $b_i^{(*)}$ is an extra parameter that characterise the ``embedded" method of different order (typically, one order higher that the estimate~\ref{eq:RK_iter}). The local (for the step $t_{n+1}$) error is, then, estimated as
+%
+\begin{equation}
+	\epsilon \equiv  \sqrt{\frac{1}{N}\sum_{d=1}^{N}\lrb{eft(\frac{y_{n+1 ,d}-y^{*}_{n+1,d}}{ \Lambda_d }}^{2}} \;,
+	\label{eq:error_estimate}
+\end{equation}
+%
+where $n$ the iteration number, $d$ the component of $\vec{y}$, and $\Lambda_d$ defined as 
+%
+\begin{equation}
+	\Lambda_d = {\tt Atol} + \max\lrb{|y_{n+1, d}|,|y^{*}_{n+1 ,d}|} \; {\tt Rtol} \;,
+	\label{eq:RK_scale}
+\end{equation}
+%
+with {\tt Atol} and {\tt Rtol} the absolute and relative tolerances that characterise the desirable accuracy we want to achieve; user defined values, typically {\tt Atol}$=${\tt Rtol}$\ll 1$.  With these definitions, the desirable error is reached when  $\epsilon \lesssim 1$. 
+
+\paragraph{Step-control} The definition~\ref{eq:error_estimate}, allows us to adjust the step-size $h$ in such way that $\epsilon \approx 1$. That is, take $h$ is adapted so that the desired error is achieved, but resources are not wasted to make the estimate more accurate -- which would fail, since it would mean $h \to  0$. A simple adaptive strategy adjusts $h$ as long as $\epsilon > 1$, using
+%
+\begin{eqnarray}
+	h \to \beta \; h \;  {\rm max} \lrsb{f_{\rm min}, {\rm min} \lrb{\epsilon^{-\frac{1}{p+1}}, f_{\rm max}}} \;,
+	\label{eq:step-control}
+\end{eqnarray}
+%
+with $p$ the order of the RK method ($p+1$ is the order of the embedded one), $\beta$  a bias factor of the adaptive strategy (typically $\beta$ is close but below $1$), used to adjust the tendency of $h$ to be somewhat smaller than what the step-control predicts. Also, $f_{min}$ and $f_{max}$ are the minimum and maximum allowed factors, respectively, that can multiply $\beta \ h$, used in order to avoid large fluctuations that can destabilise the process. All these parameters are chosen by the user, in order to make the step-control process as aggressive or safe as needed. 
+
+\paragraph{Correspondence between \mimes parameters and RK ones}
+%
+The various parameters that \mimes are described in section~\ref{sec:input}. The correspondence between them and the RK parameters is given in table~\ref{tab:RK_mimes_params}.
+%
+\begin{table}[t!]
+	\centering
+	\begin{tabular}{|c|c|}
+		\mimes & Runge-Kutta \\
+		\hline
+		{\tt absolute\_tolerance } & {\tt Atol}  \\
+		\hline
+		{\tt relative\_tolerance } & {\tt Rtol}  \\
+		\hline
+		{\tt b} & $\beta$  \\
+		\hline
+		{\tt fac\_min} & $f_{\rm min}$  \\
+		\hline
+		{\tt fac\_max} & $f_{\rm max}$  \\
+		\hline
+	\end{tabular}
+	\caption{Correspondence between the user \mimes user input and the RK parameters described in the text.}
+	\label{tab:RK_mimes_params}
+\end{table}
+
+\subsection{Explicit embedded RK methods}
+%
+Explicit methods use only the information of the previous step in order to compute $\vec{k}_i$ from  
+%
+\begin{equation}
+	\vec{k}_{i}=\vec f\lrBiggb{ \vec{y}_{n}+h \lrBigb{ \sum_{j=1}^{i-1}a_{ij}\vec{k}_{j} }, t_{n}+ c_{i} \; h}\;, \quad \forall i=1,2,\dots, s\;,
+	\label{eq:explicit_RK_k}
+\end{equation}
+%
+with $a_{ij}$, $c_i$, together with $b_i$ and $b_i^{(*)}$, consist the so-called Butcher tableau of teh corresponding method. For explicit methods this is usually presented as 
+%
+\begin{equation}
+	\begin{array}{c|cccccc}
+		0      & 0      &   0   &      0& \dots & 0& 0\\
+		c_2    & a_{21} &   0   &   0   & \dots & 0& 0\\
+		c_3    & a_{31} & a_{32}&      0& \dots & 0& 0\\
+		\vdots & \vdots & \vdots& \vdots&\ddots &\ddots& \vdots\\
+		c_s    & a_{s1} & a_{s2}& a_{s3}& \dots & a_{s s-1}& 0 \\
+		\hline
+		p      & b_1    & b_2  & b_3 & \dots & b_{s-1} & b_s \\
+		p+1      & b_1^{\star}    & b_2^{\star}  & b_3^{\star} & \dots & b_{s-1}^{\star} & b_s^{\star}
+	\end{array}
+	\label{eq:Butcher}
+\end{equation}
+%
+It should be noted that $c_i = \displaystyle\sum_{j=1}^{s} a_{ij} $.
+
+\subsection{Rosenbrock methods}
+%
+Explicit RK methods, encounter instabilities when a system is ``stiff"~\footnote{A definition of stiffness can be found in~\cite{hairer2010solving,Hairer}.}; when is oscillates rapidly, or has different elements at different scales. This problems are somewhat resolved by trying to predict the next step inside $\vec{k}$; \ie in implicit methods. However, then one has to solve a non-linear set of equations in order to compute $\vec{y}_{n+1}$, which is generally a slow process, as the Newton method (or some variation) needs to be applied. However, there exist another way, a compromise between explicit and implicit methods.  Linearly implicit RK methods, usually called Rosenbrock methods -- with popular improvements as Rosenbrock-Wanner methods, introduce  parameters in the diagonal of the Butcher tableau~\ref{eq:Butcher} and linearise the system of  non-linear equations (for details, see~\cite{hairer2010solving}). In these methods, $\vec{k}$ is determined by  
+%
+\begin{equation}
+	\left(\hat I - \gamma h \hat{J}\right)\cdot \vec{k}_{i}=
+	h \vec{f}\Big(\vec{y}_n+\sum_{j=1}^{i-1}a_{ij}\vec{k}_{j},t_n + c_{i}h \Big)+
+	h^2 \left(\gamma + \sum_{j=1}^{i-1}\gamma_{ij}\right)\dfrac{\partial \vec{f} }{\partial t}+
+	h \hat J \cdot \sum_{j=1}^{i-1}\gamma_{ij} \vec{k}_{j}\; ,
+	\label{eq:Ros_k}
+\end{equation}
+%
+which is written in such a way that everything is evaluated at $t = t_{n}$. In \eqs{eq:Ros_k},  $\hat J = \dfrac{\partial \vec f}{ \partial \vec y}$ the Jacobian of the system of ODEs, $\hat I$ the unit matrix with dimension equal to the number of ODEs. Moreover, $\gamma$ and $\gamma_{ij}$ are parameters that characterise the method (along with $a_{ij}$, $c_i$,  $b_i$, and $b_i^{(*)}$).
+
+\paragraph{Implementing a new Butcher tableau in {\tt NaBBODES}} As already mentioned, \mimes uses {\tt NaBBODES}, which supports the implementation of new Butcher tableaux. This is done by adding a new class (or struct) inside the header file {\tt METHOD.hpp} that can be found in {\tt \mimes/src/NaBBODES/RKF} for the explicit RK and  {\tt \mimes/src/NaBBODES/Rosenbrock} for the Rosenbrock embedded methods. All the new parameters must be {\tt public},  {\tt constexpr static} variables, of a type that is the template parameter of the method. For example, the Heun-Euler method can be implemented, adding the following code in  {\tt \mimes/src/NaBBODES/RKF/METHOD.hpp}
+%
+\begin{cpp}
+	/*-----Implementation of the Heun-Euler method-----*/
+	/*-----It shouldn't be used for MiMeS, since it is likely to fail-----*/
+	
+	//LD is the numeric type (\ie double, or long double).
+	template<class LD>
+	//use struct because its variables are public by default.
+	struct HeunEuler{  
+		static constexpr unsigned int s=2; // HeunEuler is a 2-stage RK
+		static constexpr unsigned int p=1; // order is 1 (its embedded order is p+1=2)
+
+		//these are aliases for the arrays
+		using arr=std::array<LD,s>;
+		using arr2=std::array<std::array<LD,s>,s>;
+		
+		static constexpr arr b={0.5,0.5}; // this is $b_i$
+		static constexpr arr bstar={0.5,0.5}; // this is $b_i^{(*)}$
+		static constexpr arr c={0,1}; // remember that $c_i = \displaystyle\sum_{j=1}^{s} a_{ij}$
+		
+		// this is $a_{ij}$
+		static constexpr arr2 a={
+			arr{0,0},
+			arr{1,0}
+		};			
+	};
+\end{cpp}
+
+In order to implement the ROS3w~\cite{RangAngermann2005} method, one can add the following code in the header file {\tt \mimes/src/NaBBODES/Rosenbrock/METHOD.hpp}
+%
+\begin{cpp}
+	/*-----Implementation of the ROS3w method-----*/
+	/*-----It shouldn't be used for MiMeS, since it is likely to fail-----*/
+	
+	
+	//LD is the numeric type (\ie double, or long double).
+	template<class LD>
+	struct ROS3w{
+		static constexpr unsigned int s=3; // 3-stage
+		static constexpr unsigned int p=2; // second order (embedded order is $p+1$)
+		
+		//aliases for the arrays
+		using arr=std::array<LD,s>;
+		using arr2=std::array<std::array<LD,s>,s>;
+
+		static constexpr arr b={0.25,0.25,0.5 };  // this is $b_i$
+		// this is $b_i^{(*)}$
+		static constexpr arr bstar={ 0.746704703274,0.1144064078371,0.1388888888888};  
+		
+		static constexpr arr c={0,2/3.,4/3.}; // remember that $c_i = \displaystyle\sum_{j=1}^{s} a_{ij}$
+		static constexpr LD gamma=0.4358665215084; // this is $\gamma$
+		
+		// this is $a_{ij}$
+		static constexpr arr2 a={
+			arr{0,0,0},
+			arr{2/3.,0,0},
+			arr{2/3.,2/3.,0}	
+		};
+	
+		// this is $\gamma_{ij}$	
+		static constexpr arr2 g={
+			arr{0,0,0},
+			arr{0.3635068368900,0,0},
+			arr{-0.8996866791992,-0.1537997822626,0}
+		};
+	};
+\end{cpp}
+
+\paragraph{How to compile \mimes in order to use the newly implemented method} One a new Butcher tableau is implemented, the {\tt mimes::Axion} class can use it. This class, needs the name of method assigned to the macro {\tt METHOD}. That is, before you include the header file {\tt src/Axion/AxionSolve.hpp}, this macro needs to be defined. A convenient way to do this, is to define the macro using the {\tt -D} flag of the compiler; \eg in order to use the ROS3w method, this definition ca be done by adding  {\tt -DMETHOD=ROS3w} when compiling the code. Alternatively, if one uses the {\tt makefile} files, a method can be chosen by adding it in the corresponding {\tt Definitions.mk} file as {\tt METHOD=ROS3w}.~\footnote{One make sure to use the correct {\tt Solver} macro -- {\tt Solver=1} for Rosenbrock method  and {\tt Solver=2} for explicit RK method-- otherwise the compilation will fail.} 
+
 
 \section{\CPP classes}\label{app:classes}
 \setcounter{equation}{0}

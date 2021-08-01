@@ -466,7 +466,7 @@ There are several examples in \CPP ({\tt MiMeS/UserSpace/Cpp}) and \PY ({\tt MiM
 
 \subsubsection{Using \mimes in \CPP} 
 %
-In order to use the {\tt mimes::Axion<LD>} class in a \CPP program, we need ti include the header file {\tt AxionSolve.hpp} located in {\tt MiMeS/src/Axion}. That is, on top of the {\tt .cpp}, we need to write 
+In order to use the {\tt mimes::Axion<LD,Solver,Method>} class in a \CPP program, we need ti include the header file {\tt AxionSolve.hpp} located in {\tt MiMeS/src/Axion}. That is, on top of the {\tt .cpp}, we need to write 
 %
 \begin{cpp}
 	#include "MiMeS/src/Axion/AxionSolve.hpp"
@@ -474,15 +474,17 @@ In order to use the {\tt mimes::Axion<LD>} class in a \CPP program, we need ti i
 %
 Notice that if the  {\tt .cpp} is not in the root directory of \mimes, we need to compile it using the flag {\tt -Ipath-to-root}, "path-to-root" the relative path to the root directory of \mimes; \eg if the {\tt .cpp} is in the {\tt MiMeS/UserSpace/Cpp/Axion} directory, this flag should be {\tt -I../../../}.
 
-Then, we can assign an instance of {\tt mimes::Axion<LD>} in a variable using
+Then, we can assign an instance of {\tt mimes::Axion<LD,Solver,Method>} in a variable using
 %
 \begin{cpp}
-	mimes::Axion<LD> ax(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max,convergence_lim,
-	inputFile, initial_step_size,minimum_step_size, maximum_step_size, absolute_tolerance, 
-	relative_tolerance, beta, fac_max, fac_min, maximum_No_steps);
+	mimes::Axion<LD,Solver,Method> ax(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max,
+	convergence_lim,inputFile, initial_step_size,minimum_step_size, maximum_step_size, 
+	absolute_tolerance, relative_tolerance, beta, fac_max, fac_min, maximum_No_steps);
 \end{cpp}
 %
-Here, {\tt LD} should be the desirable numeric type to be used; it is advised to use {\tt long double}, but other choices are also available as discussed later. The various parameters are as follows:
+Here, {\tt LD} should be the desirable numeric type to be used; it is recommended to use {\tt long double}, but other choices are also available as we discuss on. Moreover {\tt Solver} and {\tt Method} depend on the type of Runge-Kutta the user chooses (see section~\ref{sec:options} asa well as the Appendices~\refs{app:RK,app:usr_input} for more details). and 
+
+ The various parameters are as follows:
 %
 \begin{enumerate}
 	\item {\tt theta\_i}: initial angle.
@@ -532,9 +534,9 @@ The EOM~(\ref{eq:eom_u}), then can be solved using
 \end{cpp}
 %
 This, if this runs successfully (in simple cases, such as a radiation dominated Universe, this should take a fraction of a second), then  $\Tosc$, $\thetaosc$, and $\Omega h^2$ are accessed via {\tt ax.T\_osc}, {\tt ax.theta\_osc}, and {\tt ax.relic}. The entire evolution (the points the integrator took) of the axion angle is stored in {\tt ax.points}, which is a two-dimensional {\tt std::vector}, with the columns corresponding to  $a$, $T~[\GeV]$, 
-$\theta$, $d\theta/du$, $\rho_a$. Moreover, the peaks of he oscillation are stored in another two-dimensional {\tt std::vector}, with the columns corresponding to $a$, $T~[\GeV]$, $\thetamax$, $d\theta/du=0$, $\rho_a$, $J$. We should note that the peaks are identified using linear interpolation between integration points, in order to ensure that $d\theta/du = 0$. That is, the values stored in {\tt mimes::Axion<LD>::peaks} do not exist in {\tt mimes::Axion<LD>::points}.
+$\theta$, $d\theta/du$, $\rho_a$. Moreover, the peaks of he oscillation are stored in another two-dimensional {\tt std::vector}, with the columns corresponding to $a$, $T~[\GeV]$, $\thetamax$, $d\theta/du=0$, $\rho_a$, $J$. We should note that the peaks are identified using linear interpolation between integration points, in order to ensure that $d\theta/du = 0$. That is, the values stored in {\tt mimes::Axion<LD,Solver,Method>::peaks} do not exist in {\tt mimes::Axion<LD,Solver,Method>::points}.
 
-The final member function is {\tt mimes::Axion<LD>::setTheta\_i}, which allows the user to set a different $\thetai$ without generating another instance.~\footnote{Since the interpolations of the data of {\tt inputFile} are made inside the constructor of the {\tt mimes::Axion<LD>} class, {\tt mimes::Axion<LD>::setTheta\_i} is a faster choice if ones needs to solve the EOM for a different initial condition.} This function is used as    
+The final member function is {\tt mimes::Axion<LD,Solver,Method>::setTheta\_i}, which allows the user to set a different $\thetai$ without generating another instance.~\footnote{Since the interpolations of the data of {\tt inputFile} are made inside the constructor of the {\tt mimes::Axion<LD,Solver,Method>} class, {\tt mimes::Axion<LD,Solver,Method>::setTheta\_i} is a faster choice if ones needs to solve the EOM for a different initial condition.} This function is used as    
 %
 \begin{cpp}
 	ax.setTeta_i(new_theta_ini);
@@ -595,7 +597,7 @@ The initial condition $\thetai$ can be changed using
 %
 which is faster than running the constructor again, since all the interpolations are reused. However, running this function, erases all the arrays, and resets all variables to $0$ (except {\tt T\_osc} and {\tt a\_osc}, as they should not change). 
 
-\paragraph{Importand} Th {\tt Axion} class constructs a {\tt mimes::Axion<LD>} pointer, which has to be manually deleted. Therefore, once {\tt ax} is used it must be deleted, \ie we need to run 
+\paragraph{Importand} Th {\tt Axion} class constructs a {\tt mimes::Axion<LD,Solver,Method>} pointer, which has to be manually deleted. Therefore, once {\tt ax} is used it must be deleted, \ie we need to run 
 %
 \begin{py}
 	del ax
@@ -610,11 +612,11 @@ We should note that this must run even if we assign another instance to the same
 %
 Furthermore, it is also assumed that $3H/\maT$ increases monotonically at high temperatures. 
 %
-Also, it is assumed that the entropy is resumes its conserved status at a temperature higher than the minimum temperature of  {\tt inputFile} (which is required by the constructor of the {\tt mimes::Axion<LD>} class).  
+Also, it is assumed that the entropy is resumes its conserved status at a temperature higher than the minimum temperature of  {\tt inputFile} (which is required by the constructor of the {\tt mimes::Axion<LD,Solver,Method>} class).  
 %
 Finally, \mimes does not try to predict anything regarding the cosmology. Therefore, the temperatures in {\tt inputFile} {\em must} cover the entire region of  integration; \ie the maximum temperature has to be larger than the one required to reach {\tt ratio\_ini}, while the minimum one should be lower than {\tt TSTOP}.
 
-\subsection{Options at Compile-time}
+\subsection{Options at Compile-time}\label{sec:options}
 %
 The user has a number of options regarding different aspects for the code. The various choices for the shared libraries used by the \PY interface are given in {\tt \mimes/Definitions.mk}. while the corresponding options for the \CPP examples are in the {\tt Definitions.mk} files in the directories inside {\tt \mimes/UserSpace/Cpp}.  The options correspond to different variables, which are
 %
@@ -625,14 +627,14 @@ The user has a number of options regarding different aspects for the code. The v
 	%
 	\item {\tt LONGpy}: the same as {\tt LONG}, but for the \PY interface.
 	%
-	\item {\tt Solver}: \mimes uses the ordinary differential equation (ODE) integrators of ref.~\cite{NaBBODES}. Currently, there are two available choices; {\tt Rosenbrock} and {\tt RKF}. The former is a general embedded Rosenbrock implementation and it is used if {\tt Solver=1}, while the latter is a general explicit embedded Runge-Kutta implementation and can be chose by using {\tt Solver=2} (a brief description of how these algorithms are implemented can be found in Appendix~\ref{app:RK}). The default option for that \mimes uses is {\tt Solver=1}, because the axion EOM tends to oscillate rapidly. However, in some cases, a high order explicit method may also work. This variable, is used to define a macro with the same name and value in {\tt \mimes/src/Axion/AxionSolve.hpp}.
+	\item {\tt SOLVER}: \mimes uses the ordinary differential equation (ODE) integrators of ref.~\cite{NaBBODES}. Currently, there are two available choices; {\tt Rosenbrock} and {\tt RKF}. The former is a general embedded Rosenbrock implementation and it is used if {\tt Solver=1}, while the latter is a general explicit embedded Runge-Kutta implementation and can be chose by using {\tt SOLVER=2} (a brief description of how these algorithms are implemented can be found in Appendix~\ref{app:RK}). The default option for that \mimes uses is {\tt SOLVER=1}, because the axion EOM tends to oscillate rapidly. However, in some cases, a high order explicit method may also work. This variable, is used to define a macro with the same name and value in {\tt \mimes/src/Axion/AxionSolve.hpp}.
 	%
 	\item {\tt METHOD}: Depending on the type of solver is chosen, there are some available methods. 
 		\begin{itemize}
-			\item 	For {\tt Solver=1}, the available methods are 
+			\item 	For {\tt SOLVER=1}, the available methods are 
 			{\tt METHOD=RODASPR2} and {\tt METHOD=ROS34PW2}. The {\tt RODASPR2} choice is a fourth order Rosenbrock-Wanner method (more information can be found in ref.~\cite{RANG2015128}). The {ROS34PW2} choice corresponds to a third order Rosenbrock-Wanner method~\cite{RangAngermann2005}. 
 			%
-			\item 	For {\tt Solver=2}, the only reliable method available in {\tt NaBBODES} is the Dormand-Prince~\cite{DORMAND198019} chosen if {\tt METHOD=DormandPrince}, which is an explicit Runge-Kutta method of seventh order.
+			\item 	For {\tt SOLVER=2}, the only reliable method available in {\tt NaBBODES} is the Dormand-Prince~\cite{DORMAND198019} chosen if {\tt METHOD=DormandPrince}, which is an explicit Runge-Kutta method of seventh order.
 		\end{itemize}
 		%
 		It is worth mentioning that {\tt NaBBODES} is built in order to be a template for all possible Rosenbrock and explicit Runge-Kutta embedded methods, and one can provide their own Butcher tableau if they want to use another method, as shown in Appendix~\ref{app:RK}. This variable, is used to define a macro with the same name and value in {\tt \mimes/src/Axion/AxionSolve.hpp}.
@@ -642,9 +644,8 @@ The user has a number of options regarding different aspects for the code. The v
 	\item {\tt OPT}: Optimization level of the compiler. By default, this is {\tt OPT=O3}, which produces executables that are marginally faster than {\tt OPT=O1} and {\tt OPT=O2}, but significantly faster than {\tt OPT=O0}. There is another choice, {\tt OPT=Ofast}, but it can cause various numerical instabilities, and is generally considered dangerous -- although we have not observed any problems when running \mimes. 
 \end{enumerate}
 %
-These options can only be used when the compilation is done using the various {\tt makefile} files. For manual compilation of a user provided {\tt .cpp} file, the options {\tt LONG}, {\tt Solver}, and {\tt METHOD} correspond to macros with the same name.~\footnote{Macros can be defined using the {\tt -D} flag
-in the compiler. For example {\tt METHOD=DormandPrince} is the same as passing {\tt -DMETHOD=DormandPrince} to the compiler.} It should be pointed-out that {\tt LONG} is in the examples is used to define a macro {\tt LD} which becomes {\tt double} or {\tt long double} accordingly. the actual choice of numeric type is passed as a template parameter in all classes. Therefore, this macro alone does not automatically mean that the code is compiled using {\tt long double} numbers. In order to understand the template arguments of the classes, see section~\ref{sec:complete_examples}. 
-
+These options can only be used when the compilation is done using the various {\tt makefile} files. For compilation of a user provided {\tt .cpp} file, these have to be define by the user inside this file. If one compiles the examples without {\tt makefile}, the variables {\tt LONG}, {\tt SOLVER}, and {\tt METHOD} correspond to macros with the same name.~\footnote{Macros can be defined using the {\tt -D} flag
+in the compiler. For example {\tt METHOD=DormandPrince} is the same as passing {\tt -DMETHOD=DormandPrince} to the compiler.} It should be pointed-out that,  in the examples, {\tt LONG} is used to define a macro {\tt LD} which becomes {\tt double} or {\tt long double} accordingly. the actual choice of numeric type is passed as a template parameter in all classes.
 \subsection{User input}\label{sec:input}
 %
 \subsubsection{Compile-time input}\label{sec:compile_time_input} 
@@ -662,7 +663,7 @@ The format of the files is the following:~\footnote{The anharmonic factor data a
 %
 The paths to these files should be given at compile time. That is, once {\tt Paths.mk} changes, \run{bash configure.sh} and then \run{\tt make} must be ran. The user can change the content of the data files (without changing their paths), in order to use them without compiling \mimes again. However, the user has to make sure that all the files are sorted so that the values of first column increase (with no duplicates or empty lines). In order to ensure this, it is advised to run \run{bash FormatFile.sh path-to-file} (in Appendix~\ref{app:util} there are some details on {\tt MiMeS/src/FormatFile.sh}), in order to format the file (that should exist in \run{path-to-file}) complies with the requirements of \mimes.
 
-\paragraph{Static variables} The header file {\tt MiMeS/src/static.hpp} contains definitions of various static variables that are used in the \PY modules and the {\tt mimes::Axion<LD>} class. These variables are instances of  {\tt mimes::Cosmo<LD>}, {\tt mimes::AxionMass<LD>}, and {\tt mimes::AnharmonicFactor<LD>}, and they are responsible for interpolation of the various plasma parameters (\ie $\heff(T)$, $\geff(T)$, $s(T)$, etc.), the axion mass, and the anharmonic factor, respectively.
+\paragraph{Static variables} The header file {\tt MiMeS/src/static.hpp} contains definitions of various static variables that are used in the \PY modules and the {\tt mimes::Axion<LD,Solver,Method>} class. These variables are instances of  {\tt mimes::Cosmo<LD>}, {\tt mimes::AxionMass<LD>}, and {\tt mimes::AnharmonicFactor<LD>}, and they are responsible for interpolation of the various plasma parameters (\ie $\heff(T)$, $\geff(T)$, $s(T)$, etc.), the axion mass, and the anharmonic factor, respectively.
 
 \subparagraph{{\tt cosmo<LD>}} The static variable {\tt cosmo<LD>} is an instance of {\tt mimes::Cosmo<LD>}, with {\tt LD} being a numeric type (\eg {\tt double}, {\tt long double}). It is expected to be defined in {\tt MiMeS/src/static.hpp}, as 
 %
@@ -959,7 +960,7 @@ In order to implement the ROS3w~\cite{RangAngermann2005} method, one can add the
 	};
 \end{cpp}
 
-\paragraph{How to compile \mimes in order to use the newly implemented method} One a new Butcher tableau is implemented, the {\tt mimes::Axion} class can use it. This class, needs the name of method assigned to the macro {\tt METHOD}. That is, before you include the header file {\tt src/Axion/AxionSolve.hpp}, this macro needs to be defined. A convenient way to do this, is to define the macro using the {\tt -D} flag of the compiler; \eg in order to use the ROS3w method, this definition ca be done by adding  {\tt -DMETHOD=ROS3w} when compiling the code. Alternatively, if one uses the {\tt makefile} files, a method can be chosen by adding it in the corresponding {\tt Definitions.mk} file as {\tt METHOD=ROS3w}.~\footnote{One make sure to use the correct {\tt Solver} macro -- {\tt Solver=1} for Rosenbrock method  and {\tt Solver=2} for explicit RK method-- otherwise the compilation will fail.} 
+\paragraph{How to compile \mimes in order to use the newly implemented method} One a new Butcher tableau is implemented, the {\tt mimes::Axion} class can use it. This class, needs the name of method assigned to the macro {\tt METHOD}. That is, before you include the header file {\tt src/Axion/AxionSolve.hpp}, this macro needs to be defined. A convenient way to do this, is to define the macro using the {\tt -D} flag of the compiler; \eg in order to use the ROS3w method, this definition ca be done by adding  {\tt -DMETHOD=ROS3w} when compiling the code. Alternatively, if one uses the {\tt makefile} files, a method can be chosen by adding it in the corresponding {\tt Definitions.mk} file as {\tt METHOD=ROS3w}.~\footnote{One make sure to use the correct {\tt SOLVER} macro -- {\tt SOLVER=1} for Rosenbrock method  and {\tt SOLVER=2} for explicit RK method-- otherwise the compilation will fail.} 
 
 
 \section{\CPP classes}\label{app:classes}
@@ -1078,14 +1079,14 @@ In table~\ref{tab:input}, we provide a reference for all the user input, and com
 		{\tt LONGpy}& \multirow{1}{12cm}{{\tt long} or empty. Same as {\tt LONG}, applies in the python modules. Available in {\tt \mimes/Definitions.mk}.}\\\\		
 		\hline\\[-0.4cm]
 
-		{\tt Solver}& \multirow{1}{12cm}{In order to use a Rosenbrock method {\tt Solver}=$1$. For explicit RK method, {\tt Solver}=$1$. 
+		{\tt SOLVER}& \multirow{1}{12cm}{In order to use a Rosenbrock method {\tt SOLVER}=$1$. For explicit RK method, {\tt SOLVER}=$1$. 
 		This should be a macro defined before we include {\tt \mimes/src/Axion/AxionSolve.hpp}. Therefore it is preferable to 
-		define it with the compiler flag {\tt -DSolver=}$1$ or $2$. The corresponding variable in {\tt \mimes/Definitions.mk} applies to the python modules. The variable in {\tt \mimes/UserSpace/Cpp/Axion/Definitions.mk} applies to the example in the same directory.}\\\\\\\\\\\\\\		
+		define it with the compiler flag {\tt -DSOLVER=}$1$ or $2$. The corresponding variable in {\tt \mimes/Definitions.mk} applies to the python modules. The variable in {\tt \mimes/UserSpace/Cpp/Axion/Definitions.mk} applies to the example in the same directory.}\\\\\\\\\\\\\\		
 		\hline\\[-0.4cm]
 
 		{\tt METHOD}& \multirow{1}{12cm}{Depending of the solver, this macro should name one of its available methods. 
-		For {\tt Solver}=$1$, {\tt METHOD}=RODASPR2 (fourth order) or ROS34PW2 (third order). 	
-		For {\tt Solver}=$1$, {\tt METHOD}=DormandPrince (seventh order). This should be a macro defined before we include {\tt \mimes/src/Axion/AxionSolve.hpp}. Therefore it is preferable to 
+		For {\tt SOLVER}=$1$, {\tt METHOD}=RODASPR2 (fourth order) or ROS34PW2 (third order). 	
+		For {\tt SOLVER}=$1$, {\tt METHOD}=DormandPrince (seventh order). This should be a macro defined before we include {\tt \mimes/src/Axion/AxionSolve.hpp}. Therefore it is preferable to 
 		define it with the compiler flag {\tt -DMETHOD=}RODASPR2, ROS34PW2, or DormandPrince.
 		The corresponding variable in {\tt \mimes/Definitions.mk} applies to the python modules. The variable in {\tt \mimes/UserSpace/Cpp/Axion/Definitions.mk} applies to the example in the same directory.}\\\\\\\\\\\\\\\\\\\\ 		
 		\hline\\[-0.4cm]

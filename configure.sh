@@ -54,7 +54,7 @@ echo "">>$PathHead
 [  -z "$cosmoDat" ] || echo "constexpr const static auto cosmo_PATH = \"$PWD/$cosmoDat\";">>$PathHead
 [  -z "$anFDat" ] || echo "constexpr const static auto anharmonic_PATH = \"$PWD/$anFDat\";">>$PathHead
 
-echo "constexpr const static auto PWD = \"$PWD\"; 
+echo "constexpr const static auto rootDir = \"$PWD\"; 
 
 #endif
 ">>$PathHead

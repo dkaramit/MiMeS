@@ -47,13 +47,14 @@ rm -f $PathHead
 touch $PathHead
 echo "#ifndef PATHS_HEAD">>$PathHead
 echo "#define PATHS_HEAD">>$PathHead
+echo "#include<string>">>$PathHead
 echo "">>$PathHead
 
-[  -z "$axMDat" ] || echo "#define chi_PATH \"$PWD/$axMDat\"">>$PathHead
-[  -z "$cosmoDat" ] || echo "#define cosmo_PATH \"$PWD/$cosmoDat\"">>$PathHead
-[  -z "$anFDat" ] || echo "#define anharmonic_PATH \"$PWD/$anFDat\"">>$PathHead
+[  -z "$axMDat" ] || echo "constexpr const static auto chi_PATH = \"$PWD/$axMDat\";">>$PathHead
+[  -z "$cosmoDat" ] || echo "constexpr const static auto cosmo_PATH = \"$PWD/$cosmoDat\";">>$PathHead
+[  -z "$anFDat" ] || echo "constexpr const static auto anharmonic_PATH = \"$PWD/$anFDat\";">>$PathHead
 
-echo "#define PWD \"$PWD\" 
+echo "constexpr const static auto PWD = \"$PWD\"; 
 
 #endif
 ">>$PathHead

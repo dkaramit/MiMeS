@@ -1,7 +1,6 @@
 #ifndef Static_head
 #define Static_head
 
-#include<functional>
 
 #include"src/Cosmo/Cosmo.hpp"
 #include"src/AxionMass/AxionMass.hpp"

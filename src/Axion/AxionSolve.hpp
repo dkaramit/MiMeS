@@ -232,7 +232,7 @@ namespace mimes{
         zeta=y0[1]/theta_ini*theta_i;
         T=axionEOM.Temperature(0);
         H2=std::exp(axionEOM.logH2(0));
-        ma2=axionMass.ma2(T,fa);
+        ma2=axionMass<LD>.ma2(T,fa);
         if(std::abs(theta)<1e-3){rho_axion=fa*fa*(ma2*0.5*theta*theta);}
         else{rho_axion=fa*fa*(ma2*(1 - std::cos(theta)));}
         points.push_back(std::vector<LD>{1,T,theta,0,rho_axion});
@@ -284,7 +284,7 @@ namespace mimes{
             if(T<TSTOP){break;}
 
             //axion mass squared
-            ma2=axionMass.ma2(T,fa);
+            ma2=axionMass<LD>.ma2(T,fa);
 
             // If theta<~1e-8, we have roundoff errors due to cos(theta)
             // The solution is this (use theta<1e-3; it doesn't matter):
@@ -312,10 +312,10 @@ namespace mimes{
                 theta_peak=((theta-theta_prev)*u_peak+(theta_prev*u-theta*u_prev))/(u-u_prev);
                 zeta_peak=((zeta-zeta_prev)*u_peak+(zeta_prev*u-zeta*u_prev))/(u-u_prev);
                 T_peak=axionEOM.Temperature(u_prev);
-                ma2_peak=axionMass.ma2(T_peak,fa);
+                ma2_peak=axionMass<LD>.ma2(T_peak,fa);
 
                 //compute the adiabatic invariant
-                adInv_peak=anharmonicFactor(theta_peak)*theta_peak*theta_peak *std::sqrt(ma2_peak) * a_peak*a_peak*a_peak ;
+                adInv_peak=anharmonicFactor<LD>(theta_peak)*theta_peak*theta_peak *std::sqrt(ma2_peak) * a_peak*a_peak*a_peak ;
                 
                 if(std::abs(theta)<1e-3){rho_axion_peak=fa*fa*(ma2_peak*0.5*theta_peak*theta_peak);}
                 else{rho_axion_peak=fa*fa*(ma2_peak*(1 - std::cos(theta_peak)));}
@@ -343,19 +343,19 @@ namespace mimes{
             if(N_convergence>=N_convergence_max){
                 //entropy injection from the point of the last peak until T_stop (the point where interpolation stops)
                 //the assumption is that at T_stop the universe is radiation dominated with constant entropy.
-                gamma=cosmo.s(axionEOM.T_stop)/cosmo.s(T_peak)*std::exp(3*(axionEOM.u_stop-u_peak));
+                gamma=cosmo<LD>.s(axionEOM.T_stop)/cosmo<LD>.s(T_peak)*std::exp(3*(axionEOM.u_stop-u_peak));
                 
                 //the relic of the axion
-                relic=h_hub*h_hub/rho_crit*cosmo.s(T0)/cosmo.s(T_peak)/gamma*0.5*
-                       std::sqrt(axionMass.ma2(T0,1)*axionMass.ma2(T_peak,1))*
-                       theta_peak*theta_peak*anharmonicFactor(theta_peak);
+                relic=Cosmo<LD>::h_hub*Cosmo<LD>::h_hub/Cosmo<LD>::rho_crit*cosmo<LD>.s(Cosmo<LD>::T0)/cosmo<LD>.s(T_peak)/gamma*0.5*
+                       std::sqrt(axionMass<LD>.ma2(Cosmo<LD>::T0,1)*axionMass<LD>.ma2(T_peak,1))*
+                       theta_peak*theta_peak*anharmonicFactor<LD>(theta_peak);
                 
 
                 //this is equivalent
                 // relic=h_hub*h_hub/rho_crit*
-                    //    cosmo.s(T0)/cosmo.s(axionEOM.T_stop)*std::exp(3*(t_peak-axionEOM.t_stop))*0.5*
-                    //    std::sqrt(axionMass.ma2(T0,1)*axionMass.ma2(T_peak,1))*
-                    //    theta_peak*theta_peak*anharmonicFactor(theta_peak);
+                    //    cosmo<LD>.s(Cosmo<LD>::T0)/cosmo<LD>.s(axionEOM.T_stop)*std::exp(3*(t_peak-axionEOM.t_stop))*0.5*
+                    //    std::sqrt(axionMass<LD>.ma2(Cosmo<LD>::T0,1)*axionMass<LD>.ma2(T_peak,1))*
+                    //    theta_peak*theta_peak*anharmonicFactor<LD>(theta_peak);
                 
 
                 break;

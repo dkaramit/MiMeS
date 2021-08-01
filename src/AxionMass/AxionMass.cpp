@@ -12,10 +12,10 @@
 
 extern "C"{
     LD ma2(LD T, LD fa){
-        return axionMass.ma2(T,fa);
+        return axionMass<LD>.ma2(T,fa);
     }
 
     LD dma2dT(LD T, LD fa){
-        return axionMass.dma2dT(T,fa);
+        return axionMass<LD>.dma2dT(T,fa);
     }
 }

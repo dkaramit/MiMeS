@@ -68,7 +68,7 @@ namespace mimes{
                 //if there is an empty line, u does not change, so do skip this line :).
                 if(N>1 and u==u_prev){continue;}
 
-                ratio = 3*std::exp(logH) / std::sqrt(axionMass.ma2(T,fa));
+                ratio = 3*std::exp(logH) / std::sqrt(axionMass<LD>.ma2(T,fa));
 
                 if(ratio <= ratio_ini ){
                     //we need the following check in order to find u_ini (it is better to start at the point before ratio_ini is reached) 
@@ -151,7 +151,7 @@ namespace mimes{
 
 
             lhs[0]=zeta;//dtheta/du
-            lhs[1]=-(0.5*_dlogH2du +3)*zeta - axionMass.ma2(_T,fa)/_H2*std::sin(theta);//dzeta/du
+            lhs[1]=-(0.5*_dlogH2du +3)*zeta - axionMass<LD>.ma2(_T,fa)/_H2*std::sin(theta);//dzeta/du
 
         };
     };

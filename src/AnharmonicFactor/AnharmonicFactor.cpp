@@ -9,5 +9,5 @@
 #endif
 
 extern "C"{
-    LD _anharmonicFactor(LD theta_max){return anharmonicFactor(theta_max);}
+    LD _anharmonicFactor(LD theta_max){return anharmonicFactor<LD>(theta_max);}
 }

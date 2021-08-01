@@ -12,7 +12,7 @@
 \usepackage{caption}
 \usepackage{float}
 \usepackage{subcaption}
-
+\usepackage{multirow}
 \usepackage{minted}
 \usepackage[dvipsnames]{xcolor}
 
@@ -466,7 +466,7 @@ There are several examples in \CPP ({\tt MiMeS/UserSpace/Cpp}) and \PY ({\tt MiM
 
 \subsubsection{Using \mimes in \CPP} 
 %
-In order to use the {\tt mimes::Axion} class in a \CPP program, we need ti include the header file {\tt AxionSolve.hpp} located in {\tt MiMeS/src/Axion}. That is, on top of the {\tt .cpp}, we need to write 
+In order to use the {\tt mimes::Axion<LD>} class in a \CPP program, we need ti include the header file {\tt AxionSolve.hpp} located in {\tt MiMeS/src/Axion}. That is, on top of the {\tt .cpp}, we need to write 
 %
 \begin{cpp}
 	#include "MiMeS/src/Axion/AxionSolve.hpp"
@@ -474,15 +474,15 @@ In order to use the {\tt mimes::Axion} class in a \CPP program, we need ti inclu
 %
 Notice that if the  {\tt .cpp} is not in the root directory of \mimes, we need to compile it using the flag {\tt -Ipath-to-root}, "path-to-root" the relative path to the root directory of \mimes; \eg if the {\tt .cpp} is in the {\tt MiMeS/UserSpace/Cpp/Axion} directory, this flag should be {\tt -I../../../}.
 
-Then, we can assign an instance of {\tt mimes::Axion} in a variable using
+Then, we can assign an instance of {\tt mimes::Axion<LD>} in a variable using
 %
 \begin{cpp}
-	mimes::Axion ax(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max,convergence_lim,
+	mimes::Axion<LD> ax(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max,convergence_lim,
 	inputFile, initial_step_size,minimum_step_size, maximum_step_size, absolute_tolerance, 
 	relative_tolerance, beta, fac_max, fac_min, maximum_No_steps);
 \end{cpp}
 %
-The various parameters are as follows:
+Here, {\tt LD} should be the desirable numeric type to be used; it is advised to use {\tt long double}, but other choices are also available as discussed later. The various parameters are as follows:
 %
 \begin{enumerate}
 	\item {\tt theta\_i}: initial angle.
@@ -532,9 +532,9 @@ The EOM~(\ref{eq:eom_u}), then can be solved using
 \end{cpp}
 %
 This, if this runs successfully (in simple cases, such as a radiation dominated Universe, this should take a fraction of a second), then  $\Tosc$, $\thetaosc$, and $\Omega h^2$ are accessed via {\tt ax.T\_osc}, {\tt ax.theta\_osc}, and {\tt ax.relic}. The entire evolution (the points the integrator took) of the axion angle is stored in {\tt ax.points}, which is a two-dimensional {\tt std::vector}, with the columns corresponding to  $a$, $T~[\GeV]$, 
-$\theta$, $d\theta/du$, $\rho_a$. Moreover, the peaks of he oscillation are stored in another two-dimensional {\tt std::vector}, with the columns corresponding to $a$, $T~[\GeV]$, $\thetamax$, $d\theta/du=0$, $\rho_a$, $J$. We should note that the peaks are identified using linear interpolation between integration points, in order to ensure that $d\theta/du = 0$. That is, the values stored in {\tt mimes::Axion::peaks} do not exist in {\tt mimes::Axion::points}.
+$\theta$, $d\theta/du$, $\rho_a$. Moreover, the peaks of he oscillation are stored in another two-dimensional {\tt std::vector}, with the columns corresponding to $a$, $T~[\GeV]$, $\thetamax$, $d\theta/du=0$, $\rho_a$, $J$. We should note that the peaks are identified using linear interpolation between integration points, in order to ensure that $d\theta/du = 0$. That is, the values stored in {\tt mimes::Axion<LD>::peaks} do not exist in {\tt mimes::Axion<LD>::points}.
 
-The final member function is {\tt mimes::Axion::setTheta\_i}, which allows the user to set a different $\thetai$ without generating another instance.~\footnote{Since the interpolations of the data of {\tt inputFile} are made inside the constructor of the {\tt mimes::Axion} class, {\tt mimes::Axion::setTheta\_i} is a faster choice if ones needs to solve the EOM for a different initial condition.} This function is used as    
+The final member function is {\tt mimes::Axion<LD>::setTheta\_i}, which allows the user to set a different $\thetai$ without generating another instance.~\footnote{Since the interpolations of the data of {\tt inputFile} are made inside the constructor of the {\tt mimes::Axion<LD>} class, {\tt mimes::Axion<LD>::setTheta\_i} is a faster choice if ones needs to solve the EOM for a different initial condition.} This function is used as    
 %
 \begin{cpp}
 	ax.setTeta_i(new_theta_ini);
@@ -595,7 +595,7 @@ The initial condition $\thetai$ can be changed using
 %
 which is faster than running the constructor again, since all the interpolations are reused. However, running this function, erases all the arrays, and resets all variables to $0$ (except {\tt T\_osc} and {\tt a\_osc}, as they should not change). 
 
-\paragraph{Importand} Th {\tt Axion} class constructs a {\tt mimes::Axion} pointer, which has to be manually deleted. Therefore, once {\tt ax} is used it must be deleted, \ie we need to run 
+\paragraph{Importand} Th {\tt Axion} class constructs a {\tt mimes::Axion<LD>} pointer, which has to be manually deleted. Therefore, once {\tt ax} is used it must be deleted, \ie we need to run 
 %
 \begin{py}
 	del ax
@@ -610,7 +610,7 @@ We should note that this must run even if we assign another instance to the same
 %
 Furthermore, it is also assumed that $3H/\maT$ increases monotonically at high temperatures. 
 %
-Also, it is assumed that the entropy is resumes its conserved status at a temperature higher than the minimum temperature of  {\tt inputFile} (which is required by the constructor of the {\tt mimes::Axion} class).  
+Also, it is assumed that the entropy is resumes its conserved status at a temperature higher than the minimum temperature of  {\tt inputFile} (which is required by the constructor of the {\tt mimes::Axion<LD>} class).  
 %
 Finally, \mimes does not try to predict anything regarding the cosmology. Therefore, the temperatures in {\tt inputFile} {\em must} cover the entire region of  integration; \ie the maximum temperature has to be larger than the one required to reach {\tt ratio\_ini}, while the minimum one should be lower than {\tt TSTOP}.
 
@@ -621,12 +621,11 @@ The user has a number of options regarding different aspects for the code. The v
 \begin{enumerate}
 	\item {\tt rootDir}: the relative path of root directory of \mimes.  
 	%
-	\item {\tt LONG}: this should be either {\tt long} or omitted. If omitted, the type of the numeric values is {\tt double} (double precision). On the other hand, if {\tt LONG=long},  the type is  {\tt long double}. Generally, using {\tt double} should enough. For the sake of numerical stability, then, it is advised to always use {\tt LONG=long}, as it a safer option. The reason is that the axion angle redshifts, and can become very small, which introduces ``rounding errors". Moreover, if the parameters {\tt absolute\_tolerance} or {\tt absolute\_tolerance} are chosen to be below $\sim 10^{-8}$, then double precision numbers may not be enough, and {\tt LONG=long} is preferable.  This choice comes at the cost of speed; double precision operations are usually preformed much faster. It is important to note that {\tt LONG} defines a macro with the same name, which then defines the macro {\tt LD} (in {\tt \mimes/src/static.hpp} and all the {\tt .cpp} files) as
-	{\tt \#define LD LONG double}.
+	\item {\tt LONG}: this should be either {\tt long} or omitted. If omitted, the type of the numeric values is {\tt double} (double precision). On the other hand, if {\tt LONG=long},  the type is  {\tt long double}. Generally, using {\tt double} should enough. For the sake of numerical stability, then, it is advised to always use {\tt LONG=long}, as it a safer option. The reason is that the axion angle redshifts, and can become very small, which introduces ``rounding errors". Moreover, if the parameters {\tt absolute\_tolerance} or {\tt absolute\_tolerance} are chosen to be below $\sim 10^{-8}$, then double precision numbers may not be enough, and {\tt LONG=long} is preferable.  This choice comes at the cost of speed; double precision operations are usually preformed much faster. It is important to note that {\tt LONG} defines a macro with the same name, which then defines the macro {\tt LD} (in all the {\tt .cpp} files) as {\tt \#define LD LONG double}.
 	%
 	\item {\tt LONGpy}: the same as {\tt LONG}, but for the \PY interface.
 	%
-	\item {\tt Solver}: \mimes uses the ordinary differential equation (ODE) integrators of ref.~\cite{NaBBODES}. Currently, there are two available choices; {\tt Rosenbrock} and {\tt RKF}. The former is a general embedded Rosenbrock implementation and it is used if {\tt Solver=1}, while the latter is a general explicit embedded Runge-Kutta implementation and can be chose by using {\tt Solver=2} (a brief description of how these algorithms are implemented can be found in Appendix~\ref{app:RK}). The default option for that \mimes uses is {\tt Solver=1}, because the axion EOM tends to oscillate rapidly. However, in some cases, a high order explicit method may also work.
+	\item {\tt Solver}: \mimes uses the ordinary differential equation (ODE) integrators of ref.~\cite{NaBBODES}. Currently, there are two available choices; {\tt Rosenbrock} and {\tt RKF}. The former is a general embedded Rosenbrock implementation and it is used if {\tt Solver=1}, while the latter is a general explicit embedded Runge-Kutta implementation and can be chose by using {\tt Solver=2} (a brief description of how these algorithms are implemented can be found in Appendix~\ref{app:RK}). The default option for that \mimes uses is {\tt Solver=1}, because the axion EOM tends to oscillate rapidly. However, in some cases, a high order explicit method may also work. This variable, is used to define a macro with the same name and value in {\tt \mimes/src/Axion/AxionSolve.hpp}.
 	%
 	\item {\tt METHOD}: Depending on the type of solver is chosen, there are some available methods. 
 		\begin{itemize}
@@ -636,11 +635,11 @@ The user has a number of options regarding different aspects for the code. The v
 			\item 	For {\tt Solver=2}, the only reliable method available in {\tt NaBBODES} is the Dormand-Prince~\cite{DORMAND198019} chosen if {\tt METHOD=DormandPrince}, which is an explicit Runge-Kutta method of seventh order.
 		\end{itemize}
 		%
-		It is worth mentioning that {\tt NaBBODES} is built in order to be a template for all possible Rosenbrock and explicit Runge-Kutta embedded methods, and one can provide their own Butcher tableau if they want to use another method, as shown in Appendix~\ref{app:RK}.
+		It is worth mentioning that {\tt NaBBODES} is built in order to be a template for all possible Rosenbrock and explicit Runge-Kutta embedded methods, and one can provide their own Butcher tableau if they want to use another method, as shown in Appendix~\ref{app:RK}. This variable, is used to define a macro with the same name and value in {\tt \mimes/src/Axion/AxionSolve.hpp}.
 	%
-	\item {\tt CC}: the \CPP compiler that one can use. The default option is {\tt CC=g++}, which is the {\tt GNU} \CPP compiler, and is available for all systems. Another option is to use the {\tt clang} compiler, which is chosen by {\tt CC=clang -lstdc++}. \mimes is mostly tested using {\tt g++}, but {\tt clang} also seems to work (and the resulting executables ae sometimes faster), but the user has to make sure that their version of the compiler of choice supports the \CPP17 standard, otherwise \mimes probably will not work.
+	\item {\tt CC}: the \CPP compiler that one chooses to use. The default option is {\tt CC=g++}, which is the {\tt GNU} \CPP compiler, and is available for all systems. Another option is to use the {\tt clang} compiler, which is chosen by {\tt CC=clang -lstdc++}. \mimes is mostly tested using {\tt g++}, but {\tt clang} also seems to work (and the resulting executables are sometimes faster), but the user has to make sure that their version of the compiler of choice supports the \CPP17 standard, otherwise \mimes probably will not work.
 	%
-	\item {\tt OPT}: Optimization level of the compiler. By default, this is {\tt OPT=O3}, which produces executables that are marginally faster than the other choices, {\tt OPT=O1} and {\tt OPT=O2}. There is another choice that is generally considered  dangerous, {\tt OPT=Ofast}, but it can cause various numerical instabilities -- although none is observed when running \mimes. 
+	\item {\tt OPT}: Optimization level of the compiler. By default, this is {\tt OPT=O3}, which produces executables that are marginally faster than {\tt OPT=O1} and {\tt OPT=O2}, but significantly faster than {\tt OPT=O0}. There is another choice, {\tt OPT=Ofast}, but it can cause various numerical instabilities, and is generally considered dangerous -- although we have not observed any problems when running \mimes. 
 \end{enumerate}
 %
 These options can only be used when the compilation is done using the various {\tt makefile} files. For manual compilation of a user provided {\tt .cpp} file, the options {\tt LONG}, {\tt Solver}, and {\tt METHOD} correspond to macros with the same name.~\footnote{Macros can be defined using the {\tt -D} flag
@@ -663,18 +662,18 @@ The format of the files is the following:~\footnote{The anharmonic factor data a
 %
 The paths to these files should be given at compile time. That is, once {\tt Paths.mk} changes, \run{bash configure.sh} and then \run{\tt make} must be ran. The user can change the content of the data files (without changing their paths), in order to use them without compiling \mimes again. However, the user has to make sure that all the files are sorted so that the values of first column increase (with no duplicates or empty lines). In order to ensure this, it is advised to run \run{bash FormatFile.sh path-to-file} (in Appendix~\ref{app:util} there are some details on {\tt MiMeS/src/FormatFile.sh}), in order to format the file (that should exist in \run{path-to-file}) complies with the requirements of \mimes.
 
-\paragraph{Static variables} The header file {\tt MiMeS/src/static.hpp} contains definitions of various static variables that are used in the \PY modules and the {\tt mimes::Axion} class. These variables are instances of the classes {\tt mimes::Cosmo}, {\tt mimes::AxionMass}, and {\tt mimes::AnharmonicFactor}, and they are responsible for interpolation of the various plasma parameters (\ie $\heff(T)$, $\geff(T)$, $s(T)$, etc.), the axion mass, and the anharmonic factor, respectively.
+\paragraph{Static variables} The header file {\tt MiMeS/src/static.hpp} contains definitions of various static variables that are used in the \PY modules and the {\tt mimes::Axion<LD>} class. These variables are instances of  {\tt mimes::Cosmo<LD>}, {\tt mimes::AxionMass<LD>}, and {\tt mimes::AnharmonicFactor<LD>}, and they are responsible for interpolation of the various plasma parameters (\ie $\heff(T)$, $\geff(T)$, $s(T)$, etc.), the axion mass, and the anharmonic factor, respectively.
 
-\subparagraph{{\tt cosmo}} The static variable {\tt cosmo} is an instance of {\tt mimes::Cosmo}. It is expected to be defined in  {\tt MiMeS/src/static.hpp}, as 
+\subparagraph{{\tt cosmo<LD>}} The static variable {\tt cosmo<LD>} is an instance of {\tt mimes::Cosmo<LD>}, with {\tt LD} being a numeric type (\eg {\tt double}, {\tt long double}). It is expected to be defined in {\tt MiMeS/src/static.hpp}, as 
 %
 \begin{cpp}
-	static mimes::Cosmo<LD> cosmo(cosmo_PATH,minT,maxT);
+	template<class LD> static mimes::Cosmo<LD> cosmo(cosmo_PATH,minT,maxT);
 \end{cpp}
 %
 The arguments of the constructor are
 %
 \begin{enumerate}
-	\item {\tt chi\_PATH}: a string of the absolute path of the relativistic degrees of freedom (RDOF). This macro is automatically
+	\item {\tt cosmo\_PATH}: a string of the absolute path of the relativistic degrees of freedom (RDOF). This macro is automatically
 	written in {\tt MiMeS/src/misc\_dir/path.hpp} when \run{bash configure.sh} is ran. The RDOF data must be given in three columns; $T$ (in $\GeV$), $\heff$, and $\geff$.
 	%
 	\item {\tt minT} (optional): The minimum interpolation temperature. Bellow this limit, $\heff$ and $\geff$ are takes to be constant. Its default value is $0$.
@@ -682,20 +681,20 @@ The arguments of the constructor are
 	\item {\tt maxT} (optional): The maximum interpolation temperature. Above this limit, $\heff$ and $\geff$ are takes to be constant. Its default value is $m_P$; the Planck mass $m_P = 1.22 \times 10^{19}~\GeV$.
 \end{enumerate} 
 %
-It should be noted that  the interpolation limits {\tt minT} and {\tt maxT} are suggestions; the actual limits will be set to their closest value that exist in the data file.
+It should be noted that  the interpolation limits {\tt minT} and {\tt maxT} are suggestions; the actual limits will be set to their closest value that exist in the data file. Apart form the various member functions, there are several static variables; \eg the CMB temperature today ({\tt mimes::Cosmo<LD>::T0}), the Planck mass ({\tt mimes::Cosmo<LD>::mP}), etc. The values of all these parameters are taken as compile-time constants. However, the user can change their values directly from the class, which is located in {\tt \mimes/src/Cosmo/Cosmo.hpp}.
 
 
-\subparagraph{{\tt axionMass}} The static  variable {\tt axionMass} is an instance of {\tt mimes::AxionMass}. It is expected to be defined in  {\tt MiMeS/src/static.hpp}. The first way one can define the variable {\tt axionMass} is
+\subparagraph{{\tt axionMass<LD>}} The static  variable {\tt axionMass<LD>} is an instance of {\tt mimes::AxionMass<LD>}. It is expected to be defined in  {\tt MiMeS/src/static.hpp}. The first way one can define the variable {\tt axionMass<LD>} is
 %
 \begin{cpp}
-	static mimes::AxionMass<LD> axionMass(chi_PATH,minT,maxT);
+	template<class LD> static mimes::AxionMass<LD> axionMass(chi_PATH,minT,maxT);
 \end{cpp}
 %
 The arguments of the constructor are
 %
 \begin{enumerate}
-	\item {\tt chi\_PATH}: a string of the absolute path of the relativistic degrees of freedom (RDOF). This macro is automatically
-	written in {\tt MiMeS/src/misc\_dir/path.hpp} when \run{bash configure.sh} is ran. The RDOF data must be given in three columns; $T$ (in $\GeV$), $\heff$, and $\geff$.
+	\item {\tt chi\_PATH}: a string of the absolute path of the data for $\chi$ (defined as in \eqs{eq:axion_mass_def}). This macro is automatically
+	written in {\tt MiMeS/src/misc\_dir/path.hpp} when \run{bash configure.sh} is ran. The data must be given in two columns; $T$ (in $\GeV$), $\chi$ (in $\GeV^4$).
 	%
 	\item {\tt minT} (optional): The minimum interpolation temperature. Its default value is $0$.
 	%
@@ -716,19 +715,19 @@ As previously, the interpolation limits {\tt minT} and {\tt maxT} are suggestion
 This is a good approximation for the QCD axion (the default data \mimes uses), but the user can change them inside the class, which is located in{\tt \mimes/src/AxionMass/AxionMass.hpp} (see Appendix~\ref{app:classes} for details). 
 
 
-The second way we can declare the {\tt axionMass} variable is
+The second way we can declare the {\tt axionMass<LD>} variable is
 %
 \begin{cpp}
-	static mimes::AxionMass<LD> axionMass(ma2);
+	template<class LD> static mimes::AxionMass<LD> axionMass(ma2);
 \end{cpp}
 %
 where {\tt ma2} -- the axion mass squared in $\GeV^2$ -- is a function object with signature {\tt LD ma2 (LD T, LD fa)}. In order to do this, 
 the user may omit a data file path for the {\tt axMDat} variable in {\tt \mimes/src/Definition.mk}.
 
-\subparagraph{{\tt anharmonicFactor}} The static variable {\tt anharmonicFactor} is an instance of {\tt mimes::AnharmonicFactor}. It is expected to be defined in  {\tt MiMeS/src/static.hpp}, as 
+\subparagraph{{\tt anharmonicFactor<LD>}} The static variable {\tt anharmonicFactor<LD>} is an instance of the class {\tt mimes::AnharmonicFactor<LD>}. It is expected to be defined in  {\tt MiMeS/src/static.hpp}, as 
 %
 \begin{cpp}
-	static mimes::AnharmonicFactor<LD> anharmonicFactor(anF_PATH);
+	template<class LD> static mimes::AnharmonicFactor<LD> anharmonicFactor(anF_PATH);
 \end{cpp}
 %
 Here,~{\tt anF\_PATH} is a macro of a string of the absolute path of the data for the anharmonic factor. This macro is automatically
@@ -804,11 +803,11 @@ A large category of RK methods are  the so-called embedded RK methods. These met
 with $b_i^{(*)}$ is an extra parameter that characterise the ``embedded" method of different order (typically, one order higher that the estimate~\ref{eq:RK_iter}). The local (for the step $t_{n+1}$) error is, then, estimated as
 %
 \begin{equation}
-	\epsilon \equiv  \sqrt{\frac{1}{N}\sum_{d=1}^{N}\lrb{eft(\frac{y_{n+1 ,d}-y^{*}_{n+1,d}}{ \Lambda_d }}^{2}} \;,
+	\epsilon \equiv  \sqrt{\frac{1}{N}\sum_{d=1}^{N}\lrb{\frac{y_{n+1 ,d}-y^{*}_{n+1,d}}{ \Lambda_d }}^{2}} \;,
 	\label{eq:error_estimate}
 \end{equation}
 %
-where $n$ the iteration number, $d$ the component of $\vec{y}$, and $\Lambda_d$ defined as 
+where $n$ the iteration number, $N$ the number of ODEs, $d$ the component of $\vec{y}$, and $\Lambda_d$ defined as 
 %
 \begin{equation}
 	\Lambda_d = {\tt Atol} + \max\lrb{|y_{n+1, d}|,|y^{*}_{n+1 ,d}|} \; {\tt Rtol} \;,
@@ -817,7 +816,7 @@ where $n$ the iteration number, $d$ the component of $\vec{y}$, and $\Lambda_d$ 
 %
 with {\tt Atol} and {\tt Rtol} the absolute and relative tolerances that characterise the desirable accuracy we want to achieve; user defined values, typically {\tt Atol}$=${\tt Rtol}$\ll 1$.  With these definitions, the desirable error is reached when  $\epsilon \lesssim 1$. 
 
-\paragraph{Step-control} The definition~\ref{eq:error_estimate}, allows us to adjust the step-size $h$ in such way that $\epsilon \approx 1$. That is, take $h$ is adapted so that the desired error is achieved, but resources are not wasted to make the estimate more accurate -- which would fail, since it would mean $h \to  0$. A simple adaptive strategy adjusts $h$ as long as $\epsilon > 1$, using
+\paragraph{Step-control} The definition~\ref{eq:error_estimate}, allows us to adjust the step-size $h$ in such way that $\epsilon \approx 1$. That is, we take trial steps, and $h$ is adapted until $\epsilon \approx 1$.  A simple adaptive strategy adjusts step-size, using
 %
 \begin{eqnarray}
 	h \to \beta \; h \;  {\rm max} \lrsb{f_{\rm min}, {\rm min} \lrb{\epsilon^{-\frac{1}{p+1}}, f_{\rm max}}} \;,
@@ -973,13 +972,138 @@ In order to implement the ROS3w~\cite{RangAngermann2005} method, one can add the
 
 
 
-\section{Utilities that make running \mimes easier}\label{app:util}
+\section{Utilities}\label{app:util}
 \setcounter{equation}{0}
-\DK{Describe {\tt FormatFile.sh} and {\tt Axion.sh}.}
+\DK{Describe {\tt FormatFile.sh} and {\tt timeit.sh}.}
 
 \section{Quick guide to user input}\label{app:usr_input}
 \setcounter{equation}{0}
-\DK{make a table with all the variables one can change}
+In table~\ref{tab:input}, we provide a reference for all the user input, and compile-time options.
+%
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{l l}
+		\hline\\[-0.4cm]
+		\multicolumn{2}{c}{\bf User run-time input}  \\
+		\hline\\[-0.4cm]
+
+		{\tt theta\_i} & initial angle.  \\
+		\hline\\[-0.4cm]
+
+		{\tt fa} & the PQ scale.\\
+		\hline\\[-0.4cm]
+
+		{\tt umax } & Once $u=\log a/a_i>${\tt umax}, the integration stops. Typical value: $\sim 500$.\\
+		\hline\\[-0.4cm]
+
+		{\tt TSTOP} & Once $T<${\tt TSTOP}, integration stops. Typical value: $10^{-4}~\GeV$.\\
+		\hline\\[-0.4cm]
+
+ 		{\tt ratio\_ini}& Integration starts at $u$ with $3H/\maT \approx${\tt ratio\_ini}. Typical value: $\sim 10^{3}$.\\
+		\hline\\[-0.4cm]
+
+		\multirow{1}{4cm}{{\tt N\_convergence\_max} {\tt convergence\_lim}} & \multirow{1}{12cm}{Integration stops when  the relative difference 
+		between two consecutive peaks  is less than {\tt convergence\_lim} for {\tt N\_convergence\_max} 
+		consecutive peaks. } \\ \\ \\ 
+		\hline\\[-0.4cm]
+
+		{\tt inputFile} & \multirow{1}{12cm}{Relative (or absolute) path to a file that describes the cosmology. The columns should be: $u$ $T ~[\GeV]$ $\log H$, with acceding $u$. Entropy injection should have stopped before the lowest temperature of given in {\tt inputFile}.} \\ \\  \\ \\
+		\hline\\[-0.4cm]
+
+		{\tt initial\_stepsize} &  Initial step-size of the solver. Default value: $10^{-2}$.\\ 
+		\hline\\[-0.4cm]
+
+		{\tt minimum\_stepsize} & Lower limit of the step-size. Default value:  $10^{-8}$.\\
+		\hline\\[-0.4cm]
+
+		{\tt maximum\_stepsize} & Upper limit of the step-size. Default value:  $10^{-2}$.\\
+		\hline\\[-0.4cm]
+
+		{\tt absolute\_tolerance} & \multirow{1}{12cm}{Absolute tolerance of the RK solver	(see also table~\ref{tab:RK_mimes_params}).  Default value:  $10^{-8}$.}\\\\
+		\hline\\[-0.4cm]
+
+		{\tt relative\_tolerance} & \multirow{1}{12cm}{Relative tolerance of the RK solver	(see also table~\ref{tab:RK_mimes_params}).  Default value:  $10^{-8}$.}\\\\
+		\hline\\[-0.4cm]
+		
+		{\tt beta} & \multirow{1}{12cm}{Aggressiveness of the adaptation strategy	(see also table~\ref{tab:RK_mimes_params}).  Default value:  $0.9$.}\\\\
+		\hline\\[-0.4cm]
+
+		{\tt fac\_max}, {\tt fac\_min} &\multirow{1}{12cm}{The step-size does not change more than {\tt fac\_max} and less than {\tt fac\_min} within a trial step (see also table~\ref{tab:RK_mimes_params}). Default values: $1.2$ and $0.8$, respectively.} \\ \\ \\ 
+		\hline\\[-0.4cm]
+		
+		{\tt maximum\_No\_steps} & \multirow{1}{12cm}{If integration needs more than {\tt maximum\_No\_steps} integration stops. Default value: $10^7$.}\\\\
+		\hline\\[-0.4cm]
+	\end{tabular}
+	\caption{Table of run-time user input.}
+	\label{tab:run_time-input}
+	\end{table}
+		
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{l l}
+		\multicolumn{2}{c}{\bf Required data files, with corresponding variables in {\tt \mimes/Paths.mk}}  \\
+		\hline\\[-0.4cm]
+	
+		{\tt cosmoDat}& \multirow{1}{12cm}{Relative path to data file with $T$ (in $\GeV$), $\heff$, $\geff$. If the path changes one must run
+		{\tt bash configure.sh} and {\tt make}.}\\\\		
+		\hline\\[-0.4cm]
+
+		{\tt axMDat}& \multirow{1}{12cm}{Relative path to data file with $T$ (in $\GeV$), $\chi$ (defined from \eqs{eq:axion_mass_def}). If the path changes one must run {\tt bash configure.sh} and {\tt make}. If a function of the axion mass is used, this variable can be omitted.}\\\\\\		
+		\hline\\[-0.4cm]
+		
+		{\tt anFDat}& \multirow{1}{12cm}{Relative path to data file with $\thetamax$, $f(\thetamax)$. If the path changes one must run
+		{\tt bash configure.sh} and {\tt make}.}\\\\		
+		\hline\\[-0.4cm]
+
+
+
+	\end{tabular}
+	\caption{Paths to the required data files.}
+\label{tab:input}
+\end{table}
+
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{l l}
+		\multicolumn{2}{c}{\bf User compile-time input}  \\
+		\hline\\[-0.4cm]
+
+		{\tt rootDir}& \multirow{1}{12cm}{The relative path of root directory of \mimes. Relevant only when compiling using {\tt make}. Available in all {\tt Definitions.mk}.}\\\\		
+		\hline\\[-0.4cm]
+		
+		{\tt LONG}& \multirow{1}{12cm}{{\tt long} for {\tt long double }or empty for {\tt double}. This should be a macro at the top of the {\tt .cpp} file. Available in all {\tt Definitions.mk}.}\\\\		
+		\hline\\[-0.4cm]
+
+		{\tt LONGpy}& \multirow{1}{12cm}{{\tt long} or empty. Same as {\tt LONG}, applies in the python modules. Available in {\tt \mimes/Definitions.mk}.}\\\\		
+		\hline\\[-0.4cm]
+
+		{\tt Solver}& \multirow{1}{12cm}{In order to use a Rosenbrock method {\tt Solver}=$1$. For explicit RK method, {\tt Solver}=$1$. 
+		This should be a macro defined before we include {\tt \mimes/src/Axion/AxionSolve.hpp}. Therefore it is preferable to 
+		define it with the compiler flag {\tt -DSolver=}$1$ or $2$. The corresponding variable in {\tt \mimes/Definitions.mk} applies to the python modules. The variable in {\tt \mimes/UserSpace/Cpp/Axion/Definitions.mk} applies to the example in the same directory.}\\\\\\\\\\\\\\		
+		\hline\\[-0.4cm]
+
+		{\tt METHOD}& \multirow{1}{12cm}{Depending of the solver, this macro should name one of its available methods. 
+		For {\tt Solver}=$1$, {\tt METHOD}=RODASPR2 (fourth order) or ROS34PW2 (third order). 	
+		For {\tt Solver}=$1$, {\tt METHOD}=DormandPrince (seventh order). This should be a macro defined before we include {\tt \mimes/src/Axion/AxionSolve.hpp}. Therefore it is preferable to 
+		define it with the compiler flag {\tt -DMETHOD=}RODASPR2, ROS34PW2, or DormandPrince.
+		The corresponding variable in {\tt \mimes/Definitions.mk} applies to the python modules. The variable in {\tt \mimes/UserSpace/Cpp/Axion/Definitions.mk} applies to the example in the same directory.}\\\\\\\\\\\\\\\\\\\\ 		
+		\hline\\[-0.4cm]
+		
+		\multicolumn{2}{c}{\bf Compiler options}  \\
+		\hline\\[-0.4cm]
+		
+		{\tt CC} &  \multirow{1}{12cm}{The preferred \CPP compiler ({\tt g++} by default). Corresponding variable in all {\tt Definitions.mk} files.} \\\\
+		\hline\\[-0.4cm]
+		
+		{\tt OPT} &  \multirow{1}{12cm}{Optimization level of the compiler. Available options {\tt OPT}={\tt O1}, {\tt O2}, {\tt O3} (be default). By Corresponding variable in all {\tt Definitions.mk} files.}   \\\\
+		\hline\\[-0.4cm]
+
+	\end{tabular}
+	\caption{User compile-time input.}
+	\label{tab:compile_time-input}
+\end{table}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

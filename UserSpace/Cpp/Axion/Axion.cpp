@@ -12,6 +12,14 @@
 #define resultPrint //print only the results
 
 
+// macros for the solver
+#ifndef SOLVER
+    #define SOLVER 1
+    #define METHOD RODASPR2
+#endif
+
+
+// macros for the numeric type
 #ifndef LONG
     #define LONG 
 #endif
@@ -101,24 +109,24 @@ int main(int argc, char **argv){
 
 
     // instance of Axion
-    mimes::Axion<LD> Ax(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max,convergence_lim,inputFile,
+    mimes::Axion<LD,SOLVER,METHOD<LD>> ax(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max,convergence_lim,inputFile,
     initial_step_size,minimum_step_size, maximum_step_size, absolute_tolerance, relative_tolerance, beta,
     fac_max, fac_min, maximum_No_steps);
 
     // Solve the Axion EOM
-    Ax.solveAxion();
+    ax.solveAxion();
 
     //get the most important results 
     #ifdef resultPrint
     std::cout<<std::setprecision(16)
-    <<theta_i<<" "<< fa<<" "<<Ax.theta_osc<<" "<<Ax.T_osc<<" "<<Ax.relic<<"\n";
+    <<theta_i<<" "<< fa<<" "<<ax.theta_osc<<" "<<ax.T_osc<<" "<<ax.relic<<"\n";
     #endif 
 
     #ifdef smallPrint
     std::cout<<std::setprecision(25)
-    <<"theta_i="<<theta_i<<" "<<"f_a="<< fa<<" GeV\n"<<"theta_osc~="<<Ax.theta_osc<<" "
-    <<"T_osc~="<<Ax.T_osc<<"GeV \n"
-    <<"Omega h^2="<<Ax.relic<<"\n";
+    <<"theta_i="<<theta_i<<" "<<"f_a="<< fa<<" GeV\n"<<"theta_osc~="<<ax.theta_osc<<" "
+    <<"T_osc~="<<ax.T_osc<<"GeV \n"
+    <<"Omega h^2="<<ax.relic<<"\n";
     #endif 
 
 
@@ -126,9 +134,9 @@ int main(int argc, char **argv){
     #ifdef printPoints
     std::cout<<"---------------------points:---------------------\n";
     std::cout<<"a/a_i\tT [GeV]\ttheta\tzeta\trho_a [GeV^4]"<<std::endl;
-    for(int i=0; i<Ax.pointSize; ++i ){
+    for(int i=0; i<ax.pointSize; ++i ){
         for(int j=0; j<5; ++j){
-            std::cout<<Ax.points[i][j];
+            std::cout<<ax.points[i][j];
             if(j==4){std::cout<<"\n";}else{std::cout<<"\t";}
         }
     }
@@ -138,9 +146,9 @@ int main(int argc, char **argv){
     #ifdef printPeaks
     std::cout<<"---------------------peaks:---------------------\n";
     std::cout<<"a/a_i\tT [GeV]\ttheta\tzeta\trho_a [GeV^4]\tadiabatic_inv [GeV]"<<std::endl;
-    for(int i=0; i<Ax.peakSize; ++i ){
+    for(int i=0; i<ax.peakSize; ++i ){
         for(int j=0; j<6; ++j){
-            std::cout<<Ax.peaks[i][j];
+            std::cout<<ax.peaks[i][j];
             if(j==5){std::cout<<"\n";}else{std::cout<<"\t";}
         }
     }

@@ -32,14 +32,6 @@
 #include "src/NaBBODES/Rosenbrock/METHOD.hpp"
 
 
-
-/*================================*/
-#ifndef METHOD
-    #define Solver 1
-    #define METHOD RODASPR2
-#endif
-
-
 //---Get the eom of the axion--//
 #include "src/Axion/AxionEOM.hpp"
 
@@ -48,18 +40,25 @@
 #include "src/static.hpp"
 /*================================*/
 
+// If statement, in order to use the desired solver 
+namespace mimes{
+
+    template<bool C, typename T1, typename T2>
+    struct IF{using type=T1;};
+
+    template<typename T1, typename T2>
+    struct IF<false,T1,T2>{using type=T2;};
+};
 
 namespace mimes{
 
-    template<class LD>
+    template<class LD, const int Solver, class Method>
     class Axion{
-        #if Solver==1
-        using RKSolver=Ros<Neqs, METHOD<LD>, Jacobian<Neqs, LD>, LD>;
-        #endif
 
-        #if Solver==2
-        using RKSolver=RKF<Neqs, METHOD<LD>, LD>;
-        #endif
+        using RKSolver = typename IF<Solver==1,
+            Ros<Neqs, Method, Jacobian<Neqs, LD>, LD>,
+            typename IF<Solver==2,RKF<Neqs, Method, LD>,void>::type>::type; 
+
 
         LD umax,TSTOP,ratio_ini;
         unsigned int N_convergence_max;
@@ -182,8 +181,8 @@ namespace mimes{
 
 
 
-    template<class LD>
-    void Axion<LD>::solveAxion(){ 
+    template<class LD, const int Solver, class Method>
+    void Axion<LD,Solver,Method>::solveAxion(){ 
         //whem theta_i<<1, we can refactor the eom so that it becomes independent from theta_i.
         // So, we can solve for theta_i=1e-3, and rescale the result to our desired initial theta.
         // This helps avoid any roundoff errors when the amplitude of the oscillation becomes very small.
@@ -368,10 +367,4 @@ namespace mimes{
 
 };
 
-
-
-
-
-#undef Solver
-#undef METHOD
 #endif

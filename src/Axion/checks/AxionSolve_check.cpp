@@ -4,11 +4,18 @@
 #include <string> 
 #include"src/Axion/AxionSolve.hpp"
 
-
+// define here what you want to print.
 #define preintPoints
 #define printPeaks
 
+// macros for the solver
+#ifndef SOLVER
+    #define SOLVER 1
+    #define METHOD RODASPR2
+#endif
 
+
+// macros for the numeric type
 #ifndef LONG
     #define LONG 
 #endif
@@ -55,7 +62,7 @@ int main(int argc, char **argv){
 
 
 
-    mimes::Axion<LD> Ax(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max,convergence_lim,inputFile,
+    mimes::Axion<LD,SOLVER,METHOD<LD>> Ax(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max,convergence_lim,inputFile,
     initial_step_size,minimum_step_size, maximum_step_size, absolute_tolerance, relative_tolerance, beta,
     fac_max, fac_min, maximum_No_steps);
 

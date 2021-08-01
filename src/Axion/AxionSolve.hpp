@@ -157,7 +157,6 @@ namespace mimes{
             this->maximum_No_steps=maximum_No_steps;
 
             axionEOM = AxionEOM<LD>(fa, ratio_ini, inputFile);
-        
             axionEOM.makeInt();//make the interpolations of u,T,logH from inputFile
 
         }

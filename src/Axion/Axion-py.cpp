@@ -1,7 +1,6 @@
 #include<string>
 #include "src/Axion/AxionSolve.hpp"
 
-
 #ifndef LONG
     #define LONG 
 #endif

@@ -801,10 +801,10 @@ A large category of RK methods are  the so-called embedded RK methods. These met
 	\label{eq:RK_Embedded_iter}
 \end{equation}
 %
-with $b_i^{(*)}$ is an extra parameter that characterise the ``embedded" method of different order (typically, one order higher that the estimate~\ref{eq:RK_iter}). The local (for the step $t_{n+1}$) error is, then, estimated as
+with $b_i^{(*)}$ is an extra parameter that characterise the ``embedded" method of different order (typically, one order higher that the estimate~\ref{eq:RK_iter}). The local (for the step $t_{n+1}$) error divided by the scale of the solution, then, estimated as
 %
 \begin{equation}
-	\epsilon \equiv  \sqrt{\frac{1}{N}\sum_{d=1}^{N}\lrb{\frac{y_{n+1 ,d}-y^{*}_{n+1,d}}{ \Lambda_d }}^{2}} \;,
+	\Delta \equiv  \sqrt{\frac{1}{N}\sum_{d=1}^{N}\lrb{\frac{y_{n+1 ,d}-y^{*}_{n+1,d}}{ \Lambda_d }}^{2}} \;,
 	\label{eq:error_estimate}
 \end{equation}
 %
@@ -815,12 +815,12 @@ where $n$ the iteration number, $N$ the number of ODEs, $d$ the component of $\v
 	\label{eq:RK_scale}
 \end{equation}
 %
-with {\tt Atol} and {\tt Rtol} the absolute and relative tolerances that characterise the desirable accuracy we want to achieve; user defined values, typically {\tt Atol}$=${\tt Rtol}$\ll 1$.  With these definitions, the desirable error is reached when  $\epsilon \lesssim 1$. 
+with {\tt Atol} and {\tt Rtol} the absolute and relative tolerances that characterise the desirable accuracy we want to achieve; user defined values, typically {\tt Atol}$=${\tt Rtol}$\ll 1$.  With these definitions, the desirable error is reached when  $\Delta \lesssim 1$. 
 
-\paragraph{Step-control} The definition~\ref{eq:error_estimate}, allows us to adjust the step-size $h$ in such way that $\epsilon \approx 1$. That is, we take trial steps, and $h$ is adapted until $\epsilon \approx 1$.  A simple adaptive strategy adjusts step-size, using
+\paragraph{Step-control} The definition~\ref{eq:error_estimate}, allows us to adjust the step-size $h$ in such way that $\Delta \approx 1$. That is, we take trial steps, and $h$ is adapted until $\Delta \approx 1$.  A simple adaptive strategy adjusts step-size, using
 %
 \begin{eqnarray}
-	h \to \beta \; h \;  {\rm max} \lrsb{f_{\rm min}, {\rm min} \lrb{\epsilon^{-\frac{1}{p+1}}, f_{\rm max}}} \;,
+	h \to \beta \; h \;  {\rm max} \lrsb{f_{\rm min}, {\rm min} \lrb{\Delta^{-\frac{1}{p+1}}, f_{\rm max}}} \;,
 	\label{eq:step-control}
 \end{eqnarray}
 %
@@ -966,6 +966,9 @@ In order to implement the ROS3w~\cite{RangAngermann2005} method, one can add the
 \section{\CPP classes}\label{app:classes}
 \setcounter{equation}{0}
 \DK{Describe all the classes.}
+\DK{Mention that one has access to both the local error, {\tt mimes::Axion<LD,Solver,Method>::System::error[eq][step]}, and $\Delta$ defined in \eqs{eq:RK_scale}  {\tt mimes::Axion<LD,Solver,Method>::System::Delta[step]}.  }
+
+
 
 \section{\PY modules}\label{app:modules}
 \setcounter{equation}{0}

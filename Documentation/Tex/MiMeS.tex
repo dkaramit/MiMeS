@@ -232,6 +232,18 @@ with  $ \delta_h = 1+ \dfrac{1}{3} \dfrac{d \log \heff}{d \log T} $.
 %
 In a general cosmological setting, the expansion rate is dominated by an energy density that scales as $\rho \sim a^{-c}$, which results in $\dfrac{d \log H^2}{du}  = -c$. However, close to rapid particle annihilations and decays, the evolution of the energy densities change, and $\dfrac{d \log H^2}{du}$ can only be computed numerically.
 
+It is also worth mentioning that the EOM~\ref{eq:eom_u} with the initial condition $\theta(u=0)=\thetai$ and $d\theta/du (u=0)=0$ can be written as a system of first order 
+%
+\begin{eqnarray}
+& \dfrac{d  \zeta}{du} + \lrsb{\dfrac{1}{2} \dfrac{d \log H^2}{du} + 3 } \zeta + \ \lrb{\dfrac{\maT}{H}}^2 \ \sin \theta
+=0 \;. \\ \nonumber
+&\dfrac{d \theta}{d u} - \zeta=0 \;.
+\label{eq:eom_sys}
+\end{eqnarray}
+%
+This form of the EOM is suitable for integration via Runge-Kutta methods, which are briefly discussed in Appendix~\ref{app:RK}.
+
+
 \subsection{Beyond the WKB approximation}\label{sec:beyond_WKB}
 %
 The WKB approximation is very useful, as it helps us understand the evolution of the axion field after it begins to oscillate adiabatically. However, it fails to capture the dynamics the adiabatic conditions are met, result in inaccurate axion relic abundance result. In this section, we examine the deviation of $\thetaosc$ from the initial value of $\theta$, as well how to treat cases where the EOM cannot be linearized.
@@ -534,7 +546,8 @@ The EOM~(\ref{eq:eom_u}), then can be solved using
 \end{cpp}
 %
 This, if this runs successfully (in simple cases, such as a radiation dominated Universe, this should take a fraction of a second), then  $\Tosc$, $\thetaosc$, and $\Omega h^2$ are accessed via {\tt ax.T\_osc}, {\tt ax.theta\_osc}, and {\tt ax.relic}. The entire evolution (the points the integrator took) of the axion angle is stored in {\tt ax.points}, which is a two-dimensional {\tt std::vector}, with the columns corresponding to  $a$, $T~[\GeV]$, 
-$\theta$, $d\theta/du$, $\rho_a$. Moreover, the peaks of he oscillation are stored in another two-dimensional {\tt std::vector}, with the columns corresponding to $a$, $T~[\GeV]$, $\thetamax$, $d\theta/du=0$, $\rho_a$, $J$. We should note that the peaks are identified using linear interpolation between integration points, in order to ensure that $d\theta/du = 0$. That is, the values stored in {\tt mimes::Axion<LD,Solver,Method>::peaks} do not exist in {\tt mimes::Axion<LD,Solver,Method>::points}.
+$\theta$, $d\theta/du$, $\rho_a$. Moreover, the peaks of he oscillation are stored in another two-dimensional {\tt std::vector}, with the columns corresponding to $a$, $T~[\GeV]$, $\thetamax$, $d\theta/du=0$, $\rho_a$, $J$. We should note that the peaks are identified using linear interpolation between integration points, in order to ensure that $d\theta/du = 0$. That is, the values stored in {\tt mimes::Axion<LD,Solver,Method>::peaks} do not exist in {\tt mimes::Axion<LD,Solver,Method>::points}. Finally, the local errors (see Appendix~
+\ref{app:RK}) of the integration points of $\theta$ and $\zeta$ are stored in {\tt mimes::Axion<LD,Solver,Method>::dtheta} and {\tt mimes::Axion<LD,Solver,Method>::dzeta}.
 
 The final member function is {\tt mimes::Axion<LD,Solver,Method>::setTheta\_i}, which allows the user to set a different $\thetai$ without generating another instance.~\footnote{Since the interpolations of the data of {\tt inputFile} are made inside the constructor of the {\tt mimes::Axion<LD,Solver,Method>} class, {\tt mimes::Axion<LD,Solver,Method>::setTheta\_i} is a faster choice if ones needs to solve the EOM for a different initial condition.} This function is used as    
 %
@@ -588,6 +601,15 @@ Moreover, in order to get the various quantities on the peaks of the oscillation
 \end{py}
 %
 This makes {\tt numpy} arrays that contain the scale factor ({\tt ax.a\_peak}), temperature ({\tt ax.T\_peak}), $\theta$ ({\tt ax.theta\_peak}), its derivative with respect to $u$ ({\tt ax.zeta\_peak}, which should be equal to $0$), the energy density of the axion ({\tt ax.rho\_axion\_peak}), and the values of the adiabatic invariant on the peaks ({\tt ax.adiabatic\_invariant}).
+
+Moreover, we can run the following
+%
+\begin{py}
+	ax.getErrors()
+\end{py}
+%
+in order to store the local errors (see Appendix~\ref{app:RK}) of $\theta$ and $\zeta$ in {\tt ax.dtheta} and {\tt ax.dzeta}, respectively. 
+
 
 The initial condition $\thetai$ can be changed using 
 %
@@ -773,7 +795,7 @@ However, we should note that greedy choices (\eg~{\tt N\_convergence\_max}$=100$
 \section{Basics of embedded Runge-Kutta Mehtods}\label{app:RK}
 \setcounter{equation}{0}
 %
-Runge-Kutta (RK) methods are employed in order to solve an ordinary differential equation (ODE), or a system of ODEs of first order.~\footnote{Boundary value problems, and higher order differential equations are expressed as first order ODEs, and then solved.}   Although there are some very insightful sources in the literature (\eg~\cite{Hairer,hairer2010solving,10.5555/1403886}) we give a brief overview of them in order to help the user to make appropriate decisions when using \mimes.
+Runge-Kutta (RK) methods are employed in order to solve an ordinary differential equation (ODE), or a system of ODEs of first order.~\footnote{Boundary value problems, and higher order differential equations are expressed as first order ODEs, and then solved. Similarly to  \eqs{eq:eom_sys}.}   Although there are some very insightful sources in the literature (\eg~\cite{Hairer,hairer2010solving,10.5555/1403886}) we give a brief overview of them in order to help the user to make appropriate decisions when using \mimes.
 
 The general form of a system of first order of ODEs is
 %
@@ -790,7 +812,7 @@ with given initial condition $\vec{y}(0)$. Also, the components of $\vec{y}$ den
 \end{equation}
 %
 with $n$ denoting the iteration number, $h$ the ``step-size" that is used to progress $t$; $t_{n+1}=t_{n}+h$. Moreover, $s$, $b_i$ and $\vec{k}_i$ define the corresponding RK method. For example,
-the classic Euler method is an RK method with $s=1$, $b=1$, and $\vec{k}_1 = \vec{f}(\vec{y_n , t_n})$. Methods with $\vec{k}$ that depends on previous step (\ie $\vec{k} =\vec{k}\lrsb{y_{n},t_{n}}$), are called explicit, while the ones that try to also predict next step (\ie $\vec{k} =\vec{k}\lrsb{y_{n},t_{n}; y_{n+1},t_{n+1}}$) are called implicit. 
+the classic Euler method is an RK method with $s=1$, $b=1$, and $\vec{k}_1 = \vec{f}(\vec{y_n , t_n})$. Methods with $\vec{k}$ that depends on previous step (\ie $\vec{k} =\vec{k}\lrsb{y_{n},t_{n}}$), are called explicit, while the ones that try to also predict next step (\ie $\vec{k} =\vec{k}\lrsb{y_{n},t_{n}; y_{n+1},t_{n+1}}$) are called implicit.~\footnote{Generally, by substituting  implicit methods $y_{n+1}$ as in \eqs{eq:RK_iter}, we end up with a system of equations that need to be solved in order to compute $\vec{k}$.} 
 
 \subsection{Embedded RK methods}
 %

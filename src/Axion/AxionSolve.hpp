@@ -172,6 +172,8 @@ namespace mimes{
             this->theta_osc=0;
             points.clear();
             peaks.clear();
+            dtheta.clear();
+            dzeta.clear();
             pointSize=points.size();
             peakSize=peaks.size();
             theta_osc=theta_i;

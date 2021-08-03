@@ -1,5 +1,3 @@
-from numpy import array as np_array
-from numpy import abs as np_abs
 from time import time
 from sys import stderr
 
@@ -64,11 +62,14 @@ print(round(time()-_,3),file=stderr)
 
 # change to True in order to mkae the plots
 if True:
+    import matplotlib.pyplot as plt
+    from numpy import array as np_array
+    from numpy import abs as np_abs
+
     ax.getPeaks()#this gives you the peaks of the oscillation
     ax.getPoints()#this gives you all the points of integration
     ax.getErrors()#this gives you local errors of integration
 
-    import matplotlib.pyplot as plt
 
     #########-----\theta-----#########
     fig=plt.figure(figsize=(9,4))
@@ -96,28 +97,8 @@ if True:
     fig.savefig('theta-T_examplePlot.pdf',bbox_inches='tight')
 
 
-    #########-----\delta \theta-----#########
-    fig=plt.figure(figsize=(9,4))
-    fig.subplots_adjust(bottom=0.15, left=0.15, top = 0.9, right=0.9,wspace=0.0,hspace=0.25)
-    sub = fig.add_subplot(1,1,1)
-    
-    #this plot shows all the points
-    sub.plot(ax.T,np_abs(ax.dtheta),linestyle='-',linewidth=2,alpha=1,c='xkcd:black')
-    
-    sub.set_yscale('log')
-    sub.set_xscale('linear')
-    
-    sub.set_xlabel(r'$T ~[{\rm GeV}]$')
-    sub.xaxis.set_label_coords(0.5, -0.1) 
-    sub.set_ylabel(r'$\delta \theta$')
-    sub.yaxis.set_label_coords(-0.1,0.5) 
 
-    sub.axvline(ax.T_osc,linestyle='--',color='xkcd:gray',linewidth=1.5)
-   
-    fig.savefig('dtheta-T_examplePlot.pdf',bbox_inches='tight')
-
-
-    #########-----\dot \theta-----#########
+    #########-----\zeta-----#########
     fig=plt.figure(figsize=(9,4))
     fig.subplots_adjust(bottom=0.15, left=0.15, top = 0.9, right=0.9,wspace=0.0,hspace=0.25)
     sub = fig.add_subplot(1,1,1)
@@ -137,23 +118,26 @@ if True:
     fig.savefig('zeta-T_examplePlot.pdf',bbox_inches='tight')
 
 
-    #########-----\delta \zeta-----#########
+    #########-----errors-----#########
     fig=plt.figure(figsize=(9,4))
     fig.subplots_adjust(bottom=0.15, left=0.15, top = 0.9, right=0.9,wspace=0.0,hspace=0.25)
     sub = fig.add_subplot(1,1,1)
     
-    sub.plot(ax.T,np_abs(ax.dzeta),linestyle='-',linewidth=2,alpha=1,c='xkcd:black')
+    sub.plot(ax.T,np_abs(ax.dtheta/ax.theta),linestyle='-',linewidth=2,alpha=1,c='xkcd:black',label=r'$\dfrac{\delta \theta}{\theta}$')
+    sub.plot(ax.T,np_abs(ax.dzeta/ax.zeta),linestyle='-',linewidth=2,alpha=1,c='xkcd:red',label=r'$\dfrac{\delta \zeta}{\zeta}$')
     
     sub.set_yscale('log')
     sub.set_xscale('linear')
     
     sub.set_xlabel(r'$T ~[{\rm GeV}]$')
     sub.xaxis.set_label_coords(0.5, -0.1) 
-    sub.set_ylabel(r'$\delta \zeta$')
+    sub.set_ylabel(r'local errors')
     sub.yaxis.set_label_coords(-0.1,0.5) 
+    sub.legend(bbox_to_anchor=(1, 0.0),borderaxespad=0., 
+           borderpad=0.05,ncol=1,loc='lower right',fontsize=14,framealpha=0)
 
     sub.axvline(ax.T_osc,linestyle='--',color='xkcd:gray',linewidth=1.5)
-    fig.savefig('dzeta-T_examplePlot.pdf',bbox_inches='tight')
+    fig.savefig('errors_examplePlot.pdf',bbox_inches='tight')
 
 
 

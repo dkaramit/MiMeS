@@ -61,7 +61,7 @@ print(ax.theta_i, ax.fa, ax.theta_osc, ax.T_osc ,ax.relic)
 print(round(time()-_,3),file=stderr)
 
 # change to True in order to mkae the plots
-if True:
+if False:
     import matplotlib.pyplot as plt
     from numpy import array as np_array
     from numpy import abs as np_abs

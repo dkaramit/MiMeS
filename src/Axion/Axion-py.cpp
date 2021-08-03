@@ -60,6 +60,14 @@ extern "C"{
         }
     }
 
+    void getErrors(LD *dtheta, LD *dzeta, void *Ax){
+        unsigned int N = Cast(Ax) ->pointSize;
+        for (unsigned int i = 0; i < N; i++){
+          dtheta[i]=Cast(Ax) ->dtheta[i];
+          dzeta[i]=Cast(Ax) ->dzeta[i];
+        }
+    }
+
 
 
     void getPeaks(LD *a_peak, LD *T_peak, LD *theta_peak, LD*zeta_peak,  LD *rho_a_peak, LD *ad_inv_peak, void *Ax){

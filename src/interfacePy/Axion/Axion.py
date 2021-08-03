@@ -42,6 +42,9 @@ axionLib.getPeakSize.restype = cint
 axionLib.getResults.argtypes=POINTER(cdouble), void_p
 axionLib.getResults.restype=None
 
+axionLib.getErrors.argtypes=POINTER(cdouble),POINTER(cdouble), void_p
+axionLib.getErrors.restype=None
+
 axionLib.getPoints.argtypes=POINTER(cdouble),POINTER(cdouble),POINTER(cdouble),POINTER(cdouble),POINTER(cdouble),void_p
 axionLib.getPoints.restype=None
 
@@ -146,6 +149,10 @@ class Axion:
         self.zeta=[]
         self.rho_axion=[]
 
+        self.dtheta=[]
+        self.dzeta=[]
+
+
     def __del__(self):
         '''
         Overloaded del.
@@ -172,6 +179,9 @@ class Axion:
         del self.zeta
         del self.rho_axion
 
+        del self.dtheta
+        del self.dzeta
+
     def setTheta_i(self,theta_i):
         '''set another initial value of \\theta without rebuilding the interpolations'''
         axionLib.setTheta_i(theta_i,self.voidAx)
@@ -191,6 +201,8 @@ class Axion:
         self.zeta=[]
         self.rho_axion=[]
 
+        self.dtheta=[]
+        self.dzeta=[]
 
     def solveAxion(self):
         '''
@@ -278,3 +290,21 @@ class Axion:
         self.theta=np_array(list(self.theta))
         self.zeta=np_array(list(self.zeta))
         self.rho_axion=np_array(list(self.rho_axion))
+
+    def getErrors(self):
+        '''
+        This function stores the local errors of theta and zeta in
+        self.dtheta and self.dzeta
+        '''
+
+        pointSize=axionLib.getPointSize(self.voidAx)
+        Arr = cdouble * pointSize 
+        
+        self.dtheta=Arr()
+        self.dzeta=Arr()
+
+        axionLib.getErrors(self.dtheta,self.dzeta,self.voidAx)
+
+
+        self.dtheta=np_array(list(self.dtheta))
+        self.dzeta=np_array(list(self.dzeta))

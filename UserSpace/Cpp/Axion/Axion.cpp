@@ -8,7 +8,8 @@
 
 // #define printPoints // print the entire evolution of the axion angle, its derivative, and other quantities
 // #define printPeaks // print these quantities at the peaks of the oscillation
-// #define smallPrint //print the results along with string on names
+// #define printError //print only the results
+// #define smallPrint //print the results in a human readable form
 #define resultPrint //print only the results
 
 
@@ -154,6 +155,14 @@ int main(int argc, char **argv){
     }
     #endif
 
+    // print the local errors
+    #ifdef printError
+    std::cout<<"---------------------local errors:---------------------\n";
+    std::cout<<"dtheta\tdzeta"<<std::endl;
+    for(size_t i=0; i<ax.pointSize; ++i ){
+        std::cout<<ax.dtheta[i]<<"\t"<<ax.dzeta[i]<<"\n";
+    }
+    #endif
 
 
     return 0;

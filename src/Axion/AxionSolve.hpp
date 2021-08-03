@@ -83,6 +83,8 @@ namespace mimes{
 
         std::vector<std::vector<LD>> points;
         std::vector<std::vector<LD>> peaks;
+        std::vector<LD> dtheta;
+        std::vector<LD> dzeta;
 
 
         unsigned int pointSize,peakSize;
@@ -183,7 +185,7 @@ namespace mimes{
 
     template<class LD, const int Solver, class Method>
     void Axion<LD,Solver,Method>::solveAxion(){ 
-        //whem theta_i<<1, we can refactor the eom so that it becomes independent from theta_i.
+        //when theta_i<<1, we can refactor the eom so that it becomes independent from theta_i.
         // So, we can solve for theta_i=1e-3, and rescale the result to our desired initial theta.
         // This helps avoid any roundoff errors when the amplitude of the oscillation becomes very small.
         theta_ini=theta_i;
@@ -193,16 +195,16 @@ namespace mimes{
         Array<LD> y0={theta_ini, 0.};//initial conditions
         /*================================*/
 
-        
+        // instance of the solver
+        RKSolver System(axionEOM, y0, umax,
+                        initial_step_size, minimum_step_size, maximum_step_size, maximum_No_steps,
+                        absolute_tolerance, relative_tolerance, beta, fac_max,fac_min);
+
         //You find these as you load the data from inputFile 
         //(it is done automatically in the constructor of axionEOM)
         T_osc=axionEOM.T_osc;
         a_osc=std::exp(axionEOM.u_osc);
 
-        // instance of the solver
-        RKSolver System(axionEOM, y0, umax,
-                        initial_step_size, minimum_step_size, maximum_step_size, maximum_No_steps,
-                        absolute_tolerance, relative_tolerance, beta, fac_max,fac_min);
 
         // these parameters are helpful..
         unsigned int current_step=0;//count the steps the solver takes
@@ -235,6 +237,8 @@ namespace mimes{
         else{rho_axion=fa*fa*(ma2*(1 - std::cos(theta)));}
         points.push_back(std::vector<LD>{1,T,theta,0,rho_axion});
 
+        dtheta.push_back(0);
+        dzeta.push_back(0);
 
 
         // the solver identifies the peaks in theta by finding points where zeta goes from positive to negative.
@@ -248,10 +252,12 @@ namespace mimes{
             
             //take the next step
             System.next_step(); 
-            //update y (y[0]=theta, y[1]=zeta)
+            
             // store the local error
+            dtheta.push_back(System.ynext[0] - System.ynext_star[0]);
+            dzeta.push_back(System.ynext[1] - System.ynext_star[1]);
+            //update y (y[0]=theta, y[1]=zeta)
             for (unsigned int eq = 0; eq < Neqs; eq++){
-               System.error[eq].push_back(System.ynext[eq] - System.ynext_star[eq]);
                 System.yprev[eq]=System.ynext[eq];
             }
             // increase tn

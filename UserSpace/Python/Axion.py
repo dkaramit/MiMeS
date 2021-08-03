@@ -1,4 +1,5 @@
 from numpy import array as np_array
+from numpy import abs as np_abs
 from time import time
 from sys import stderr
 
@@ -62,13 +63,14 @@ print(ax.theta_i, ax.fa, ax.theta_osc, ax.T_osc ,ax.relic)
 print(round(time()-_,3),file=stderr)
 
 # change to True in order to mkae the plots
-if False:
+if True:
     ax.getPeaks()#this gives you the peaks of the oscillation
     ax.getPoints()#this gives you all the points of integration
+    ax.getErrors()#this gives you local errors of integration
 
     import matplotlib.pyplot as plt
 
-    #########-----\dot \theta-----#########
+    #########-----\theta-----#########
     fig=plt.figure(figsize=(9,4))
     fig.subplots_adjust(bottom=0.15, left=0.15, top = 0.9, right=0.9,wspace=0.0,hspace=0.25)
     sub = fig.add_subplot(1,1,1)
@@ -94,29 +96,68 @@ if False:
     fig.savefig('theta-T_examplePlot.pdf',bbox_inches='tight')
 
 
+    #########-----\delta \theta-----#########
+    fig=plt.figure(figsize=(9,4))
+    fig.subplots_adjust(bottom=0.15, left=0.15, top = 0.9, right=0.9,wspace=0.0,hspace=0.25)
+    sub = fig.add_subplot(1,1,1)
+    
+    #this plot shows all the points
+    sub.plot(ax.T,np_abs(ax.dtheta),linestyle='-',linewidth=2,alpha=1,c='xkcd:black')
+    
+    sub.set_yscale('log')
+    sub.set_xscale('linear')
+    
+    sub.set_xlabel(r'$T ~[{\rm GeV}]$')
+    sub.xaxis.set_label_coords(0.5, -0.1) 
+    sub.set_ylabel(r'$\delta \theta$')
+    sub.yaxis.set_label_coords(-0.1,0.5) 
+
+    sub.axvline(ax.T_osc,linestyle='--',color='xkcd:gray',linewidth=1.5)
+   
+    fig.savefig('dtheta-T_examplePlot.pdf',bbox_inches='tight')
+
+
     #########-----\dot \theta-----#########
     fig=plt.figure(figsize=(9,4))
     fig.subplots_adjust(bottom=0.15, left=0.15, top = 0.9, right=0.9,wspace=0.0,hspace=0.25)
     sub = fig.add_subplot(1,1,1)
     
-    _H_=np_array([Hubble(T) for T in ax.T])
-    sub.plot(ax.T,_H_*ax.zeta,linestyle='-',linewidth=2,alpha=1,c='xkcd:black')
-    _H_=np_array([Hubble(T) for T in ax.T_peak])
-    sub.plot(ax.T_peak,_H_*ax.zeta_peak,linestyle=':',marker='+',color='xkcd:blue',linewidth=2)
+    sub.plot(ax.T,ax.zeta,linestyle='-',linewidth=2,alpha=1,c='xkcd:black')
+    sub.plot(ax.T_peak,ax.zeta_peak,linestyle=':',marker='+',color='xkcd:blue',linewidth=2)
     
     sub.set_yscale('linear')
     sub.set_xscale('linear')
     
     sub.set_xlabel(r'$T ~[{\rm GeV}]$')
     sub.xaxis.set_label_coords(0.5, -0.1) 
-    sub.set_ylabel(r'$\dfrac{d \theta}{ dt } = H \ \zeta $')
+    sub.set_ylabel(r'$\zeta $')
     sub.yaxis.set_label_coords(-0.1,0.5) 
 
     sub.axvline(ax.T_osc,linestyle='--',color='xkcd:gray',linewidth=1.5)
-    fig.savefig('dot_theta-T_examplePlot.pdf',bbox_inches='tight')
+    fig.savefig('zeta-T_examplePlot.pdf',bbox_inches='tight')
 
-    #########-----rho_a-----#########
+
+    #########-----\delta \zeta-----#########
+    fig=plt.figure(figsize=(9,4))
+    fig.subplots_adjust(bottom=0.15, left=0.15, top = 0.9, right=0.9,wspace=0.0,hspace=0.25)
+    sub = fig.add_subplot(1,1,1)
     
+    sub.plot(ax.T,np_abs(ax.dzeta),linestyle='-',linewidth=2,alpha=1,c='xkcd:black')
+    
+    sub.set_yscale('log')
+    sub.set_xscale('linear')
+    
+    sub.set_xlabel(r'$T ~[{\rm GeV}]$')
+    sub.xaxis.set_label_coords(0.5, -0.1) 
+    sub.set_ylabel(r'$\delta \zeta$')
+    sub.yaxis.set_label_coords(-0.1,0.5) 
+
+    sub.axvline(ax.T_osc,linestyle='--',color='xkcd:gray',linewidth=1.5)
+    fig.savefig('dzeta-T_examplePlot.pdf',bbox_inches='tight')
+
+
+
+    #########-----rho_a-----#########    
     fig=plt.figure(figsize=(9,4))
     fig.subplots_adjust(bottom=0.15, left=0.15, top = 0.9, right=0.9,wspace=0.0,hspace=0.25)
     sub = fig.add_subplot(1,1,1)

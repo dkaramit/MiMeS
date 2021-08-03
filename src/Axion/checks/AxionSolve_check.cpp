@@ -7,6 +7,7 @@
 // define here what you want to print.
 #define preintPoints
 #define printPeaks
+#define printError
 
 // macros for the solver
 #ifndef SOLVER
@@ -94,6 +95,15 @@ int main(int argc, char **argv){
             std::cout<<Ax.peaks[i][j];
             if(j==5){std::cout<<"\n";}else{std::cout<<"\t";}
         }
+    }
+    #endif
+
+    // print the local errors
+    #ifdef printError
+    std::cout<<"---------------------local errors:---------------------\n";
+    std::cout<<"dtheta\tdzeta"<<std::endl;
+    for(size_t i=0; i<Ax.pointSize; ++i ){
+        std::cout<<Ax.dtheta[i]<<"\t"<<Ax.dzeta[i]<<"\n";
     }
     #endif
 

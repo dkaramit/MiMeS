@@ -393,7 +393,7 @@ Notice that the Hamiltonian varies slowly if $\dot \maT/\maT \ll \maT$ and $H \l
 where we note that $\thetamax$ denotes the maximum of $\theta$ -- the peak of the oscillation, which corresponds to $p=0$. That is, $\Ham(\thetamax) = V(\thetamax) \ a^3$. Therefore, the adiabatic invariant, takes the form 
 
 \begin{eqnarray}
-	J=&  \dfrac{2 \sqrt{2} }{\pi \fa}  \int_{- \thetamax} ^{\thetamax}  \sqrt{ V(\theta_{\rm max}) - V(\theta) } a^{3} d \theta = 
+	J=&  \dfrac{2 \sqrt{2} }{\pi \fa}  \int_{- \thetamax} ^{\thetamax}  \sqrt{ V(\thetamax) - V(\theta) } a^{3} d \theta = 
 	\dfrac{2 \sqrt{2} }{\pi} \ \maT \, a^3 \ \dint_{- \thetamax}^{\thetamax} \sqrt{\cos \theta - \cos \thetamax} \ d \theta  
 	\;,
 	\label{eq:J_axion_derivation}
@@ -674,7 +674,7 @@ in the compiler. For example {\tt METHOD=DormandPrince} is the same as passing {
 %
 \paragraph{Files} \mimes requires files that provide data for the relativistic degrees of freedom (RDOF) of the plasma, as well as its mass as a function of the temperature. Although \mimes is shipped with the standard model RDOF found in~\cite{Saikawa:2020swg}, and the axion mass from~\cite{Borsanyi:2016ksw}, the user can change the corresponding variables in {\tt Paths.mk} (found in the root directory of \mimes) to another file path. The variables pointing to these data files are {\tt cosmoDat} and {\tt axMDat}, for the RDOF and axion mass, respectively.~\footnote{One can change the data file for anharmonic factor introduced in \eqs{eq:anharmonic_f} using the variable {\tt anFDat}.}
 
-The format of the files is the following:~\footnote{The anharmonic factor data are given in $\thetamax$ $f(\thetamax)$, with increasing $\thetamax$.} 
+The format of the files is the following:~\footnote{The anharmonic factor data are given as columns: $\thetamax$ $f(\thetamax)$; with increasing $\thetamax$.} 
 %
 \begin{itemize}
 	\item The RDOF data must be given in three columns; $T$ (in $\GeV$), $\heff$, and $\geff$.
@@ -776,7 +776,7 @@ However, we should note that greedy choices (\eg~{\tt N\_convergence\_max}$=100$
 Although one can modify the examples provided in {\tt \mimes/UserSpace}, in this section we show a complete example in both \CPP and \PY. 
 %
 
-The underlying cosmological scenario, in terms of the parametrisation of ref.~\cite{Arias:2020qty}, is defined through the parameters
+The underlying cosmology is assumed to be an early matter domination (EMD) scenario. In terms of the parametrisation of ref.~\cite{Arias:2020qty}, it is defined through the parameters
 %
 \begin{eqnarray}
 	&T_{\rm END}=10^{-2}~\GeV,\quad c=3, \nonumber \\
@@ -791,7 +791,8 @@ and the evolution of the energy densities of the plasma and a fluid $\Phi$ is sh
 	\caption{The energy densities of the plasma and a hypothetical decaying fluid. The parameters of the cosmological scenario is $T_{\rm END}=10^{-2}~\GeV$, $c=3$, $T_{\rm ini}=10^{12}~\GeV$, and $r=0.1$; the parameters  follow the definitions in ref.~\cite{Arias:2020qty}. }
 	\label{fig:energy_densities}
 \end{figure}
-
+%
+The various regime changes are indicated as $T_{{\rm E}_{1,2}}$ -- corresponding to the first and second time where $\rho_{\Phi} = \rho_{\rm R}$,  and $T_{{\rm D}_{1,2}}$ -- which correspond to the start and end of entropy injection (for more precise definition see~\cite{Arias:2020qty}). Regarding the axion, this cosmological scenario alters it evolution, since both the Hubble parameter and the entropy of the plasma change significantly. This results in a shift in the oscillation temperature, and the dilution of the axion energy density.
 
 \paragraph{A complete \CPP example}\DK{Give the code with explanation of {\tt MiMeS/UserSpace/CPP/Axion}, along with the compilation options, and explain the template arguments.}
 
@@ -803,42 +804,55 @@ and the evolution of the energy densities of the plasma and a fluid $\Phi$ is sh
 
 \subsection{Results}
 %
-In both cases one should get the same results (if the same numeric type, and RK parameters and method are used), which should be similar to \Figs{fig:results}. It should be noted that this particular example is chosen such that the axion relic abundance is close to its observed value~\cite{Planck:2018vyg} ($\Omega h^2 \approx 0.12$), and is indicative of the features one can expect if entropy is injected to the plasma fot $T \ll \Tosc$.
+In both \CPP and \PY one should get the same results (if the same numeric type, and RK parameters and method are used), which should be similar to \Figs{fig:theta_evolution-EMD}. 
+%
+It should be noted that this particular example is chosen such that the axion relic abundance is close to its observed value~\cite{Planck:2018vyg} ($\Omega h^2 \approx 0.12$), and is indicative of the features one can expect if entropy is injected to the plasma for $T \ll \Tosc$.
 %
 \begin{figure}[h]
 	\begin{subfigure}[]{0.5\textwidth}
-		\includegraphics[width=1\textwidth]{figs/theta_evolution.pdf}
+		\includegraphics[width=1\textwidth]{figs/theta_evolution-EMD.pdf}
 		\caption{}
-		\label{fig:theta_evolution}
+		\label{fig:theta_evolution-EMD}
 	\end{subfigure}
 	\begin{subfigure}[]{0.5\textwidth}
-		\includegraphics[width=1\textwidth]{figs/zeta_evolution.pdf}
+		\includegraphics[width=1\textwidth]{figs/theta_evolution-RD.pdf}
 		\caption{}
-		\label{fig:zeta_evolution}
+		\label{fig:theta_evolution-RD}
 	\end{subfigure}
-	\begin{center}
-		\begin{subfigure}[]{0.5\textwidth}
-			\includegraphics[width=1\textwidth]{figs/axion_energy_density.pdf}
-			\caption{}
-			\label{fig:axion_energy_density}
-		\end{subfigure}
-	\end{center}
 	\caption{...}
 	\label{fig:results}
 \end{figure}
 %
-Moreover, the relative (local) error of integration is shown in \Figs{fig:local_errors}
-
+In \Figs{fig:theta_evolution-EMD} we show the evolution  of $\theta$ for temperatures $T \in [0.025,0.15]~\GeV$, where the vertical line indicates $\Tosc$, while the horizontal one the corresponding value of $\theta$, $\thetaosc$. Also, the blue curve connects the peaks of the oscillation. For comparison, in \Figs{fig:theta_evolution-RD} we also show the evolution of the angle in a radiation dominated Universe with constant entropy (\ie standard cosmological scenario). From these figures, we can see that the effect of an early matter domination reduces the amplitude of oscillation -- due to the injection of entropy -- as well the oscillation temperature -- due to the increase of the Hubble parameter. Furthermore, as expected from \eqs{eq:theta_osc}, the angle at $T=\Tosc$ in the EMD scenario is much smaller that the corresponding value in the standard cosmological case. This shows again that approximating $\thetaosc \approx \thetai$ results in an inaccurate result, especially in cases where entropy is injected to the plasma (as expected by \eqs{eq:theta_osc}).
 
 %
+Moreover, in \Figs{fig:RK_response}, we show the relative local error of integration as well as a histogram of the number of integration steps for $0.025~\GeV < T < 0.15 ~\GeV$.
+%
 \begin{figure}[h]
-	\includegraphics[width=1\textwidth]{figs/local_errors.pdf}
-	\caption{}
-	\label{fig:local_errors}
+	\begin{subfigure}[]{0.5\textwidth}
+		\includegraphics[width=1\textwidth]{figs/local_errors-EMD.pdf}
+		\caption{}
+		\label{fig:local_errors-EMD}
+	\end{subfigure}
+	\begin{subfigure}[]{0.5\textwidth}
+		\includegraphics[width=1\textwidth]{figs/histogram-EMD.pdf}
+		\caption{}
+		\label{fig:histogram-EMD}
+	\end{subfigure}
+	\caption{...}
+	\label{fig:RK_response}
 \end{figure}
+%
+The local relative errors, defined in Appendix~\ref{app:RK}, are shown in \Figs{fig:local_errors-EMD}. The black and red lines correspond to $\delta \theta/\theta$ and $\delta \zeta/\zeta$, respectively. This figure indicates that the local errors are relatively well behaved for $T>\Tosc$, and they only start to oscillate violently once the oscillations start. However, the adaptation of the integration step seems to work, as the errors are kept below $\sim 10^{-7}$ (the relative error of $zeta$ is large because $\zeta \approx 0$ before the $\Tosc$).  In order to examine how the step-size is adapted to the difficulty of the problem, we also show a histogram which show how many integration steps are taken for fixed temperature intervals.~\footnote{More precisely, the histogram is made by dividing the the temperature range $0.025~\GeV\lesssim T\lesssim 0.15~\GeV$ to $30$ bins of equal size.} 
+%
+In this figure, we see that the number of integration steps increases rapidly for temperatures below the oscillation temperature. 
+%
+This is expected, since integration becomes more difficult as the frequency of the oscillation increases -- $\maT/H$ increases rapidly for $T<\Tosc$. That is, the local integration error tends to increase. Thus, in order to reduce the local error, the embedded RK method we employ, reduces the step-size. This means that for $T \lesssim \Tosc$ the number of integration steps increase drastically.
+%
+This is the general picture of how adaptation happens. However, one has to experiment with all the available parameters, in order to achieve optimal (\ie accurate and fast) results.  
 
 
-	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % APPENDICES
 \pagebreak
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

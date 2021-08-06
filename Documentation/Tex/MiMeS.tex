@@ -15,7 +15,7 @@
 \usepackage{multirow}
 \usepackage{minted}
 \usepackage[dvipsnames]{xcolor}
-
+\usepackage{multicol}
 
 \renewcommand{\theequation}{\arabic{section}.\arabic{equation}}
 
@@ -291,8 +291,8 @@ where  $\gamma_{\rm osc}$ is the entropy injection between $\Ti$ and $\Tosc$. No
 %
 which implies that the WKB approximation overestimates the energy density of the axion, since $\gamma_{\rm osc}$, $H_{\rm ini}$, and $\Tosc$ can vary. 
 
-
-In order to demonstrate the effect of the deviation between $\thetai$ and $\thetaosc$, we show \Figs{fig:WKB_diff_i,fig:WKB_diff_osc}, for different cosmological scenarios. In both figures, the red and black (dashed) lines correspond to radiation and matter dominated Universe, respectively.~\footnote{For the matter dominated case (following the notation of refs.~\cite{Arias:2019uol,Arias:2020qty}), we have used 
+\subsubsection{Example}\label{sec:comparison_between_WKB_approaches}
+In order to demonstrate the effect of the deviation between $\thetai$ and $\thetaosc$, we show \Figs{fig:WKB_diff_i,fig:WKB_diff_osc}, for different cosmological scenarios. In both figures, the red and black (dashed) lines correspond to standard cosmological scenario and early matter dominated (EMD) Universe, respectively.~\footnote{For the matter dominated case (following the notation of refs.~\cite{Arias:2019uol,Arias:2020qty}), we have used 
 $T_{\rm end}=10^{-2} ~\GeV,\; c=3, \; T_{\rm ini}=10^{12} ~\GeV, \; \text{and}\; r=0.1$.} For the matter dominated case, entropy is injected to the plasma both before and after $\Tosc$. The entropy injection factor, $\gamma_{\rm osc}$, as a function of $\fa$ is shown in \Figs{fig:gamma_osc}.
 
 In \Figs{fig:WKB_diff_i} we show the relative difference between $\Omega h^2$ using \eqs{eq:solution_eom_approx_final} and the result obtained from \mimes. It should be apparent that the accuracy of the estimate based on \eqs{eq:solution_eom_approx_final} depends of $\fa$, since for high values of $\fa$, $\Tosc$ is low. That is, the deviation between $\thetai$ and $\thetaosc$ is greater than the corresponding difference for lower $\fa$, especially for the matter dominated case, where the entropy injection is great (see \Figs{fig:gamma_osc}).
@@ -733,9 +733,10 @@ As previously, the interpolation limits {\tt minT} and {\tt maxT} are suggestion
 		\\ \\
 		\dfrac{\chi(T_{\rm max})}{\fa^2}   \lrb{\dfrac{T}{T_{\rm max}}}^{-8.16} & \text{for } T>T_{\rm max} 
 	\end{matrix} \;.
+	\label{eq:axM-limits}
 \end{equation}
 %
-This is a good approximation for the QCD axion (the default data \mimes uses), but the user can change them inside the class, which is located in{\tt \mimes/src/AxionMass/AxionMass.hpp} (see Appendix~\ref{app:classes} for details). 
+This is a good approximation for the QCD axion (the default data \mimes uses), but the user can change them inside the class, which is located in{\tt \mimes/src/AxionMass/AxionMass.hpp} (see section~\ref{sec:cpp_example} or Appendix~\ref{app:classes} for details). 
 
 
 The second way we can declare the {\tt axionMass<LD>} variable is
@@ -776,33 +777,154 @@ However, we should note that greedy choices (\eg~{\tt N\_convergence\_max}$=100$
 Although one can modify the examples provided in {\tt \mimes/UserSpace}, in this section we show a complete example in both \CPP and \PY. 
 %
 
-The underlying cosmology is assumed to be an early matter domination (EMD) scenario. In terms of the parametrisation of ref.~\cite{Arias:2020qty}, it is defined through the parameters
-%
-\begin{eqnarray}
-	&T_{\rm END}=10^{-2}~\GeV,\quad c=3, \nonumber \\
-	&T_{\rm ini}=10^{12}~\GeV, \quad r=0.1 \;,
-	\label{eq:cosmology_example}
-\end{eqnarray}
+The underlying cosmology is assumed to be an EMD scenario. In terms of the parametrisation of ref.~\cite{Arias:2020qty}, it is defined through the same parameters as in the example shown in section~\ref{sec:comparison_between_WKB_approaches}.
 %
 and the evolution of the energy densities of the plasma and a fluid $\Phi$ is shown in \Figs{fig:energy_densities}.
 %
 \begin{figure}[t]
 	\includegraphics[width=1\textwidth]{figs/energy_densities.pdf}
-	\caption{The energy densities of the plasma and a hypothetical decaying fluid. The parameters of the cosmological scenario is $T_{\rm END}=10^{-2}~\GeV$, $c=3$, $T_{\rm ini}=10^{12}~\GeV$, and $r=0.1$; the parameters  follow the definitions in ref.~\cite{Arias:2020qty}. }
+	\caption{The energy densities of the plasma and a hypothetical decaying fluid. The parameters of the cosmological scenario  $T_{\rm END}=10^{-2}~\GeV$, $c=3$, $T_{\rm ini}=10^{12}~\GeV$, and $r=0.1$; the parameters  follow the definitions in ref.~\cite{Arias:2020qty}. }
 	\label{fig:energy_densities}
 \end{figure}
 %
 The various regime changes are indicated as $T_{{\rm E}_{1,2}}$ -- corresponding to the first and second time where $\rho_{\Phi} = \rho_{\rm R}$,  and $T_{{\rm D}_{1,2}}$ -- which correspond to the start and end of entropy injection (for more precise definition see~\cite{Arias:2020qty}). Regarding the axion, this cosmological scenario alters it evolution, since both the Hubble parameter and the entropy of the plasma change significantly. This results in a shift in the oscillation temperature, and the dilution of the axion energy density.
 
-\paragraph{A complete \CPP example}\DK{Give the code with explanation of {\tt MiMeS/UserSpace/CPP/Axion}, along with the compilation options, and explain the template arguments.}
+\subsubsection{complete example in \CPP}\label{sec:cpp_example}
+%
+In order to write a \CPP program that uses \mimes in order to solve the EOM~\ref{eq:eom_sys}, we must include the header file {\tt src/Axion/AxionSolve.hpp}. Once this is done, we can declare various instances, and solve the axion EOM. For example in order to to do so in the cosmological scenario at hand, the {\tt main} function should contain 
+%
+\begin{cpp}
+ 	std::string inputFile = std::string(rootDir)+
+    				std::string("/UserSpace/InputExamples/MatterInput.dat");
+	
+	mimes::Axion<long double, 1, RODASPR2<long double> > ax(0.1, 1e16, 500, 1e-4, 1e3, 
+	15, 1e-2, inputFile, 1e-1, 1e-8, 1e-1, 1e-11, 1e-11, 0.9, 1.2, 0.8, int(1e7));
+	
+	ax.solveAxion();
+\end{cpp}
+%
+This program should solve the axion EOM. However, one needs to print anything that they need. For example, the relic abundance is printed by adding  {\tt std::cout<<ax.relic<<"\\n";} after {\tt ax.solveAxion();}. It should be noted that, in order to make sure that the code is compiled successfully, one should add at the top of the file any other header they need. In particular, in this case, we need to add {\tt \#include<iostream>}, in order to be able to use {\tt std::cout}.
 
 
-\paragraph{A complete \PY example}\DK{Give th/e code with explanation of {\tt MiMeS/UserSpace/Python/Axion.py}, say that the compilation options are set in the root directory of \mimes.}
+\paragraph{Parameter choice}
+%
+It should be noted that the string that is assigned to the variable {\tt inputFile}, is the path of file that exists in {\tt \mimes/UserSpace/InputExamples/MatterInput.dat}. Also, {\tt rootDir} is a constant static ({\tt char[]}) variable that  is defined in {\tt \mimes/src/path.hpp} that , and it is automatically generated when {\tt bash configure.sh} is executed.  Moreover, the other parameters used in the constructor are:
+%
+\begin{itemize}
+	\begin{minipage}{0.3\linewidth}
+	\item {\tt theta\_i}$=0.1$
+	\item {\tt fa}$=10^{16}~\GeV$
+	\item {\tt umax }$=500$
+	\item {\tt TSTOP}$=10^{-4}~\GeV$
+	\item {\tt ratio\_ini}$=10^3$
+	\item  {\tt N\_convergence\_max}$=15$
+	\end{minipage}
+	\begin{minipage}{0.35\linewidth}
+	\item  {\tt convergence\_lim}$=10^{-2}$
+	\item {\tt initial\_stepsize}$=10^{-1}$ 
+	\item {\tt maximum\_stepsize}$=10^{-1}$ 
+	\item {\tt minimum\_stepsize}$=10^{-8}$
+	\item {\tt absolute\_tolerance}$=10^{-11}$
+	\item {\tt relative\_tolerance}$=10^{-11}$
+	\end{minipage}
+	\begin{minipage}{0.3\linewidth}
+	\item {\tt beta}$=0.9$
+	\item {\tt fac\_max}$=1.2$
+	\item {\tt fac\_min}$=0.8$
+	\item {\tt maximum\_No\_steps}$=10^7$
+	\item[]{\vfill}	\item[]{\vfill}	\item[]{\vfill}
+	\end{minipage}
+\end{itemize}
+
+\paragraph{Template arguments}
+%
+Furthermore, The first template parameter is {\tt long double}, which means that all the numeric types (apart from integers like {\tt maximum\_No\_steps}) have ``long double" precision. which is useful when considering low tolerances as in this example. The second and third template parameters are responsible for the Runge-Kutta method we use. That is, n this case, the second template parameter -- $1$ -- means that we use a Rosenbrock method, with the method being {\tt RODASPR2}. Notice that the method also needs a template parameter that declares all member variables of the {\tt RODASPR2} class.
+
+\paragraph{Compilation}
+%
+Assuming that we have already executed {\tt bash configure.sh}, compilation of the above example is trivial. Assuming that we name the file that contains the code {\tt axionExample.cpp}, and it is located in {\tt \mimes/UserSpace}, the only thing we need to do is run
+%
+\begin{pseudo}
+	g++ -O3 -std=c++17 -lm -I../ -o axion axionExample.cpp
+\end{pseudo}
+%
+or 
+%
+\begin{pseudo}
+	clang -lstdc++ -O3 -std=c++17 -lm -I../ -o axion axionExample.cpp
+\end{pseudo}
+
+Both of these commands should create an executable that solves the axion EOM. That is, assuming we have a terminal open in   {\tt \mimes/UserSpace}, we can run {\tt ./axion}, and get the results we chose. It should be noted that all paths that \mimes uses by default are written as absolute paths when we run {bash ./configure.sh}. Therefore, if the {\tt inputFile} variable is also an absolute path, the executable can be copied and used in any other directory of the same system. However, it should be preferred that executables are kept under the \mimes directory, in order to be able to compile them with different data file paths if needed.
 
 
-\DK{Mention optimization options, and {\tt g++} and {\tt clang} seem to work. Describe the available solvers (appendix for more details).}.
+\paragraph{Axion mass limits}
+%
+In this example, we have used the default data files static variables for the plasma quantities and the axion mass. As already mentioned, one can change the variables {\tt cosmoDat} or {\tt axMDat} in {\tt \mimes/Paths.mk}, in order to change the path of the corresponding data file. 
 
-\subsection{Results}
+However, using a data file for the axion mass, requires some functions that will return the axion mass for temperatures beyond the interpolation limits.  \mimes, by default, uses \eqs{eq:axM-limits} that correspond to the QCD axion, and are valid approximate limits for the default data file. In the constructor, these two functions are defined as
+%
+\begin{cpp}
+	/*$\maT^2$ for $T>T_{\rm max}$*/
+	ma2_MAX=[this](LD T, LD fa){return this->chiMax/fa/fa*std::pow(T/this->TMax,-8.16);};
+	/*$\maT^2$ for $T<T_{\rm max}$*/
+	ma2_MIN=[this](LD T, LD fa){return this->chiMin/fa/fa;};
+\end{cpp} 
+%
+where {\tt ma2\_MAX} and {\tt ma2\_MIN} are the axion mass squared for temperature above the maximum and below the minimum interpolation limit; $T_{\rm max}$ and $T_{\rm min}$, respectively. Frthermore, {\tt chiMax} and {\tt chiMin} correspond to $\chi(T_{\rm max})$ and $\chi(T_{\rm min})$, respectively. 
+
+Therefore, if we use a different set of data for $\chi$ it is possible that these definitions would also need to be altered. This can be done directly in the constructor, by changing this aforementioned lines. Alternatively, since   {\tt ma2\_MAX} and {\tt ma2\_MIN} are public variables, they can be changed inside the {\tt main} function -- before the declaration of the {\tt mimes::Axion<LD, Solver, Method>} instance we intend to use -- as any lambda function is \CPP. For example, in order to implement $\maT^2 = 0$ for $T>T_{\rm max}$, we simply need to change the definition of {\tt ma2\_MAX} in the constructor to
+%
+\begin{cpp}
+	/*$\maT^2$ for $T>T_{\rm max}$*/
+	ma2_MAX=[this](LD T, LD fa){return 0;};
+\end{cpp} 
+%
+or add the following line before the declaration of {\tt ax}
+%
+\begin{cpp}
+	/*$\maT^2$ for $T>T_{\rm max}$*/
+	axionMass<long double>.ma2_MAX=[](LD T, LD fa){return 0;};
+\end{cpp} 
+
+Then everything else -- \eg compilation, calling the member functions of the {\tt mimes::Axion<LD, Solver, Method>} class -- is exactly the same as before. 
+
+\paragraph{The entire code}
+%
+This example consists of only a few lines of code, which, including the change in the axion mass beyond the interpolation limit, is
+%
+\begin{cpp}
+	#include<iostream>
+	#include"src/Axion/AxionSolve.hpp"
+	
+	int main(){
+		/*$\maT^2$ for $T>T_{\rm max}$*/
+		axionMass<long double>.ma2_MAX=[](LD T, LD fa){return 0;};
+	
+		std::string inputFile = std::string(rootDir)+
+			std::string("/UserSpace/InputExamples/MatterInput.dat");
+		
+		mimes::Axion<long double, 1, RODASPR2<long double> > ax(0.1, 1e16, 500, 1e-4, 1e3, 
+		15, 1e-2, inputFile, 1e-1, 1e-8, 1e-1, 1e-11, 1e-11, 0.9, 1.2, 0.8, int(1e7));
+		
+		ax.solveAxion();
+		
+		std::cout<<ax.relic<<"\n";
+		
+		return 0;
+	}
+\end{cpp}
+%
+
+\paragraph{Final note}
+%
+We should point out that another example is given in {\tt \mimes/UserSpace/Cpp/Axion}, where all parameters are taken as command-line inputs, the various compilation-time options can be given {\tt \mimes/UserSpace/Cpp/Axion/Definitions.mk}, and then compiled using {\tt make}. Therefore, the user can just modify this code in order to meet their needs. That is, using this example, one only needs to add their preferred definition of {\tt ma2\_MAX} and {\tt ma2\_MIN} -- or change the {\tt axionMass<LD>} static variable (in {\tt \mimes/src/static.hpp}) using a function as mentioned in section~\ref{sec:compile_time_input} without writing the entire program themselves.
+
+
+\subsubsection{complete example in \PY}
+
+
+
+\subsubsection{Results}
 %
 In both \CPP and \PY one should get the same results (if the same numeric type, and RK parameters and method are used), which should be similar to \Figs{fig:theta_evolution-EMD}. 
 %

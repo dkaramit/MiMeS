@@ -69,10 +69,13 @@ int main(int argc, char **argv){
     }
 
     
-    //timeit.sh adds some overhead. Alternatively, you can use
+    //timeit.sh adds some (insignificant) overhead. So, alternatively, you can use
     // mimes::Timer _time_; 
-    // The _time_ instance  prints the time the program took in stderr.  
+    // The _time_ instance  prints the time the program took in stderr when the program exits (when _time_ goes out of scope in general).  
 
+    // you can change the axion mass function for T above the interpolation range like this (these are not correct; they only show how it can be done):
+    // axionMass<LD>.ma2_MAX = [](LD T, LD fa)->LD{ return 0; }; // this is fine for T>>T_{QCD}
+    // axionMass<LD>.ma2_MIN = [](LD T, LD fa)->LD{return 0;}; //this gives Omegah^2 = 0 (but you are sure that it works)
 
     int ar=0;
 

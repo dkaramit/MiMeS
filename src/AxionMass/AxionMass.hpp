@@ -20,30 +20,20 @@ namespace mimes{
         
         CubicSpline<LD> chi;
         VecLD Ttab,chitab;
-        LD TMin, TMax, chiMax, chiMin;
         func ma2_func;
         func dma2dT_func;
         // these are the functions you can use in order to get the mass and its derivative beyond the 
         // interpolation limits.
         // ma2_MAX and dma2dT_MAX denote the approximation for T>TMAX,
         // and  ma2_MIN and dma2dT_MIN the approximation for T<TMIN.  
+        public:
+        LD TMin, TMax, chiMax, chiMin;
         func ma2_MAX,ma2_MIN;
         func dma2dT_MAX,dma2dT_MIN;
-        public:
         
         AxionMass(func ma2);    
         AxionMass(func ma2, func dma2dT);    
         AxionMass(std::string path, LD minT, LD maxT);
-
-        void set_ma2_approx(func ma2_MIN, func ma2_MAX){
-            this->ma2_MAX=ma2_MAX;
-            this->ma2_MIN=ma2_MIN;
-        }
-
-        void set_dma2dT_approx(func dma2dT_MIN, func dma2dT_MAX){
-            this->dma2dT_MAX=dma2dT_MAX;
-            this->dma2dT_MIN=dma2dT_MIN;
-        }
 
         LD ma2(LD T, LD fa){
             // axion mass squared at temperature T and f_\alpha=fa
@@ -51,7 +41,6 @@ namespace mimes{
             if(T<=TMin){return ma2_MIN(T,fa);}//use this beyond the lower limit
             return ma2_func(T,fa);//interpolate chi if TMin!=TMax and T is between TMin nad TMax 
         }
-
 
         LD dma2dT(LD T, LD fa){
             // axion mass squared derivative

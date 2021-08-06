@@ -26,7 +26,10 @@
 #endif
 
 int main(int argc, char **argv){ 
-
+    // you can change the axion mass function for T above the interpolation range like this (these are not correct; they only show how it can be done):
+    // axionMass<LD>.ma2_MAX = [](LD T, LD fa)->LD{ return 0; };
+    // axionMass<LD>.ma2_MIN = [](LD T, LD fa)->LD{return 0;};//this gives Omegah^2 = 0 (but you are sure that it works)
+    
     //model parameters
     LD theta_i = 0.94435;
     LD fa = 1e12;

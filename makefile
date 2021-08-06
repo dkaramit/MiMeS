@@ -37,15 +37,15 @@ exec: check
 #shared libraries that can be used from python
 lib/libCosmo.so: $(Cosmo_Cpp)\
 				 $(Cosmo_Headers) $(SPLINE_Headers) $(PathHead) $(Static_Funcs)
-	$(CC) -o $@ $< -fPIC -shared $(FLG) -DLONG=$(LONGpy)
+	$(CC) -o $@ $< -fPIC -shared $(FLG) -DLONGpy=$(LONGpy)
 
 lib/libma.so: $(AxionMass_Cpp)\
 				 $(AxionMass_Headers) $(SPLINE_Headers) $(PathHead) $(Static_Funcs)
-	$(CC) -o $@ $< -fPIC -shared $(FLG) -DLONG=$(LONGpy)
+	$(CC) -o $@ $< -fPIC -shared $(FLG) -DLONGpy=$(LONGpy)
 
 lib/libanfac.so: $(AxionAnF_Cpp)\
 				 $(AxionAnF_Headers) $(SPLINE_Headers) $(PathHead) $(Static_Funcs)
-	$(CC) -o $@ $< -fPIC -shared $(FLG) -DLONG=$(LONGpy) 
+	$(CC) -o $@ $< -fPIC -shared $(FLG) -DLONGpy=$(LONGpy) 
 
 #shared library for the evolution of the axion that can be used from python
 Axion_py=$(wildcard $(rootDir)src/Axion/Axion-py.cpp)
@@ -54,7 +54,7 @@ lib/Axion_py.so: $(Axion_py)\
 				 $(AxionEOM_Headers) $(AxionSolve_Headers)\
 				 $(Ros_Headers) $(RKF_Headers)  $(SPLINE_Headers)\
 				 $(PathHead) $(Static_Funcs) 
-	$(CC) -o $@ $< -fPIC -shared $(FLG) -DLONG=$(LONGpy) -DMETHOD=$(METHOD) -DSOLVER=$(SOLVER)
+	$(CC) -o $@ $< -fPIC -shared $(FLG) -DLONGpy=$(LONGpy) -DMETHOD=$(METHOD) -DSOLVER=$(SOLVER)
 
 
 # make the examples in UserSpace/Cpp

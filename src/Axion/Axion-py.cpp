@@ -9,12 +9,12 @@
 
 
 // macros for the numeric type
-#ifndef LONG
-    #define LONG 
+#ifndef LONGpy
+    #define LONGpy 
 #endif
 
 #ifndef LD
-    #define LD LONG double
+    #define LD LONGpy double
 #endif
 
 // use this to cast void* to Axion*

@@ -1,12 +1,14 @@
 #include"src/static.hpp"
 
-#ifndef LONG
-    #define LONG 
+// macros for the numeric type
+#ifndef LONGpy
+    #define LONGpy 
 #endif
 
 #ifndef LD
-    #define LD LONG double
+    #define LD LONGpy double
 #endif
+
 
 extern "C"{
     LD _anharmonicFactor(LD theta_max){return anharmonicFactor<LD>(theta_max);}

@@ -557,7 +557,8 @@ The final member function is {\tt mimes::Axion<LD,Solver,Method>::setTheta\_i}, 
 %
 where {\tt new\_theta\_ini} is the new value of $\thetai$. Running this function resets all variables to $0$ (except {\tt T\_osc} and {\tt a\_osc}, since they should not change), and clears all {\tt std::vector} variables, which allows the user to simply run \run{ax.solveAxion();} as if {\tt ax} was a freshly defined instance.  
 
-\subsubsection{Using \mimes in \PY} The modules for the \PY interface are located in {\tt MiMeS/src/interfacePy}. Since, the most useful module is the one that actually solves the EOM~\ref{eq:eom_u}, we will explain here it can be used, and describe the others in Appendix~\ref{app:modules}.
+\subsubsection{Using \mimes in \PY}\label{sec:begin_py}
+The modules for the \PY interface are located in {\tt MiMeS/src/interfacePy}. Since, the most useful module is the one that actually solves the EOM~\ref{eq:eom_u}, we will explain here it can be used, and describe the others in Appendix~\ref{app:modules}.
 
 The {\tt Axion} class in the module {\tt interfacePy.Axion} can be loaded in a \PY script as 
 %
@@ -651,22 +652,20 @@ The user has a number of options regarding different aspects for the code. The v
 	%
 	\item {\tt SOLVER}: \mimes uses the ordinary differential equation (ODE) integrators of ref.~\cite{NaBBODES}. Currently, there are two available choices; {\tt Rosenbrock} and {\tt RKF}. The former is a general embedded Rosenbrock implementation and it is used if {\tt Solver=1}, while the latter is a general explicit embedded Runge-Kutta implementation and can be chose by using {\tt SOLVER=2} (a brief description of how these algorithms are implemented can be found in Appendix~\ref{app:RK}). The default option for that \mimes uses is {\tt SOLVER=1}, because the axion EOM tends to oscillate rapidly. However, in some cases, a high order explicit method may also work. This variable, is used to define a macro with the same name and value in {\tt \mimes/src/Axion/AxionSolve.hpp}.
 	%
-	\item {\tt METHOD}: Depending on the type of solver is chosen, there are some available methods. 
+	\item {\tt METHOD}: Depending on the type of solver is chosen, there are some available methods.~\footnote{It is worth mentioning that {\tt NaBBODES} is built in order to be a template for all possible Rosenbrock and explicit Runge-Kutta embedded methods, and one can provide their own Butcher tableau if they want to use another method, as shown in Appendix~\ref{app:RK}. This variable, is used to define a macro with the same name and value in {\tt \mimes/src/Axion/AxionSolve.hpp}.} 
 		\begin{itemize}
 			\item 	For {\tt SOLVER=1}, the available methods are 
 			{\tt METHOD=RODASPR2} and {\tt METHOD=ROS34PW2}. The {\tt RODASPR2} choice is a fourth order Rosenbrock-Wanner method (more information can be found in ref.~\cite{RANG2015128}). The {ROS34PW2} choice corresponds to a third order Rosenbrock-Wanner method~\cite{RangAngermann2005}. 
 			%
 			\item 	For {\tt SOLVER=2}, the only reliable method available in {\tt NaBBODES} is the Dormand-Prince~\cite{DORMAND198019} chosen if {\tt METHOD=DormandPrince}, which is an explicit Runge-Kutta method of seventh order.
 		\end{itemize}
-		%
-		It is worth mentioning that {\tt NaBBODES} is built in order to be a template for all possible Rosenbrock and explicit Runge-Kutta embedded methods, and one can provide their own Butcher tableau if they want to use another method, as shown in Appendix~\ref{app:RK}. This variable, is used to define a macro with the same name and value in {\tt \mimes/src/Axion/AxionSolve.hpp}.
 	%
 	\item {\tt CC}: the \CPP compiler that one chooses to use. The default option is {\tt CC=g++}, which is the {\tt GNU} \CPP compiler, and is available for all systems. Another option is to use the {\tt clang} compiler, which is chosen by {\tt CC=clang -lstdc++}. \mimes is mostly tested using {\tt g++}, but {\tt clang} also seems to work (and the resulting executables are sometimes faster), but the user has to make sure that their version of the compiler of choice supports the \CPP17 standard, otherwise \mimes probably will not work.
 	%
 	\item {\tt OPT}: Optimization level of the compiler. By default, this is {\tt OPT=O3}, which produces executables that are marginally faster than {\tt OPT=O1} and {\tt OPT=O2}, but significantly faster than {\tt OPT=O0}. There is another choice, {\tt OPT=Ofast}, but it can cause various numerical instabilities, and is generally considered dangerous -- although we have not observed any problems when running \mimes. 
 \end{enumerate}
 %
-These options can only be used when the compilation is done using the various {\tt makefile} files. For compilation of a user provided {\tt .cpp} file, these have to be define by the user inside this file. If one compiles the examples without {\tt makefile}, the variables {\tt LONG}, {\tt SOLVER}, and {\tt METHOD} correspond to macros with the same name.~\footnote{Macros can be defined using the {\tt -D} flag
+These options can only be used when the compilation is done using the various {\tt makefile} files. For compilation of a user provided {\tt .cpp} file, these have to be define by the user inside this file. If one compiles the examples without {\tt makefile}, the variables {\tt LONG},  {\tt LONGpy}, {\tt SOLVER}, and {\tt METHOD} correspond to macros with the same name.~\footnote{Macros can be defined using the {\tt -D} flag
 in the compiler. For example {\tt METHOD=DormandPrince} is the same as passing {\tt -DMETHOD=DormandPrince} to the compiler.} It should be pointed-out that,  in the examples, {\tt LONG} is used to define a macro {\tt LD} which becomes {\tt double} or {\tt long double} accordingly. the actual choice of numeric type is passed as a template parameter in all classes.
 \subsection{User input}\label{sec:input}
 %
@@ -921,6 +920,104 @@ We should point out that another example is given in {\tt \mimes/UserSpace/Cpp/A
 
 
 \subsubsection{complete example in \PY}
+%
+In order to be able use the {\tt Axion} class in \PY, we need to import the corresponding module from {\tt \mimes/src/interfacePy}. That is, assuming that the script from which we intend to import {\tt \mimes/src/interfacePy/Axion/Axion.py} is in {\tt \mimes/UserSpace}, we can import the {\tt Axion} class by writing the following
+%
+\begin{py}
+	#add the relative path for MiMeS/src
+	from sys import path as sysPath
+	from os import path as osPath
+	sysPath.append(osPath.join(osPath.dirname(__file__), '../src'))
+	
+	#import the Axion class from the Axion module
+	from interfacePy.Axion import Axion
+\end{py} 
+%
+Once the class is imported, we can simply follow the steps outlined in section~\ref{sec:begin_py}. For the example at hand, we can create an instance of the axion class as 
+\begin{py}
+	#in python it is more convenient to use relative paths
+	inputFile = inputFile="./InputExamples/MatterInput.dat"  
+	
+	ax = Axion(0.1, 1e16, 500, 1e-4, 1e3, 15, 1e-2, inputFile, 1e-1, 
+	           1e-8, 1e-1, 1e-11, 1e-11, 0.9, 1.2, 0.8, int(1e7))
+\end{py}
+%
+Again, the parameters for the constructor are the same as in the \CPP example. The axion EOM, then, is solved using
+%
+\begin{py}
+	ax.solveAxion()
+\end{py}
+%
+In contrast to the \CPP usage of this function, this only stores the $\thetai$, $\fa$, $\thetaosc$, $\Tosc$, and $\Omega h^2$ in the variables {\tt ax.theta\_i}, {\tt ax.fa}, {\tt ax.theta\_osc}, {\tt ax.T\_osc}, and {\tt ax.relic}; respectively. Therefore, we can print the relic abundance by calling \run{print(ax.relic)}. In order to get the integration points (\ie the evolution of the angle and the other quantities), the quantities at the  peaks, and the local integration errors, we need to call
+%
+\begin{py}
+	#this gives you all the points of integration
+	ax.getPoints()
+	
+	#this gives you the peaks of the oscillation
+	ax.getPeaks()
+	
+	#this gives you local integration errors
+	ax.getErrors()
+\end{py}
+%
+The documentation of any \PY function can be read directly inside the script using {\tt ?} as a prefix. For example, in order to see what the functionality and usage of the {\tt getPeaks} function, we can call \run{?ax.getPeaks}, and its documentation will be printed. 
+
+As already mentioned, it is important to always delete any instance of the {\tt Axion} class that is not going to be used. In this case this is done by calling
+%
+\begin{py}
+	del ax
+\end{py}
+
+
+\paragraph{Axion mass limits}
+%
+Before we use the \PY interface of \mimes, we may need to change the default definitions of the axion mass beyond the interpolation points  which can only be done inside the definition of the {\tt mimes::AxionMass} constructor (see the \CPP example in section~\ref{sec:cpp_example}), since we cannot reassign class variables inside header files.
+
+
+\paragraph{Compilation of the shared library}
+%
+As described in section~\ref{sec:compile_time_input}, we may need to change the default data file paths, or the various compilation options. This is done through the variables in {\tt \mimes/Definitions.mk} and {\tt \mimes/Paths.mk} described in section~\ref{sec:options}. 
+
+Once have chosen everything according to our needs, the library can be created by opening a terminal inside the root directory of \mimes and running
+%
+\begin{py}
+	bash configure.sh
+	make lib/Axion_py.so
+\end{py}
+%
+
+\paragraph{The entire code}
+%
+As in the \CPP example, this example consists of only a few lines of code. The script we described here is
+%
+\begin{py}
+	#add the relative path for MiMeS/src
+	from sys import path as sysPath
+	from os import path as osPath
+	sysPath.append(osPath.join(osPath.dirname(__file__), '../src'))
+	
+	#import the Axion class from the Axion module
+	from interfacePy.Axion import Axion
+	
+	#in python it is more convenient to use relative paths
+	inputFile = inputFile="./InputExamples/MatterInput.dat"  
+	
+	ax = Axion(0.1, 1e16, 500, 1e-4, 1e3, 15, 1e-2, inputFile, 1e-1, 
+	1e-8, 1e-1, 1e-11, 1e-11, 0.9, 1.2, 0.8, int(1e7))
+
+	ax.solveAxion()
+	
+	print(ax.relic)
+	
+	#once we are done we should run the destructor
+	del ax
+\end{py} 
+
+
+\paragraph{Final note}
+%
+One can find a complete example, including the option to create several plots, in {\tt \mimes/UserSpace/Python/Axion.py}. Also, the same example can be used interactively, in the jupyter notebook, that can be found in {\tt \mimes/UserSpace/JupyterNotebooks/Axion.ipynb}. One can read the comments, and change all different parameters, in order to examine how the results are affected. 
 
 
 
@@ -971,7 +1068,7 @@ In this figure, we see that the number of integration steps increases rapidly fo
 %
 This is expected, since integration becomes more difficult as the frequency of the oscillation increases -- $\maT/H$ increases rapidly for $T<\Tosc$. That is, the local integration error tends to increase. Thus, in order to reduce the local error, the embedded RK method we employ, reduces the step-size. This means that for $T \lesssim \Tosc$ the number of integration steps increase drastically.
 %
-This is the general picture of how adaptation happens. However, one has to experiment with all the available parameters, in order to achieve optimal (\ie accurate and fast) results.  
+This is the general picture of how adaptation happens. However, one has to experiment with all the available parameters, in order to solve the axion EOM as accurately and fast as possible.  
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -51,15 +51,14 @@ maximum_No_steps=int(1e7); #maximum steps the solver can take Quits if this numb
 
 _=time()
 # AxionMass instance
-# axionMass = AxionMass(r'../../src/data/chi.dat',0,mP)
-def ma2(T,fa):
-    TQCD=150*1e-3;
-    ma20=3.1575e-05/fa/fa;
-    if T<=TQCD:
-        return ma20;
-    return ma20*pow((TQCD/T),8.16)
-
-axionMass = AxionMass(ma2)
+axionMass = AxionMass(r'../../src/data/chi.dat',0,mP)
+# def ma2(T,fa):
+    # TQCD=150*1e-3;
+    # ma20=3.1575e-05/fa/fa;
+    # if T<=TQCD:
+        # return ma20;
+    # return ma20*pow((TQCD/T),8.16)
+# axionMass = AxionMass(ma2)
 
 # Axion instance
 ax=Axion(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max, convergence_lim, inputFile, axionMass,

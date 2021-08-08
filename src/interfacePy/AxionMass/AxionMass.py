@@ -58,7 +58,6 @@ class AxionMass:
     def __del__(self):
         AxionMassLib.DEL(self.voidAxM)
         del self.voidAxM
-        del self.c_ma2
 
     def ma2(self,T,fa):
         return AxionMassLib.ma2(T,fa,self.pointer())

@@ -3,6 +3,8 @@
 #include <cmath> 
 #include <string> 
 #include"src/Axion/AxionSolve.hpp"
+#include"src/AxionMass/AxionMass.hpp"
+#include"src/misc_dir/path.hpp"
 #include"src/util/timeit.hpp"
 
 
@@ -111,9 +113,22 @@ int main(int argc, char **argv){
     unsigned int maximum_No_steps=atoi(argv[++ar]); //maximum steps the solver can take Quits if this number is reached even if integration is not finished.
     
 
+    // use chi_PATH to interpolate the axion mass.
+    mimes::AxionMass<LD> axionMass(chi_PATH,0,mimes::Cosmo<LD>::mP);
+
+    // you can define the axion mass using a function, like this 
+    // std::function<LD(LD,LD)> ma2 = [](LD T,LD fa){
+    //     LD TQCD=150*1e-3;
+    //     LD ma20=3.1575e-05/fa/fa;
+    //     if(T<=TQCD){return ma20;}
+    //     else{return ma20*std::pow((TQCD/T),8.16);}
+    // };
+    // mimes::AxionMass<LD> axionMass(ma2);
+
 
     // instance of Axion
-    mimes::Axion<LD,SOLVER,METHOD<LD>> ax(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max,convergence_lim,inputFile,
+    mimes::Axion<LD,SOLVER,METHOD<LD>> ax(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max,
+    convergence_lim, inputFile, &axionMass,
     initial_step_size,minimum_step_size, maximum_step_size, absolute_tolerance, relative_tolerance, beta,
     fac_max, fac_min, maximum_No_steps);
 

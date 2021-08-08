@@ -8,8 +8,13 @@ from os import path as osPath
 
 sysPath.append(osPath.join(osPath.dirname(__file__), '../../'))
 
+
 from misc_dir.path import _PATH_
 from misc_dir.type import cdouble
+
+from interfacePy.AxionMass import AxionMass
+
+
 
 cint=c_int
 void_p=c_void_p
@@ -19,7 +24,7 @@ char_p=c_char_p
 axionLib = CDLL(_PATH_+'/lib/Axion_py.so')
 
 # set the argumet and return types of the different functions
-axionLib.INIT.argtypes= cdouble, cdouble, cdouble, cdouble, cdouble, cint, cdouble, char_p, cdouble, cdouble, cdouble, cdouble, cdouble, cdouble, cdouble, cdouble, cint
+axionLib.INIT.argtypes= cdouble, cdouble, cdouble, cdouble, cdouble, cint, cdouble, char_p, void_p, cdouble, cdouble, cdouble, cdouble, cdouble, cdouble, cdouble, cdouble, cint
 axionLib.INIT.restype = void_p
 
 axionLib.DEL.argtypes= void_p,
@@ -83,6 +88,7 @@ class Axion:
     once the calculations are done. 
     '''
     def __init__(self, theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max,convergence_lim,inputFile,
+                axionMass,
                 initial_step_size=1e-2, minimum_step_size=1e-8, maximum_step_size=1e-2, 
                 absolute_tolerance=1e-8, relative_tolerance=1e-8,
                 beta=0.9, fac_max=1.2, fac_min=0.8, maximum_No_steps=int(1e7)):
@@ -101,6 +107,7 @@ class Axion:
         consecutive peaks
 
         inputFile: file that describes the cosmology. the columns should be: u T[GeV] logH
+        axionMass: instance of AxionMass
 
         -----------Optional arguments------------------------
         initial_stepsize: initial step the solver takes. 
@@ -132,10 +139,12 @@ class Axion:
         self.voidAx=void_p()
         _file_=char_p(bytes(inputFile, encoding='utf-8'))
 
-        self.voidAx=axionLib.INIT(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max, convergence_lim, _file_,
+        self.axionMass=axionMass
+        self.voidAx=axionLib.INIT(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max, convergence_lim, _file_,self.axionMass.pointer(),
         initial_step_size,minimum_step_size, maximum_step_size, absolute_tolerance, relative_tolerance, beta,
         fac_max, fac_min, maximum_No_steps)
 
+        
         self.a_peak=[]
         self.T_peak=[]
         self.theta_peak=[]
@@ -160,6 +169,8 @@ class Axion:
         '''
         axionLib.DEL(self.voidAx)
         del self.voidAx
+        del self.axionMass
+        
 
         del self.T_osc
         del self.a_osc

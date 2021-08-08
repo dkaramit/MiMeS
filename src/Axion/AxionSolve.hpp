@@ -34,9 +34,9 @@
 
 //---Get the eom of the axion--//
 #include "src/Axion/AxionEOM.hpp"
+#include"src/AxionMass/AxionMass.hpp"
 
-
-/*get static variables (includes cosmological parameters, axion mass, and anharmonic factor)*/
+/*get static variables (includes cosmological parameters and anharmonic factor)*/
 #include "src/static.hpp"
 /*================================*/
 
@@ -103,6 +103,7 @@ namespace mimes{
         consecutive peaks
 
         inputFile: file that describes the cosmology. the columns should be: u T[GeV] logH
+        axionMass: pointer to an instance of AxionMass
 
 
         -----------Optional arguments------------------------
@@ -132,12 +133,13 @@ namespace mimes{
 
         Axion(LD theta_i, LD fa, LD umax, LD TSTOP, LD ratio_ini, 
                 unsigned int N_convergence_max, LD convergence_lim, std::string inputFile,
+                AxionMass<LD> *axionMass,
                 LD initial_step_size=1e-2, LD minimum_step_size=1e-8, LD maximum_step_size=1e-2, 
                 LD absolute_tolerance=1e-8, LD relative_tolerance=1e-8,
                 LD beta=0.9, LD fac_max=1.2, LD fac_min=0.8, unsigned int maximum_No_steps=10000000){
+            
             this->theta_i=theta_i;
             this->fa=fa;
-
             this->umax=umax;
             this->TSTOP=TSTOP;
             this->ratio_ini=ratio_ini;
@@ -147,6 +149,7 @@ namespace mimes{
 
             this->inputFile=inputFile;
 
+            
             this->initial_step_size=initial_step_size;
             this->minimum_step_size=minimum_step_size;
             this->maximum_step_size=maximum_step_size;
@@ -157,7 +160,8 @@ namespace mimes{
             this->fac_min=fac_min;
             this->maximum_No_steps=maximum_No_steps;
 
-            axionEOM = AxionEOM<LD>(fa, ratio_ini, inputFile);
+            axionEOM = AxionEOM<LD>(fa, ratio_ini, inputFile, axionMass);
+
             axionEOM.makeInt();//make the interpolations of u,T,logH from inputFile
 
         }
@@ -234,7 +238,7 @@ namespace mimes{
         zeta=y0[1]/theta_ini*theta_i;
         T=axionEOM.Temperature(0);
         H2=std::exp(axionEOM.logH2(0));
-        ma2=axionMass<LD>.ma2(T,fa);
+        ma2=axionEOM.axionMass->ma2(T,fa);
         if(std::abs(theta)<1e-3){rho_axion=fa*fa*(ma2*0.5*theta*theta);}
         else{rho_axion=fa*fa*(ma2*(1 - std::cos(theta)));}
         points.push_back(std::vector<LD>{1,T,theta,0,rho_axion});
@@ -294,7 +298,7 @@ namespace mimes{
             if(T<TSTOP){break;}
 
             //axion mass squared
-            ma2=axionMass<LD>.ma2(T,fa);
+            ma2=axionEOM.axionMass->ma2(T,fa);
 
             // If theta<~1e-8, we have roundoff errors due to cos(theta)
             // The solution is this (use theta<1e-3; it doesn't matter):
@@ -322,7 +326,7 @@ namespace mimes{
                 theta_peak=((theta-theta_prev)*u_peak+(theta_prev*u-theta*u_prev))/(u-u_prev);
                 zeta_peak=((zeta-zeta_prev)*u_peak+(zeta_prev*u-zeta*u_prev))/(u-u_prev);
                 T_peak=axionEOM.Temperature(u_prev);
-                ma2_peak=axionMass<LD>.ma2(T_peak,fa);
+                ma2_peak=axionEOM.axionMass->ma2(T_peak,fa);
 
                 //compute the adiabatic invariant
                 adInv_peak=anharmonicFactor<LD>(theta_peak)*theta_peak*theta_peak *std::sqrt(ma2_peak) * a_peak*a_peak*a_peak ;
@@ -357,14 +361,14 @@ namespace mimes{
                 
                 //the relic of the axion
                 relic=Cosmo<LD>::h_hub*Cosmo<LD>::h_hub/Cosmo<LD>::rho_crit*cosmo<LD>.s(Cosmo<LD>::T0)/cosmo<LD>.s(T_peak)/gamma*0.5*
-                       std::sqrt(axionMass<LD>.ma2(Cosmo<LD>::T0,1)*axionMass<LD>.ma2(T_peak,1))*
+                       std::sqrt(axionEOM.axionMass->ma2(Cosmo<LD>::T0,1)*axionEOM.axionMass->ma2(T_peak,1))*
                        theta_peak*theta_peak*anharmonicFactor<LD>(theta_peak);
                 
 
                 //this is equivalent
                 // relic=h_hub*h_hub/rho_crit*
                     //    cosmo<LD>.s(Cosmo<LD>::T0)/cosmo<LD>.s(axionEOM.T_stop)*std::exp(3*(t_peak-axionEOM.t_stop))*0.5*
-                    //    std::sqrt(axionMass<LD>.ma2(Cosmo<LD>::T0,1)*axionMass<LD>.ma2(T_peak,1))*
+                    //    std::sqrt(axionEOM.axionMass->ma2(Cosmo<LD>::T0,1)*axionEOM.axionMass->ma2(T_peak,1))*
                     //    theta_peak*theta_peak*anharmonicFactor<LD>(theta_peak);
                 
 

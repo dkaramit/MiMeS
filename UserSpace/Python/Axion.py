@@ -7,7 +7,8 @@ sysPath.append(osPath.join(osPath.dirname(__file__), '../../src'))
 
 #load the module
 from interfacePy.Axion import Axion 
-from interfacePy.Cosmo import Hubble
+from interfacePy.AxionMass import AxionMass 
+from interfacePy.Cosmo import Hubble,mP
 
 theta_i, fa=0.94435, 1e12
 
@@ -49,10 +50,22 @@ fac_min=0.8;
 maximum_No_steps=int(1e7); #maximum steps the solver can take Quits if this number is reached even if integration is not finished.
 
 _=time()
+# AxionMass instance
+# axionMass = AxionMass(r'../../src/data/chi.dat',0,mP)
+def ma2(T,fa):
+    TQCD=150*1e-3;
+    ma20=3.1575e-05/fa/fa;
+    if T<=TQCD:
+        return ma20;
+    return ma20*pow((TQCD/T),8.16)
+
+axionMass = AxionMass(ma2)
+
 # Axion instance
-ax=Axion(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max, convergence_lim, inputFile,
+ax=Axion(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max, convergence_lim, inputFile, axionMass,
         initial_step_size,minimum_step_size, maximum_step_size, absolute_tolerance, 
         relative_tolerance, beta, fac_max, fac_min, maximum_No_steps)
+
 
 # solve the EOM (this only gives you the relic, T_osc, theta_osc, and a_osc)
 ax.solveAxion()

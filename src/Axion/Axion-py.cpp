@@ -1,5 +1,6 @@
 #include<string>
 #include "src/Axion/AxionSolve.hpp"
+#include"src/AxionMass/AxionMass.hpp"
 
 // macros for the solver
 #ifndef SOLVER
@@ -22,11 +23,13 @@
 
 extern "C"{
     //constructor
-    void* INIT(LD theta_i, LD fa, LD umax, LD TSTOP, LD ratio_ini, unsigned int N_convergence_max, LD convergence_lim, char* inputFile, 
+    void* INIT(LD theta_i, LD fa, LD umax, LD TSTOP, LD ratio_ini, unsigned int N_convergence_max, LD convergence_lim, char* inputFile,
+                void *axionMass, 
                 LD initial_step_size, LD minimum_step_size, LD maximum_step_size, 
                 LD absolute_tolerance, LD relative_tolerance, LD beta, LD fac_max, 
                 LD fac_min, unsigned int maximum_No_steps){ 
         return new mimes::Axion<LD,SOLVER,METHOD<LD>>(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max,convergence_lim, static_cast<std::string>(inputFile),
+        static_cast<mimes::AxionMass<LD>*>(axionMass),
         initial_step_size,minimum_step_size, maximum_step_size, absolute_tolerance, relative_tolerance, beta,
         fac_max, fac_min, maximum_No_steps);
     }

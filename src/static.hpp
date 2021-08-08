@@ -3,7 +3,6 @@
 
 
 #include"src/Cosmo/Cosmo.hpp"
-#include"src/AxionMass/AxionMass.hpp"
 #include"src/AnharmonicFactor/AnharmonicFactor.hpp"
 
 
@@ -15,11 +14,6 @@
 template<class LD> static mimes::Cosmo<LD> cosmo(cosmo_PATH,0,mimes::Cosmo<LD>::mP);
 
 
-// axion mass
-//it is better not to use all the available data chi_PATH, 
-//because there could a lot of useless points that would make the interpolation slow.
-//interpolating up to T=10GeV should be enough...
-template<class LD> static mimes::AxionMass<LD> axionMass(chi_PATH,0,mimes::Cosmo<LD>::mP);
 
 // anharmonic factor 
 template<class LD> static mimes::AnharmonicFactor<LD> anharmonicFactor(anharmonic_PATH);

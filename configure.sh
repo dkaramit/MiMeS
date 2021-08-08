@@ -87,5 +87,5 @@ and you can run the executables in exec/ in order to see if the code actually wo
 "
 
 tput smul
-[ -z "$axMDat" ] && echo -e "NOTE: Data file for axion mass is not given. Please make sure to provide a function in src/static.hpp."
+[ -z "$axMDat" ] && echo -e "NOTE: Data file for axion mass is not given. The macro \"chi_PATH\" will not be available."
 tput rmul

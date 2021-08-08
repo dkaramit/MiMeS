@@ -5,78 +5,22 @@ from sys import path as sysPath
 from os import path as osPath
 sysPath.append(osPath.join(osPath.dirname(__file__), '../../src'))
 #load the module
-import interfacePy.AxionMass as AM
-
-fa=1e12 # f_a= 10^{12} GeV
-
-for T in logspace(-5,5,50):
-    print(
-        'T=',T,'GeV\t',
-        'm_a^2=', AM.ma2(T,fa),'GeV^2\t', 
-        '\dfrac{dm_a^2}{dT}=',AM.dma2dT(T,fa),'GeV\t')
-
-# make some plots
-if False:
-    import matplotlib.pyplot as plt
-
-    fig=plt.figure(figsize=(9,4))
-    fig.subplots_adjust(bottom=0.15, left=0.15, top = 0.9, right=0.9,wspace=0.0,hspace=0.25)
-    sub = fig.add_subplot(1,1,1)
-    
-    X=logspace(-2,1,500)
-    Y=[]
-    for t in X:
-        Y.append(AM.ma2(t,1e12)**0.5)
-    sub.plot(X,Y,linestyle='-',linewidth=1,alpha=1,c='xkcd:black')
-    
-    sub.set_xlabel(r'$T ~[{\rm GeV}]$')
-    sub.xaxis.set_label_coords(0.5, -0.1) 
-    sub.set_ylabel(r'$ m_a(T) ~[{\rm GeV}]$')
-    sub.yaxis.set_label_coords(-0.1,0.5) 
-    sub.set_yscale('log')
-    sub.set_xscale('log')
-
-    fig.savefig('ma2_examplePlot.pdf',bbox_inches='tight')
-    
-
-    fig=plt.figure(figsize=(9,4))
-    fig.subplots_adjust(bottom=0.15, left=0.15, top = 0.9, right=0.9,wspace=0.0,hspace=0.25)
-    sub = fig.add_subplot(1,1,1)
-    
-    
-    Y=[]
-    for t in X:
-        Y.append(AM.ma2(t,1e12)**0.5)
-    sub.plot(X,Y,linestyle='-',linewidth=1,alpha=1,c='xkcd:red')
-    
-
-    sub.set_xlabel(r'$T ~[{\rm GeV}]$')
-    sub.xaxis.set_label_coords(0.5, -0.1) 
-    sub.set_ylabel(r'$ m_{a}(T) ~[{\rm GeV}]$')
-    sub.yaxis.set_label_coords(-0.1,0.5) 
-    sub.set_yscale('log')
-    sub.set_xscale('log')
-    
-    fig.savefig('ma2_examplePlot.pdf',bbox_inches='tight')
+from interfacePy.AxionMass import AxionMass
 
 
-    fig=plt.figure(figsize=(9,4))
-    fig.subplots_adjust(bottom=0.15, left=0.15, top = 0.9, right=0.9,wspace=0.0,hspace=0.25)
-    sub = fig.add_subplot(1,1,1)
-    
-    X=logspace(-3,2,1000)
-    Y=[]
-    for t in X:
-        Y.append(AM.dma2dT(t,1))
-    sub.plot(X,Y,linestyle='--',linewidth=2,alpha=1,c='xkcd:black')
-    
-    
-    sub.set_xlabel(r'$T ~[{\rm GeV}]$')
-    sub.xaxis.set_label_coords(0.5, -0.1) 
-    sub.set_ylabel(r'$ \dfrac{dm^2_{a}}{dT} ~[{\rm GeV}]$')
-    sub.yaxis.set_label_coords(-0.1,0.5) 
-    sub.set_yscale('symlog')
-    sub.set_xscale('log')
+axionMass = AxionMass(r'../../src/data/chi.dat',0,1e5)
 
-    
-    fig.savefig('dma2dT_examplePlot.pdf',bbox_inches='tight')
+# def ma2(T,fa):
+#     TQCD=150*1e-3;
+#     ma20=3.1575e-05/fa/fa;
+#     if T<=TQCD:
+#         return ma20;
+#     return ma20*pow((TQCD/T),8.16)
+
+# axionMassFunc = AxionMass(ma2)
+
+
+print(axionMassFunc.ma2(2,1))
+print(axionMass.ma2(2,1))
+del axionMass 
+del axionMassFunc 

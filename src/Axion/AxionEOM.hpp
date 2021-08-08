@@ -7,8 +7,9 @@
 #include <string>
 #include "src/SimpleSplines/Interpolation.hpp"
 
-/*get static variables (includes cosmological parameters, axion mass, and anharmonic factor)*/
-#include "src/static.hpp"
+
+#include"src/AxionMass/AxionMass.hpp"
+
 
 namespace mimes{
     constexpr unsigned int Neqs=2;
@@ -26,6 +27,9 @@ namespace mimes{
         CubicSpline<LD> T_int; //interpolation of the temperature
         CubicSpline<LD> logH2_int; //interpolation of logH^2
 
+
+        AxionMass<LD> *axionMass; //pointer to an instance of AxionMass
+
         AxionEOM()=default;
         ~AxionEOM()=default;
 
@@ -34,11 +38,14 @@ namespace mimes{
         fa: PQ scale in GeV (the temperature dependent mass is defined as m_a^2(T) = \chi(T)/f^2)
         ratio_ini: interpolations start when 3H/m_a<~ratio_ini
         inputFile: file that describes the cosmology. the columns should be: u T[GeV] logH
+        axionMass: pointer to an instance of AxionMass
         */ 
-        AxionEOM(LD fa, LD ratio_ini, std::string inputFile){
+        AxionEOM(LD fa, LD ratio_ini, std::string inputFile, AxionMass<LD> *axionMass){
 
             this->fa=fa;
             this->ratio_ini=ratio_ini;
+
+            this->axionMass=axionMass;
 
             LD u=0,T=0,logH=0;//current line in file
             LD u_prev=0,T_prev=0,logH_prev=0;//previous line in file
@@ -68,7 +75,7 @@ namespace mimes{
                 //if there is an empty line, u does not change, so do skip this line :).
                 if(N>1 and u==u_prev){continue;}
 
-                ratio = 3*std::exp(logH) / std::sqrt(axionMass<LD>.ma2(T,fa));
+                ratio = 3*std::exp(logH) / std::sqrt(axionMass->ma2(T,fa));
 
                 if(ratio <= ratio_ini ){
                     //we need the following check in order to find u_ini (it is better to start at the point before ratio_ini is reached) 
@@ -151,7 +158,7 @@ namespace mimes{
 
 
             lhs[0]=zeta;//dtheta/du
-            lhs[1]=-(0.5*_dlogH2du +3)*zeta - axionMass<LD>.ma2(_T,fa)/_H2*std::sin(theta);//dzeta/du
+            lhs[1]=-(0.5*_dlogH2du +3)*zeta - axionMass->ma2(_T,fa)/_H2*std::sin(theta);//dzeta/du
 
         };
     };

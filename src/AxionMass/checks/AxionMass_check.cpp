@@ -8,10 +8,10 @@
 
 
 /*uncomment to print difference between interpolation and data*/
-#define printDiff
+// #define printDiff
 
 /*uncomment to print interpolation for different values of theta_max*/
-#define printVal
+// #define printVal
 
 
 #ifndef LONG
@@ -22,11 +22,25 @@
     #define LD LONG double
 #endif
 
-int main(){
-    mimes::AxionMass<LD> axM(chi_PATH,0,mimes::Cosmo<LD>::mP);
 
+
+int main(){
+    // mimes::AxionMass<LD> axM(chi_PATH,0,mimes::Cosmo<LD>::mP);
+    std::function<LD(LD,LD)> ma2 = [](LD T,LD fa){
+        LD TQCD=150*1e-3;
+        LD ma20=3.1575e-05/fa/fa;
+        if(T<=TQCD){return ma20;}
+        else{return ma20*std::pow((TQCD/T),8.16);}
+    };
+
+    mimes::AxionMass<LD> axM(ma2);
+    std::cout<<axM.ma2(1,1)<<"\n";
+    
+    axM.ma2 = [](LD T,LD fa){return 0;};
+
+    std::cout<<axM.ma2(1,1)<<"\n";
     #ifdef printDiff
-    {
+    
         LD T,chi;
         std::cout<<"difference between interpolation and data"<<std::endl;
         std::cout<<"Line No.\tT[GeV]\tdiff"<<std::endl;
@@ -43,7 +57,7 @@ int main(){
             if(data_file.eof()){data_file.close();break;}
 
         }
-    }
+    
     #endif
 
     #ifdef printVal

@@ -3,11 +3,13 @@
 #include <cmath> 
 #include <string> 
 #include"src/Axion/AxionSolve.hpp"
+#include"src/AxionMass/AxionMass.hpp"
+#include"src/misc_dir/path.hpp"
 
 // define here what you want to print.
-#define preintPoints
-#define printPeaks
-#define printError
+// #define preintPoints
+// #define printPeaks
+// #define printError
 
 // macros for the solver
 #ifndef SOLVER
@@ -64,9 +66,17 @@ int main(int argc, char **argv){
     LD fac_min=0.8;
     int maximum_No_steps=int(1e7); //maximum steps the solver can take Quits if this number is reached even if integration is not finished.
 
+    mimes::AxionMass<LD> axionMass(chi_PATH,0,mimes::Cosmo<LD>::mP);
+    // std::function<LD(LD,LD)> ma2 = [](LD T,LD fa){
+    //     LD TQCD=150*1e-3;
+    //     LD ma20=3.1575e-05/fa/fa;
+    //     if(T<=TQCD){return ma20;}
+    //     else{return ma20*std::pow((TQCD/T),8.16);}
+    // };
+    // mimes::AxionMass<LD> axionMass(ma2);
 
-
-    mimes::Axion<LD,SOLVER,METHOD<LD>> Ax(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max,convergence_lim,inputFile,
+    mimes::Axion<LD,SOLVER,METHOD<LD>> Ax(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max,
+    convergence_lim,inputFile, &axionMass,
     initial_step_size,minimum_step_size, maximum_step_size, absolute_tolerance, relative_tolerance, beta,
     fac_max, fac_min, maximum_No_steps);
 
@@ -76,6 +86,7 @@ int main(int argc, char **argv){
     <<"theta_i="<<theta_i<<" "<<"f_a="<< fa<<" GeV\n"<<"theta_osc~="<<Ax.theta_osc<<" "
     <<"T_osc~="<<Ax.T_osc<<"GeV \n"
     <<"Omega h^2="<<Ax.relic<<"\n";
+
 
     // print all the points
     #ifdef preintPoints

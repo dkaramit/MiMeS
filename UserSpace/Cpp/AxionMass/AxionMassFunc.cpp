@@ -28,14 +28,14 @@ int main(int argc, char **argv){
     if(argc!=3){
         std::cerr<<"usage: AxionMass.run fa minT maxT\n";
         std::cerr<<"With:\n \
-        fa: PQ scale.\n \
-        T: tempareture at which the mass is evaluated.\n";
+        T: tempareture at which the mass is evaluated.\n \
+        fa: PQ scale.\n";
 
         return 1;
     }
 
-    LD fa=atof(argv[1]);
-    LD T=atof(argv[2]);
+    LD T=atof(argv[1]);
+    LD fa=atof(argv[2]);
     
 
      

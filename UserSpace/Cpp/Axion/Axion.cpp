@@ -115,6 +115,15 @@ int main(int argc, char **argv){
 
     // use chi_PATH to interpolate the axion mass.
     mimes::AxionMass<LD> axionMass(chi_PATH,0,mimes::Cosmo<LD>::mP);
+    /*set ma2 for T>TMax*/
+    LD TMax=axionMass.getTMax();    
+    LD chiMax=axionMass.getChiMax();    
+    axionMass.set_ma2_MAX( [&chiMax,&TMax](LD T, LD fa){return chiMax/fa/fa*std::pow(T/TMax,-8.16);});  
+    
+    /*set ma2 for T<TMin*/
+    LD TMin=axionMass.getTMin();  
+    LD chiMin=axionMass.getChiMin();    
+    axionMass.set_ma2_MIN( [&chiMin,&TMin](LD T, LD fa){return chiMin/fa/fa;});
 
     // you can define the axion mass using a function, like this 
     // std::function<LD(LD,LD)> ma2 = [](LD T,LD fa){

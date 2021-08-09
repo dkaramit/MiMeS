@@ -52,6 +52,19 @@ maximum_No_steps=int(1e7); #maximum steps the solver can take Quits if this numb
 _=time()
 # AxionMass instance
 axionMass = AxionMass(r'../../src/data/chi.dat',0,mP)
+
+
+#------------------------------------------------------------------------------#
+# this is the axion mass squared beyond the interpolation limits for the current data 
+# if yo don't specify it, the axion mass is taken to be constant beyond these limits
+TMax=axionMass.getTMax() 
+chiMax=axionMass.getChiMax()
+TMin=axionMass.getTMin() 
+chiMin=axionMass.getChiMin()
+
+axionMass.set_ma2_MAX( lambda T,fa: chiMax/fa/fa*pow(T/TMax,-8.16) )
+axionMass.set_ma2_MIN( lambda T,fa: chiMin/fa/fa )
+#------------------------------------------------------------------------------#
 # def ma2(T,fa):
     # TQCD=150*1e-3;
     # ma20=3.1575e-05/fa/fa;

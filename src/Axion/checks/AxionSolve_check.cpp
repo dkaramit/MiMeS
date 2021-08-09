@@ -7,9 +7,9 @@
 #include"src/misc_dir/path.hpp"
 
 // define here what you want to print.
-// #define preintPoints
-// #define printPeaks
-// #define printError
+#define preintPoints
+#define printPeaks
+#define printError
 
 // macros for the solver
 #ifndef SOLVER
@@ -67,6 +67,16 @@ int main(int argc, char **argv){
     int maximum_No_steps=int(1e7); //maximum steps the solver can take Quits if this number is reached even if integration is not finished.
 
     mimes::AxionMass<LD> axionMass(chi_PATH,0,mimes::Cosmo<LD>::mP);
+    /*set ma2 for T>TMax*/
+    LD TMax=axionMass.getTMax();    
+    LD chiMax=axionMass.getChiMax();    
+    axionMass.set_ma2_MAX( [&chiMax,&TMax](LD T, LD fa){return chiMax/fa/fa*std::pow(T/TMax,-8.16);});  
+    
+    /*set ma2 for T<TMin*/
+    LD TMin=axionMass.getTMin();  
+    LD chiMin=axionMass.getChiMin();    
+    axionMass.set_ma2_MIN( [&chiMin,&TMin](LD T, LD fa){return chiMin/fa/fa;});
+
     // std::function<LD(LD,LD)> ma2 = [](LD T,LD fa){
     //     LD TQCD=150*1e-3;
     //     LD ma20=3.1575e-05/fa/fa;

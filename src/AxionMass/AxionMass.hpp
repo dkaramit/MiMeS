@@ -20,25 +20,33 @@ namespace mimes{
         
         CubicSpline<LD> chi;
         VecLD Ttab,chitab;
-        public:
         // these are the functions you can use in order to get the mass and its derivative beyond the 
         // interpolation limits.
         // ma2_MAX and dma2dT_MAX denote the approximation for T>TMAX,
         // and  ma2_MIN and dma2dT_MIN the approximation for T<TMIN.  
         LD TMin, TMax, chiMax, chiMin;
         func ma2_MAX,ma2_MIN;
-        func dma2dT_MAX,dma2dT_MIN;
+        public:
         func ma2;
-        func dma2dT;
 
         AxionMass()=default;
             
         AxionMass(func ma2);    
-        AxionMass(func ma2, func dma2dT);    
         AxionMass(std::string path, LD minT, LD maxT);
 
-
         AxionMass& operator=(const AxionMass& axionMass)=delete;//delete it explicitely, in order to prevent copies
+
+        /*get the values of Tmin, Tmax, chi(Tmin), and chi(Tmax)*/
+        LD getTMin(){return TMin;}
+        LD getTMax(){return TMax;}
+        LD getChiMin(){return chiMin;}
+        LD getChiMax(){return chiMax;}
+        
+        /*set the functions for ma2 beyond the interpolation limits*/
+        void set_ma2_MAX(func ma2_MAX){ this->ma2_MAX=ma2_MAX;}
+        void set_ma2_MIN(func ma2_MIN){ this->ma2_MIN=ma2_MIN;}
+
+        LD operator()(LD T, LD fa){return ma2(T,fa);}//overload this just in case you need it.
     };
 
 
@@ -88,14 +96,10 @@ namespace mimes{
             chiMax=chitab[N-1];
             chiMin=chitab[0];
 
+            this->ma2_MAX=[this](LD T, LD fa){return this->chiMax/fa/fa;};
+            this->ma2_MIN=[this](LD T, LD fa){return this->chiMin/fa/fa;};
+            
             this->chi=CubicSpline<LD>(&Ttab,&chitab);
-
-
-            ma2_MAX=[this](LD T, LD fa){return this->chiMax/fa/fa*std::pow(T/this->TMax,-8.16);};
-            ma2_MIN=[this](LD T, LD fa){return this->chiMin/fa/fa;};
-
-            dma2dT_MAX=[this](LD T, LD fa){return -8.16*this->chiMax/fa/fa*std::pow(T/this->TMax,-8.16)/T;};
-            dma2dT_MIN=[this](LD T, LD fa){return static_cast<LD>(0.);};
 
             ma2=[this](LD T, LD fa){
                 // axion mass squared at temperature T and f_\alpha=fa
@@ -103,15 +107,7 @@ namespace mimes{
                 if(T<=TMin){return ma2_MIN(T,fa);}//use this beyond the lower limit
                 return this->chi(T)/fa/fa; 
             };
-
-            dma2dT=[this](LD T, LD fa){
-                // axion mass squared derivative
-                if(T>=TMax){return dma2dT_MAX(T,fa);}
-                if(T<=TMin){return dma2dT_MIN(T,fa);}
-                return this->chi.derivative_1(T)/fa/fa;
-            };
-
-        }
+    }
 
 
     /*
@@ -125,27 +121,8 @@ namespace mimes{
     AxionMass<LD>::AxionMass(func ma2){    
             // the mass of the axion squared
             this->ma2=ma2;
+    }
 
-            // the derivative of ma2. The stepsize parameter, h, is optional and 
-            // determines the stepsize of the numerical differentiation (usually h=1e-8 is enough).
-            this->dma2dT=[this](LD T,LD fa, LD h = 1e-8){
-                h=T*h+h;
-                return (this->ma2(T+h,fa)-this->ma2(T-h,fa))/(2*h);
-            };
-        }
-
-    /*
-    Another constructor.
-    
-    LD ma2(LD T,LD fa): the axion mass squared, which is then accessed by AxionMass::ma2.
-    LD dma2dT(LD T,LD fa): The derivative of ma2 wrt the temperature, which is then accessed by AxionMass::dma2dT.
-    Note: LD here is a macro for "double" of "long double"
-    */
-    template<class LD>
-    AxionMass<LD>::AxionMass(func ma2,func dma2dT){    
-            this->ma2=ma2;
-            this->dma2dT=dma2dT;
-        }
 
 };
 

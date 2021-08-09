@@ -27,6 +27,22 @@ AxionMassLib.DEL.restype = None
 AxionMassLib.ma2.argtypes=cdouble, cdouble, void_p
 AxionMassLib.ma2.restype=cdouble
 
+AxionMassLib.getTMin.argtypes=void_p,
+AxionMassLib.getTMin.restype=cdouble
+AxionMassLib.getTMax.argtypes=void_p,
+AxionMassLib.getTMax.restype=cdouble
+AxionMassLib.getChiMin.argtypes=void_p,
+AxionMassLib.getChiMin.restype=cdouble
+AxionMassLib.getChiMax.argtypes=void_p,
+AxionMassLib.getChiMax.restype=cdouble
+
+AxionMassLib.set_ma2_MAX.argtypes=CFUNCTYPE(cdouble, cdouble, cdouble),void_p
+AxionMassLib.set_ma2_MAX.restype=None
+AxionMassLib.set_ma2_MIN.argtypes=CFUNCTYPE(cdouble, cdouble, cdouble),void_p
+AxionMassLib.set_ma2_MIN.restype=None
+
+
+
 class AxionMass:
     '''AxionMass class: This is wrapper for the mimes::AxionMass class.
     There member function available are:
@@ -43,6 +59,11 @@ class AxionMass:
         and chi (in GeV^4), with increasing T. The second and third arguments are the minimum and maximum 
         interpolation temperatures.   
         '''
+
+        self.c_ma2=CFUNCTYPE(cdouble, cdouble, cdouble)(lambda T,fa:0)
+        self.c_ma2_MAX=CFUNCTYPE(cdouble, cdouble, cdouble)(lambda T,fa:0)
+        self.c_ma2_MIN=CFUNCTYPE(cdouble, cdouble, cdouble)(lambda T,fa:0)
+
         if len(args) == 1:
             self.c_ma2=CFUNCTYPE(cdouble, cdouble, cdouble)(args[0])
             self.voidAxM=AxionMassLib.INIT_function( self.c_ma2 )
@@ -58,6 +79,27 @@ class AxionMass:
     def __del__(self):
         AxionMassLib.DEL(self.voidAxM)
         del self.voidAxM
+        del self.c_ma2
+        del self.c_ma2_MAX
+        del self.c_ma2_MIN
+
+    def getTMin(self):
+        return AxionMassLib.getTMin(self.voidAxM)
+    def getTMax(self):
+        return AxionMassLib.getTMax(self.voidAxM)
+    def getChiMin(self):
+        return AxionMassLib.getChiMin(self.voidAxM)
+    def getChiMax(self):
+        return AxionMassLib.getChiMax(self.voidAxM)
+
+    def set_ma2_MAX(self,ma2_MAX):
+        self.c_ma2_MAX= CFUNCTYPE(cdouble, cdouble, cdouble)(ma2_MAX)
+        AxionMassLib.set_ma2_MAX(self.c_ma2_MAX,self.voidAxM)
+
+    def set_ma2_MIN(self,ma2_MIN):
+        self.c_ma2_MIN= CFUNCTYPE(cdouble, cdouble, cdouble)(ma2_MIN)
+        AxionMassLib.set_ma2_MIN(self.c_ma2_MIN,self.voidAxM)
+
 
     def ma2(self,T,fa):
         return AxionMassLib.ma2(T,fa,self.pointer())

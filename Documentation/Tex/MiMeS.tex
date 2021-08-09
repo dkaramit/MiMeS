@@ -48,8 +48,7 @@
 	We introduce a \CPP header-only library that solves the Axion equation of motion, \mimes.  
 	\mimes makes no assumptions regarding the cosmology and the thermal mass of the axion, which allows the user 
 	to consider various cosmological scenarios and axion-like models.
-	Moreover, although written entirely in \CPP, \mimes comes with a convenient \PY interface, which, at most, 
-	only requires by the user to write a few lines of elementary code in \CPP.
+	\mimes also includes a convenient \PY interface, which allows the user to use it without writing any code \CPP.
 \end{abstract}
 
 
@@ -478,20 +477,31 @@ There are several examples in \CPP ({\tt MiMeS/UserSpace/Cpp}) and \PY ({\tt MiM
 
 \subsubsection{Using \mimes in \CPP} 
 %
-In order to use the {\tt mimes::Axion<LD,Solver,Method>} class in a \CPP program, we need ti include the header file {\tt AxionSolve.hpp} located in {\tt MiMeS/src/Axion}. That is, on top of the {\tt .cpp}, we need to write 
+In order to use the {\tt mimes::Axion<LD,Solver,Method>} class in a \CPP program, we first need to have access to the {\tt mimes::AxionMass<LD>} class, in order to define the mass of the axion as a function of the temperature and $\fa$. Therefore, we need to include the header file of this class; \ie
+%
+\begin{cpp}
+	#include "MiMeS/src/AxionMass/AxionMass.hpp"
+\end{cpp}
+%
+Furthermore, wen eed to include the header file {\tt AxionSolve.hpp} located in {\tt MiMeS/src/Axion}, in order to be able to use the {\tt mimes::Axion<LD,Solver,Method>} class that solves the axion EOM~\ref{eq:eom_sys}. That is, we need to include the following line in our code
 %
 \begin{cpp}
 	#include "MiMeS/src/Axion/AxionSolve.hpp"
 \end{cpp}
-%
+
 Notice that if the  {\tt .cpp} is not in the root directory of \mimes, we need to compile it using the flag {\tt -Ipath-to-root}, "path-to-root" the relative path to the root directory of \mimes; \eg if the {\tt .cpp} is in the {\tt MiMeS/UserSpace/Cpp/Axion} directory, this flag should be {\tt -I../../../}.
+
+Since \mimes is designed in order to be as general as possible, one has to provide the axion mass. Therefore, before we define solve the EOM, we need to define the axion mass, as an instance of the {\tt mimes::AxionMass<LD>} class. For this example -- and the examples included in the current version -- we are going to use the mass of the QCD axion given in ref.~\cite{Borsanyi:2016ksw}. The {\tt mimes::AxionMass<LD>} class offers two ways of doing this. The first one interpolates $\chi(T)$ (defined as in \eqs{eq:axion_mass_def}) using a data file that the user provides, and the second one uses a user-defined function. 
+
+For this example, we consider the QCD axion, with $\chi$ computed in ref.~\cite{Borsanyi:2016ksw}. 
 
 Then, we can assign an instance of {\tt mimes::Axion<LD,Solver,Method>} in a variable using
 %
 \begin{cpp}
 	mimes::Axion<LD,Solver,Method> ax(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max,
-	convergence_lim,inputFile, initial_step_size,minimum_step_size, maximum_step_size, 
-	absolute_tolerance, relative_tolerance, beta, fac_max, fac_min, maximum_No_steps);
+	convergence_lim, inputFile, &axionMass, initial_step_size,minimum_step_size, 
+	maximum_step_size, absolute_tolerance, relative_tolerance, beta, fac_max, fac_min, 
+	maximum_No_steps);
 \end{cpp}
 %
 Here, {\tt LD} should be the desirable numeric type to be used; it is recommended to use {\tt long double}, but other choices are also available as we discuss on. Moreover {\tt Solver} and {\tt Method} depend on the type of Runge-Kutta the user chooses (see section~\ref{sec:options} asa well as the Appendices~\refs{app:RK,app:usr_input} for more details). and 
@@ -511,6 +521,8 @@ Here, {\tt LD} should be the desirable numeric type to be used; it is recommende
 	\item  {\tt inputFile}: relative (or absolute) path to a file that describes the cosmology. the columns should be: $u$ $T ~[\GeV]$ $\log H$, sorted so that $u$ increases.~\footnote{One can run \run{bash MiMeS/src/FormatFile.sh inputFile} in order to sort it and remove any unwanted duplicates. See Appendix~\ref{app:util} for details of {\tt MiMeS/src/FormatFile.sh}.}
 	%
 	It is important to remember that \mimes assumes that the entropy injection has stopped before the lowest temperature of given in {\tt inputFile}. Since \mimes is unable to guess the cosmology beyond what is given in this file, the user has to make sure that there are data between the initial temperature (which corresponds to {\tt ratio\_ini}, and {\tt TSTOP}).
+	
+	\item {\tt axionMass}: an instance of the {\tt mimes::AxionMass<LD>} class, passed by pointer. 
 	
 	\item {\tt initial\_stepsize} (optional): initial step the solver takes. 
 	

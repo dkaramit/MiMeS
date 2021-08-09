@@ -32,12 +32,12 @@
 #include "src/NaBBODES/Rosenbrock/METHOD.hpp"
 
 
-//---Get the eom of the axion--//
-#include "src/Axion/AxionEOM.hpp"
+//---Get what you need for the axion--//
+#include"src/misc_dir/path.hpp"
+#include"src/Axion/AxionEOM.hpp"
 #include"src/AxionMass/AxionMass.hpp"
-
-/*get static variables (includes cosmological parameters and anharmonic factor)*/
-#include "src/static.hpp"
+#include"src/Cosmo/Cosmo.hpp"
+#include"src/AnharmonicFactor/AnharmonicFactor.hpp"
 /*================================*/
 
 // If statement, in order to use the desired solver 
@@ -89,6 +89,8 @@ namespace mimes{
 
         unsigned int pointSize,peakSize;
 
+        static AnharmonicFactor<LD> anharmonicFactor;
+        static Cosmo<LD> plasma;
         // constructor of Axion.
         /*
         theta_i: initial angle
@@ -102,7 +104,7 @@ namespace mimes{
         between two consecutive peaks is less than convergence_lim for N_convergence_max 
         consecutive peaks
 
-        inputFile: file that describes the cosmology. the columns should be: u T[GeV] logH
+        inputFile: file that describes the plasmalogy. the columns should be: u T[GeV] logH
         axionMass: pointer to an instance of AxionMass
 
 
@@ -187,7 +189,11 @@ namespace mimes{
         }
     };
 
-
+    template<class LD, const int Solver, class Method>
+    AnharmonicFactor<LD> Axion<LD,Solver,Method>::anharmonicFactor(anharmonic_PATH);
+    
+    template<class LD, const int Solver, class Method>
+    Cosmo<LD> Axion<LD,Solver,Method>::plasma(cosmo_PATH,0,mimes::Cosmo<LD>::mP);
 
     template<class LD, const int Solver, class Method>
     void Axion<LD,Solver,Method>::solveAxion(){ 
@@ -329,7 +335,7 @@ namespace mimes{
                 ma2_peak=axionEOM.axionMass->ma2(T_peak,fa);
 
                 //compute the adiabatic invariant
-                adInv_peak=anharmonicFactor<LD>(theta_peak)*theta_peak*theta_peak *std::sqrt(ma2_peak) * a_peak*a_peak*a_peak ;
+                adInv_peak=anharmonicFactor(theta_peak)*theta_peak*theta_peak *std::sqrt(ma2_peak) * a_peak*a_peak*a_peak ;
                 
                 if(std::abs(theta)<1e-3){rho_axion_peak=fa*fa*(ma2_peak*0.5*theta_peak*theta_peak);}
                 else{rho_axion_peak=fa*fa*(ma2_peak*(1 - std::cos(theta_peak)));}
@@ -357,21 +363,12 @@ namespace mimes{
             if(N_convergence>=N_convergence_max){
                 //entropy injection from the point of the last peak until T_stop (the point where interpolation stops)
                 //the assumption is that at T_stop the universe is radiation dominated with constant entropy.
-                gamma=cosmo<LD>.s(axionEOM.T_stop)/cosmo<LD>.s(T_peak)*std::exp(3*(axionEOM.u_stop-u_peak));
+                gamma=plasma.s(axionEOM.T_stop)/plasma.s(T_peak)*std::exp(3*(axionEOM.u_stop-u_peak));
                 
                 //the relic of the axion
-                relic=Cosmo<LD>::h_hub*Cosmo<LD>::h_hub/Cosmo<LD>::rho_crit*cosmo<LD>.s(Cosmo<LD>::T0)/cosmo<LD>.s(T_peak)/gamma*0.5*
+                relic=Cosmo<LD>::h_hub*Cosmo<LD>::h_hub/Cosmo<LD>::rho_crit*plasma.s(Cosmo<LD>::T0)/plasma.s(T_peak)/gamma*0.5*
                        std::sqrt(axionEOM.axionMass->ma2(Cosmo<LD>::T0,1)*axionEOM.axionMass->ma2(T_peak,1))*
-                       theta_peak*theta_peak*anharmonicFactor<LD>(theta_peak);
-                
-
-                //this is equivalent
-                // relic=h_hub*h_hub/rho_crit*
-                    //    cosmo<LD>.s(Cosmo<LD>::T0)/cosmo<LD>.s(axionEOM.T_stop)*std::exp(3*(t_peak-axionEOM.t_stop))*0.5*
-                    //    std::sqrt(axionEOM.axionMass->ma2(Cosmo<LD>::T0,1)*axionEOM.axionMass->ma2(T_peak,1))*
-                    //    theta_peak*theta_peak*anharmonicFactor<LD>(theta_peak);
-                
-
+                       theta_peak*theta_peak*anharmonicFactor(theta_peak);
                 break;
             }
 
@@ -380,6 +377,9 @@ namespace mimes{
         pointSize=points.size();
         peakSize=peaks.size();
     };
+
+
+
 
 };
 

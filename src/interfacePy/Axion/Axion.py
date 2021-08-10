@@ -36,6 +36,9 @@ axionLib.setTheta_i.restype = None
 axionLib.MAKE.argtypes= void_p,
 axionLib.MAKE.restype = None
 
+axionLib.restart.argtypes= void_p,
+axionLib.restart.restype = None
+
 axionLib.getPointSize.argtypes= void_p,
 axionLib.getPointSize.restype = cint
 
@@ -193,6 +196,7 @@ class Axion:
         del self.dtheta
         del self.dzeta
 
+
     def setTheta_i(self,theta_i):
         '''set another initial value of \\theta without rebuilding the interpolations'''
         axionLib.setTheta_i(theta_i,self.voidAx)
@@ -214,6 +218,11 @@ class Axion:
 
         self.dtheta=[]
         self.dzeta=[]
+    
+    def restart(self):
+        self.setTheta_i(self.theta_i) 
+        axionLib.restart(self.voidAx)
+
 
     def solveAxion(self):
         '''

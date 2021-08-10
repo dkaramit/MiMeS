@@ -41,6 +41,8 @@ namespace mimes{
         LD getTMax(){return TMax;}
         LD getChiMin(){return chiMin;}
         LD getChiMax(){return chiMax;}
+
+        void set_ma2(func ma2){ this->ma2=ma2;}
         
         /*set the functions for ma2 beyond the interpolation limits*/
         void set_ma2_MAX(func ma2_MAX){ this->ma2_MAX=ma2_MAX;}

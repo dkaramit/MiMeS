@@ -66,6 +66,7 @@ int main(int argc, char **argv){
     LD fac_min=0.8;
     int maximum_No_steps=int(1e7); //maximum steps the solver can take Quits if this number is reached even if integration is not finished.
 
+
     mimes::AxionMass<LD> axionMass(chi_PATH,0,mimes::Cosmo<LD>::mP);
     /*set ma2 for T>TMax*/
     LD TMax=axionMass.getTMax();    
@@ -96,6 +97,17 @@ int main(int argc, char **argv){
     <<"theta_i="<<theta_i<<" "<<"f_a="<< fa<<" GeV\n"<<"theta_osc~="<<Ax.theta_osc<<" "
     <<"T_osc~="<<Ax.T_osc<<"GeV \n"
     <<"Omega h^2="<<Ax.relic<<"\n";
+
+
+    /*if you want to change the mass, you need to run restart*/
+    // axionMass.ma2= [](LD T, LD fa){return 1/fa/fa;};
+    // Ax.restart();
+    // Ax.solveAxion();
+
+    // std::cout<<std::setprecision(5)
+    // <<"theta_i="<<theta_i<<" "<<"f_a="<< fa<<" GeV\n"<<"theta_osc~="<<Ax.theta_osc<<" "
+    // <<"T_osc~="<<Ax.T_osc<<"GeV \n"
+    // <<"Omega h^2="<<Ax.relic<<"\n";
 
 
     // print all the points

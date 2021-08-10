@@ -36,6 +36,8 @@ extern "C"{
     LD getChiMin(void *axionMass){return Cast(axionMass)->getChiMin();}
     LD getChiMax(void *axionMass){return Cast(axionMass)->getChiMax();}
     
+    void set_ma2(funcType ma2,void *axionMass){ Cast(axionMass)->set_ma2(ma2); }
+    
     /*set the functions for ma2 beyond the interpolation limits*/
     void set_ma2_MAX(funcType ma2_MAX,void *axionMass){ Cast(axionMass)->set_ma2_MAX(ma2_MAX); }
     void set_ma2_MIN(funcType ma2_MIN,void *axionMass){ Cast(axionMass)->set_ma2_MIN(ma2_MIN); }

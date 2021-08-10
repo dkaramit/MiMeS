@@ -65,7 +65,6 @@ namespace mimes{
         LD convergence_lim;
         std::string inputFile;
 
-        AxionEOM<LD> axionEOM;
 
         LD initial_step_size, minimum_step_size, maximum_step_size, absolute_tolerance, relative_tolerance;
         LD beta,fac_max,fac_min;
@@ -74,6 +73,10 @@ namespace mimes{
         constexpr static LD theta_small=1e-3;
         LD theta_ini; //use this to rescale theta_i is it is less than theta_small
         
+        /*internal axionEOM variable*/
+        AxionEOM<LD> axionEOM;
+        /*pointer to AxionMass instance*/
+        AxionMass<LD> *axionMass;
         public:
         LD theta_i,fa;
         LD theta_osc, T_osc, a_osc; 
@@ -162,20 +165,22 @@ namespace mimes{
             this->fac_min=fac_min;
             this->maximum_No_steps=maximum_No_steps;
 
-            axionEOM = AxionEOM<LD>(fa, ratio_ini, inputFile, axionMass);
+            this->axionMass=axionMass;
+            axionEOM = AxionEOM<LD>(fa, ratio_ini, inputFile, this->axionMass);
 
             axionEOM.makeInt();//make the interpolations of u,T,logH from inputFile
 
         }
-        Axion(){}
+        Axion()=default;
+        ~Axion()=default;
         
         void solveAxion();
+
 
         //use setTheta to set another initial condition
         // Warning: this resets public variables (except fa)!
         void setTheta_i(LD theta_i){
             this->theta_i=theta_i;
-            this->theta_osc=0;
             points.clear();
             peaks.clear();
             dtheta.clear();
@@ -185,8 +190,15 @@ namespace mimes{
             theta_osc=theta_i;
             gamma=1;
             relic=0;
-
         }
+
+        /*reset all variables and remake the interpolations of axionEOM*/
+        void restart(){
+            setTheta_i(theta_i);
+            axionEOM = AxionEOM<LD>(fa, ratio_ini, inputFile, axionMass);
+            axionEOM.makeInt();//make the interpolations of u,T,logH from inputFile
+        }
+
     };
 
     template<class LD, const int Solver, class Method>
@@ -244,7 +256,7 @@ namespace mimes{
         zeta=y0[1]/theta_ini*theta_i;
         T=axionEOM.Temperature(0);
         H2=std::exp(axionEOM.logH2(0));
-        ma2=axionEOM.axionMass->ma2(T,fa);
+        ma2=axionMass->ma2(T,fa);
         if(std::abs(theta)<1e-3){rho_axion=fa*fa*(ma2*0.5*theta*theta);}
         else{rho_axion=fa*fa*(ma2*(1 - std::cos(theta)));}
         points.push_back(std::vector<LD>{1,T,theta,0,rho_axion});
@@ -304,7 +316,7 @@ namespace mimes{
             if(T<TSTOP){break;}
 
             //axion mass squared
-            ma2=axionEOM.axionMass->ma2(T,fa);
+            ma2=axionMass->ma2(T,fa);
 
             // If theta<~1e-8, we have roundoff errors due to cos(theta)
             // The solution is this (use theta<1e-3; it doesn't matter):
@@ -332,7 +344,7 @@ namespace mimes{
                 theta_peak=((theta-theta_prev)*u_peak+(theta_prev*u-theta*u_prev))/(u-u_prev);
                 zeta_peak=((zeta-zeta_prev)*u_peak+(zeta_prev*u-zeta*u_prev))/(u-u_prev);
                 T_peak=axionEOM.Temperature(u_prev);
-                ma2_peak=axionEOM.axionMass->ma2(T_peak,fa);
+                ma2_peak=axionMass->ma2(T_peak,fa);
 
                 //compute the adiabatic invariant
                 adInv_peak=anharmonicFactor(theta_peak)*theta_peak*theta_peak *std::sqrt(ma2_peak) * a_peak*a_peak*a_peak ;
@@ -367,7 +379,7 @@ namespace mimes{
                 
                 //the relic of the axion
                 relic=Cosmo<LD>::h_hub*Cosmo<LD>::h_hub/Cosmo<LD>::rho_crit*plasma.s(Cosmo<LD>::T0)/plasma.s(T_peak)/gamma*0.5*
-                       std::sqrt(axionEOM.axionMass->ma2(Cosmo<LD>::T0,1)*axionEOM.axionMass->ma2(T_peak,1))*
+                       std::sqrt(axionMass->ma2(Cosmo<LD>::T0,1)*axionMass->ma2(T_peak,1))*
                        theta_peak*theta_peak*anharmonicFactor(theta_peak);
                 break;
             }

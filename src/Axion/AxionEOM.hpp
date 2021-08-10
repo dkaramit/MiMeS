@@ -49,6 +49,10 @@ namespace mimes{
 
             LD u=0,T=0,logH=0;//current line in file
             LD u_prev=0,T_prev=0,logH_prev=0;//previous line in file
+            /*clear the data just in case*/
+            u_tab.clear();
+            T_tab.clear();
+            logH2_tab.clear();
 
             std::ifstream data_file(inputFile,std::ios::in);
 

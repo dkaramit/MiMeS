@@ -39,6 +39,7 @@ extern "C"{
     void setTheta_i(LD theta_i, void * Ax){  Cast(Ax) -> setTheta_i(theta_i); }
     
     void MAKE(void * Ax){  Cast(Ax) -> solveAxion(); }
+    void restart(void * Ax){  Cast(Ax) -> restart(); }
     unsigned int getPointSize(void * Ax){  return Cast(Ax) -> pointSize; }
     unsigned int getPeakSize(void * Ax){  return Cast(Ax) -> peakSize; }
 

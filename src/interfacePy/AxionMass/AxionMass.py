@@ -41,6 +41,9 @@ AxionMassLib.set_ma2_MAX.restype=None
 AxionMassLib.set_ma2_MIN.argtypes=CFUNCTYPE(cdouble, cdouble, cdouble),void_p
 AxionMassLib.set_ma2_MIN.restype=None
 
+AxionMassLib.set_ma2.argtypes=CFUNCTYPE(cdouble, cdouble, cdouble),void_p
+AxionMassLib.set_ma2.restype=None
+
 
 
 class AxionMass:
@@ -100,6 +103,10 @@ class AxionMass:
         self.c_ma2_MIN= CFUNCTYPE(cdouble, cdouble, cdouble)(ma2_MIN)
         AxionMassLib.set_ma2_MIN(self.c_ma2_MIN,self.voidAxM)
 
+    def set_ma2(self,ma2):
+        self.c_ma2= CFUNCTYPE(cdouble, cdouble, cdouble)(ma2)
+        AxionMassLib.set_ma2(self.c_ma2,self.voidAxM)
+        
 
     def ma2(self,T,fa):
         return AxionMassLib.ma2(T,fa,self.pointer())

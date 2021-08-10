@@ -446,10 +446,7 @@ Notice that this is form of $\rho_{a,0}$  is similar to the the WKB result~(\ref
 
 
 
-
-
-
-\section{How to start using \mimes}\label{sec:start}
+\section{First steps with \mimes}\label{sec:first_steps}
 \setcounter{equation}{0}
 %
 \begin{listing}
@@ -467,35 +464,59 @@ Notice that this is form of $\rho_{a,0}$  is similar to the the WKB result~(\ref
 The library can downloaded from \href{https:/github.com/dkaramit/MiMeS}{github.com/dkaramit/MiMeS}. Since the library depends on {\tt NaBBODES}~\cite{NaBBODES} {\tt SpleSplines}~\cite{SimpleSplines}, one has to download the, too. However, in order to get \mimes ready, one can run the commands shown in listing~\ref{list:git_download}. Although this method should be preferred in order to get the latest version, \mimes can also be downloaded from \href{https:/mimes.hepforge.org/downloads/}{mimes.hepforge.org/downloads}.
 
 
-Once everything is downloaded successfully, we can go inside the \mimes directory, and run \run{bash configure.sh}~\footnote{It is recommended to use {\tt bash}.} and \run{make}.  The {\tt bash} script {\tt configure.sh}, just writes some paths to some files, formats the data files provided in a acceptable format (in section~\ref{sec:input} the format is explained), and makes some directories.
+Once everything is downloaded successfully, we can go inside the \mimes directory, and run \run{bash configure.sh}~\footnote{It is recommended to use {\tt bash}.} and \run{make}.  The {\tt bash} script {\tt configure.sh}, just writes some paths to some files, formats the data files provided in an acceptable format (in section~\ref{sec:input} the format is explained), and makes some directories.
 %
 The {\tt makefile} is responsible for compiling some examples and checks, as well as the shared libraries that needed for the \PY interface.  If everything runs successfully, there should be two new directories {\tt exec} and {\tt lib}. Inside {\tt exec}, there are several executables that ready to run, in order to ensure that the code runs (\eg no segmentation fault occurs). For example, {\tt exec/AxionSolve\_check.run}, should print the values of the parameters $\thetai$ and $\fa$, the oscillation temperature and the corresponding value of $\theta$, the evolution of the axion (\eg temperature, $\theta$, $\rho_{a}$, etc.), and the values of various quantities on the peaks of the oscillation.  In the directory {\tt lib}, there are several shared libraries for the \PY interface.
 
-\subsection{First steps}\label{sec:first_steps} 
+Although there are various options available at compile-time, we first discuss how \mimes can be used, in order for the role of these options to be clear. 
+
+
+\subsection{First examples}\label{sec:First_examples} 
 %
 There are several examples in \CPP ({\tt MiMeS/UserSpace/Cpp}) and \PY ({\tt MiMeS/UserSpace/Python}), as well as \JUPY  notebooks ({\tt MiMeS/UserSpace/JupyterNotebooks}), that show in detail how \mimes can be used. 
 
 \subsubsection{Using \mimes in \CPP} 
 %
-In order to use the {\tt mimes::Axion<LD,Solver,Method>} class in a \CPP program, we first need to have access to the {\tt mimes::AxionMass<LD>} class, in order to define the mass of the axion as a function of the temperature and $\fa$. Therefore, we need to include the header file of this class; \ie
+The class that is responsible for the solution of the EOM is {\tt mimes::Axion<LD,Solver,Method>}, located in {\tt MiMeS/src/Axion}. However, in order to use it, we have to define the mass of the axion as a function of the temperature and $\fa$. The axion mass is defined as an instance of the {\tt mimes::AxionMass<LD>}, which is defined in the header file {\tt \mimes/src/AxionMass/AxionMass.hpp}. We should note that {\tt LD} is the numerical type we use (\eg { \tt long double}). The other template arguments are related to the differential equation solver, and their role will be explained in later sections. 
+
+Therefore, at the top of the main {\tt .cpp} file, we need to include 
 %
 \begin{cpp}
 	#include "MiMeS/src/AxionMass/AxionMass.hpp"
-\end{cpp}
-%
-Furthermore, wen eed to include the header file {\tt AxionSolve.hpp} located in {\tt MiMeS/src/Axion}, in order to be able to use the {\tt mimes::Axion<LD,Solver,Method>} class that solves the axion EOM~\ref{eq:eom_sys}. That is, we need to include the following line in our code
-%
-\begin{cpp}
 	#include "MiMeS/src/Axion/AxionSolve.hpp"
 \end{cpp}
+%
+Notice that if the this {\tt .cpp} file is not in the root directory of \mimes, we need to compile it using the flag {\tt -Ipath-to-root}, "path-to-root" the relative path to the root directory of \mimes; \eg if the {\tt .cpp} is in the {\tt MiMeS/UserSpace/Cpp/Axion} directory, this flag should be {\tt -I../../../}.
 
-Notice that if the  {\tt .cpp} is not in the root directory of \mimes, we need to compile it using the flag {\tt -Ipath-to-root}, "path-to-root" the relative path to the root directory of \mimes; \eg if the {\tt .cpp} is in the {\tt MiMeS/UserSpace/Cpp/Axion} directory, this flag should be {\tt -I../../../}.
+The mass of the axion can be defined in two ways; either via a data file or by a user defined function. 
 
-Since \mimes is designed in order to be as general as possible, one has to provide the axion mass. Therefore, before we define solve the EOM, we need to define the axion mass, as an instance of the {\tt mimes::AxionMass<LD>} class. For this example -- and the examples included in the current version -- we are going to use the mass of the QCD axion given in ref.~\cite{Borsanyi:2016ksw}. The {\tt mimes::AxionMass<LD>} class offers two ways of doing this. The first one interpolates $\chi(T)$ (defined as in \eqs{eq:axion_mass_def}) using a data file that the user provides, and the second one uses a user-defined function. 
+\paragraph{Axion mass form data file} 
+In many cases, axion mass cannot be written in a closed form. In these cases, the user may provide a data file. Then, the axion mass can be defined via this file as
+%
+\begin{cpp}
+	mimes::AxionMass<LD> axionMass(chi_PATH, minT, maxT);
+\end{cpp}
+%
+Here {\tt chi\_PATH} is a (relative or absolute) path to a file with two columns; $T$ (in $\GeV$) and $\chi$ (in $\GeV^4$), with increasing $T$. In this case, the axion mass is interpolated between the temperatures {\tt minT} and {\tt maxT}. These two parameters are just suggestions, and the actual interpolation limits, {\tt  TMin} and {\tt TMax}, are chosen as the closest temperatures in the data file. That is, in general, {\tt TMin} $\geq$ {\tt minT} and {\tt TMax} $\leq$ {\tt maxT}. Beyond these limits, the mass is assumed to constant by default. However, one can change this by using 
+%
+\begin{cpp}
+	axionMass.set_ma2_MAX(ma2_MAX);
+	axionMass.set_ma2_MIN(ma2_MIN);
+\end{cpp}
+%
+with {\tt ma2\_MAX} and {\tt ma2\_MIN} the axion mass squared as functions (or any other callable objects) with signatures {\tt LD ma2\_MAX(LD T, LD fa)} and {\tt LD ma2\_MIN(LD T, LD fa)}. These functions are called for $T\geq${\tt TMax} and $T\leq${\tt TMin}, respectively. Usually, in order to ensure continuity of the axion mass, one needs to know {\tt TMin}, {\tt TMax}, $\chi(${\tt TMin}$)$, and $\chi(${\tt TMax}$)$; which can be found by calling {\tt axionMass.getTMin()}, {\tt axionMass.getTMax()}, {\tt axionMass.getChiMin()}, and {\tt axionMass.getChiMax()}, respectively.
 
-For this example, we consider the QCD axion, with $\chi$ computed in ref.~\cite{Borsanyi:2016ksw}. 
+\paragraph{Axion mass function} 
+In some cases, the dependence of the axion mass on the temperature is known. If this is the case, the user can define the axion mass via 
+%
+\begin{cpp}
+	mimes::AxionMass<LD> axionMass(ma2);
+\end{cpp}
+%
+with {\tt ma2} the axion mass squared as a callable object with signature {\tt LD ma2(LD T, LD fa)}.
 
-Then, we can assign an instance of {\tt mimes::Axion<LD,Solver,Method>} in a variable using
+\paragraph{The EOM solver}
+Once the axion mass is defined, we can declare a variable that will be used to solve the EOM, as
 %
 \begin{cpp}
 	mimes::Axion<LD,Solver,Method> ax(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max,
@@ -504,9 +525,9 @@ Then, we can assign an instance of {\tt mimes::Axion<LD,Solver,Method>} in a var
 	maximum_No_steps);
 \end{cpp}
 %
-Here, {\tt LD} should be the desirable numeric type to be used; it is recommended to use {\tt long double}, but other choices are also available as we discuss on. Moreover {\tt Solver} and {\tt Method} depend on the type of Runge-Kutta the user chooses (see section~\ref{sec:options} asa well as the Appendices~\refs{app:RK,app:usr_input} for more details). and 
+Here, {\tt LD} should be the desirable numeric type to be used; it is recommended to use {\tt long double}, but other choices are also available as we discuss later. Moreover {\tt Solver} and {\tt Method} depend on the type of Runge-Kutta the user chooses (see section~\ref{sec:options} as well as the Appendices~\refs{app:RK,app:usr_input} for more details). 
 
- The various parameters are as follows:
+The various parameters are as follows:
 %
 \begin{enumerate}
 	\item {\tt theta\_i}: initial angle.
@@ -557,11 +578,32 @@ The EOM~(\ref{eq:eom_u}), then can be solved using
 	ax.solveAxion();
 \end{cpp}
 %
-This, if this runs successfully (in simple cases, such as a radiation dominated Universe, this should take a fraction of a second), then  $\Tosc$, $\thetaosc$, and $\Omega h^2$ are accessed via {\tt ax.T\_osc}, {\tt ax.theta\_osc}, and {\tt ax.relic}. The entire evolution (the points the integrator took) of the axion angle is stored in {\tt ax.points}, which is a two-dimensional {\tt std::vector}, with the columns corresponding to  $a$, $T~[\GeV]$, 
-$\theta$, $d\theta/du$, $\rho_a$. Moreover, the peaks of he oscillation are stored in another two-dimensional {\tt std::vector}, with the columns corresponding to $a$, $T~[\GeV]$, $\thetamax$, $d\theta/du=0$, $\rho_a$, $J$. We should note that the peaks are identified using linear interpolation between integration points, in order to ensure that $d\theta/du = 0$. That is, the values stored in {\tt mimes::Axion<LD,Solver,Method>::peaks} do not exist in {\tt mimes::Axion<LD,Solver,Method>::points}. Finally, the local errors (see Appendix~
-\ref{app:RK}) of the integration points of $\theta$ and $\zeta$ are stored in {\tt mimes::Axion<LD,Solver,Method>::dtheta} and {\tt mimes::Axion<LD,Solver,Method>::dzeta}.
+Once the EOM is solved, we can access $\Tosc$, $\thetaosc$, and $\Omega h^2$  via {\tt ax.T\_osc}, {\tt ax.theta\_osc}, and {\tt ax.relic}. The entire evolution (the points the integrator took) of the axion angle is stored in {\tt ax.points}, which is a two-dimensional {\tt std::vector}, with the columns corresponding to  $a$, $T~[\GeV]$, 
+$\theta$, $d\theta/du$, $\rho_a$. Moreover, the peaks of he oscillation are stored in another two-dimensional {\tt std::vector}, with the columns corresponding to $a$, $T~[\GeV]$, $\thetamax$, $d\theta/du=0$, $\rho_a$, $J$. We should note that the peaks are identified using linear interpolation between integration points, in order to ensure that $d\theta/du = 0$. That is, the values stored in {\tt ax.peaks} do not exist in {\tt ax.points}. Finally, the local errors (see Appendix~\ref{app:RK}) of the integration points of $\theta$ and $\zeta$ are stored in {\tt ax.dtheta} and {\tt ax.dzeta}.
 
-The final member function is {\tt mimes::Axion<LD,Solver,Method>::setTheta\_i}, which allows the user to set a different $\thetai$ without generating another instance.~\footnote{Since the interpolations of the data of {\tt inputFile} are made inside the constructor of the {\tt mimes::Axion<LD,Solver,Method>} class, {\tt mimes::Axion<LD,Solver,Method>::setTheta\_i} is a faster choice if ones needs to solve the EOM for a different initial condition.} This function is used as    
+
+\paragraph{Changing axion mass definition}
+%
+The axion mass definiton can change at any time by changing the data file (or {\tt ma2\_MIN} and {\tt ma2\_MAX}) or using using 
+%
+\begin{cpp}
+	ax.set_ma2(ma2);
+\end{cpp}
+%
+with {\tt ma2} a callable object with signature {\tt LD ma2(LD T, LD fa)}.
+
+However, since integration starts at a temperature determined by {\tt ratio\_ini}, if the mass changes (including the definitions beyond the interpolation limits), we have to remake the interpolation of the underlying cosmology described by the parameter {\tt inputFile}. Thus, if we  change the definition of the mass, we need to call 
+%
+\begin{cpp}
+	ax.restart();
+\end{cpp}
+%
+This function remakes the interpolations, clears all vector, and sets all variable to $0$. 
+
+
+\paragraph{Changing initial condition}
+%
+The final member function is {\tt mimes::Axion::setTheta\_i}, which allows the user to set a different $\thetai$ without generating another instance.~\footnote{Since the interpolations of the data of {\tt inputFile} are made inside the constructor of the {\tt mimes::Axion<LD,Solver,Method>} class, {\tt mimes::Axion<LD,Solver,Method>::setTheta\_i} is a faster choice if ones needs to solve the EOM for a different initial condition.} This function is used as    
 %
 \begin{cpp}
 	ax.setTeta_i(new_theta_ini);
@@ -569,29 +611,69 @@ The final member function is {\tt mimes::Axion<LD,Solver,Method>::setTheta\_i}, 
 %
 where {\tt new\_theta\_ini} is the new value of $\thetai$. Running this function resets all variables to $0$ (except {\tt T\_osc} and {\tt a\_osc}, since they should not change), and clears all {\tt std::vector} variables, which allows the user to simply run \run{ax.solveAxion();} as if {\tt ax} was a freshly defined instance.  
 
-\subsubsection{Using \mimes in \PY}\label{sec:begin_py}
-The modules for the \PY interface are located in {\tt MiMeS/src/interfacePy}. Since, the most useful module is the one that actually solves the EOM~\ref{eq:eom_u}, we will explain here it can be used, and describe the others in Appendix~\ref{app:modules}.
 
-The {\tt Axion} class in the module {\tt interfacePy.Axion} can be loaded in a \PY script as 
+
+\subsubsection{Using \mimes in \PY}\label{sec:begin_py}
+%
+The modules for the \PY interface are located in {\tt MiMeS/src/interfacePy}. Although the usage of the {\tt AxionMass} and {\tt Axion} classes is similar to the \CPP case, it is worth showing explicitly how the \PY interface works.
+
+ 
+ 
+ 
+The two classes the modules {\tt interfacePy.AxionMass} and {\tt interfacePy.Axion}, and can be loaded in a \PY script as 
 %
 \begin{py}
 	from sys import path as sysPath
 	from os import path as osPath
 	sysPath.append(osPath.join(osPath.dirname(__file__), 'path_to_src'))
+	from interfacePy.AxionMass import AxionMass
 	from interfacePy.Axion import Axion
 \end{py}
 %
 It is important that \mintinline{python}{'path_to_src'} provides the relative path to the {\tt MiMeS/src} directory. For example, if the script is located in {\tt MiMeS/UserSpace/Python}, \mintinline{python}{'path_to_src'} should be \mintinline{python}{'../../src'}.
 
-Once the module is imported, we can define an {\tt Axion} instance as follows 
+\paragraph{Axion mass definition via a data file}
+As before, we first need to define the axion mass. Similarly to the previous case, in order to define the axion mass via a file
+In many cases, axion mass cannot be written in a closed form. In these cases, the user may provide a data file. Then, the axion mass can be defined via this file as
 %
 \begin{py}
-	ax=Axion(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max, convergence_lim, inputFile,
-	initial_step_size,minimum_step_size, maximum_step_size, absolute_tolerance, 
-	relative_tolerance, beta, fac_max, fac_min, maximum_No_steps)
+	AxionMass axionMass(chi_PATH, minT, maxT)
 \end{py}
 %
-Here, {\tt Axion} is the constructor of the {\tt Axion} class, and {\tt ax} the variable -- which can have any name, and the input parameters are exactly the same as in the \CPP case (the usage of the class can be found by running {\tt ?Axion} after loading the module). 
+Here, the constructor requires the same parameters as in \CPP. Moreover, the axion mass beyond the interpolation limits can be changed via
+%
+\begin{py}
+	axionMass.set_ma2_MAX(ma2_MAX)
+	axionMass.set_ma2_MIN(ma2_MIN)
+\end{py}
+%
+Although the naming is the same as in the \CPP case, there on important difference. Namely, {\tt ma2\_MAX} and {\tt ma2\_MIN} have to be functions (that take $T$ and $\fa$ as arguments and return $\maT^2$), and cannot be any other callable object. The reason is that \mimes uses the {\tt ctypes} module, which only works with objects compatible with {\tt C}. 
+%
+Moreover, the values of {\tt TMin}, {\tt TMax}, $\chi(${\tt TMin}$)$, and $\chi(${\tt TMax}$)$ can be obtained by {\tt axionMass.getTMin()}, {\tt axionMass.getTMax()}, {\tt axionMass.getChiMin()}, and {\tt axionMass.getChiMax()}, respectively.
+
+\paragraph{Axion mass definition via a function}
+%
+Again this can be done as
+%
+\begin{py}
+	AxionMass axionMass(ma2)
+\end{py}
+%
+with {\tt ma2} the axion mass squared, which should be a function (not any callable object) of $T$ and $\fa$.
+
+
+\paragraph{The EOM solver}
+%
+We can define an {\tt Axion} instance as follows 
+%
+\begin{py}
+	ax=Axion(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max, convergence_lim, 
+	inputFile, axionMass, initial_step_size, minimum_step_size, maximum_step_size, 
+	absolute_tolerance, relative_tolerance, beta, fac_max, fac_min, maximum_No_steps)
+\end{py}
+%
+Here the input parameters are the same as in the \CPP case (the usage of the class can be found by running {\tt ?Axion} after loading the module). The only slight difference is that the {\tt axionMass} is not passed as a pointer; which is done internally using {\tt ctypes}. 
+
 
 Using the defined variable ({\tt ax} in this example), we can simply run  
 %
@@ -623,7 +705,24 @@ Moreover, we can run the following
 %
 in order to store the local errors (see Appendix~\ref{app:RK}) of $\theta$ and $\zeta$ in {\tt ax.dtheta} and {\tt ax.dzeta}, respectively. 
 
+\paragraph{Changing axion mass definition}
+%
+We can change the axion mass by changing the file, {\tt ma2\_MIN} and {\tt ma2\_MAX}, or using 
+%
+\begin{cpp}
+	ax.set_ma2(ma2)
+\end{cpp}
+%
+with {\tt ma2} a function that takes $T$ and $\fa$, and returns the $\maT^2$. As in the \CPP case, if the definition of the mass of the axion changes (including the definitions beyond the interpolation limits), we have to call
+%
+\begin{cpp}
+	ax.restart()
+\end{cpp}
+%
+in order to remake the interpolation of cosmological quantities and reset the various variables.x
 
+\paragraph{Changing the initial condition}
+%
 The initial condition $\thetai$ can be changed using 
 %
 \begin{py}
@@ -632,13 +731,14 @@ The initial condition $\thetai$ can be changed using
 %
 which is faster than running the constructor again, since all the interpolations are reused. However, running this function, erases all the arrays, and resets all variables to $0$ (except {\tt T\_osc} and {\tt a\_osc}, as they should not change). 
 
-\paragraph{Importand} Th {\tt Axion} class constructs a {\tt mimes::Axion<LD,Solver,Method>} pointer, which has to be manually deleted. Therefore, once {\tt ax} is used it must be deleted, \ie we need to run 
+\paragraph{Importand note} The {\tt Axion} class constructs a pointer to an instance of the underlying {\tt mimes::Axion} class, which has to be manually deleted. Therefore, once {\tt ax} is used it must be deleted, \ie we need to run 
 %
 \begin{py}
 	del ax
 \end{py}
 %
 We should note that this must run even if we assign another instance to the same variable {\tt ax}, otherwise we risk running out of memory.
+
 
 \section{Assumptions and user input}\label{sec:assumptions}
 \setcounter{equation}{0}
@@ -665,12 +765,12 @@ The user has a number of options regarding different aspects for the code. The v
 	\item {\tt SOLVER}: \mimes uses the ordinary differential equation (ODE) integrators of ref.~\cite{NaBBODES}. Currently, there are two available choices; {\tt Rosenbrock} and {\tt RKF}. The former is a general embedded Rosenbrock implementation and it is used if {\tt Solver=1}, while the latter is a general explicit embedded Runge-Kutta implementation and can be chose by using {\tt SOLVER=2} (a brief description of how these algorithms are implemented can be found in Appendix~\ref{app:RK}). The default option for that \mimes uses is {\tt SOLVER=1}, because the axion EOM tends to oscillate rapidly. However, in some cases, a high order explicit method may also work. This variable, is used to define a macro with the same name and value in {\tt \mimes/src/Axion/AxionSolve.hpp}.
 	%
 	\item {\tt METHOD}: Depending on the type of solver is chosen, there are some available methods.~\footnote{It is worth mentioning that {\tt NaBBODES} is built in order to be a template for all possible Rosenbrock and explicit Runge-Kutta embedded methods, and one can provide their own Butcher tableau if they want to use another method, as shown in Appendix~\ref{app:RK}. This variable, is used to define a macro with the same name and value in {\tt \mimes/src/Axion/AxionSolve.hpp}.} 
-		\begin{itemize}
-			\item 	For {\tt SOLVER=1}, the available methods are 
-			{\tt METHOD=RODASPR2} and {\tt METHOD=ROS34PW2}. The {\tt RODASPR2} choice is a fourth order Rosenbrock-Wanner method (more information can be found in ref.~\cite{RANG2015128}). The {ROS34PW2} choice corresponds to a third order Rosenbrock-Wanner method~\cite{RangAngermann2005}. 
-			%
-			\item 	For {\tt SOLVER=2}, the only reliable method available in {\tt NaBBODES} is the Dormand-Prince~\cite{DORMAND198019} chosen if {\tt METHOD=DormandPrince}, which is an explicit Runge-Kutta method of seventh order.
-		\end{itemize}
+	\begin{itemize}
+		\item 	For {\tt SOLVER=1}, the available methods are 
+		{\tt METHOD=RODASPR2} and {\tt METHOD=ROS34PW2}. The {\tt RODASPR2} choice is a fourth order Rosenbrock-Wanner method (more information can be found in ref.~\cite{RANG2015128}). The {ROS34PW2} choice corresponds to a third order Rosenbrock-Wanner method~\cite{RangAngermann2005}. 
+		%
+		\item 	For {\tt SOLVER=2}, the only reliable method available in {\tt NaBBODES} is the Dormand-Prince~\cite{DORMAND198019} chosen if {\tt METHOD=DormandPrince}, which is an explicit Runge-Kutta method of seventh order.
+	\end{itemize}
 	%
 	\item {\tt CC}: the \CPP compiler that one chooses to use. The default option is {\tt CC=g++}, which is the {\tt GNU} \CPP compiler, and is available for all systems. Another option is to use the {\tt clang} compiler, which is chosen by {\tt CC=clang -lstdc++}. \mimes is mostly tested using {\tt g++}, but {\tt clang} also seems to work (and the resulting executables are sometimes faster), but the user has to make sure that their version of the compiler of choice supports the \CPP17 standard, otherwise \mimes probably will not work.
 	%
@@ -678,95 +778,32 @@ The user has a number of options regarding different aspects for the code. The v
 \end{enumerate}
 %
 These options can only be used when the compilation is done using the various {\tt makefile} files. For compilation of a user provided {\tt .cpp} file, these have to be define by the user inside this file. If one compiles the examples without {\tt makefile}, the variables {\tt LONG},  {\tt LONGpy}, {\tt SOLVER}, and {\tt METHOD} correspond to macros with the same name.~\footnote{Macros can be defined using the {\tt -D} flag
-in the compiler. For example {\tt METHOD=DormandPrince} is the same as passing {\tt -DMETHOD=DormandPrince} to the compiler.} It should be pointed-out that,  in the examples, {\tt LONG} is used to define a macro {\tt LD} which becomes {\tt double} or {\tt long double} accordingly. the actual choice of numeric type is passed as a template parameter in all classes.
+	in the compiler. For example {\tt METHOD=DormandPrince} is the same as passing {\tt -DMETHOD=DormandPrince} to the compiler.} It should be pointed-out that,  in the examples, {\tt LONG} is used to define a macro {\tt LD} which becomes {\tt double} or {\tt long double} accordingly. the actual choice of numeric type is passed as a template parameter in all classes.
 \subsection{User input}\label{sec:input}
 %
 \subsubsection{Compile-time input}\label{sec:compile_time_input} 
 %
-\paragraph{Files} \mimes requires files that provide data for the relativistic degrees of freedom (RDOF) of the plasma, as well as its mass as a function of the temperature. Although \mimes is shipped with the standard model RDOF found in~\cite{Saikawa:2020swg}, and the axion mass from~\cite{Borsanyi:2016ksw}, the user can change the corresponding variables in {\tt Paths.mk} (found in the root directory of \mimes) to another file path. The variables pointing to these data files are {\tt cosmoDat} and {\tt axMDat}, for the RDOF and axion mass, respectively.~\footnote{One can change the data file for anharmonic factor introduced in \eqs{eq:anharmonic_f} using the variable {\tt anFDat}.}
+\paragraph{Files} \mimes requires files that provide data for the relativistic degrees of freedom (RDOF) of the plasma, and the anharmonic factor. Although \mimes is shipped with the standard model RDOF found in~\cite{Saikawa:2020swg}, and a few points for $f(\thetamax)$ introduced in \eqs{eq:anharmonic_f}, the user is free change them via the corresponding variables in {\tt Paths.mk} (in the root directory of \mimes). Moreover, there is a set of data for the QCD axion mass as calculated in ref.\cite{Borsanyi:2016ksw}.
+%
+The variables pointing to these data files are {\tt cosmoDat}, {\tt axMDat}, and {\tt anFDat}, for the RDOF, axion mass, and the anharmonic factor; respectively.
 
-The format of the files is the following:~\footnote{The anharmonic factor data are given as columns: $\thetamax$ $f(\thetamax)$; with increasing $\thetamax$.} 
+The format of the files has to be the following:
 %
 \begin{itemize}
 	\item The RDOF data must be given in three columns; $T$ (in $\GeV$), $\heff$, and $\geff$.
 	%
 	\item The axion mass data must be given in two columns; $T$ (in $\GeV$), $\chi$ (in $\GeV^4$). Here, $\chi$ is defined as in \eqs{eq:axion_mass_def}. 
 	The user can provide a function instead of data for the axion mass, by leaving the  {\tt axMDat} variable empty. 
+	%
+	\item The data for the anharmonic factor must be give in two columns   $\thetamax$ $f(\thetamax)$; with increasing $\thetamax$.
 \end{itemize}
 %
 The paths to these files should be given at compile time. That is, once {\tt Paths.mk} changes, \run{bash configure.sh} and then \run{\tt make} must be ran. The user can change the content of the data files (without changing their paths), in order to use them without compiling \mimes again. However, the user has to make sure that all the files are sorted so that the values of first column increase (with no duplicates or empty lines). In order to ensure this, it is advised to run \run{bash FormatFile.sh path-to-file} (in Appendix~\ref{app:util} there are some details on {\tt MiMeS/src/FormatFile.sh}), in order to format the file (that should exist in \run{path-to-file}) complies with the requirements of \mimes.
 
-\paragraph{Static variables} The header file {\tt MiMeS/src/static.hpp} contains definitions of various static variables that are used in the \PY modules and the {\tt mimes::Axion<LD,Solver,Method>} class. These variables are instances of  {\tt mimes::Cosmo<LD>}, {\tt mimes::AxionMass<LD>}, and {\tt mimes::AnharmonicFactor<LD>}, and they are responsible for interpolation of the various plasma parameters (\ie $\heff(T)$, $\geff(T)$, $s(T)$, etc.), the axion mass, and the anharmonic factor, respectively.
-
-\subparagraph{{\tt cosmo<LD>}} The static variable {\tt cosmo<LD>} is an instance of {\tt mimes::Cosmo<LD>}, with {\tt LD} being a numeric type (\eg {\tt double}, {\tt long double}). It is expected to be defined in {\tt MiMeS/src/static.hpp}, as 
-%
-\begin{cpp}
-	template<class LD> static mimes::Cosmo<LD> cosmo(cosmo_PATH,minT,maxT);
-\end{cpp}
-%
-The arguments of the constructor are
-%
-\begin{enumerate}
-	\item {\tt cosmo\_PATH}: a string of the absolute path of the relativistic degrees of freedom (RDOF). This macro is automatically
-	written in {\tt MiMeS/src/misc\_dir/path.hpp} when \run{bash configure.sh} is ran. The RDOF data must be given in three columns; $T$ (in $\GeV$), $\heff$, and $\geff$.
-	%
-	\item {\tt minT} (optional): The minimum interpolation temperature. Bellow this limit, $\heff$ and $\geff$ are takes to be constant. Its default value is $0$.
-	%
-	\item {\tt maxT} (optional): The maximum interpolation temperature. Above this limit, $\heff$ and $\geff$ are takes to be constant. Its default value is $m_P$; the Planck mass $m_P = 1.22 \times 10^{19}~\GeV$.
-\end{enumerate} 
-%
-It should be noted that  the interpolation limits {\tt minT} and {\tt maxT} are suggestions; the actual limits will be set to their closest value that exist in the data file. Apart form the various member functions, there are several static variables; \eg the CMB temperature today ({\tt mimes::Cosmo<LD>::T0}), the Planck mass ({\tt mimes::Cosmo<LD>::mP}), etc. The values of all these parameters are taken as compile-time constants. However, the user can change their values directly from the class, which is located in {\tt \mimes/src/Cosmo/Cosmo.hpp}.
+These paths are stored as strings in {\tt \mimes/src/misc\_dir/path.hpp} at compile-time (they are defined as {\tt constexpr}), and can be accessed once this header file is included. The corresponding variables are {\tt cosmo\_PATH}, {\tt chi\_PATH}, and {\tt anharmonic\_PATH}, for the path to data file of the plasma quantities, $\chi(T)$, and $f(\thetamax)$; respectively. Although, the axion mass data file may be omitted -- since the axion mass is defined by the user, the variable {\tt chi\_PATH} is still useful if the axion mass is defined via a data file, as it is automatically converted to an absolute path.~\footnote{Absolute paths have the advantage to be accessible from everywhere else in the system. Thus, executables that seek the corresponding files can be called and copied easily.}
 
 
-\subparagraph{{\tt axionMass<LD>}} The static  variable {\tt axionMass<LD>} is an instance of {\tt mimes::AxionMass<LD>}. It is expected to be defined in  {\tt MiMeS/src/static.hpp}. The first way one can define the variable {\tt axionMass<LD>} is
-%
-\begin{cpp}
-	template<class LD> static mimes::AxionMass<LD> axionMass(chi_PATH,minT,maxT);
-\end{cpp}
-%
-The arguments of the constructor are
-%
-\begin{enumerate}
-	\item {\tt chi\_PATH}: a string of the absolute path of the data for $\chi$ (defined as in \eqs{eq:axion_mass_def}). This macro is automatically
-	written in {\tt MiMeS/src/misc\_dir/path.hpp} when \run{bash configure.sh} is ran. The data must be given in two columns; $T$ (in $\GeV$), $\chi$ (in $\GeV^4$).
-	%
-	\item {\tt minT} (optional): The minimum interpolation temperature. Its default value is $0$.
-	%
-	\item {\tt maxT} (optional): The maximum interpolation temperature.Its default value is $m_P$.
-\end{enumerate} 
-%
-As previously, the interpolation limits {\tt minT} and {\tt maxT} are suggestions, as the actual limits will be set to the closest value that exist in the data file. Beyond these limits, the axion mass by default is taken to be 
-%
-\begin{equation}
-	\maT = \Bigg\{
-	\begin{matrix}
-		\dfrac{\chi(T_{\rm min})}{\fa^2} & \text{for } T<T_{\rm min} 
-		\\ \\
-		\dfrac{\chi(T_{\rm max})}{\fa^2}   \lrb{\dfrac{T}{T_{\rm max}}}^{-8.16} & \text{for } T>T_{\rm max} 
-	\end{matrix} \;.
-	\label{eq:axM-limits}
-\end{equation}
-%
-This is a good approximation for the QCD axion (the default data \mimes uses), but the user can change them inside the class, which is located in{\tt \mimes/src/AxionMass/AxionMass.hpp} (see section~\ref{sec:cpp_example} or Appendix~\ref{app:classes} for details). 
 
-
-The second way we can declare the {\tt axionMass<LD>} variable is
-%
-\begin{cpp}
-	template<class LD> static mimes::AxionMass<LD> axionMass(ma2);
-\end{cpp}
-%
-where {\tt ma2} -- the axion mass squared in $\GeV^2$ -- is a function object with signature {\tt LD ma2 (LD T, LD fa)}. In order to do this, 
-the user may omit a data file path for the {\tt axMDat} variable in {\tt \mimes/src/Definition.mk}.
-
-\subparagraph{{\tt anharmonicFactor<LD>}} The static variable {\tt anharmonicFactor<LD>} is an instance of the class {\tt mimes::AnharmonicFactor<LD>}. It is expected to be defined in  {\tt MiMeS/src/static.hpp}, as 
-%
-\begin{cpp}
-	template<class LD> static mimes::AnharmonicFactor<LD> anharmonicFactor(anF_PATH);
-\end{cpp}
-%
-Here,~{\tt anF\_PATH} is a macro of a string of the absolute path of the data for the anharmonic factor. This macro is automatically
-written in {\tt MiMeS/src/misc\_dir/path.hpp} when \run{bash configure.sh} is ran. The data should be given in two columns; $\thetamax$, $f(\thetamax)$.
 
 \subsubsection{Run-time input}\label{sec:run_time_input}
 %
@@ -780,8 +817,6 @@ independent from  {\tt ratio\_ini}, but one has to choose it carefully, in order
 Finally, the convergence conditions -- \ie~{\tt N\_convergence\_max} and {\tt convergence\_lim} -- allow the user to decide when the adiabatic evolution of the axion begins. Generally, the relic abundance does not have a strong dependence on these parameters as log as they are  {\tt N\_convergence\_max}$>3$ and {\tt convergence\_lim}$<10^{-1}$ (\ie the adiabatic invariant does not vary more that $10\%$ for three consecutive peaks of the oscillation). 
 %
 However, we should note that greedy choices (\eg~{\tt N\_convergence\_max}$=100$ and {\tt convergence\_lim}$=10^{-5}$) are dangerous, as $\theta$ tends to oscillate rapidly and destabilize the differential equation solver. Therefore, these parameters should be chosen carefully, in order to ensure that integration stops when axion has reached its adiabatic evolution, without destabilising the EOM.
-
-
 
 \subsection{Complete Examples}\label{sec:complete_examples}
 %
@@ -800,21 +835,64 @@ and the evolution of the energy densities of the plasma and a fluid $\Phi$ is sh
 %
 The various regime changes are indicated as $T_{{\rm E}_{1,2}}$ -- corresponding to the first and second time where $\rho_{\Phi} = \rho_{\rm R}$,  and $T_{{\rm D}_{1,2}}$ -- which correspond to the start and end of entropy injection (for more precise definition see~\cite{Arias:2020qty}). Regarding the axion, this cosmological scenario alters it evolution, since both the Hubble parameter and the entropy of the plasma change significantly. This results in a shift in the oscillation temperature, and the dilution of the axion energy density.
 
+Moreover, we will use the QCD axion mass of ref.~\cite{Borsanyi:2016ksw}. For the axion mass beyond the minimum and maximum temperatures, $T_{\rm min, \, max}$, in the corresponding data file, we will take
+%
+\begin{equation}
+	\maT = \Bigg\{
+	\begin{matrix}
+		\dfrac{\chi(T_{\rm min})}{\fa^2} & \text{for } T<T_{\rm min} 
+		\\ \\
+		\dfrac{\chi(T_{\rm max})}{\fa^2}   \lrb{\dfrac{T}{T_{\rm max}}}^{-8.16} & \text{for } T>T_{\rm max} 
+	\end{matrix} \;.
+	\label{eq:axM-limits}
+\end{equation}
+
+
 \subsubsection{complete example in \CPP}\label{sec:cpp_example}
 %
-In order to write a \CPP program that uses \mimes in order to solve the EOM~\ref{eq:eom_sys}, we must include the header file {\tt src/Axion/AxionSolve.hpp}. Once this is done, we can declare various instances, and solve the axion EOM. For example in order to to do so in the cosmological scenario at hand, the {\tt main} function should contain 
+In order to write a \CPP program that uses \mimes in order to solve the EOM~\ref{eq:eom_sys}, we must include the header files {\tt src/AxionMass/AxionMss.hpp} and {\tt src/Axion/AxionSolve.hpp}. In the example at hand, the {\tt main} function should contain the definition of the axion mass
+%
+\begin{cpp}
+	// use chi_PATH to interpolate the axion mass.
+	mimes::AxionMass<LD> axionMass(chi_PATH,0,mimes::Cosmo<LD>::mP);
+
+	// This is the axion mass squared beyond the interpolation limits for the current data. 
+	// If you don't specify them, the axion mass is taken to be constant beyond these limits
+
+	/*set ma2 for T>TMax*/
+	long double TMax=axionMass.getTMax();    
+	long double chiMax=axionMass.getChiMax();    
+	axionMass.set_ma2_MAX(
+		[&chiMax,&TMax](long double T, long double fa){
+			return chiMax/fa/fa*std::pow(T/TMax,-8.16);
+		}
+	);  
+	
+	/*set ma2 for T<TMin*/
+	long double TMin=axionMass.getTMin();  
+	long double chiMin=axionMass.getChiMin();    
+	axionMass.set_ma2_MIN( 
+		[&chiMin,&TMin](long double T, long double fa){
+			return chiMin/fa/fa;
+		}
+	);
+\end{cpp}
+%
+It should be noted that, since we have used {\tt chi\_PATH}, we need to include the {\tt path.hpp} header file from {\tt \mimes/src/misc\_dir}. Moreover, we note that we have used as parameter {\tt mimes::Cosmo<LD>::mP}, which is the Planck  mass, as a static member of the {\tt Cosmo} class (described in Appendix~\ref{app:classes}), in order to interpolate the mass up to $T=m_P$, \ie the entire possible mass range.
+
+Following, the axion EOM can be solve as
 %
 \begin{cpp}
  	std::string inputFile = std::string(rootDir)+
     				std::string("/UserSpace/InputExamples/MatterInput.dat");
 	
 	mimes::Axion<long double, 1, RODASPR2<long double> > ax(0.1, 1e16, 500, 1e-4, 1e3, 
-	15, 1e-2, inputFile, 1e-1, 1e-8, 1e-1, 1e-11, 1e-11, 0.9, 1.2, 0.8, int(1e7));
+	15, 1e-2, inputFile, &axionMAss, 1e-1, 1e-8, 1e-1, 1e-11, 1e-11, 0.9, 1.2, 0.8, int(1e7));
 	
 	ax.solveAxion();
 \end{cpp}
 %
-This program should solve the axion EOM. However, one needs to print anything that they need. For example, the relic abundance is printed by adding  {\tt std::cout<<ax.relic<<"\\n";} after {\tt ax.solveAxion();}. It should be noted that, in order to make sure that the code is compiled successfully, one should add at the top of the file any other header they need. In particular, in this case, we need to add {\tt \#include<iostream>}, in order to be able to use {\tt std::cout}.
+This program should solve the axion EOM. However, one needs to print anything that they need. For example, the relic abundance is printed by adding {\tt std::cout<<ax.relic<<"\\n";} after {\tt ax.solveAxion();}. It should be noted that, in order to make sure that the code is compiled successfully, one should add at the top of the file any other header they need. In particular, in this case, we need to add {\tt \#include<iostream>}, in order to be able to use {\tt std::cout}.
 
 
 \paragraph{Parameter choice}
@@ -868,36 +946,6 @@ or
 Both of these commands should create an executable that solves the axion EOM. That is, assuming we have a terminal open in   {\tt \mimes/UserSpace}, we can run {\tt ./axion}, and get the results we chose. It should be noted that all paths that \mimes uses by default are written as absolute paths when we run {bash ./configure.sh}. Therefore, if the {\tt inputFile} variable is also an absolute path, the executable can be copied and used in any other directory of the same system. However, it should be preferred that executables are kept under the \mimes directory, in order to be able to compile them with different data file paths if needed.
 
 
-\paragraph{Axion mass limits}
-%
-In this example, we have used the default data files static variables for the plasma quantities and the axion mass. As already mentioned, one can change the variables {\tt cosmoDat} or {\tt axMDat} in {\tt \mimes/Paths.mk}, in order to change the path of the corresponding data file. 
-
-However, using a data file for the axion mass, requires some functions that will return the axion mass for temperatures beyond the interpolation limits.  \mimes, by default, uses \eqs{eq:axM-limits} that correspond to the QCD axion, and are valid approximate limits for the default data file. In the constructor, these two functions are defined as
-%
-\begin{cpp}
-	/*$\maT^2$ for $T>T_{\rm max}$*/
-	ma2_MAX=[this](LD T, LD fa){return this->chiMax/fa/fa*std::pow(T/this->TMax,-8.16);};
-	/*$\maT^2$ for $T<T_{\rm max}$*/
-	ma2_MIN=[this](LD T, LD fa){return this->chiMin/fa/fa;};
-\end{cpp} 
-%
-where {\tt ma2\_MAX} and {\tt ma2\_MIN} are the axion mass squared for temperature above the maximum and below the minimum interpolation limit; $T_{\rm max}$ and $T_{\rm min}$, respectively. Frthermore, {\tt chiMax} and {\tt chiMin} correspond to $\chi(T_{\rm max})$ and $\chi(T_{\rm min})$, respectively. 
-
-Therefore, if we use a different set of data for $\chi$ it is possible that these definitions would also need to be altered. This can be done directly in the constructor, by changing this aforementioned lines. Alternatively, since   {\tt ma2\_MAX} and {\tt ma2\_MIN} are public variables, they can be changed inside the {\tt main} function -- before the declaration of the {\tt mimes::Axion<LD, Solver, Method>} instance we intend to use -- as any lambda function is \CPP. For example, in order to implement $\maT^2 = 0$ for $T>T_{\rm max}$, we simply need to change the definition of {\tt ma2\_MAX} in the constructor to
-%
-\begin{cpp}
-	/*$\maT^2$ for $T>T_{\rm max}$*/
-	ma2_MAX=[this](LD T, LD fa){return 0;};
-\end{cpp} 
-%
-or add the following line before the declaration of {\tt ax}
-%
-\begin{cpp}
-	/*$\maT^2$ for $T>T_{\rm max}$*/
-	axionMass<long double>.ma2_MAX=[](LD T, LD fa){return 0;};
-\end{cpp} 
-
-Then everything else -- \eg compilation, calling the member functions of the {\tt mimes::Axion<LD, Solver, Method>} class -- is exactly the same as before. 
 
 \paragraph{The entire code}
 %
@@ -905,12 +953,35 @@ This example consists of only a few lines of code, which, including the change i
 %
 \begin{cpp}
 	#include<iostream>
+	//include everything you need from \mimes
 	#include"src/Axion/AxionSolve.hpp"
+	#include"src/AxionMass/AxionMass.hpp"
+	#include"src/Cosmo/Cosmo.hpp"
+	#include"src/misc_dir/path.hpp"
 	
 	int main(){
-		/*$\maT^2$ for $T>T_{\rm max}$*/
-		axionMass<long double>.ma2_MAX=[](LD T, LD fa){return 0;};
-	
+		
+		// use chi_PATH to interpolate the axion mass.
+		mimes::AxionMass<LD> axionMass(chi_PATH,0,mimes::Cosmo<LD>::mP);
+		
+		/*set $\maT^2$ for $T\geq T_{\rm max}$*/
+		long double TMax=axionMass.getTMax();    
+		long double chiMax=axionMass.getChiMax();    
+		axionMass.set_ma2_MAX(
+			[&chiMax,&TMax](long double T, long double fa){
+				return chiMax/fa/fa*std::pow(T/TMax,-8.16);
+			}
+		);  
+		
+		/*set $\maT^2$ for $T\leq T_{\rm min}$*/
+		long double TMin=axionMass.getTMin();  
+		long double chiMin=axionMass.getChiMin();    
+		axionMass.set_ma2_MIN( 
+			[&chiMin,&TMin](long double T, long double fa){
+				return chiMin/fa/fa;
+			}
+		);		
+
 		std::string inputFile = std::string(rootDir)+
 			std::string("/UserSpace/InputExamples/MatterInput.dat");
 		
@@ -926,14 +997,39 @@ This example consists of only a few lines of code, which, including the change i
 \end{cpp}
 %
 
-\paragraph{Final note}
 %
-We should point out that another example is given in {\tt \mimes/UserSpace/Cpp/Axion}, where all parameters are taken as command-line inputs, the various compilation-time options can be given {\tt \mimes/UserSpace/Cpp/Axion/Definitions.mk}, and then compiled using {\tt make}. Therefore, the user can just modify this code in order to meet their needs. That is, using this example, one only needs to add their preferred definition of {\tt ma2\_MAX} and {\tt ma2\_MIN} -- or change the {\tt axionMass<LD>} static variable (in {\tt \mimes/src/static.hpp}) using a function as mentioned in section~\ref{sec:compile_time_input} without writing the entire program themselves.
+We should point out that another example is given in {\tt \mimes/UserSpace/Cpp/Axion}, where all parameters are taken as command-line inputs, the various compilation-time options can be given {\tt \mimes/UserSpace/Cpp/Axion/Definitions.mk}, and then compiled using {\tt make}. Therefore, the user can just modify this code in order to meet their needs. That is, using this example, one only needs to add their preferred definition of {\tt ma2\_MAX} and {\tt ma2\_MIN} -- or change the {\tt axionMass} variable (in {\tt \mimes/src/static.hpp}) using a function as mentioned in section~\ref{sec:compile_time_input} without writing the entire program themselves.
+
+\paragraph{Alternative axion mass definition}
+%
+For this particular example, we could have used the approximate definition of the axion mass
+%
+\begin{equation}
+	\maT^2 \approx \Bigg\{ 
+	\begin{matrix}
+	\ma^2 \times \lrb{\dfrac{T_{\rm QCD}}{T}}^{8.16} & \quad \text{for } T\geq T_{\rm QCD} 
+	\\ \\
+	\ma^2 & \quad \text{for } T\leq T_{\rm QCD}
+\end{matrix} \;,
+	\label{eq:axM_approx}
+\end{equation}
+%
+where $T_{\rm QCD}  \approx 150~\MeV$ and $\ma=\dfrac{3.2 \times 10^{-5} ~\GeV^4}{\fa^2}$. This can be done by substituting the {\tt axionMass} definition (lines $10$-$29$) with 
+%
+\begin{cpp}
+	auto ma2 = [](long double T,long double fa){
+	    long double TQCD=150*1e-3;
+	    long double ma20=3.1575e-05/fa/fa;
+	    if(T<=TQCD){return ma20;}
+	    else{return ma20*std::pow((TQCD/T),8.16);}
+	};
+	mimes::AxionMass<LD> axionMass(ma2);
+\end{cpp}
 
 
 \subsubsection{complete example in \PY}
 %
-In order to be able use the {\tt Axion} class in \PY, we need to import the corresponding module from {\tt \mimes/src/interfacePy}. That is, assuming that the script from which we intend to import {\tt \mimes/src/interfacePy/Axion/Axion.py} is in {\tt \mimes/UserSpace}, we can import the {\tt Axion} class by writing the following
+In order to be able use the {\tt AxionMass} and {\tt Axion} classes in \PY, we need to import the corresponding module from {\tt \mimes/src/interfacePy}. That is, assuming that the script from which we intend to import {\tt \mimes/src/interfacePy/Axion/Axion.py} is in {\tt \mimes/UserSpace}, we can import the {\tt Axion} class by writing the following
 %
 \begin{py}
 	#add the relative path for MiMeS/src
@@ -941,17 +1037,38 @@ In order to be able use the {\tt Axion} class in \PY, we need to import the corr
 	from os import path as osPath
 	sysPath.append(osPath.join(osPath.dirname(__file__), '../src'))
 	
-	#import the Axion class from the Axion module
-	from interfacePy.Axion import Axion
+
+	from interfacePy.AxionMass import AxionMass #import the AxionMass class
+	from interfacePy.Axion import Axion #import the Axion class
+	from interfacePy.Cosmo import mP #import the Planck mass
 \end{py} 
 %
-Once the class is imported, we can simply follow the steps outlined in section~\ref{sec:begin_py}. For the example at hand, we can create an instance of the axion class as 
+Once everything we need is imported, we can simply follow the steps outlined in section~\ref{sec:begin_py}. For the example at hand, we can create an instance of the {\tt AxionMAss} class as
+%
+\begin{py}
+	# AxionMass instance
+	axionMass = AxionMass(r'../src/data/chi.dat',0,mP)
+	
+	# This is the axion mass squared beyond the interpolation limits for the current data. 
+	# If yoy don't specify them, the axion mass is taken to be constant beyond these limits
+	TMax=axionMass.getTMax() 
+	chiMax=axionMass.getChiMax()
+	TMin=axionMass.getTMin() 
+	chiMin=axionMass.getChiMin()
+	
+	axionMass.set_ma2_MAX( lambda T,fa: chiMax/fa/fa*pow(T/TMax,-8.16) )
+	axionMass.set_ma2_MIN( lambda T,fa: chiMin/fa/fa )
+\end{py}
+%
+
+Then we can simply create an instance of the {\tt Axion} class as 
+%
 \begin{py}
 	#in python it is more convenient to use relative paths
 	inputFile = inputFile="./InputExamples/MatterInput.dat"  
 	
-	ax = Axion(0.1, 1e16, 500, 1e-4, 1e3, 15, 1e-2, inputFile, 1e-1, 
-	           1e-8, 1e-1, 1e-11, 1e-11, 0.9, 1.2, 0.8, int(1e7))
+	ax = Axion(0.1, 1e16, 500, 1e-4, 1e3, 15, 1e-2, inputFile, axionMass, 
+	1e-1, 1e-8, 1e-1, 1e-11, 1e-11, 0.9, 1.2, 0.8, int(1e7))
 \end{py}
 %
 Again, the parameters for the constructor are the same as in the \CPP example. The axion EOM, then, is solved using
@@ -982,16 +1099,11 @@ As already mentioned, it is important to always delete any instance of the {\tt 
 \end{py}
 
 
-\paragraph{Axion mass limits}
-%
-Before we use the \PY interface of \mimes, we may need to change the default definitions of the axion mass beyond the interpolation points  which can only be done inside the definition of the {\tt mimes::AxionMass} constructor (see the \CPP example in section~\ref{sec:cpp_example}), since we cannot reassign class variables inside header files.
-
-
 \paragraph{Compilation of the shared library}
 %
 As described in section~\ref{sec:compile_time_input}, we may need to change the default data file paths, or the various compilation options. This is done through the variables in {\tt \mimes/Definitions.mk} and {\tt \mimes/Paths.mk} described in section~\ref{sec:options}. 
 
-Once have chosen everything according to our needs, the library can be created by opening a terminal inside the root directory of \mimes and running
+Once we have chosen everything according to our needs, the library can be created by opening a terminal inside the root directory of \mimes and running
 %
 \begin{py}
 	bash configure.sh
@@ -1009,14 +1121,28 @@ As in the \CPP example, this example consists of only a few lines of code. The s
 	from os import path as osPath
 	sysPath.append(osPath.join(osPath.dirname(__file__), '../src'))
 	
-	#import the Axion class from the Axion module
-	from interfacePy.Axion import Axion
+	from interfacePy.AxionMass import AxionMass #import the AxionMass class
+	from interfacePy.Axion import Axion #import the Axion class
+	from interfacePy.Cosmo import mP #import the Planck mass
+
+	# AxionMass instance
+	axionMass = AxionMass(r'../src/data/chi.dat',0,mP)
+	
+	# define $\maT^2$ for $T\leq T_{\rm min}$
+	TMin=axionMass.getTMin() 
+	chiMin=axionMass.getChiMin()
+	axionMass.set_ma2_MIN( lambda T,fa: chiMin/fa/fa )
+
+	# define $\maT^2$ for $T\geq T_{\rm max}$
+	TMax=axionMass.getTMax() 
+	chiMax=axionMass.getChiMax()
+	axionMass.set_ma2_MAX( lambda T,fa: chiMax/fa/fa*pow(T/TMax,-8.16) )
 	
 	#in python it is more convenient to use relative paths
 	inputFile = inputFile="./InputExamples/MatterInput.dat"  
 	
-	ax = Axion(0.1, 1e16, 500, 1e-4, 1e3, 15, 1e-2, inputFile, 1e-1, 
-	1e-8, 1e-1, 1e-11, 1e-11, 0.9, 1.2, 0.8, int(1e7))
+	ax = Axion(0.1, 1e16, 500, 1e-4, 1e3, 15, 1e-2, inputFile, axionMass, 
+	1e-1, 1e-8, 1e-1, 1e-11, 1e-11, 0.9, 1.2, 0.8, int(1e7))
 
 	ax.solveAxion()
 	
@@ -1027,11 +1153,21 @@ As in the \CPP example, this example consists of only a few lines of code. The s
 \end{py} 
 
 
-\paragraph{Final note}
-%
 One can find a complete example, including the option to create several plots, in {\tt \mimes/UserSpace/Python/Axion.py}. Also, the same example can be used interactively, in the jupyter notebook, that can be found in {\tt \mimes/UserSpace/JupyterNotebooks/Axion.ipynb}. One can read the comments, and change all different parameters, in order to examine how the results are affected. 
 
-
+\paragraph{Alternative axion Mass definition}
+%
+In order to use the approximate axion mass as defined in \eqs{eq:axM_approx}, we could replace the definition of the {\tt axionMass} variable (lines $10$-$21$) with
+%
+\begin{py}
+	def ma2(T,fa):
+		TQCD=150*1e-3
+		ma20=3.1575e-05/fa/fa
+		if T<=TQCD:
+			return ma20;
+		return ma20*pow((TQCD/T),8.16)
+	axionMass = AxionMass(ma2)
+\end{py}
 
 \subsubsection{Results}
 %

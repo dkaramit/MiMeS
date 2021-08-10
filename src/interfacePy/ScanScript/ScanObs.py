@@ -18,7 +18,6 @@ from misc_dir.path import _PATH_
 
 from interfacePy.Axion import Axion 
 from interfacePy.Cosmo import h_hub,T0,rho_crit,s 
-from interfacePy.AxionMass import ma2 
 
 
 
@@ -41,7 +40,7 @@ parallelScan=_PATH_+r"/src/util/parallel_scan.sh"
 
 
 class ScanObs:
-    def __init__(self,cpus,table_fa,len_theta,umax,TSTOP,ratio_ini,N_convergence_max,convergence_lim,inputFile,
+    def __init__(self,cpus,table_fa,len_theta,umax,TSTOP,ratio_ini,N_convergence_max,convergence_lim,inputFile,axionMass,
                 PathToCppExecutable, relic_obs,relic_err_up,relic_err_low,break_after,break_time,break_command='',
                 initial_step_size=1e-2, minimum_step_size=1e-8, maximum_step_size=1e-2, 
                 absolute_tolerance=1e-8, relative_tolerance=1e-8,
@@ -79,6 +78,8 @@ class ScanObs:
         
         inputFile: file that describes the cosmology. the columns should be: u T[GeV] logH     
         
+        axionMass: instance of AxionMass
+
         PathToCppExecutable: path to an executable that takes "theta_i  fa  umax  TSTOP  ratio_ini  N_convergence_max convergence_lim inputFile"
         and prints "theta_i fa theta_osc T_osc relic"
 
@@ -125,6 +126,7 @@ class ScanObs:
         self.Npeaks=N_convergence_max
         self.conv=convergence_lim
         self.inputFile=inputFile
+        self.axionMass=axionMass
         
         self.PathToCppExecutable=PathToCppExecutable
 
@@ -194,9 +196,13 @@ class ScanObs:
             ########################---find theta_i (assuming theta_i<<1) such that Omega h^=0.12---########################
 
             theta_small=1e-3
-            ax=Axion(theta_small,fa,self.umax,self.TSTOP,self.ratio_ini,self.Npeaks,self.conv,self.inputFile)
+            ax=Axion(theta_small,fa,self.umax,self.TSTOP,
+            self.ratio_ini,self.Npeaks,self.conv,self.inputFile, self.axionMass, 
+            self.initial_step_size, self.minimum_step_size, self.maximum_step_size, 
+            self.absolute_tolerance, self.relative_tolerance, self.beta,
+            self.fac_max, self.fac_min, self.maximum_No_steps)
 
-            ax.solve()
+            ax.solveAxion()
             ax.getPeaks()
             
             T=ax.T_peak[-1]
@@ -205,7 +211,7 @@ class ScanObs:
             relic=ax.relic
             theta_obs=sqrt(theta**2/relic*self.relic_obs)
 
-            relic=s(T0)/s(T)*0.5*sqrt(ma2(0,1)*ma2(T,1))*theta_obs**2*h_hub**2/rho_crit
+            relic=s(T0)/s(T)*0.5*sqrt(self.axionMass.ma2(0,1)*self.axionMass.ma2(T,1))*theta_obs**2*h_hub**2/rho_crit
 
             theta_small_i=theta_small*theta_obs/theta
             

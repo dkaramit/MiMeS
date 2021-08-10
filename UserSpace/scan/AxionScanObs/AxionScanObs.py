@@ -19,10 +19,28 @@ from os import path as osPath
 sysPath.append(osPath.join(osPath.dirname(__file__), '../../../src'))
 
 from interfacePy.ScanScript import ScanObs 
-from interfacePy.Cosmo import relicDM_obs 
+from interfacePy.Cosmo import relicDM_obs,mP 
+from interfacePy.AxionMass import AxionMass 
+
 
 
 from numpy import logspace
+
+
+# AxionMass instance
+axionMass = AxionMass(r'../../../src/data/chi.dat',0,mP)
+#------------------------------------------------------------------------------#
+# this is the axion mass squared beyond the interpolation limits for the current data 
+# if yo don't specify it, the axion mass is taken to be constant beyond these limits
+TMax=axionMass.getTMax() 
+chiMax=axionMass.getChiMax()
+TMin=axionMass.getTMin() 
+chiMin=axionMass.getChiMin()
+
+axionMass.set_ma2_MAX( lambda T,fa: chiMax/fa/fa*pow(T/TMax,-8.16) )
+axionMass.set_ma2_MIN( lambda T,fa: chiMin/fa/fa )
+
+
 
 scan=ScanObs(
     cpus=8,
@@ -31,11 +49,12 @@ scan=ScanObs(
     umax=500,
     TSTOP=1e-4,
     ratio_ini=1e3,
-    N_convergence_max=5,
-    convergence_lim=1e-2,
+    N_convergence_max=10,
+    convergence_lim=1e-1,
     inputFile="../../InputExamples/RDinput.dat", 
     # inputFile="../../InputExamples/MatterInput.dat", 
     # inputFile="../../InputExamples/KinationInput.dat",
+    axionMass=axionMass,
     PathToCppExecutable=r"../../Cpp/Axion/Axion.run",
     relic_obs=relicDM_obs,
     relic_err_up=0.01,

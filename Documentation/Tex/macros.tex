@@ -1,6 +1,13 @@
 \usepackage{ifthen}
 \usepackage{tikz}
 \usepackage{xspace}
+%\usepackage{minted}
+\usepackage{listings}
+\usepackage[T1]{fontenc}
+
+
+
+
 
 
 %Define color environments:
@@ -15,16 +22,48 @@
 \definecolor{mediumjunglegreen}{rgb}{0.11, 0.21, 0.18}
 \definecolor{bg}{HTML}{282828}
 
+\lstset{
+	escapeinside={?}{?},
+	basicstyle=\small\ttfamily,%
+	columns=fullflexible,%
+	keywords=[2]{fail},%
+	keywords=[3]{pass},%
+	keywordstyle={\color{blue!80!black}},%
+	keywordstyle=[2]{\color{red!80!black}},%
+	keywordstyle=[3]{\color{green!50!black}},%
+	numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+	numbersep=5pt,                   % how far the line-numbers are from the code
+	numberstyle=\tiny, % the style that is used for the line-number
+	commentstyle=\fontfamily{palatino}\color{purple!40!black},
+	breaklines=false
+}
+%
+
+\lstnewenvironment{cpp}
+{\lstset{language=c++}}
+{}
+
+\lstnewenvironment{py}
+{\lstset{language=Python}}
+{}
+
+\lstnewenvironment{bash}
+{\lstset{language=Python}}
+{}
+
+\lstnewenvironment{pseudo}
+{\lstset{language=Python}}
+{}
 
 
-\newenvironment{cpp}{\usemintedstyle{xcode}\VerbatimEnvironment\begin{minted}[frame=lines,framesep=5mm,baselinestretch=1.2,fontsize=\footnotesize,linenos,mathescape,escapeinside=??]{cpp}}{\end{minted}} 
+%\newenvironment{cpp}{\usemintedstyle{xcode}\VerbatimEnvironment\begin{minted}[frame=lines,framesep=5mm,baselinestretch=1.2,fontsize=\footnotesize,linenos,mathescape,escapeinside=??]{cpp}}{\end{minted}} 
 
-\newenvironment{py}{\usemintedstyle{xcode}\VerbatimEnvironment\begin{minted}[frame=lines,framesep=5mm,baselinestretch=1.2,fontsize=\footnotesize,linenos,mathescape,escapeinside=??]{py}}{\end{minted}} 
+%\newenvironment{py}{\usemintedstyle{xcode}\VerbatimEnvironment\begin{minted}[frame=lines,framesep=5mm,baselinestretch=1.2,fontsize=\footnotesize,linenos,mathescape,escapeinside=??]{py}}{\end{minted}} 
 
-\newenvironment{bash}{\usemintedstyle{xcode}\VerbatimEnvironment\begin{minted}[frame=lines,framesep=5mm,baselinestretch=1.2,fontsize=\footnotesize,linenos,mathescape]{bash}}{\end{minted}} 
+%\newenvironment{bash}{\usemintedstyle{xcode}\VerbatimEnvironment\begin{minted}[frame=lines,framesep=5mm,baselinestretch=1.2,fontsize=\footnotesize,linenos,mathescape]{bash}}{\end{minted}} 
 
 %in order to writ maths outside of comments put them inside ?$$?. Theta is for x^2, write ?$x^2$?.
-\newenvironment{pseudo}{\usemintedstyle{xcode}\VerbatimEnvironment\begin{minted}[frame=lines,framesep=5mm,baselinestretch=1.2,fontsize=\footnotesize,linenos,escapeinside=??,mathescape=true]{python}}{\end{minted}} 
+%\newenvironment{pseudo}{\usemintedstyle{xcode}\VerbatimEnvironment\begin{minted}[frame=lines,framesep=5mm,baselinestretch=1.2,fontsize=\footnotesize,linenos,escapeinside=??,mathescape=true]{python}}{\end{minted}} 
 
 \newenvironment{run}[1]{``{\tt #1}"\xspace}
 

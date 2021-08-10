@@ -55,12 +55,12 @@ namespace mimes{
             anharmonic_factor=CubicSpline<LD>(&theta_tab,&anF_tab);
         }
 
-        LD operator()(LD theta_max){
-            // the adiabatic invariant for theta_max (ie at a point with dtheta/dt=0)
+        LD operator()(LD theta_peak){
+            // the adiabatic invariant for theta_peak (ie at a point with dtheta/dt=0)
 
-            if(theta_max<=minTheta){return anFStart;}
-            if(theta_max>=maxTheta){return anFEnd;}
-            return anharmonic_factor(theta_max);
+            if(theta_peak<=minTheta){return anFStart;}
+            if(theta_peak>=maxTheta){return anFEnd;}
+            return anharmonic_factor(theta_peak);
         }
         
 
@@ -69,30 +69,30 @@ namespace mimes{
             return x - (int)(x/y) * y;
         }
 
-        LD warped(LD theta_max){
+        LD warped(LD theta_peak){
             /*
-            The adiabatic invariant for theta_max (ie at a point with dtheta/dt=0),
-            but theta_max is wraped between 0 and pi.
+            The adiabatic invariant for theta_peak (ie at a point with dtheta/dt=0),
+            but theta_peak is wraped between 0 and pi.
             */
 
-            //theta_max is positive by definition
-            if(theta_max<0){theta_max*=-1;}
+            //theta_peak is positive by definition
+            if(theta_peak<0){theta_peak*=-1;}
         
-            //if theta_max>pi, then wrap it to pi, since theta_max is defined to be smaller (or equal) 
+            //if theta_peak>pi, then wrap it to pi, since theta_peak is defined to be smaller (or equal) 
             // than pi. 
-            if (theta_max>M_PI){
-                LD _tmp=mod(theta_max, M_PI);
-                if(_tmp==0){theta_max=M_PI;}
-                else{theta_max= _tmp;}
+            if (theta_peak>M_PI){
+                LD _tmp=mod(theta_peak, M_PI);
+                if(_tmp==0){theta_peak=M_PI;}
+                else{theta_peak= _tmp;}
             }
             
-            // if theta_max is between the maximum tabulated theta_max and \pi, 
-            // you can just use theta_max=maxTheta, since maxTheta \approx pi. 
+            // if theta_peak is between the maximum tabulated theta_peak and \pi, 
+            // you can just use theta_peak=maxTheta, since maxTheta \approx pi. 
             // This may happen if one uses a more accurate  value for \pi than the one used in
             // the tabulated results.
-            if(theta_max>=maxTheta){return anharmonic_factor(maxTheta);}
+            if(theta_peak>=maxTheta){return anharmonic_factor(maxTheta);}
 
-            return anharmonic_factor(theta_max);
+            return anharmonic_factor(theta_peak);
         }
 
     };

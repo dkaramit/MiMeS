@@ -1602,11 +1602,41 @@ The member function responsible for solving the EOM is
 Once this function finishes, we have access to all the relevant results in the member variables
 %
 \begin{itemize}
- 	\item {\tt std::vector<std::vector<LD>> points}}: Points of integration
-	\item {\tt std::vector<std::vector<LD>> peaks}
-	\item {\tt std::vector<LD> dtheta}
-	\item {\tt std::vector<LD> dzeta}
+ 	\item {\tt std::vector<std::vector<LD>> points}: The quantities $a/\ai, \ T, \ \theta, \ \zeta, \rho_a$, at the integration  steps.
+	\item {\tt std::vector<std::vector<LD>> peaks}: The quantities $a/\ai, \ T, \ \theta, \ \zeta, \rho_a, \ J$, at the peaks of the oscillation. Note taht these points are computed using linear interpolation between two integration points with a change in teh sign of $\zeta$.
+	\item {\tt std::vector<LD> dtheta}: Local integration error for $\theta$.
+	\item {\tt std::vector<LD> dzeta}: Local integration error for $\zeta$.
+	\item {\tt LD T\_osc}: The oscillation temperature. 
+	\item {\tt LD theta\_osc}: The angle at $T=\Tosc$.
+	\item {\tt LD a\_osc}: $a/\ai$ at $T=\Tosc$.
+	\item {\tt LD gamma}: The amount of entropy injection between the last peak ($T=T_{\rm peak}$) and today ($T=T_0$).
 \end{itemize}
+
+
+We can set another initial condition, $\thetai$, using 
+%
+\begin{cpp}
+	void setTheta_i(LD theta_i)
+\end{cpp}
+%
+We should note that running this function all variables are cleared. So we lose all information about the last time {\tt axionSolve()} ran. 
+
+In case the mass of the axion is changed, we also need to remake  the interpolation (\ie run mimes::AxionEOM::makeInt()). This is done using
+%
+\begin{cpp}
+	void restart()
+\end{cpp}
+%
+Again, this function clears all member variables. So it should be used with caution.
+
+
+Finally, there is static {\tt mimes::Cosmo<LD>} member variable
+%
+\begin{cpp}
+	 static {\tt mimes::Cosmo<LD>} plasma
+\end{cpp}
+%
+This variable can be used without an instance of the {\tt mimes::Axion<LD,Solver,Method>} class.
 
 \section{\PY modules}\label{app:modules}
 \setcounter{equation}{0}

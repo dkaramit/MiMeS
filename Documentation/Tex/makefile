@@ -6,16 +6,15 @@ FLG=-shell-escape
 figs = $(wildcard figs/*.pdf)
 
 #make the pdf
-all:  ../MiMeS.pdf
+all:  MiMeS.pdf
 
 #run pdflatex and bibtex (runs only if you update something in pdfs or in the tex file)
-../MiMeS.pdf:  MiMeS.tex $(figs) refs.bib
+MiMeS.pdf:  MiMeS.tex $(figs) refs.bib
 	$(TEX) $(FLG) $< 
 	$(TEX) $(FLG) $< 
 	$(BIB) MiMeS || true
 	$(TEX) $(FLG) $< 
 	$(TEX) $(FLG) $< 
-	mv MiMeS.pdf ../
 
 	#remove all output except the pdf file
 	rm -f *.aux 
@@ -25,7 +24,7 @@ all:  ../MiMeS.pdf
 	rm -f *.blg 
 	rm -rf _minted-MiMeS
 clean:
-	rm -f ../MiMeS.pdf 
+	rm -f MiMeS.pdf 
 	rm -f MiMeS.pdf
 	rm -f *.aux 
 	rm -f *.log 

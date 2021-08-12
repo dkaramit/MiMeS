@@ -2,11 +2,8 @@
 #include <iomanip> 
 #include <cmath> 
 #include <string> 
-#include"src/Axion/AxionSolve.hpp"
-#include"src/AxionMass/AxionMass.hpp"
-#include"src/misc_dir/path.hpp"
-#include"src/util/timeit.hpp"
 
+#include"MiMeS.hpp"
 
 // #define printPoints // print the entire evolution of the axion angle, its derivative, and other quantities
 // #define printPeaks // print these quantities at the peaks of the oscillation
@@ -72,7 +69,7 @@ int main(int argc, char **argv){
 
     
     //timeit.sh adds some (insignificant) overhead. So, alternatively, you can use
-    // mimes::Timer _time_; 
+    // mimes::util::Timer _time_; 
     // The _time_ instance  prints the time the program took in stderr when the program exits (when _time_ goes out of scope in general).  
 
     // you can change the axion mass function for T above the interpolation range like this (these are not correct; they only show how it can be done):

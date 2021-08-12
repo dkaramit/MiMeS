@@ -2,9 +2,8 @@
 #include <iomanip> 
 #include <cmath> 
 #include <string> 
-#include"src/AnharmonicFactor/AnharmonicFactor.hpp"
-#include"src/misc_dir/path.hpp"
 
+#include"MiMeS.hpp"
 
 #ifndef LONG
     #define LONG 

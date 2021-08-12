@@ -1,7 +1,10 @@
+#ifndef Timer_included
+#define Timer_included
+
 #include<iostream>
 #include<chrono>
 
-namespace mimes{
+namespace mimes{ namespace util{
     // this uses the life time of a variable to basically measure time inside a scope! 
     class Timer{
         public:
@@ -17,4 +20,7 @@ namespace mimes{
             std::cerr<<dt.count()<<"\n";
         };
     };
-}
+}}
+
+
+#endif

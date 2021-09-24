@@ -1,10 +1,10 @@
 from ..Cosmo import Hubble,s,T0, rho_crit, h_hub,heff,geff
-from ..AxionMass import ma2
+from ..AxionMass import AxionMass
 from numpy import sqrt,loadtxt,vectorize,array,exp
 
 
 
-def relic(Tosc,theta_osc,gamma=1.):
+def relic(Tosc,theta_osc,ma2,gamma=1.):
     '''
     The axion relic abundance using the WKB approximation.
     Tosc: the oscillation temperature
@@ -33,7 +33,7 @@ def theta_osc(Tini,ratio_ini,Tosc,theta_ini,gamma_osc=1):
 
 
 
-def getPoints(T_start,ratio_ini,fa,inputFile):
+def getPoints(T_start,ratio_ini,fa,ma2,inputFile):
     '''find the points you need for Tosc, gamma, and gamma osc 
     T_start: some initial temperature (this just help to start searching for an appropriate Tini)
     ratio_ini: 3H/ma at Tini (it has to be close to 1 for the theta_osc approximation to work). This is used to find Tini

@@ -19,12 +19,6 @@ from misc_dir.path import _PATH_
 from interfacePy.Axion import Axion 
 from interfacePy.Cosmo import Cosmo
 
-cosmo=Cosmo()
-h_hub=cosmo.h_hub
-T0=cosmo.T0
-rho_crit=cosmo.rho_crit
-s=cosmo.s
-
 
 
 from numpy import pi, sqrt, abs, array, float64, argmin, savetxt, linspace 
@@ -47,7 +41,8 @@ parallelScan=_PATH_+r"/src/util/parallel_scan.sh"
 
 class ScanObs:
     def __init__(self,cpus,table_fa,len_theta,umax,TSTOP,ratio_ini,N_convergence_max,convergence_lim,inputFile,axionMass,
-                PathToCppExecutable, relic_obs,relic_err_up,relic_err_low,break_after,break_time,break_command='',
+                PathToCppExecutable, relic_obs,relic_err_up,relic_err_low,cosmo=Cosmo(_PATH_+r'/src/data/eos2020.dat',0,1.22e19),
+                break_after=5*60,break_time=5,break_command='',
                 initial_step_size=1e-2, minimum_step_size=1e-8, maximum_step_size=1e-2, 
                 absolute_tolerance=1e-8, relative_tolerance=1e-8,
                 beta=0.9, fac_max=1.2, fac_min=0.8, maximum_No_steps=int(1e7)):
@@ -93,6 +88,7 @@ class ScanObs:
         relic_err_up: upper error bar around relic_obs (example, relic_err_up=0.001)
         relic_err_low: lower error bar around relic_obs (example, relic_err_low=0.001)
 
+        cosmo: an instance of the Cosmo class (default Cosmo('src/data/eos2020.dat',0,1.22e19))
         break_after,break_time: take a break after break_after seconds for break_time seconds
         (optional) break_command: before it takes a break, run this system command (this may be a script to send the results
         to an e-mail, or back them up)
@@ -138,7 +134,12 @@ class ScanObs:
 
         self.relic_obs=relic_obs
         self.relic_err_up,self.relic_err_low = relic_err_up,relic_err_low
-        
+
+        self.h_hub=cosmo.h_hub
+        self.T0=cosmo.T0
+        self.rho_crit=cosmo.rho_crit
+        self.s=cosmo.s
+
         self.break_after=break_after        
         self.break_time=break_time
         self.break_command=break_command
@@ -217,7 +218,7 @@ class ScanObs:
             relic=ax.relic
             theta_obs=sqrt(theta**2/relic*self.relic_obs)
 
-            relic=s(T0)/s(T)*0.5*sqrt(self.axionMass.ma2(0,1)*self.axionMass.ma2(T,1))*theta_obs**2*h_hub**2/rho_crit
+            relic=self.s(self.T0)/self.s(T)*0.5*sqrt(self.axionMass.ma2(0,1)*self.axionMass.ma2(T,1))*theta_obs**2*self.h_hub**2/self.rho_crit
 
             theta_small_i=theta_small*theta_obs/theta
             

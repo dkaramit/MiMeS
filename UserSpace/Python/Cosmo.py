@@ -8,8 +8,7 @@ sysPath.append(osPath.join(osPath.dirname(__file__), '../../src'))
 #load the module
 from interfacePy import Cosmo 
 
-cosmo=Cosmo()
-
+cosmo=Cosmo('../../src/data/eos2020.dat',0,1e5)
 
 for T in logspace(-5,5,50):
     print(

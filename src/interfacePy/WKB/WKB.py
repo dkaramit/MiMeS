@@ -1,12 +1,17 @@
-from ..Cosmo import Cosmo
-from ..AxionMass import AxionMass
 from numpy import sqrt,loadtxt,vectorize,array,exp
 
 
+from sys import path as sysPath
+from os import path as osPath
+sysPath.append(osPath.join(osPath.dirname(__file__), '../'))
+sysPath.append(osPath.join(osPath.dirname(__file__), '../../src'))
+from misc_dir.path import _PATH_
 
-cosmo=Cosmo()
+from ..AxionMass import AxionMass 
+from interfacePy.Cosmo import Cosmo
 
-def relic(Tosc,theta_osc,ma2,gamma=1.):
+
+def relic(Tosc,theta_osc,ma2,cosmo=Cosmo(_PATH_+r'/src/data/eos2020.dat',0,1.22e19),gamma=1.):
     '''
     The axion relic abundance using the WKB approximation.
     Tosc: the oscillation temperature
@@ -20,7 +25,7 @@ def relic(Tosc,theta_osc,ma2,gamma=1.):
 
 
 
-def getPoints(T_start,ratio_ini,fa,ma2,inputFile):
+def getPoints(T_start,ratio_ini,fa,ma2,inputFile,cosmo=Cosmo(_PATH_+r'/src/data/eos2020.dat',0,1.22e19),gamma=1.):
     '''find the points you need for Tosc, gamma, and gamma osc 
     T_start: some initial temperature (this just help to start searching for an appropriate Tini)
     ratio_ini: 3H/ma at Tini (it has to be close to 1 for the theta_osc approximation to work). This is used to find Tini

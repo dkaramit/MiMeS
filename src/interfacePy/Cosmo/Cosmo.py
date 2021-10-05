@@ -1,4 +1,6 @@
-from  ctypes import CDLL, c_longdouble, c_double
+from  ctypes import CDLL, c_longdouble, c_double,c_void_p,c_char_p
+
+
 
 from sys import path as sysPath
 from os import path as osPath
@@ -8,29 +10,37 @@ sysPath.append(osPath.join(osPath.dirname(__file__), '../../'))
 from misc_dir.path import _PATH_
 from misc_dir.type import cdouble
 
+void_p=c_void_p
+char_p=c_char_p
+
+
+
 #load the library
-func = CDLL(_PATH_+'/lib/libCosmo.so')
+CosmoLib = CDLL(_PATH_+'/lib/libCosmo.so')
 
-CppFunc=func.heff,func.geff,func.dgeffdT,func.dheffdT,func.dh,func.rhoR,func.Hubble,func.s  
+CppFunc=CosmoLib.heff,CosmoLib.geff,CosmoLib.dgeffdT,CosmoLib.dheffdT,CosmoLib.dh,CosmoLib.rhoR,CosmoLib.Hubble,CosmoLib.s  
 
-#specify the argument types
 for i,f in enumerate (CppFunc): 
-    f.argtypes = cdouble,
-    #specify the return type
+    f.argtypes = cdouble, void_p
     f.restype = cdouble
 ###############################################
 
+CosmoLib.INIT.argtypes=char_p, cdouble, cdouble
+CosmoLib.INIT.restype=void_p
 
-func.getT0.argtypes =None
-func.getT0.restype =cdouble
-func.geth_hub.argtypes =None
-func.geth_hub.restype =cdouble
-func.getrho_crit.argtypes =None
-func.getrho_crit.restype =cdouble
-func.getrelicDM.argtypes =None
-func.getrelicDM.restype =cdouble
-func.getMP.argtypes =None
-func.getMP.restype =cdouble
+CosmoLib.DEL.argtypes= void_p,
+CosmoLib.DEL.restype = None
+
+CosmoLib.getT0.argtypes =void_p,
+CosmoLib.getT0.restype =cdouble
+CosmoLib.geth_hub.argtypes =void_p,
+CosmoLib.geth_hub.restype =cdouble
+CosmoLib.getrho_crit.argtypes =void_p,
+CosmoLib.getrho_crit.restype =cdouble
+CosmoLib.getrelicDM.argtypes =void_p,
+CosmoLib.getrelicDM.restype =cdouble
+CosmoLib.getMP.argtypes =void_p,
+CosmoLib.getMP.restype =cdouble
 
 
 
@@ -46,49 +56,62 @@ class Cosmo:
     relicDM_obs: central value of Omega h^2 according to Planck
     mP: Planck mass in GeV
     '''
-    def __init__(self):
-        # CMB temperature today in GeV
-        self.T0=func.getT0()
-        # critical density today in GeV^4
-        self.rho_crit=func.getrho_crit()
-        # dimensionless hubble parameter
-        self.h_hub=func.geth_hub()
-        # central value of Omega h^2 according to Planck 
-        self.relicDM_obs=func.getrelicDM()
-        # Planck mass in GeV
-        self.mP=func.getMP()
+    def __init__(self, path, minT=0, maxT=1.22e19):
+        '''
+        The constructor:
+        path: Relative path to a file that contains T [GeV] h_eff g_eff, with increasing T.
+        minT: Minimum interpolation temperature (in GeV)(default 0) 
+        maxT: Maximum interpolation temperature (in GeV) (default 1.22e19 GeV)
+        Beyond the interpolation limits, the h_eff and g_eff are taken to be constant.
+        '''
+        _file_=char_p(bytes(path, encoding='utf-8'))
+        self.voidCosmo=CosmoLib.INIT(_file_,minT,maxT)
 
+        # CMB temperature today in GeV
+        self.T0=CosmoLib.getT0(self.voidCosmo)
+        # critical density today in GeV^4
+        self.rho_crit=CosmoLib.getrho_crit(self.voidCosmo)
+        # dimensionless hubble parameter
+        self.h_hub=CosmoLib.geth_hub(self.voidCosmo)
+        # central value of Omega h^2 according to Planck 
+        self.relicDM_obs=CosmoLib.getrelicDM(self.voidCosmo)
+        # Planck mass in GeV
+        self.mP=CosmoLib.getMP(self.voidCosmo)
+
+
+    # def __del__(self):
+        # CosmoLib.DEL(self.voidCosmo)
     def heff(self,T):
         '''h_eff at temperature T [GeV]'''
-        return func.heff(T)
+        return CosmoLib.heff(T,self.voidCosmo)
 
     def geff(self,T):
         '''g_eff at temperature T [GeV] '''
-        return func.geff(T)
+        return CosmoLib.geff(T,self.voidCosmo)
 
     def dgeffdT(self,T):
         '''\\dfrac{dg_eff}{dT} at temperature T [GeV]'''
-        return func.dgeffdT(T)
+        return CosmoLib.dgeffdT(T,self.voidCosmo)
 
     def dheffdT(self,T):
         '''\\dfrac{dh_eff}{dT} at temperature T [GeV]'''
-        return func.dheffdT(T)
+        return CosmoLib.dheffdT(T,self.voidCosmo)
 
     def dh(self,T):
         '''\\delta_h(T)=1+1/3 \frac{d log h_eff}{d log T} at temperature T [GeV]'''
-        return func.dh(T)
+        return CosmoLib.dh(T,self.voidCosmo)
 
     def rhoR(self,T):
         '''energy density of the plasma at temperature T [GeV]'''
-        return func.rhoR(T)
+        return CosmoLib.rhoR(T,self.voidCosmo)
 
     def Hubble(self,T): 
         '''H at temperature T [GeV]'''
-        return func.Hubble(T)
+        return CosmoLib.Hubble(T,self.voidCosmo)
 
     def s(self,T): 
         '''s (entropy density of the plasma) at temperature T [GeV]'''
-        return func.s(T)
+        return CosmoLib.s(T,self.voidCosmo)
 
 
 if __name__=="__main__":

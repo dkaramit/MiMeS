@@ -26,7 +26,7 @@ from interfacePy.AxionMass import AxionMass
 
 from numpy import logspace
 
-cosmo=Cosmo()
+cosmo=Cosmo(r'../../../src/data/eos2020.dat',0,1.22e19)
 mP=cosmo.mP
 relicDM_obs=cosmo.relicDM_obs
 
@@ -47,7 +47,7 @@ axionMass.set_ma2_MIN( lambda T,fa: chiMin/fa/fa )
 
 scan=ScanObs(
     cpus=8,
-    table_fa= logspace(10,20,150),
+    table_fa= logspace(10,20,50),
     len_theta=150,
     umax=500,
     TSTOP=1e-4,
@@ -62,6 +62,7 @@ scan=ScanObs(
     relic_obs=relicDM_obs,
     relic_err_up=0.01,
     relic_err_low=0.01,
+    cosmo=cosmo,
     break_after=60*60*3,
     break_time=60,
     break_command='',

@@ -1716,10 +1716,46 @@ The various \PY modules, classes, and functions are designed to work exactly in 
 	from sys import path as sysPath
 	sysPath.append('path_to_src')
 \end{py}
+
+The available models are {\tt Cosmo}, {\tt AxionMass}, and {\tt Axion}, each defines a class with the same name.
+
+\subsection{{\tt Cosmo} module}
 %
-After this line, the others can be included.
+Inside The {\tt Cosmo} module defines the \pyin{Cosmo} class, which contains information about the plasma. The relevant shared library ({\tt lib/libCosmo.so}) is obtained by by running {\tt make lib/libCosmo.so}. It is important to note that, the interpolation of the various functions are created once the module is imported, and not for each instance. That is, the input file and interpolation range can be changed by changing the first, second and third arguments of the constructor, respectively, in {\tt src/Cosmo/Cosmo.cpp}. If these values change, then the library must be compiled.
+%
+
+The class can be imported by  running 
+%
+\begin{py}
+	from interfacePy.Cosmo import Cosmo
+\end{py}
 
 
+Interpolation of the RDOF, allows us to define various quantities related to the plasma; \eg the entropy density is defined as $s = \dfrac{2\pi^2}{45} \heff T^3$. These quantities are given as the member functions:
+%
+\begin{itemize}
+	\item \cppin{ template<class LD> LD mimes::Cosmo<LD>::heff(LD T)}: $\heff$ as a function of $T$.
+	\item \cppin{ template<class LD> LD mimes::Cosmo<LD>::geff(LD T)}: $\geff$ as a function of $T$.
+	% 
+	\item \cppin{ template<class LD> LD mimes::Cosmo<LD>::dheffdT(LD T)}: $d\heff/dT$ as a function of $T$.
+	\item \cppin{ template<class LD> LD mimes::Cosmo<LD>::dgeffdT(LD T)}: $d\geff/dT$ as a function of $T$.
+	%
+	\item \cppin{ template<class LD> LD mimes::Cosmo<LD>::dh(LD T)}: $\delta_h = 1 + \frac{1}{3} \frac{d\log \heff}{d\log T}$ as a function of $T$.
+	%
+	\item \cppin{ template<class LD> LD mimes::Cosmo<LD>::s(LD T)}: The entropy density of the plasma as a function of $T$.
+	\item \cppin{ template<class LD> LD mimes::Cosmo<LD>::rhoR(LD T)}: The energy density of the plasma as a function of $T$.
+	\item \cppin{ template<class LD> LD mimes::Cosmo<LD>::Hubble(LD T)}: The Hubble parameter assuming radiation dominated expansion as a function of $T$.
+\end{itemize}
+
+Moreover, there are several cosmological quantities are given as members variables:
+%
+\begin{itemize}
+	\item \cppin{template<class LD> constexpr static LD mimes::Cosmo<LD>::T0}: CMB temperature today~\cite{Zyla:2020zbs} in $\GeV$.
+	\item \cppin{ template<class LD> constexpr static LD mimes::Cosmo<LD>::h\_hub}: Dimensionless Hubble constant~\cite{Zyla:2020zbs}.
+	\item \cppin{ template<class LD> constexpr static LD mimes::Cosmo<LD>::rho\_crit}: Critical density~\cite{Zyla:2020zbs} in $\GeV^3$.
+	\item \cppin{ template<class LD> constexpr static LD mimes::Cosmo<LD>::relicDM\_obs}: Central value of the measured DM relic abundance~\cite{Planck:2018vyg}.
+	\item \cppin{ template<class LD> constexpr static LD mimes::Cosmo<LD>::mP}: Planck mass~\cite{Zyla:2020zbs} in $\GeV$.
+\end{itemize}
 
 \section{Utilities}\label{app:util}
 \setcounter{equation}{0}

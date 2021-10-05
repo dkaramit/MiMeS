@@ -17,7 +17,13 @@ sysPath.append(osPath.join(osPath.dirname(__file__), '../../src'))
 from misc_dir.path import _PATH_
 
 from interfacePy.Axion import Axion 
-from interfacePy.Cosmo import h_hub,T0,rho_crit,s 
+from interfacePy.Cosmo import Cosmo
+
+cosmo=Cosmo()
+h_hub=cosmo.h_hub
+T0=cosmo.T0
+rho_crit=cosmo.rho_crit
+s=cosmo.s
 
 
 

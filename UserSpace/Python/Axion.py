@@ -8,7 +8,11 @@ sysPath.append(osPath.join(osPath.dirname(__file__), '../../src'))
 #load the module
 from interfacePy.Axion import Axion 
 from interfacePy.AxionMass import AxionMass 
-from interfacePy.Cosmo import Hubble,mP
+from interfacePy.Cosmo import Cosmo
+
+
+Hubble=Cosmo().Hubble
+mP=Cosmo().mP
 
 theta_i, fa=0.94435, 1e12
 

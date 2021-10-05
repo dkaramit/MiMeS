@@ -19,13 +19,16 @@ from os import path as osPath
 sysPath.append(osPath.join(osPath.dirname(__file__), '../../../src'))
 
 from interfacePy.ScanScript import ScanObs 
-from interfacePy.Cosmo import relicDM_obs,mP 
+from interfacePy.Cosmo import Cosmo 
 from interfacePy.AxionMass import AxionMass 
 
 
 
 from numpy import logspace
 
+cosmo=Cosmo()
+mP=cosmo.mP
+relicDM_obs=cosmo.relicDM_obs
 
 # AxionMass instance
 axionMass = AxionMass(r'../../../src/data/chi.dat',0,mP)
@@ -45,7 +48,7 @@ axionMass.set_ma2_MIN( lambda T,fa: chiMin/fa/fa )
 scan=ScanObs(
     cpus=8,
     table_fa= logspace(10,20,150),
-    len_theta=350,
+    len_theta=150,
     umax=500,
     TSTOP=1e-4,
     ratio_ini=1e3,

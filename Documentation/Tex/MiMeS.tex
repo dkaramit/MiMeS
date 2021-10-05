@@ -1474,7 +1474,7 @@ Moreover, there are several cosmological quantities are given as members variabl
 \begin{itemize}
 	\item \cppin{template<class LD> constexpr static LD mimes::Cosmo<LD>::T0}: CMB temperature today~\cite{Zyla:2020zbs} in $\GeV$.
 	\item \cppin{ template<class LD> constexpr static LD mimes::Cosmo<LD>::h\_hub}: Dimensionless Hubble constant~\cite{Zyla:2020zbs}.
-	\item \cppin{ template<class LD> constexpr static LD mimes::Cosmo<LD>::rho\_crit}: Critical density~\cite{Zyla:2020zbs}.
+	\item \cppin{ template<class LD> constexpr static LD mimes::Cosmo<LD>::rho\_crit}: Critical density~\cite{Zyla:2020zbs} in $\GeV^3$.
 	\item \cppin{ template<class LD> constexpr static LD mimes::Cosmo<LD>::relicDM\_obs}: Central value of the measured DM relic abundance~\cite{Planck:2018vyg}.
 	\item \cppin{ template<class LD> constexpr static LD mimes::Cosmo<LD>::mP}: Planck mass~\cite{Zyla:2020zbs} in $\GeV$.
 \end{itemize}
@@ -1709,7 +1709,15 @@ This variable can be used without an instance of the \cppin{mimes::Axion<LD,Solv
 
 \section{\PY modules}\label{app:modules}
 \setcounter{equation}{0}
-\DK{Describe the modules.}
+
+The various \PY modules, classes, and functions are designed to work exactly in the same way as the ones in \CPP. All the modules are located in \pyin{src/interfacePY}, so it is helpful to add {\pyin src} path to the system path at the top of every script calling \mimes. This is done by adding
+%
+\begin{py}
+	from sys import path as sysPath
+	sysPath.append('path_to_src')
+\end{py}
+%
+After this line, the others can be included.
 
 
 

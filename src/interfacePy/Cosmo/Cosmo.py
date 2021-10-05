@@ -20,37 +20,6 @@ for i,f in enumerate (CppFunc):
     f.restype = cdouble
 ###############################################
 
-def heff(T):
-    '''h_eff at temperature T [GeV]'''
-    return func.heff(T)
-
-def geff(T):
-    '''g_eff at temperature T [GeV] '''
-    return func.geff(T)
-
-def dgeffdT(T):
-    '''\\dfrac{dg_eff}{dT} at temperature T [GeV]'''
-    return func.dgeffdT(T)
-
-def dheffdT(T):
-    '''\\dfrac{dh_eff}{dT} at temperature T [GeV]'''
-    return func.dheffdT(T)
-
-def dh(T):
-    '''\\delta_h(T)=1+1/3 \frac{d log h_eff}{d log T} at temperature T [GeV]'''
-    return func.dh(T)
-
-def rhoR(T):
-    '''energy density of the plasma at temperature T [GeV]'''
-    return func.rhoR(T)
-
-def Hubble(T): 
-    '''H at temperature T [GeV]'''
-    return func.Hubble(T)
-
-def s(T): 
-    '''s (entropy density of the plasma) at temperature T [GeV]'''
-    return func.s(T)
 
 func.getT0.argtypes =None
 func.getT0.restype =cdouble
@@ -63,16 +32,63 @@ func.getrelicDM.restype =cdouble
 func.getMP.argtypes =None
 func.getMP.restype =cdouble
 
-# CMB temperature today in GeV
-T0=func.getT0()
-# critical density today in GeV^4
-rho_crit=func.getrho_crit()
-# dimensionless hubble parameter
-h_hub=func.geth_hub()
-# central value of Omega h^2 according to Planck 
-relicDM_obs=func.getrelicDM()
-# Planck mass
-mP=func.getMP()
+
+
+class Cosmo:
+    '''Class that contains various cosmological parameters and functions.
+    The available functions are:
+    heff, geff, dgeffdT, dheffdT, dh, rhoR, Hubble, s. 
+    All are functions of the temperature (in GeV), and correspond to the standard comsological scenario.
+    The available variables are:
+    T0: CMB temperature today in GeV
+    rho_crit: critical density today in GeV^4
+    h_hub: dimensionless hubble parameter
+    relicDM_obs: central value of Omega h^2 according to Planck
+    mP: Planck mass in GeV
+    '''
+    def __init__(self):
+        # CMB temperature today in GeV
+        self.T0=func.getT0()
+        # critical density today in GeV^4
+        self.rho_crit=func.getrho_crit()
+        # dimensionless hubble parameter
+        self.h_hub=func.geth_hub()
+        # central value of Omega h^2 according to Planck 
+        self.relicDM_obs=func.getrelicDM()
+        # Planck mass in GeV
+        self.mP=func.getMP()
+
+    def heff(self,T):
+        '''h_eff at temperature T [GeV]'''
+        return func.heff(T)
+
+    def geff(self,T):
+        '''g_eff at temperature T [GeV] '''
+        return func.geff(T)
+
+    def dgeffdT(self,T):
+        '''\\dfrac{dg_eff}{dT} at temperature T [GeV]'''
+        return func.dgeffdT(T)
+
+    def dheffdT(self,T):
+        '''\\dfrac{dh_eff}{dT} at temperature T [GeV]'''
+        return func.dheffdT(T)
+
+    def dh(self,T):
+        '''\\delta_h(T)=1+1/3 \frac{d log h_eff}{d log T} at temperature T [GeV]'''
+        return func.dh(T)
+
+    def rhoR(self,T):
+        '''energy density of the plasma at temperature T [GeV]'''
+        return func.rhoR(T)
+
+    def Hubble(self,T): 
+        '''H at temperature T [GeV]'''
+        return func.Hubble(T)
+
+    def s(self,T): 
+        '''s (entropy density of the plasma) at temperature T [GeV]'''
+        return func.s(T)
 
 
 if __name__=="__main__":

@@ -17,7 +17,7 @@ sysPath.append(osPath.join(osPath.dirname(__file__), '../../src'))
 from misc_dir.path import _PATH_
 
 from interfacePy.Axion import Axion 
-from interfacePy.Cosmo import Cosmo
+from interfacePy.Cosmo import Cosmo,mP
 
 
 
@@ -41,7 +41,7 @@ parallelScan=_PATH_+r"/src/util/parallel_scan.sh"
 
 class ScanObs:
     def __init__(self,cpus,table_fa,len_theta,umax,TSTOP,ratio_ini,N_convergence_max,convergence_lim,inputFile,axionMass,
-                PathToCppExecutable, relic_obs,relic_err_up,relic_err_low,cosmo=Cosmo(_PATH_+r'/src/data/eos2020.dat',0,1.22e19),
+                PathToCppExecutable, relic_obs,relic_err_up,relic_err_low,cosmo=Cosmo(_PATH_+r'/src/data/eos2020.dat',0,mP),
                 break_after=5*60,break_time=5,break_command='',
                 initial_step_size=1e-2, minimum_step_size=1e-8, maximum_step_size=1e-2, 
                 absolute_tolerance=1e-8, relative_tolerance=1e-8,

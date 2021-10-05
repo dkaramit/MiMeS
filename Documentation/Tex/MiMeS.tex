@@ -49,6 +49,9 @@
 
 \maketitle
 
+\tableofcontents
+\newpage
+
 \begin{abstract}
 	We introduce a \CPP header-only library that solves the Axion equation of motion, \mimes.  
 	\mimes makes no assumptions regarding the cosmology and the thermal mass of the axion, which allows the user 
@@ -62,7 +65,7 @@
 
 About the axion...
 
-\section{Physics background}\label{sec:abundance}
+\section{Physics background}\label{sec:Physics}
 \setcounter{equation}{0}
 %
 Although there are several works in the literature (such as~\cite{Chang:1998ys}) that can provide a insight on the solution of the axion equation of motion (EOM), in this section we define, derive, and discuss the various quantities we need, in order to understand how \mimes works in detail.
@@ -188,6 +191,7 @@ which shows that the energy density of axions at late times scales as the energy
 %
 \begin{equation}
 	a^3 \ s = \gamma \ \aosc^3 \ s_{\rm osc} \Rightarrow  \lrb{\dfrac{\aosc}{a}}^3 = \gamma^{-1} \dfrac{s}{s_{\rm osc}} \;,
+	\label{eq:WKB_gamma_def}
 \end{equation}
 %
 with $\gamma$ the amount of entropy injection to the plasma between $\tosc$ and $t$. Therefore, the present (at $T=T_0$) energy density of the axion, becomes
@@ -248,92 +252,10 @@ It is also worth mentioning that the EOM~\ref{eq:eom_u} with the initial conditi
 This form of the EOM is suitable for integration via Runge-Kutta methods, which are briefly discussed in Appendix~\ref{app:RK}.
 
 
-\subsection{Beyond the WKB approximation}\label{sec:beyond_WKB}
-%
-\DK{This needs to be changed}
-The WKB approximation is very useful, as it helps us understand the evolution of the axion field after it begins to oscillate adiabatically. However, it fails to capture the dynamics before the adiabatic conditions are met, result in inaccurate axion relic abundance result. In this section, we examine the deviation of $\thetaosc$ from the initial value of $\theta$, as well how to treat cases where the EOM cannot be linearized.
 
-\subsubsection{Behaviour close to the initial condition}\label{sec:close_to_ini}
+\subsection{Adiabatic invariant and the anharmonic factor}\label{sec:an_fac}
 %
-\DK{This subsection is not really correct. The WKB approximation {\bf underestimates} the relic for $\theta \gtrsim 1$, but the first approximation estimate is closer to the true relic. Maybe I should remove the discussion on $\thetaosc$ -- since it can be misleading, and replace it with deviation between numerical and WKB estimates.}
-%
-The accuracy of the approximate evolution of the axion angle given in \eqs{eq:solution_eom_approx_final} depends on the deviation between $\thetai$ and $\thetaosc$. In order to examine their deviation, we expand \eqs{eq:eom} at a time $t =\ti + \delta t$ with $\delta t \to 0$. That is, we use the following approximations 
-%
-\begin{equation*}
-	\ddot{\theta} \approx \dfrac{\dot \theta (\ti+ \delta t)  - \dot \theta (\ti)}{ \delta  t } =  \dfrac{\dot \theta (\ti + \delta t)  }{\delta  t } \;,
-	\qquad
-	\dot \theta(\ti + \delta t) = \dfrac{\theta(\ti + \delta t) - \thetai}{\delta t} \;.
-\end{equation*} 
-%
-and, solve the EOM~\ref{eq:eom} for $\theta(\ti + \delta t)$. This results in
-%
-\begin{equation}
-	\theta(\ti + \delta t)  \approx  \thetai -\dfrac{\delta t^2}{1+3\ \delta t \ H(\ti + \delta t) } \  \maT^2(\ti + \delta t)  \sin \theta(\ti + \delta t)  
-	\approx   \thetai - \delta t^2 \ \maT^2(\ti) \ \sin \thetai  \ + \mathcal{O}(\delta t^3)\;, 
-	\label{eq:theta_dt}
-\end{equation}
-%
-which indicates that the angle decreases (increases) as the temperature drops if $\thetai>0$ ($\thetai<0$). Using the notation introduced in section~\ref{sec:notation}, \eqs{eq:theta_dt} takes the form
-%
-\begin{eqnarray}
-	\theta \approx    \thetai - \delta u^2 \ \lrb{\dfrac{\maT}{H}}_{t=\ti}^2 \ \sin \thetai \;,
-	\label{eq:theta_du}
-\end{eqnarray}
-%
-which can be used to estimate the angle at the oscillation temperature
-%
-\begin{eqnarray}
-	\thetaosc \approx    \thetai -  \lrb{\dfrac{\maT}{H}}_{t=\ti}^2 
-	\lrsb{1- \dfrac{\Ti}{\Tosc}\lrb{\dfrac{\heff_{,\rm ini}}{\heff_{,\rm osc}}\gamma_{\rm osc}}^{1/3}}^{2}   \ \sin \thetai \;,
-	\label{eq:theta_osc}
-\end{eqnarray}
-%
-where  $\gamma_{\rm osc}$ is the entropy injection between $\Ti$ and $\Tosc$. Notice that in the derivation of \eqs{eq:solution_eom_approx_final} we used $\theta_{\rm osc} = \thetai$ as our first approximation. Thus, \eqs{eq:theta_osc} provides a correction that takes into account the deviation between $\theta_{\rm osc} $ and $ \thetai$, and \eqs{eq:rho_a_approx} becomes (for $\thetai \ll 1$)
-%
-\begin{eqnarray}
-	\rho_{a,0} = \gamma^{-1}  \dfrac{s_0}{s_{\rm osc}} \  \dfrac{1 }{2}  \ \fa^2 \ \ma \ \maT_{,{\rm osc}} \ \thetai^2 \lrBiggcb{
-		1 - \ \lrb{\dfrac{\maT}{H}}_{t=\ti}^2 \  \lrb{1- \dfrac{\Ti}{\Tosc}\lrb{\dfrac{\heff_{,\rm ini}}{\heff_{,\rm osc}}\gamma_{\rm osc}}^{1/3}}^{2}   }^2    \;,
-	\label{eq:rho_a_NLO} 
-\end{eqnarray}
-%
-which implies that the WKB approximation overestimates the energy density of the axion, since $\gamma_{\rm osc}$, $H_{\rm ini}$, and $\Tosc$ can vary. 
-
-\subsubsection{Example}\label{sec:comparison_between_WKB_approaches}
-In order to demonstrate the effect of the deviation between $\thetai$ and $\thetaosc$, we show \Figs{fig:WKB_diff_i,fig:WKB_diff_osc}, for different cosmological scenarios. In both figures, the red and black (dashed) lines correspond to standard cosmological scenario and early matter dominated (EMD) Universe, respectively.~\footnote{For the matter dominated case (following the notation of refs.~\cite{Arias:2019uol,Arias:2020qty}), we have used 
-$T_{\rm end}=10^{-2} ~\GeV,\; c=3, \; T_{\rm ini}=10^{12} ~\GeV, \; \text{and}\; r=0.1$.} For the matter dominated case, entropy is injected to the plasma both before and after $\Tosc$. The entropy injection factor, $\gamma_{\rm osc}$, as a function of $\fa$ is shown in \Figs{fig:gamma_osc}.
-
-In \Figs{fig:WKB_diff_i} we show the relative difference between $\Omega h^2$ using \eqs{eq:solution_eom_approx_final} and the result obtained from \mimes. It should be apparent that the accuracy of the estimate based on \eqs{eq:solution_eom_approx_final} depends of $\fa$, since for high values of $\fa$, $\Tosc$ is low. That is, the deviation between $\thetai$ and $\thetaosc$ is greater than the corresponding difference for lower $\fa$, especially for the matter dominated case, where the entropy injection is great (see \Figs{fig:gamma_osc}).
-
-In \Figs{fig:WKB_diff_osc} we show the relative difference between $\Omega h^2$ obtained by integrating numerically \eqs{eq:eom_u}  and using \eqs{eq:solution_eom_approx_theta_osc} with \eqs{eq:theta_osc}. The relative difference between the two estimates, once again, depends $\fa$. It should be noted that the estimate for $\thetaosc$ depends on the choice of $\Ti$. For \Figs{fig:WKB_diff_osc}, we define $\Ti$ as the temperature at which $3H/\maT = 2$. We note that this estimate is more accurate, its accuracy still depends on whether the axion evolves adiabatically at $T<\Tosc$. Moreover, an increase of $\gamma_{\rm osc}$ invalidates the estimate of $\thetaosc$; higher powers of $\delta u$ may be needed.    
-%
-\begin{figure}[t]
-	\begin{subfigure}[]{0.5\textwidth}
-		\includegraphics[width=1\textwidth]{figs/WKB_diff_i.pdf}
-		\caption{}
-		\label{fig:WKB_diff_i}
-	\end{subfigure}
-	\begin{subfigure}[]{0.5\textwidth}
-		\includegraphics[width=1\textwidth]{figs/WKB_diff_osc.pdf}
-		\caption{}
-		\label{fig:WKB_diff_osc}
-	\end{subfigure}
-	\begin{center}
-	\begin{subfigure}[]{0.5\textwidth}
-		\includegraphics[width=1\textwidth]{figs/gamma_osc.pdf}
-		\caption{}
-		\label{fig:gamma_osc}
-	\end{subfigure}
-	\end{center}
-\caption{...}
-\label{fig:WKB_diff}
-\end{figure}
-%
-
-Nevertheless, neither estimates based on \eqs{eq:solution_eom_approx_theta_osc,eq:solution_eom_approx_final} seem to provide a result comparable to numerically integrating \eqs{eq:eom_u}. Therefore, numerical integration should be preferred. 
-
-\subsubsection{Adiabatic invariant and the anharmonic factor}\label{sec:an_fac}
-%
-In oscillatory systems with varying period, the energy is not conserved, and it is usually useful to define an ``adiabatic invariant", which is an approximate constant of motion.
+The WKB approximation is very useful, as it helps us understand the evolution of the axion field after it begins to oscillate adiabatically. However, it fails to capture the dynamics before the adiabatic conditions are met, result in inaccurate axion relic abundance result. Therefore, a numerical integration should be preferred. Moreover, in order to reduce the computation time, the numerical integration needs to stop as soon as the axion begins to evolve adiabatically. After this point, we can correlate its energy density at later times, using an ``adiabatic invariant", which can be defined  for oscillatory systems with varying period.
 
 \paragraph{Definition of the adiabatic invariant}
 %
@@ -832,8 +754,7 @@ However, we should note that greedy choices (\eg~{\tt N\_convergence\_max}$=100$
 %
 Although one can modify the examples provided in {\tt \mimes/UserSpace}, in this section we show a complete example in both \CPP and \PY. 
 %
-
-The underlying cosmology is assumed to be an EMD scenario. In terms of the parametrisation of ref.~\cite{Arias:2020qty}, it is defined through the same parameters as in the example shown in section~\ref{sec:comparison_between_WKB_approaches}.
+The underlying cosmology is assumed to be an EMD scenario.~\footnote{In terms of the parametrisation introduced in ref.~\cite{Arias:2019uol,Arias:2020qty},  the early matter dominated case is defined via  $T_{\rm end}=10^{-2} ~\GeV,\; c=3, \; T_{\rm ini}=10^{12} ~\GeV, \; \text{and}\; r=0.1$.}.
 %
 and the evolution of the energy densities of the plasma and a fluid $\Phi$ is shown in \Figs{fig:energy_densities}.
 %
@@ -1202,8 +1123,7 @@ It should be noted that this particular example is chosen such that the axion re
 	\label{fig:results}
 \end{figure}
 %
-In \Figs{fig:theta_evolution-EMD} we show the evolution  of $\theta$ for temperatures $T \in [0.025,0.15]~\GeV$, where the vertical line indicates $\Tosc$, while the horizontal one the corresponding value of $\theta$, $\thetaosc$. Also, the blue curve connects the peaks of the oscillation. For comparison, in \Figs{fig:theta_evolution-RD} we also show the evolution of the angle in a radiation dominated Universe with constant entropy (\ie standard cosmological scenario). From these figures, we can see that the effect of an early matter domination reduces the amplitude of oscillation -- due to the injection of entropy -- as well the oscillation temperature -- due to the increase of the Hubble parameter. Furthermore, as expected from \eqs{eq:theta_osc}, the angle at $T=\Tosc$ in the EMD scenario is much smaller that the corresponding value in the standard cosmological case. This shows again that approximating $\thetaosc \approx \thetai$ results in an inaccurate result, especially in cases where entropy is injected to the plasma (as expected by \eqs{eq:theta_osc}).
-
+In \Figs{fig:theta_evolution-EMD} we show the evolution  of $\theta$ for temperatures $T \in [0.025,0.15]~\GeV$, where the vertical line indicates $\Tosc$, while the horizontal one the corresponding value of $\theta$, $\thetaosc$. Also, the blue curve connects the peaks of the oscillation. For comparison, in \Figs{fig:theta_evolution-RD} we also show the evolution of the angle in a radiation dominated Universe with constant entropy (\ie standard cosmological scenario). From these figures, we can see that the effect of an early matter domination reduces the amplitude of oscillation -- due to the injection of entropy -- as well the oscillation temperature -- due to the increase of the Hubble parameter. Furthermore,  the angle at $T=\Tosc$ in the EMD scenario is much smaller that the corresponding value in the standard cosmological case, since the entropy injection causes the scale factor to be larger compared to the scale factor at the same temperature.
 %
 Moreover, in \Figs{fig:RK_response}, we show the relative local error of integration as well as a histogram of the number of integration steps for $0.025~\GeV < T < 0.15 ~\GeV$.
 %
@@ -1451,7 +1371,7 @@ The {\tt Cosmo<LD>} class is responsible for interpolation of the various quanti
 	mimes::Cosmo<LD>(std::string cosmo_PATH, LD minT=0, LD maxT=mimes::Cosmo<LD>::mP)
 \end{cpp}
 %
-The argument {\tt cosmo\_PATH} is the path of the data file that contains $T$ (in $\GeV$), $\heff$, $\geff$, with increasing $T$. The parameters {\tt minT} and {\tt maxT} are minimum and maximum interpolation temperatures. These temperatures are just limits, and the action interpolation is done between the closest temperatures in the data file. Moreover, beyond the interpolation temperatures, both $\heff$ and $\geff$ are assumed to be constants.
+The argument {\tt cosmo\_PATH} is the path of the data file that contains $T$ (in $\GeV$), $\heff$, $\geff$, with increasing $T$. The parameters {\tt minT} and {\tt maxT} are minimum and maximum interpolation temperatures. These temperatures are just limits, and the action interpolation is done between the closest temperatures in the data file. Moreover, beyond the interpolation temperatures, both $\heff$ and $\geff$ are assumed to be constants.   
 
 Interpolation of the RDOF, allows us to define various quantities related to the plasma; \eg the entropy density is defined as $s = \dfrac{2\pi^2}{45} \heff T^3$. These quantities are given as the member functions:
 %
@@ -1473,9 +1393,9 @@ Moreover, there are several cosmological quantities are given as members variabl
 %
 \begin{itemize}
 	\item \cppin{template<class LD> constexpr static LD mimes::Cosmo<LD>::T0}: CMB temperature today~\cite{Zyla:2020zbs} in $\GeV$.
-	\item \cppin{ template<class LD> constexpr static LD mimes::Cosmo<LD>::h\_hub}: Dimensionless Hubble constant~\cite{Zyla:2020zbs}.
-	\item \cppin{ template<class LD> constexpr static LD mimes::Cosmo<LD>::rho\_crit}: Critical density~\cite{Zyla:2020zbs} in $\GeV^3$.
-	\item \cppin{ template<class LD> constexpr static LD mimes::Cosmo<LD>::relicDM\_obs}: Central value of the measured DM relic abundance~\cite{Planck:2018vyg}.
+	\item \cppin{ template<class LD> constexpr static LD mimes::Cosmo<LD>::h_hub}: Dimensionless Hubble constant~\cite{Zyla:2020zbs}.
+	\item \cppin{ template<class LD> constexpr static LD mimes::Cosmo<LD>::rho_crit}: Critical density~\cite{Zyla:2020zbs} in $\GeV^3$.
+	\item \cppin{ template<class LD> constexpr static LD mimes::Cosmo<LD>::relicDM_obs}: Central value of the measured DM relic abundance~\cite{Planck:2018vyg}.
 	\item \cppin{ template<class LD> constexpr static LD mimes::Cosmo<LD>::mP}: Planck mass~\cite{Zyla:2020zbs} in $\GeV$.
 \end{itemize}
 
@@ -1677,6 +1597,13 @@ Also, the entropy injection between the last peak ($T=T_{\rm peak}$) and today (
 	LD mimes::Axion< LD, Solver, Method<LD> >::gamma
 \end{cpp}
 
+Moreover, the relic abundance is stored in the following member variable 
+%
+\begin{cpp}
+	template<class LD, const int Solver, class Method>
+	LD mimes::Axion< LD, Solver, Method<LD> >::relic
+\end{cpp}
+
 
 
 We can set another initial condition, $\thetai$, using 
@@ -1707,7 +1634,7 @@ Finally, there is static \cppin{mimes::Cosmo<LD>} member variable
 %
 This variable can be used without an instance of the \cppin{mimes::Axion<LD,Solver,Method>} class.
 
-\section{\PY modules}\label{app:modules}
+\section{\PY interface}\label{app:modules}
 \setcounter{equation}{0}
 
 The various \PY modules, classes, and functions are designed to work exactly in the same way as the ones in \CPP. All the modules are located in \pyin{src/interfacePY}, so it is helpful to add {\pyin src} path to the system path at the top of every script calling \mimes. This is done by adding
@@ -1719,49 +1646,293 @@ The various \PY modules, classes, and functions are designed to work exactly in 
 
 The available models are {\tt Cosmo}, {\tt AxionMass}, and {\tt Axion}, each defines a class with the same name.
 
-\subsection{{\tt Cosmo} module}
+\subsection{{\tt Cosmo} class}
 %
-Inside The {\tt Cosmo} module defines the \pyin{Cosmo} class, which contains information about the plasma. The relevant shared library ({\tt lib/libCosmo.so}) is obtained by by running {\tt make lib/libCosmo.so}. It is important to note that, the interpolation of the various functions are created once the module is imported, and not for each instance. That is, the input file and interpolation range can be changed by changing the first, second and third arguments of the constructor, respectively, in {\tt src/Cosmo/Cosmo.cpp}. If these values change, then the library must be compiled.
+The {\tt Cosmo} module defines the \pyin{Cosmo} class, which contains information about the plasma. The relevant shared library ({\tt lib/libCosmo.so}) is obtained by by running {\tt make lib/libCosmo.so}.
 %
 
-The class can be imported by  running 
+The class can be imported by running 
 %
 \begin{py}
 	from interfacePy.Cosmo import Cosmo
 \end{py}
+%
+Its constructor is
+%
+\begin{py}
+	Cosmo(cosmo_PATH, minT=0, maxT=mP)
+\end{py}
+%
+The argument {\tt cosmo\_PATH} is the path (a string) of a data file that contains $T$ (in $\GeV$), $\heff$, $\geff$, with accenting $T$. The second and third arguments, {\tt minT} and {\tt maxT}, are minimum and maximum interpolation temperatures, with the interpolation being between the closest temperatures in the data file. Moreover, beyond these limits, both $\heff$ and $\geff$ are assumed to be constants. It is important to note that the class creates a {\tt void} pointer that gets the various member function of \pyin{Cosmo} recast to \cppin{mimes::Cosmo<LD>}. This means that once an instance of \pyin{Cosmo} is no longer needed, it must be deleted, in order to free the memory that it occupies. An instance, say {\tt cosmo}, is deleted using
+%
+\begin{py}
+	del cosmo
+\end{py}
 
-
-Interpolation of the RDOF, allows us to define various quantities related to the plasma; \eg the entropy density is defined as $s = \dfrac{2\pi^2}{45} \heff T^3$. These quantities are given as the member functions:
+The member functions of this class are:
 %
 \begin{itemize}
-	\item \cppin{ template<class LD> LD mimes::Cosmo<LD>::heff(LD T)}: $\heff$ as a function of $T$.
-	\item \cppin{ template<class LD> LD mimes::Cosmo<LD>::geff(LD T)}: $\geff$ as a function of $T$.
+	\item \pyin{Cosmo.heff(T)}: $\heff$ as a function of $T$.
+	\item \pyin{Cosmo.geff(T)}: $\geff$ as a function of $T$.
 	% 
-	\item \cppin{ template<class LD> LD mimes::Cosmo<LD>::dheffdT(LD T)}: $d\heff/dT$ as a function of $T$.
-	\item \cppin{ template<class LD> LD mimes::Cosmo<LD>::dgeffdT(LD T)}: $d\geff/dT$ as a function of $T$.
+	\item \pyin{Cosmo.dheffdT(T)}: $d\heff/dT$ as a function of $T$.
+	\item \pyin{Cosmo.dgeffdT(T)}: $d\geff/dT$ as a function of $T$.
 	%
-	\item \cppin{ template<class LD> LD mimes::Cosmo<LD>::dh(LD T)}: $\delta_h = 1 + \frac{1}{3} \frac{d\log \heff}{d\log T}$ as a function of $T$.
+	\item \pyin{Cosmo.dh(T)}: $\delta_h = 1 + \frac{1}{3} \frac{d\log \heff}{d\log T}$ as a function of $T$.
 	%
-	\item \cppin{ template<class LD> LD mimes::Cosmo<LD>::s(LD T)}: The entropy density of the plasma as a function of $T$.
-	\item \cppin{ template<class LD> LD mimes::Cosmo<LD>::rhoR(LD T)}: The energy density of the plasma as a function of $T$.
-	\item \cppin{ template<class LD> LD mimes::Cosmo<LD>::Hubble(LD T)}: The Hubble parameter assuming radiation dominated expansion as a function of $T$.
+	\item \pyin{Cosmo.s(T)}: The entropy density of the plasma as a function of $T$.
+	\item \pyin{Cosmo.rhoR(T)}: The energy density of the plasma as a function of $T$.
+	\item \pyin{Cosmo.Hubble(T)}: The Hubble parameter assuming radiation dominated expansion as a function of $T$.
 \end{itemize}
 
-Moreover, there are several cosmological quantities are given as members variables:
+The several cosmological quantities are given as members variables:
 %
 \begin{itemize}
-	\item \cppin{template<class LD> constexpr static LD mimes::Cosmo<LD>::T0}: CMB temperature today~\cite{Zyla:2020zbs} in $\GeV$.
-	\item \cppin{ template<class LD> constexpr static LD mimes::Cosmo<LD>::h\_hub}: Dimensionless Hubble constant~\cite{Zyla:2020zbs}.
-	\item \cppin{ template<class LD> constexpr static LD mimes::Cosmo<LD>::rho\_crit}: Critical density~\cite{Zyla:2020zbs} in $\GeV^3$.
-	\item \cppin{ template<class LD> constexpr static LD mimes::Cosmo<LD>::relicDM\_obs}: Central value of the measured DM relic abundance~\cite{Planck:2018vyg}.
-	\item \cppin{ template<class LD> constexpr static LD mimes::Cosmo<LD>::mP}: Planck mass~\cite{Zyla:2020zbs} in $\GeV$.
+	\item \pyin{Cosmo.T0}: CMB temperature today~\cite{Zyla:2020zbs} in $\GeV$.
+	\item \pyin{Cosmo.h_hub}: Dimensionless Hubble constant~\cite{Zyla:2020zbs}.
+	\item \pyin{Cosmo.rho_crit}: Critical density~\cite{Zyla:2020zbs} in $\GeV^3$.
+	\item \pyin{Cosmo.relicDM_obs}: Central value of the measured DM relic abundance~\cite{Planck:2018vyg}.
+	\item \pyin{Cosmo.mP}: Planck mass~\cite{Zyla:2020zbs} in $\GeV$.
 \end{itemize}
+
+Note that these values can be directly imported from the module, without declaring an instance of the class, and can be imported as 
+%
+\begin{py}
+	from interfacePy.Cosmo import T0, h_hub, rho_crit, relicDM_obs, mP
+\end{py}
+
+\subsection{{\tt AxionMass} class}
+%
+The \pyin{AxionMass} class is defined in the module with the same name that can be found in the directory {\tt \mimes/src/interfacePy/AxionMass}. This class is responsible for the definition of the axion mass.  Its usage is described in the examples given in sections~\refs{sec:First_examples,sec:complete_examples}. Moreover, this class is used in the same way as \cppin{mimes::AxionMass<LD>}. However, we should append in this section the definition of its member functions in \PY.
+
+The class is imported using 
+%
+\begin{py}
+	from interfacePy.AxionMass import AxionMass
+\end{py}
+
+The constructor is
+%
+\begin{py}
+	AxionMass(*args)
+\end{py}
+%
+and can be used in two different ways. 
+
+First, one can pass three arguments, \ie
+%
+\begin{py}
+	AxionMass(chi_PAT, minT, maxT)
+\end{py}
+%
+The first argument is the path to a data file that contains two columns; $T$ (in $\GeV$) and $chi$ (in $\GeV^4$), with increasing $T$. The arguments {\tt minT} and {\tt maxT} are the interpolation limits. These limits are used in order to stop the interpolation in the closest temperatures in {\tt chi\_PATH}. That is the actual interpolation limits are $T_{\min}\geq${\tt minT} and $T_{\max}\leq${\tt maxT}. Beyond these limits, by default, the axion mass is assumed to be constant. However, this can be changed by using the member functions
+%
+\begin{py}
+	AxionMass.set_ma2_MIN(ma2_MAX)
+	AxionMass.set_ma2_MAX(ma2_MAX)
+\end{py}
+%
+Here, {\tt ma2\_MIN(T,fa)} and {\tt ma2\_MAX(T,fa)}, are functions (not any callable object), should take as arguments {\tt T} and {\tt fa}, and return the axion mass squared beyond the interpolation limits. In order to ensure that the axion mass is continuous, usually we need $T_{\min}$, $T_{\max}$, $\chi(T_{\rm min})$, and $\chi(T_{\rm max})$. These values can be obtained using the member functions
+%
+\begin{itemize}
+	\item \pyin{AxionMass.getTMin()}: This function returns the minimum interpolation temperature, $T_{\rm min}$. 
+	\item \pyin{AxionMass.getTMax()}: This function returns the maximum interpolation temperature, $T_{\rm max}$.
+	\item \pyin{AxionMass.getChiMin()}: This function returns $\chi(T_{\rm min})$.
+	\item \pyin{AxionMass.getChiMax()}: This function returns $\chi(T_{\rm max})$.
+\end{itemize}
+
+An alternative way to define the axion mass is via the constructor
+%
+\begin{cpp}
+	AxionMass(ma2)
+\end{cpp}
+%
+Here, {\tt ma2(T,fa)} is a function (not any callable object) that takes $T$ (in $\GeV$) and $f_a$, and returns  $m_a^2(T)$ (in $\GeV$). As in the other \PY classes, once the instances of this class are no longer needed, they must be deleted using the destructor, \pyin{del}. 
+
+
+The member function that returns $\maT^2$ is
+%
+\begin{py}
+	AxionMassma2(T,fa)
+\end{py}
+%
+We should note that another {\tt ma2} can be changed using the following member function:
+%
+\begin{cpp}
+	AxionMass.set_ma2(ma2)
+\end{cpp}
+%
+Again, {\tt ma2(T,fa)} is a function (not any callable object) that takes $T$ (in $\GeV$) and $f_a$, and returns  $m_a^2(T)$ (in $\GeV$).
+
+
+
+
+\subsection{{\tt Axion} class}
+%
+The class \pyin{Axion}, solves the axion EOM~\ref{eq:eom_sys}. The class itself is defined in the module {\tt interfacePy/Axion/Axion.py}, and imports the shared library. This library is compiled by running {\tt make lib/Axion\_py.so}, and its source file is {\tt \mimes/src/Axion/Axion-py.cpp}. As in the previous classes, its usage is similar to the \CPP version.
+
+Its constructor is 
+%
+\begin{cpp}
+	Axion(theta_i, fa, umax, TSTOP, 
+	ratio_ini, unsigned int N_convergence_max, convergence_lim, 
+	inputFile, axionMass, initial_step_size=1e-2, 
+	minimum_step_size=1e-8, maximum_step_size=1e-2, absolute_tolerance=1e-8, 
+	relative_tolerance=1e-8, beta=0.9, fac_max=1.2, fac_min=0.8, 
+	unsigned int maximum_No_steps=10000000)
+\end{cpp}
+%
+Again, the various arguments are discussed in section~\refs{sec:cpp_first_example,sec:run_time_input}; and can also be foound in table~\ref{tab:run_time-input}. Notice one important difference between this and the \CPP verison of this class; the instance of \pyin{AxionMass}, {\tt axionMass} is passed by value. However, internally, the constructor converts this instance to a pointer, which is then passed to the underlying {\tt C} function responsible for creating the relevant instance.
+%
+
+The member function responsible for solving the EOM is
+%
+\begin{cpp}
+	Axion.solveAxion()
+\end{cpp}
+%
+Once this function is ran, the results are stored in the member variables, $a/\ai, \ T, \ \theta, \ \zeta, \rho_a$, at the integration steps are stored in
+%
+\begin{itemize}
+	\item \pyin{Axion.a}: The scale factor over its initial value, $\dfrac{a}{\ai}$.
+	\item \pyin{Axion.T}: The temperature in $\GeV$.
+	\item \pyin{Axion.theta}: The axion angle, $\theta$.
+	\item \pyin{Axion.zeta}: The derivative of $\theta$, $\zeta \equiv \dfrac{d \theta}{d \log (a/\ai)}$.
+	\item \pyin{Axion.rho_axion}: The axion energy density in $\GeV^4$.
+\end{itemize}
+
+The quantities $a/\ai, \ T, \ \theta, \ \zeta, \rho_a, \ J$, at the peaks of the oscillation are stored in  \pyin{Axion.a_peak}, \pyin{Axion.T_peak}, \pyin{Axion.theta_peak}, \pyin{Axion.zeta_peak}, \pyin{Axion.rho_axion_peak}, and \pyin{Axion.adiabatic_invariant}. These points are computed using linear interpolation between two integration points with a change in the sign of $\zeta$.
+
+
+The local integration errors for $\theta$ and $\zeta$ are stored in	\pyin{Axion.dtheta} and \pyin{Axion.dzeta}.
+
+
+Moreover, various quantities of interest are given as the member variables:
+%
+\begin{itemize}
+	\item \pyin{Axion.T_osc}: the oscillation temperature, $\Tosc$, in $\GeV$.
+	\item \pyin{Axion.a_osc}: $\dfrac{a}{\ai}$ at the oscillation temperature.
+	\item \pyin{Axion.theta_osc}: $\thetaosc$, \ie $\theta$ at $\Tosc$.
+	item  \pyin{Axion.gamma}: the entropy injection between the last peak ($T=T_{\rm peak}$) and today ($T=T_0$), $\gamma$ (defined as in \eqs{eq:entropy_injection_gamma}).
+	\item \pyin{Axion.relic} The relic abundance of the axion.
+\end{itemize}
+%
+
+
+
+Another initial condition, $\thetai$, can be used without declaring a new instance using
+%
+\begin{py}
+	AxionsetTheta_i(theta_i)
+\end{py}
+%
+We should note that running this function all variables are cleared. 
+
+As in the previous \PY classes, once an instance of the \pyin{Axion} class is no longer needed, it needs to be deleted, by calling the destructor, \pyin{del}. 
+
+\paragraph{Important difference between the \CPP version} Since the axion mass is passed by value in the constructor, a change of the  \pyin{AxionMass} instance has no effect on the \pyin{Axion} instance that uses it. Therefore, if the definition of the axion mass changes, one has to declare a new instance of the \pyin{Axion} class. The new instance can be named using the name of the previous one, if the latter is deleted by running its destructor.
+
+\section{{\tt WKB} module}\label{app:ScanScript}
+%
+The {\tt WKB} module can be used to calculate the axion relic abundance using the WKB approximation discussed in section~\ref{sec:Physics}. The module can be imported using 
+%
+\begin{py}
+	from interfacePy import WKB
+\end{py}
+%
+It contains the definition of a function returns the relic abundance using the WKB approximation, which is 
+%
+\begin{py}
+	WKB.relic(Tosc, theta_osc ,ma2, gamma=1, 
+	          cosmo=Cosmo(_PATH_+r'/src/data/eos2020.dat',0,Cosmo.mP))
+\end{py}
+%
+Here, {\tt Tosc} is the oscillation temperate, {\tt ma2(T,fa)} is $ma^2(T)$ as a function that takes $T$ and $f_a$ as arguments, {\tt cosmo} an instance of the \pyin{Cosmo} class, and {\tt gamma} the entropy injection (as defined in \eqs{eq:WKB_gamma_def}). 
+
+Moreover, there is a function that helps to determine $\Tosc$ and $\gamma$, which is
+%
+\begin{py}
+	WKB.getPoints(fa, ma2, inputFile, cosmo=Cosmo(_PATH_+r'/src/data/eos2020.dat',0,Cosmo.mP))
+\end{py}
+%
+The arguments {\tt fa}, {\tt inputFile},$\fa$, and {\tt cosmo} the path to a file that describes the cosmology (described in table~\ref{tab:run_time-input}), $\fa$ (in $GeV$), an instance of the \pyin{Cosmo} class, respectively.  
+%
+This function returns $\gamma$ (the entropy injection between {\tt Tosc} and today) and $\Tosc$.
+ 
+
+\section{The {\tt ScanScript} module}\label{app:ScanScript}
+%
+The \PY interface of \mimes has two simple classes that help to scan over $\thetai$ and $\fa$, in parallel. These two classes can be imported from the module \pyin{ScanScript}.  
+
+\subsection{The {\tt Scan} class}\label{app:Scan}
+%
+The \pyin{Scan} class writes a time-coded file (so it would be unique) with columns that correspond to $\thetai$, $\fa$ ($\GeV$), $\thetaosc$, $\Tosc$ (in $\GeV$), and $\Omega h^2$, for every combination of $\thetai$ and $\fa$ that are passed as input. 
+
+This class is imported using 
+%
+\begin{py}
+	from interfacePy.ScanScript import Scan
+\end{py}
+
+Its constructor is
+%
+\begin{py}
+	ScanScript.Scan(cpus,table_fa,table_theta_i,umax,TSTOP,ratio_ini,
+					N_convergence_max,convergence_lim,inputFile,
+					PathToCppExecutable, break_after=5*60,break_time=5,break_command='',
+					initial_step_size=1e-2, minimum_step_size=1e-8, maximum_step_size=1e-2, 
+					absolute_tolerance=1e-8, relative_tolerance=1e-8,
+					beta=0.9, fac_max=1.2, fac_min=0.8, maximum_No_steps=int(1e7))
+\end{py}
+%
+Some arguments are the same as in the \pyin{Axion} class, and their definition can be found in table~\ref{tab:run_time-input}. The other arguments are
+%
+\begin{itemize}
+        \item {\tt cpus}: number of points to run simultaneously (No of cpus available). 
+		\item {\tt table\_fa}: table of fa to scan.
+		\item {\tt table\_theta\_i}: table of {\tt theta\_i} to scan
+        \item {\tt PathToCppExecutable}: path to an executable that takes {\tt theta\_i},  {\tt fa},  {\tt umax},  {\tt TSTOP},  {\tt ratio\_ini}, {\tt N\_convergence\_max}, {\tt convergence\_lim}, and  {\tt inputFile}; and prints {\tt theta\_i}, {\tt fa}, {\tt theta\_osc}, {\tt T\_osc}, and {\tt relic}.
+		\item {\tt break\_after}, {\tt break\_time}: take a break after {\tt break\_after} seconds for {\tt break\_time} seconds.
+		\item {\tt break\_command} (optional): before it takes a break, run this system command (this may be a script to send the results
+		via e-mail, or back them up).
+\end{itemize}
+
+It should be noted that if the scan exits before it finishes, the next run will continue from the point at which it was stopped even if the inputs have changed. In order to start from the beginning, the user must delete the file {\tt count.\_mimes\_}.
+
+\subsection{The {\tt ScanObs} class}\label{app:ScanObs}
+%
+The \pyin{ScanObs} class scans for different values of $\fa$ (given as a table) and finds the value of $\thetai$ closer to the observed DM relic abundance.
+The result file is a time-coded file with columns correspond that to $\thetai$,  $fa$ (in $\GeV$), $\thetaosc$, $\Tosc$ (in $\GeV$), and $\Omega h^2$. 
+
+It is imported using 
+%
+\begin{py}
+	from interfacePy.ScanScript import ScanObs
+\end{py}
+
+Its constructor is
+%
+\begin{py}
+	ScanScript.ScanObs(cpus,table_fa,len_theta,umax,TSTOP,ratio_ini,
+					N_convergence_max,convergence_lim,inputFile,axionMass,
+					PathToCppExecutable, relic_obs,relic_err_up,relic_err_low,
+					cosmo=Cosmo(_PATH_+r'/src/data/eos2020.dat',0,Cosmo.mP),
+					break_after=5*60,break_time=5,break_command='',
+					initial_step_size=1e-2, minimum_step_size=1e-8, maximum_step_size=1e-2, 
+					absolute_tolerance=1e-8, relative_tolerance=1e-8,
+					beta=0.9, fac_max=1.2, fac_min=0.8, maximum_No_steps=int(1e7)
+\end{py}
+%
+The arguments {\tt relic\_obs}, {\tt relic\_err\_up}, {\tt relic\_err\_low} are the central value of $\Omega h^2$, and its upper and lower error; respectively. All the other arguments have already been defined previously.  
+
+Similarly to the \pyin{Scan} class, if the scan exits before it finishes, the next run will continue from the point at which it was stopped.
+In order to start from the beginning, delete the file {\tt count.\_mimes\_}.
 
 \section{Utilities}\label{app:util}
 \setcounter{equation}{0}
 \DK{Describe {\tt FormatFile.sh} and {\tt timeit.sh}.}
 
-\section{Quick guide to user input}\label{app:usr_input}
+\section{Quick guide to the user input}\label{app:usr_input}
 \setcounter{equation}{0}
 In table~\ref{tab:input}, we provide a reference for all the user input, and compile-time options.
 %

@@ -175,10 +175,6 @@ class Axion:
         del self.axionMass
         
 
-        del self.T_osc
-        del self.a_osc
-        del self.theta_osc
-        del self.relic
 
         del self.a_peak
         del self.T_peak

@@ -31,18 +31,28 @@ CosmoLib.INIT.restype=void_p
 CosmoLib.DEL.argtypes= void_p,
 CosmoLib.DEL.restype = None
 
-CosmoLib.getT0.argtypes =void_p,
+CosmoLib.getT0.argtypes =None
 CosmoLib.getT0.restype =cdouble
-CosmoLib.geth_hub.argtypes =void_p,
+CosmoLib.geth_hub.argtypes =None
 CosmoLib.geth_hub.restype =cdouble
-CosmoLib.getrho_crit.argtypes =void_p,
+CosmoLib.getrho_crit.argtypes =None
 CosmoLib.getrho_crit.restype =cdouble
-CosmoLib.getrelicDM.argtypes =void_p,
+CosmoLib.getrelicDM.argtypes =None
 CosmoLib.getrelicDM.restype =cdouble
-CosmoLib.getMP.argtypes =void_p,
+CosmoLib.getMP.argtypes =None
 CosmoLib.getMP.restype =cdouble
 
 
+# CMB temperature today in GeV
+T0=CosmoLib.getT0()
+# critical density today in GeV^4
+rho_crit=CosmoLib.getrho_crit()
+# dimensionless hubble parameter
+h_hub=CosmoLib.geth_hub()
+# central value of Omega h^2 according to Planck 
+relicDM_obs=CosmoLib.getrelicDM()
+# Planck mass in GeV
+mP=CosmoLib.getMP()
 
 class Cosmo:
     '''Class that contains various cosmological parameters and functions.
@@ -56,27 +66,27 @@ class Cosmo:
     relicDM_obs: central value of Omega h^2 according to Planck
     mP: Planck mass in GeV
     '''
-    def __init__(self, path, minT=0, maxT=1.22e19):
+    def __init__(self, cosmo_PATH, minT=0, maxT=mP):
         '''
         The constructor:
-        path: Relative path to a file that contains T [GeV] h_eff g_eff, with increasing T.
+        cosmo_PATH: Relative path to a file that contains T [GeV] h_eff g_eff, with increasing T.
         minT: Minimum interpolation temperature (in GeV)(default 0) 
         maxT: Maximum interpolation temperature (in GeV) (default 1.22e19 GeV)
         Beyond the interpolation limits, the h_eff and g_eff are taken to be constant.
         '''
-        _file_=char_p(bytes(path, encoding='utf-8'))
+        _file_=char_p(bytes(cosmo_PATH, encoding='utf-8'))
         self.voidCosmo=CosmoLib.INIT(_file_,minT,maxT)
 
         # CMB temperature today in GeV
-        self.T0=CosmoLib.getT0(self.voidCosmo)
+        self.T0=T0
         # critical density today in GeV^4
-        self.rho_crit=CosmoLib.getrho_crit(self.voidCosmo)
+        self.rho_crit=rho_crit
         # dimensionless hubble parameter
-        self.h_hub=CosmoLib.geth_hub(self.voidCosmo)
+        self.h_hub=rho_crit
         # central value of Omega h^2 according to Planck 
-        self.relicDM_obs=CosmoLib.getrelicDM(self.voidCosmo)
+        self.relicDM_obs=relicDM_obs
         # Planck mass in GeV
-        self.mP=CosmoLib.getMP(self.voidCosmo)
+        self.mP=mP
 
 
     # def __del__(self):

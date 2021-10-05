@@ -43,7 +43,7 @@ class Scan:
         
         
         Comment: If the scan exits before it finishes, it will continue from the point it stopped.
-        In order to start from the beginning, delete the file "count.dat".
+        In order to start from the beginning, delete the file "count._mimes_".
         
         
         cpus: number of points to run simultaneously (No of cpus available). 

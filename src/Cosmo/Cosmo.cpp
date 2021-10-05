@@ -18,10 +18,8 @@
     #define LD LONGpy double
 #endif
 
-
 // use this to cast void* to Axion*
 #define Cast(cosmo) static_cast<mimes::Cosmo<LD>*>(cosmo)
-
 
 extern "C"{
     void* INIT(char* path, LD minT, LD maxT){return new mimes::Cosmo<LD>(path,minT,maxT);}
@@ -44,14 +42,14 @@ extern "C"{
 
     LD Hubble(LD T, void* cosmo){return Cast(cosmo)->Hubble(T);}
     
-    LD getT0(void* cosmo){return Cast(cosmo)->T0;}
+    LD getT0(){return mimes::Cosmo<LD>::T0;}
 
-    LD getrho_crit(void* cosmo){return Cast(cosmo)->rho_crit;}
+    LD getrho_crit(){return mimes::Cosmo<LD>::rho_crit;}
     
-    LD geth_hub(void* cosmo){return Cast(cosmo)->h_hub;}
+    LD geth_hub(){return mimes::Cosmo<LD>::h_hub;}
     
-    LD getrelicDM(void* cosmo){return Cast(cosmo)->relicDM_obs;}
+    LD getrelicDM(){return mimes::Cosmo<LD>::relicDM_obs;}
 
-    LD getMP(void* cosmo){return Cast(cosmo)->mP;}
+    LD getMP(){return mimes::Cosmo<LD>::mP;}
 
 }

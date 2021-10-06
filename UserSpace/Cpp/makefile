@@ -1,16 +1,16 @@
 #make the examples
-all: anF axion axM cosmo 
+all: anF ax axM cosm 
 
 anF:
 	cd AnharmonicFactor && $(MAKE)
 
-axion:
+ax:
 	cd Axion && $(MAKE)
 
 axM:
 	cd AxionMass && $(MAKE)
 
-cosmo:
+cosm:
 	cd Cosmo && $(MAKE)
 
 clean:

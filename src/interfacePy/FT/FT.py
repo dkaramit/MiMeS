@@ -117,6 +117,8 @@ class FT:
                     
         if xscale=='linear':
             def M_x(value, tick_number):
+                if value in _M_xticks_exception:
+                        return ''
                 if int(value)==float(value):
                     return '${}$'.format(int(value))
                 else:
@@ -125,6 +127,7 @@ class FT:
                 
 
         if yscale=='log':
+
             def M_y(value, tick_number):
                 if value in _M_yticks_exception:
                     return ''
@@ -178,6 +181,9 @@ class FT:
                     
         if yscale=='linear':
             def M_y(value, tick_number):
+                if value in _M_yticks_exception:
+                        return ''
+
                 if int(value)==float(value):
                     return '${}$'.format(int(value))
                 else:

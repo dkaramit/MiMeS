@@ -65,5 +65,8 @@
 \contentsline {section}{\numberline {E}The {\tt ScanScript} module}{34}{appendix.E}%
 \contentsline {subsection}{\numberline {E.1}The {\tt Scan} class}{34}{subsection.E.1}%
 \contentsline {subsection}{\numberline {E.2}The {\tt ScanObs} class}{35}{subsection.E.2}%
-\contentsline {section}{\numberline {F}Utilities}{35}{appendix.F}%
-\contentsline {section}{\numberline {G}Quick guide to the user input}{35}{appendix.G}%
+\contentsline {subsection}{\numberline {E.3}\tt FT class}{35}{subsection.E.3}%
+\contentsline {section}{\numberline {F}Utilities}{36}{appendix.F}%
+\contentsline {subsection}{\numberline {F.1}\tt FormatFile.sh}{37}{subsection.F.1}%
+\contentsline {subsection}{\numberline {F.2}\tt timeit.sh}{37}{subsection.F.2}%
+\contentsline {section}{\numberline {G}Quick guide to the user input}{38}{appendix.G}%

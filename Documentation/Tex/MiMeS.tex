@@ -127,7 +127,7 @@ Using a trial solution $\theta_{\rm trial} = \exp\lrsb{ i \dint d t \ \lrBigb{u(
 %
 \begin{equation}
 	u^2 = \Omega^2 + i \ \dot u \; ,
-	\label{eq:eom_of_u}
+	\label{eq:eom_of_u}=
 \end{equation}
 %
 which has a formal solution $u = \pm \sqrt{\Omega^2 + i \dot u}$. Assuming that $\dot u \ll \Omega^2$ and $\dot \Omega \ll \Omega^2$, we can approximate $u$ as
@@ -1928,9 +1928,142 @@ The arguments {\tt relic\_obs}, {\tt relic\_err\_up}, {\tt relic\_err\_low} are 
 Similarly to the \pyin{Scan} class, if the scan exits before it finishes, the next run will continue from the point at which it was stopped.
 In order to start from the beginning, delete the file {\tt count.\_mimes\_}.
 
+\subsection{\tt FT class}
+%
+The {\tt FT} class, defined in {\tt FT} module that can be found in {\tt src/interfacePy/FT}, is used to format the ticks when plotting using {\tt matplotlib}~\cite{Hunter:2007}. 
+
+The class can be imported using
+%
+\begin{py}
+	from interfacePy.FT import FT 
+\end{py} 
+%
+The constructor of the class is
+%
+\begin{py}
+	FT(_M_xticks,_M_yticks, _M_xticks_exception,_M_yticks_exception, _m_xticks,_m_yticks,
+			xmin,xmax,ymin,ymax,xscale,yscale)
+\end{py}
+%
+The various arguments are
+%
+\begin{itemize}
+	\item \pyin{_M_xticks},\pyin{_M_yticks}: A list for  the major ticks in the x and y axes, respectively.
+	\item \pyin{_M_xticks},\pyin{_M_yticks}: A list for  the major ticks in the x and y axes, respectively, for which no number is printed.
+	\item \pyin{_m_xticks},\pyin{_m_yticks}: A list for  the minor ticks in the x and y axes, respectively.
+	\item \pyin{xmin}, \pyin{xmax} (\pyin{ymin},\pyin{ymax}): Minimum and maximum of the x (y) axes, respectively. 
+	\item \pyin{xscale}, \pyin{yscale}: The scale of the x and y axes, respectively. The available values are \pyin{"linear"}, \pyin{"log"}, and \pyin{"symlog"}. 
+\end{itemize}
+
+
+Instances of {\tt FT} should be defined after subplots have been defined, because the code seems clearer. Once this is done, we can format the ticks of a subplot, \pyin{sub}, using  
+%
+\begin{py}
+	FT.format_ticks(plt,sub)
+\end{py}
+%
+It is important to not that \pyin{plt} is the {\tt matplotlib.pyplot} module that is usually imported as
+%
+\begin{py}
+	import matplotlib.pyplot as plt
+\end{py}
+
+\subsubsection*{Example of {\tt FT}}
+%
+Consider as an example the plot of $f(x) = e^{-\frac{1}{2}x^2}$ for $-5 \leq x \leq 5$. In order to do this, we need to run 
+%
+\begin{py}
+	import numpy as np#you usually need numpy
+	
+	#---these are for plots---#
+	import matplotlib.pyplot as plt
+	
+	#load the FT module
+	from sys import path as sysPath
+	sysPath.append('../../src')
+	from interfacePy.FT import FT
+
+	fig=plt.figure(figsize=(9,4))
+	fig.subplots_adjust(bottom=0.15, left=0.15, top = 0.95, right=0.9,wspace=0.0,hspace=0.0)
+	sub = fig.add_subplot(1,1,1)
+	
+	x=np.linspace(-5,5,500)
+	sub.plot(x,np.exp(-1/2. * x**2))
+\end{py}
+
+Now we can format the ticks usinf \pyin{FT}. For the shake of this example, for the x-axis, we choose as major ticks all integrs except $3$ and $-3$, and minor ticks the halves of each major tick. Also, for the y-axis, we choose to only show major ticks for every $0.1$ in the interval of interest. Finally, we set the plot limits as $x \in [-5,5]$ ad $y \in [0,1]$, usng linear scale for both. This can be done as
+
+\begin{py}
+    #set major ticks
+	_M_xticks=[i for i in range(-5,6)]
+	_M_yticks=[i/10. for i in range(0,11)]
+	
+	#set major ticks that will not have a label
+	_M_xticks_exception=[-3,3]
+	_M_yticks_exception=[]
+	
+	_m_xticks=[i+j/2. for i in range(-5,6) for j in [0,1]]
+	_m_yticks=[]  
+	ft=FT(_M_xticks, _M_yticks, _M_xticks_exception, _M_yticks_exception, _m_xticks, _m_yticks,
+		xmin=-5, xmax=5, ymin=0, ymax=1, xscale='linear', yscale='linear')
+	
+	ft.format_ticks(plt,sub)    
+\end{py}
+%
+\begin{figure}[t]
+	\centering
+		\includegraphics[width=0.65\textwidth]{figs/FT_example.pdf}
+		\caption{Example plot obtained by using the \pyin{FT} class.}
+		\label{fig:FT_example}
+\end{figure}
+%
+The resulting plot is shown in \Figs{fig:FT_example}.
+
+
+
 \section{Utilities}\label{app:util}
 \setcounter{equation}{0}
-\DK{Describe {\tt FormatFile.sh} and {\tt timeit.sh}.}
+%
+There are various utilities, that can be found {\tt \mimes/src/util}, which can be used to make the use of \mimes easier. In this section we will show how they work, and when they should be used.
+
+\subsection{\tt FormatFile.sh} 
+%
+This is a {\tt bash} script that formats a data file so that it is compatible with the interpolation assumptions. It takes a path to a file as an arguments, and it returns the same file, sorted (in ascenting order) wih respect to the first column, removes duplicate and empty lines, and it removes the last "new line" (\ie \cppin{\n}). The script is called as 
+%
+\begin{cpp}
+	bash MiMeS/src/util/FormatFile.sh path_to_dat_file
+\end{cpp}
+%
+Here {\tt path\_to\_dat\_file} is a path to the  data file we would like to replace with the formatted one. Notice that {\tt FormatFile.sh} must be ran in order to ensure that the cosmological input needed by the \cppin{mimes::Axion<LD,SOLVER,METHOD<LD>>} class, is acceptable.
+
+Moreover, note that {\tt FormatFile.sh} is ran every time {\tt configure.sh} is called, in orde to format the data files for the RDOFs, $\chi$, and the anharmonic factor, in order to ensure that they comply with what \mimes expects. 
+
+
+\subsection{\tt timeit.sh}
+%
+This script takes two arguments. The first should be a path to an executable, the second a file that contains arguments to passed to the executable. The script, then, runs the executable, and prints in \cppin{stderr} the time it took (is seconds) to run it. It is important to note that each argument of the executable should be in a different line of the file.~\footnote{For example , if we have an executable that takes two arguments, let's assume the first is $3$ and the second is "foo", the file should read: \\
+\pyin{3}\\
+\pyin{foo}
+}
+
+The script is called as 
+%
+\begin{cpp}
+	bash MiMeS/src/util/timeit.sh path_to_executable path_to_dat_file
+\end{cpp}
+
+This script is useflul for running the example code in {\tt \mimes/UserSpace/Cpp/Axion/Axion.cpp}, which is compiled by calling {\tt make} in the root directory of \mimes (or in {\tt \mimes/UserSpace/Cpp/Axion}). The executable that results from the compilation of this source, {\tt Axion.run}, expects the same arguments as the constructor of the \cppin{mimes::Axion<LD,SOLVER,METHOD<LD>>} class (see section~\ref{app:classes}). This means that we can write a file (call it {\tt INPUT}) that contains all these arguments in each line, and simply run  
+%
+\begin{cpp}
+	bash MiMeS/src/util/timeit.sh MiMeS/UserSpace/Cpp/Axion/Axion.run INPUT
+\end{cpp}
+
+
+The files {\tt KinationInputs}, {\tt MatterInputs}, and {\tt RDInputs}; in {\tt \mimes/UserSpace/Cpp/Axion}, show these files should look like n different cases.
+
+
+
+
 
 \section{Quick guide to the user input}\label{app:usr_input}
 \setcounter{equation}{0}

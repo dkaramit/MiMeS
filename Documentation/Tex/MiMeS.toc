@@ -65,8 +65,12 @@
 \contentsline {section}{\numberline {E}The {\tt ScanScript} module}{34}{appendix.E}%
 \contentsline {subsection}{\numberline {E.1}The {\tt Scan} class}{34}{subsection.E.1}%
 \contentsline {subsection}{\numberline {E.2}The {\tt ScanObs} class}{35}{subsection.E.2}%
-\contentsline {subsection}{\numberline {E.3}\tt FT class}{35}{subsection.E.3}%
-\contentsline {section}{\numberline {F}Utilities}{36}{appendix.F}%
+\contentsline {subsection}{\numberline {E.3}\tt FT class}{36}{subsection.E.3}%
+\contentsline {section}{\numberline {F}Utilities}{37}{appendix.F}%
 \contentsline {subsection}{\numberline {F.1}\tt FormatFile.sh}{37}{subsection.F.1}%
-\contentsline {subsection}{\numberline {F.2}\tt timeit.sh}{37}{subsection.F.2}%
-\contentsline {section}{\numberline {G}Quick guide to the user input}{38}{appendix.G}%
+\contentsline {subsection}{\numberline {F.2}\tt timeit.sh}{38}{subsection.F.2}%
+\contentsline {subsection}{\numberline {F.3}{\tt Timer} {\tt C++}\xspace class}{38}{subsection.F.3}%
+\contentsline {subsection}{\numberline {F.4}{\tt linspace} function}{38}{subsection.F.4}%
+\contentsline {subsection}{\numberline {F.5}{\tt logspace} function}{39}{subsection.F.5}%
+\contentsline {subsection}{\numberline {F.6}{\tt map} function}{39}{subsection.F.6}%
+\contentsline {section}{\numberline {G}Quick guide to the user input}{39}{appendix.G}%

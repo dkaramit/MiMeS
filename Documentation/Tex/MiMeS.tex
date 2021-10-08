@@ -63,7 +63,8 @@
 \section{Introduction}\label{sec:intro}
 \setcounter{equation}{0}
 
-About the axion...
+The axion is a very good particle. We would like to observe it. It could explain the CP asymmetry and dark matter and it has cool interactions with the photon and a cool name too.
+
 
 \section{Physics background}\label{sec:Physics}
 \setcounter{equation}{0}
@@ -266,15 +267,14 @@ Given a system with Hamiltonian $\mathcal{H}(\theta,p;t)$, the equations of moti
 	\dot \theta =  \dfrac{\partial \mathcal{H}}{\partial p} \;.
 	\label{eq:hamiltonian_eoms}
 \end{equation}
-
+%
 Moreover, we note that
 %
 \begin{equation}
 	d \Ham = \dot \theta \ d p - \dot p \ d \theta + \dfrac{\partial \Ham}{\partial t} \ d t \;.  
 	\label{eq:total_dH}
 \end{equation}
-
-
+%
 If this system exhibits closed orbits (\eg if it oscillates), we define 
 %
 \begin{equation}
@@ -1864,6 +1864,15 @@ This function returns $\gamma$ (the entropy injection between {\tt Tosc} and tod
 %
 The \PY interface of \mimes has two simple classes that help to scan over $\thetai$ and $\fa$, in parallel. These two classes can be imported from the module \pyin{ScanScript}.  
 
+Tis module is based on the \pyin{bash} script {\tt \mimes/src/util/parallel\_scan.sh}, which automatically performs scans in parallel. This script is used as
+%
+\begin{py}
+	bash src/util/parallel_scan.sh executable cpus inputFile
+\end{py}  
+%
+Here, {\tt executable} is the path to an executable, {\tt cpus} the number of instances of the {\tt executable} to launch simultaneously, and {\tt inputFile} a file that contains the arguments the {\tt executable} expects. This file should contain arguments for the {\tt executable} in each line. This script, then, separates all in arguments in the {\tt inputFile} in batches of size {\tt cpus}, and runs one batch at a time.  
+
+
 \subsection{The {\tt Scan} class}\label{app:Scan}
 %
 The \pyin{Scan} class writes a time-coded file (so it would be unique) with columns that correspond to $\thetai$, $\fa$ ($\GeV$), $\thetaosc$, $\Tosc$ (in $\GeV$), and $\Omega h^2$, for every combination of $\thetai$ and $\fa$ that are passed as input. 
@@ -1888,21 +1897,29 @@ Its constructor is
 Some arguments are the same as in the \pyin{Axion} class, and their definition can be found in table~\ref{tab:run_time-input}. The other arguments are
 %
 \begin{itemize}
-        \item {\tt cpus}: number of points to run simultaneously (No of cpus available). 
-		\item {\tt table\_fa}: table of fa to scan.
-		\item {\tt table\_theta\_i}: table of {\tt theta\_i} to scan
+        \item {\tt cpus}: number of points to run simultaneously (number of cpus available). 
+		\item {\tt table\_fa}: table of $\fa$ to scan.
+		\item {\tt table\_theta\_i}: table of $\thetai$ to scan
         \item {\tt PathToCppExecutable}: path to an executable that takes {\tt theta\_i},  {\tt fa},  {\tt umax},  {\tt TSTOP},  {\tt ratio\_ini}, {\tt N\_convergence\_max}, {\tt convergence\_lim}, and  {\tt inputFile}; and prints {\tt theta\_i}, {\tt fa}, {\tt theta\_osc}, {\tt T\_osc}, and {\tt relic}.
 		\item {\tt break\_after}, {\tt break\_time}: take a break after {\tt break\_after} seconds for {\tt break\_time} seconds.
 		\item {\tt break\_command} (optional): before it takes a break, run this system command (this may be a script to send the results
 		via e-mail, or back them up).
 \end{itemize}
+%
+The scan runs using the method
+%
+\begin{py}
+	Scan.run()
+\end{py} 
+%
+For every value of $\fa$, this method calls another one \pyin{Scan.run_batch()}, which in turn calls the \pyin{bash} script {\tt \mimes/src/util/parallel\_scan.sh} with arguments {\tt PathToCppExecutable}, {\tt cpus}, and a file that contains all the inputs for {\tt PathToCppExecutable} for all values in \pyin{table_theta}. 
 
-It should be noted that if the scan exits before it finishes, the next run will continue from the point at which it was stopped even if the inputs have changed. In order to start from the beginning, the user must delete the file {\tt count.\_mimes\_}.
+
+As the scan runs, it prints the number of batches that have been evaluated, the mean time it takes to evaluate one batch, and an estimate of the remaining time. It should be noted that if the scan exits before it finishes, the next run will continue from the point at which it was stopped even if the inputs have changed. In order to start from the beginning, the user must delete the file {\tt count.\_mimes\_}.
 
 \subsection{The {\tt ScanObs} class}\label{app:ScanObs}
 %
-The \pyin{ScanObs} class scans for different values of $\fa$ (given as a table) and finds the value of $\thetai$ closer to the observed DM relic abundance.
-The result file is a time-coded file with columns correspond that to $\thetai$,  $fa$ (in $\GeV$), $\thetaosc$, $\Tosc$ (in $\GeV$), and $\Omega h^2$. 
+The \pyin{ScanObs} class scans for different values of $\fa$ (given as a table) and finds the value of $\thetai$ closer to the observed DM relic abundance. The result file is a time-coded file with columns correspond that to $\thetai$,  $fa$ (in $\GeV$), $\thetaosc$, $\Tosc$ (in $\GeV$), and $\Omega h^2$. 
 
 It is imported using 
 %
@@ -1923,10 +1940,25 @@ Its constructor is
 					beta=0.9, fac_max=1.2, fac_min=0.8, maximum_No_steps=int(1e7)
 \end{py}
 %
-The arguments {\tt relic\_obs}, {\tt relic\_err\_up}, {\tt relic\_err\_low} are the central value of $\Omega h^2$, and its upper and lower error; respectively. All the other arguments have already been defined previously.  
+Here, {\tt len\_theta} is the number of different values of $\theta$ to be used in the search of a value closer to the central value of the observed DM relic abunance. The arguments {\tt relic\_obs}, {\tt relic\_err\_up}, {\tt relic\_err\_low} are the central value of $\Omega h^2$, and its upper and lower error; respectively. All the other arguments have already been defined previously.  
+
+The scan runs using the method
+%
+\begin{py}
+	ScanObs.run()
+\end{py} 
+%
+For every value of $\fa$, this method first calculates the relic abundance for $\thetai \ll 1$, and finds the value of $\thetai$ that would result in $\Omega h^2 = ${\tt relic\_obs}; $\thetai^{\rm (approx)}$. This is easy to do, since for $\thetai \ll 1$, the EOM becomes independent of $\thetai$. 
+
+Then, it creates an array, {\tt table\_theta}, of size {\tt len\_theta} that contains values of $\thetai$ between $Min(0.85 \ \thetai^{\rm (approx)},1)$ and  
+$Max(1.2 \ \thetai^{\rm (approx)},\pi)$.  Then it calls \pyin{ScanObs.run_batch()}, which works as \pyin{Scan.run_batch()}. 
+
+
 
 Similarly to the \pyin{Scan} class, if the scan exits before it finishes, the next run will continue from the point at which it was stopped.
 In order to start from the beginning, delete the file {\tt count.\_mimes\_}.
+
+
 
 \subsection{\tt FT class}
 %
@@ -2062,7 +2094,77 @@ This script is useflul for running the example code in {\tt \mimes/UserSpace/Cpp
 The files {\tt KinationInputs}, {\tt MatterInputs}, and {\tt RDInputs}; in {\tt \mimes/UserSpace/Cpp/Axion}, show these files should look like n different cases.
 
 
+\subsection{{\tt Timer} \CPP class}
+%
+The class \cppin{mimes::util::Timer}, defined in {\tt \mimes/src/util/timeit.hpp}, can be used in order to time processes in \CPP. An instance of this class prints  its life-time -- \ie time from the moment it was created until it went out of scope -- in \cppin{stderr}. Instances class is intended to be used inside a scope in order to count te time it took to run a block of code. For example the time it takes to compute  $\sum_{i=0}^{10^4} \ i$ can be determined as  
+%
+\begin{cpp}
+	#include "src/util/timeit.hpp"
+	
+	int main(){
+		auto sum = 0;
+		{	
+			Timer _timer_;
+			for(auto i=0; i<=10000; ++i){ ++sum;}	
+		}
+	
+		return 0;
+	}
+\end{cpp}
 
+\subsection{{\tt linspace} function}
+%
+The function {\tt linspace}, defined in {\tt \mimes/src/util/linspace.hpp}, is used to generate linearly spaced numbers between some boundary. This function is overloaded; there are two functions with the same name and different signature. The first one is 
+%
+\begin{cpp}
+    /*linspace where the list is pushed in a vector that is pass by reference*/	
+	template<class LD>
+	void mimes::util::linspace(LD min, LD max, unsigned int length, std::vector<LD> &X)
+\end{cpp}
+%
+Here, {\tt X} is cleared, and gets filled with  {\tt lenght} linearly spaced numbers {\tt min} and {\tt max}.
+
+The overloaded version of this function is 
+%
+\begin{cpp}
+    /*linspace where the list returned as a vector*/
+	template<class LD>
+	std::vector<LD> mimes::util::linspace(LD min, LD max, unsigned int length)
+\end{cpp}
+%
+This function does not get a reference to a {\tt std::vector<LD>}, instead it return one.
+
+\subsection{{\tt logspace} function}
+%
+The function {\tt logspace}, defined in {\tt \mimes/src/util/logspace.hpp}, is used to generate $\log_{10}$ spaced points between a given boundary. The signatures of this function are
+%
+\begin{cpp}
+    /*logspace where the list is pushed in a vector that is pass by reference*/
+	template<class LD>
+	void mimes::util::logspace(LD min, LD max, unsigned int length, std::vector<LD> &X)
+
+    /*logspace where the list returned as a vector*/
+	template<class LD>
+	std::vector<LD> mimes::util::logspace(LD min, LD max, unsigned int length)
+\end{cpp}
+%
+Both of these functions work as \cppin{linspace}.
+
+\subsection{{\tt map} function}
+%
+The function {\tt map}, defined in {\tt \mimes/src/util/map.hpp}, applys a function of an \cppin{std::vector}, and fills anther \cppin{std::vector} with the result. The signatures of this function are
+
+\begin{cpp}
+    /*The list is pushed in a vector that is pass by reference*/
+	template<class LD>
+	void map(const std::vector<LD> &X, std::function<LD(LD)> func,  std::vector<LD> &Y )
+
+    /*The list returned as a vector*/
+	template<class LD>
+	std::vector<LD> map(const std::vector<LD> &X, std::function<LD(LD)> func)
+\end{cpp}
+%
+Both of these functions evaluate \cppin{func} (a callable object) for every element of \cppin{X}. If another \cppin{std::vector} is given, then it is cleared and filled with the results, otherwise the function returns a \cppin{std::vector} with the values of  \cppin{func}$($\cppin{X}$)$.  
 
 
 \section{Quick guide to the user input}\label{app:usr_input}

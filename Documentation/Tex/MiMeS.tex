@@ -49,38 +49,56 @@
 
 \maketitle
 
-\tableofcontents
-\newpage
 
 \begin{abstract}
 	We introduce a \CPP header-only library that solves the Axion equation of motion, \mimes.  
 	\mimes makes no assumptions regarding the cosmology and the thermal mass of the axion, which allows the user 
 	to consider various cosmological scenarios and axion-like models.
-	\mimes also includes a convenient \PY interface, which allows the user to use it without writing any code \CPP.
+	\mimes also includes a convenient \PY interface, which allows the user to use it without writing any code in \CPP.
 \end{abstract}
+
+
+\newpage
+\tableofcontents
+%\newpage
+
+
 
 
 \section{Introduction}\label{sec:intro}
 \setcounter{equation}{0}
+%
+The axion, $a$, is a hypothetical particle that was originally introduced in order to solve the strong CP-problem of the standard model (SM)~\cite{Peccei:1977hh,Weinberg:1977ma,Wilczek:1977pj}. Furthermore, the axion is assumed to acquire a non-zero vacuum expectation value (VEV), which results in the spontaneous breaking of a global symmetry, called Peccei-Quinn (PQ). That is the axion is a pseudo-Nambu-Goldstone boson.  Moreover, it also appears to be a valid dark matter (DM) candidate~\cite{Preskill:1982cy,Dine:1982ah,Abbott:1982af}, as it is electrically neutral and long-lived.  The axion starts, at very early time, with $\vev{a} \sim \fa$, but due to the expansion of the Universe it eventually ends oscillating around $\vev{a} = 0$.   This oscillation results in an apparent constant number os axion particles (or constant energy of the axion field) today, which can account for the observed~\cite{Planck:2018vyg} DM relic abundance. 
+%
+Apart form the axion, there are other hypothetical particles (for early examples f such particles see~\cite{Chikashige:1980ui,Georgi:1981pu}; and~\cite{Ringwald:2014vqa} for a review), called axion-like particles (ALPs), which are not related to the strong CP-problem. That is, these ALPs, interact with the SM in a different way than the axion. However, they can still account for the DM of the Universe, as they follow the same equation of motion (EOM). Since from the point of view of their DM abundance, both axions and ALPs, follow the same dynamics. The only difference between the two is their mass. The mass of the axion is dictated by QCD, while it is model-dependent for other ALPs.   
 
-The axion is a very good particle. We would like to observe it. It could explain the CP asymmetry and dark matter and it has cool interactions with the photon and a cool name too.
+Here introduce a header-only \CPP library,~\footnote{\mimes is distributed under the MIT license. A copy of this license should be available in the \mimes root directory. If you have not received one, you can find it at  \href{https://github.com/dkaramit/MiMeS/blob/master/LICENSE}{github.com/dkaramit/MiMeS/blob/master/LICENSE}.} \mimes, that solves the axion (or ALP) EOM, where both the mass and the underlying cosmological evolution are treated as user inputs. Therefore, \mimes can be used to compute the relic abundance of axions or ALPs, in a wide variety of cases. Moreover, one can use \mimes in python scripts, without having to write any \CPP code.
 
+This paper is organized as follows: 
+%
+In section~\ref{sec:intro}, we introduce the EOM and show how it can be solved approximately. Also, we introduce the notation that \mimes follows, and discuss how the ``adiabatic" invariant of the system can be used in order to help with the numerical integration of the EOM. 
+%
+In the next section, we introduce \mimes, by showing how it can be downloaded, compiled, an ran for the first time. Also, we explain in detail all the parameters that \mimes as a user input at run-time.
+%
+In section~\ref{sec:assumptions}, we discuss the few assumption that \mimes makes, its default compile-time options and user input, and how the user can change them. Moreover, we provide a complete example in both \CPP and \PY. 
 
 \section{Physics background}\label{sec:Physics}
 \setcounter{equation}{0}
 %
 Although there are several works in the literature (such as~\cite{Chang:1998ys}) that can provide a insight on the solution of the axion equation of motion (EOM), in this section we define, derive, and discuss the various quantities we need, in order to understand how \mimes works in detail.
 
-\paragraph{The EOM} %The axion field is written as 
+\paragraph{The EOM} 
 %
-%\begin{equation}
-%	A  \equiv \fa \ \theta,
-%	\label{eq:fa_def}
-%\end{equation}
+The axion field is written as 
+%
+\begin{equation}
+	A  \equiv \fa \ \theta,
+	\label{eq:fa_def}
+\end{equation}
 %%
-%with $\fa$ the scale of the axion that determines the the scale at which the PQ symmetry breaks. 
+with $\fa$ the scale of the axion that determines the the scale at which the PQ symmetry breaks.~\footnote{If in the model under study, there is no $\fa$, this parameter is still expected, but the user can set $\fa=1$.} 
 %
-The EOM in terms of the axion angle, $\theta$, is 
+The so-called axion angle, $\theta$, follows the EOM 
 %
 \begin{equation}
 	\lrb{\dfrac{d^2}{d t^2} + 3 H(t) \ \dfrac{d}{d t} } \theta(t) + \maT^2(t) \ \sin \theta(t) = 0 \; ,
@@ -93,7 +111,7 @@ with $H(t)$ the Hubble parameter (determined by the cosmology), and $\maT(t)$  t
 	\label{eq:axion_mass_def}
 \end{equation} 
 %
-and $\chi$ a function of the temperature, and $\fa$ the scale at which the Peccei Quinn symmetry breaks \DK{ref??}. For the QCD axion, this has been calculated using lattice simulations in~\cite{Borsanyi:2016ksw}.~\footnote{The data provided by ref.~\cite{Borsanyi:2016ksw} are used by  \mimes out-of-the-box. However, the user is free to change them.}
+and $\chi$ a function of the temperature. For the QCD axion, this has been calculated using lattice simulations in~\cite{Borsanyi:2016ksw}.~\footnote{The data provided by ref.~\cite{Borsanyi:2016ksw} are used by  \mimes out-of-the-box. However, the user is free to change them.}
 
 
 \paragraph{Initial conditions}
@@ -223,7 +241,7 @@ which results in
 	&\dfrac{d^2 F}{dt^2} &= H^2 \ \lrb{ \dfrac{d^2 F}{du^2} + \dfrac{1}{2} \dfrac{d \log H^2}{du}  \dfrac{d F}{du} }\;.
 	\label{eq:deriv_u}
 \end{eqnarray}
-
+%
 The EOM in terms of $u$, then, becomes
 %
 \begin{equation}
@@ -231,7 +249,7 @@ The EOM in terms of $u$, then, becomes
 	=0 \;.
 	\label{eq:eom_u}
 \end{equation}
-
+%
 Notice that in a radiation dominated Universe
 %
 $$
@@ -386,17 +404,19 @@ Notice that \eqs{eq:rho_axion_exact} is similar to the corresponding WKB result~
 \section{First steps with \mimes}\label{sec:first_steps}
 \setcounter{equation}{0}
 %
-\begin{lstlisting}[caption={Commands in order to download \mimes, the differential equation solvers, and the interpolation libraries.},captionpos=b, label=list:git_download]
+The library can downloaded from \href{https:/github.com/dkaramit/MiMeS}{github.com/dkaramit/MiMeS}. Since the library depends on {\tt NaBBODES}~\cite{NaBBODES} {\tt SpleSplines}~\cite{SimpleSplines}, one has to download the, too. However, in order to get \mimes ready, one can run the following commands: 
+%
+\begin{lstlisting}
 	git clone git@github.com:dkaramit/MiMeS.git
 	cd MiMeS
 	git submodule init
 	git submodule update --remote
 \end{lstlisting}
 %
-The library can downloaded from \href{https:/github.com/dkaramit/MiMeS}{github.com/dkaramit/MiMeS}. Since the library depends on {\tt NaBBODES}~\cite{NaBBODES} {\tt SpleSplines}~\cite{SimpleSplines}, one has to download the, too. However, in order to get \mimes ready, one can run the commands shown in listing~\ref{list:git_download}. Although this method should be preferred in order to get the latest version, \mimes can also be downloaded from \href{https:/mimes.hepforge.org/downloads/}{mimes.hepforge.org/downloads}.
+%Although this method should be preferred in order to get the latest version, \mimes can also be downloaded from \href{https:/mimes.hepforge.org/downloads/}{mimes.hepforge.org/downloads}.
 
 
-Once everything is downloaded successfully, we can go inside the \mimes directory, and run \run{bash configure.sh}~\footnote{It is recommended to use {\tt bash}.} and \run{make}.  The {\tt bash} script {\tt configure.sh}, just writes some paths to some files, formats the data files provided in an acceptable format (in section~\ref{sec:input} the format is explained), and makes some directories.
+Once everything is downloaded successfully, we can go inside the \mimes directory, and run \run{bash configure.sh} and \run{make}.  The {\tt bash} script {\tt configure.sh}, just writes some paths to some files, formats the data files provided in an acceptable format (in section~\ref{sec:input} the format is explained), and makes some directories.
 %
 The {\tt makefile} is responsible for compiling some examples and checks, as well as the shared libraries that needed for the \PY interface.  If everything runs successfully, there should be two new directories {\tt exec} and {\tt lib}. Inside {\tt exec}, there are several executables that ready to run, in order to ensure that the code runs (\eg no segmentation fault occurs). For example, {\tt exec/AxionSolve\_check.run}, should print the values of the parameters $\thetai$ and $\fa$, the oscillation temperature and the corresponding value of $\theta$, the evolution of the axion (\eg temperature, $\theta$, $\rho_{a}$, etc.), and the values of various quantities on the peaks of the oscillation.  In the directory {\tt lib}, there are several shared libraries for the \PY interface.
 
@@ -1104,10 +1124,6 @@ In order to use the approximate axion mass as defined in \eqs{eq:axM_approx}, we
 
 \subsubsection{Results}
 %
-In both \CPP and \PY one should get the same results (if the same numeric type, and RK parameters and method are used), which should be similar to \Figs{fig:theta_evolution-EMD}. 
-%
-It should be noted that this particular example is chosen such that the axion relic abundance is close to its observed value~\cite{Planck:2018vyg} ($\Omega h^2 \approx 0.12$), and is indicative of the features one can expect if entropy is injected to the plasma for $T \ll \Tosc$.
-%
 \begin{figure}[h]
 	\begin{subfigure}[]{0.5\textwidth}
 		\includegraphics[width=1\textwidth]{figs/theta_evolution-EMD.pdf}
@@ -1119,7 +1135,7 @@ It should be noted that this particular example is chosen such that the axion re
 		\caption{}
 		\label{fig:theta_evolution-RD}
 	\end{subfigure}
-	\caption{...}
+	\caption{The evolution of the axion angle, $\theta$, with the temperature in early matter dominated (a) and radiation dominated (b) cases. For the EMD case, the $\thetai$ is chosen so that $\Omega h^2 = 0.12$.}
 	\label{fig:results}
 \end{figure}
 %
@@ -1138,7 +1154,8 @@ Moreover, in \Figs{fig:RK_response}, we show the relative local error of integra
 		\caption{}
 		\label{fig:histogram-EMD}
 	\end{subfigure}
-	\caption{...}
+	\caption{(a) Local relative errors of $\theta$ and $\zeta$ for the temperature range $0.025\GeV \leq T \leq 0.15\GeV$. 
+			 (b) Histogram of number of points in the same temperature range.}
 	\label{fig:RK_response}
 \end{figure}
 %
@@ -1150,11 +1167,22 @@ This is expected, since integration becomes more difficult as the frequency of t
 %
 This is the general picture of how adaptation happens. However, one has to experiment with all the available parameters, in order to solve the axion EOM as accurately and fast as possible.  
 
+\section{Acknowledgements}
+%
+The author acknowledges support by the Lancaster–Manchester–Sheffield Consortium for Fundamental Physics, under STFC research grant ST/T001038/1.
 
+
+\section{Summary}
+%
+We have introduced \mimes; a header-only library written \CPP that is used to compute the axion (or ALP) relic abundance, by solving the corresponding EOM, in a user defined underlying cosmology. \mimes makes only a few assumptions, which allows the user to explore a wide range ALP and cosmological scenarios. 
+
+In this manuscript, we have provided a detailed explanation on how to use \mimes, by showing examples in both \CPP and \PY (paragraphs~\refs{sec:First_examples,sec:complete_examples}). We have described the user input that is expected, and the various options available (sections~\refs{sec:first_steps,sec:assumptions}). Moreover, in the Appendix, we provide a detailed review of all the internal components that comprise \mimes. We briefly discuss the Runge-Kutta methods that \mimes uses, and show how the user can implement their own. We explain the functionality of all the classes, modules, and utilities. Also, we provide a detailed input and option guide.
+
+In the future, \mimes will be extended in several ways. First, we should implement new functionality that will allow the user to automatically compare against various experimental data (although, there is already an available module~\cite{2020-AxionLimits} that can be used for this goal). This is going to be helpful, as the user will only need to use one program (or script) to compute what is needed. We also aim to supplement \mimes with the option to produce ALPs via interactions of the plasma (\eg freeze-out/in), which may be useful in certain cases. Finally, \mimes will continue to improve by correcting mistakes, or implementing suggestions by the community.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % APPENDICES
-\pagebreak
+%\pagebreak
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \setcounter{section}{0}
 \section*{Appendix}
@@ -2302,7 +2330,7 @@ In table~\ref{tab:input}, we provide a reference for all the user input, and com
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
+\pagebreak
 \bibliography{refs}{}
 \bibliographystyle{JHEP}                        
 

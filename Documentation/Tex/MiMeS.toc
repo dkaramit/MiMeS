@@ -4,73 +4,75 @@
 \contentsline {paragraph}{Initial conditions}{4}{figure.caption.4}%
 \contentsline {subsection}{\numberline {2.1}The WKB approximation}{4}{subsection.2.1}%
 \contentsline {paragraph}{Axion energy density}{5}{section*.5}%
-\contentsline {subsection}{\numberline {2.2}Notation}{5}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.2}Notation}{6}{subsection.2.2}%
 \contentsline {subsection}{\numberline {2.3}Adiabatic invariant and the anharmonic factor}{6}{subsection.2.3}%
 \contentsline {paragraph}{Definition of the adiabatic invariant}{6}{section*.6}%
-\contentsline {paragraph}{Application to the axion}{6}{section*.7}%
+\contentsline {paragraph}{Application to the axion}{7}{section*.7}%
 \contentsline {paragraph}{The role of the adiabatic invariant in the axion relic energy density}{7}{section*.9}%
 \contentsline {section}{\numberline {3}First steps with {\tt MiMeS}\xspace }{8}{section.3}%
-\contentsline {subsection}{\numberline {3.1}First examples}{8}{subsection.3.1}%
-\contentsline {subsubsection}{\numberline {3.1.1}Using {\tt MiMeS}\xspace in {\tt C++}\xspace }{8}{subsubsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1}First examples}{9}{subsection.3.1}%
+\contentsline {subsubsection}{\numberline {3.1.1}Using {\tt MiMeS}\xspace in {\tt C++}\xspace }{9}{subsubsection.3.1.1}%
 \contentsline {paragraph}{Axion mass form data file}{9}{section*.10}%
 \contentsline {paragraph}{Axion mass function}{9}{section*.11}%
-\contentsline {paragraph}{The EOM solver}{9}{section*.12}%
+\contentsline {paragraph}{The EOM solver}{10}{section*.12}%
 \contentsline {paragraph}{Changing axion mass definition}{11}{section*.13}%
 \contentsline {paragraph}{Changing initial condition}{11}{section*.14}%
 \contentsline {subsubsection}{\numberline {3.1.2}Using {\tt MiMeS}\xspace in {\tt python}\xspace }{11}{subsubsection.3.1.2}%
-\contentsline {paragraph}{Axion mass definition via a data file}{11}{section*.15}%
+\contentsline {paragraph}{Axion mass definition via a data file}{12}{section*.15}%
 \contentsline {paragraph}{Axion mass definition via a function}{12}{section*.16}%
 \contentsline {paragraph}{The EOM solver}{12}{section*.17}%
-\contentsline {paragraph}{Changing axion mass definition}{12}{section*.18}%
+\contentsline {paragraph}{Changing axion mass definition}{13}{section*.18}%
 \contentsline {paragraph}{Changing the initial condition}{13}{section*.19}%
 \contentsline {paragraph}{Importand note}{13}{section*.20}%
 \contentsline {section}{\numberline {4}Assumptions and user input}{13}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Options at Compile-time}{13}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}User input}{14}{subsection.4.2}%
-\contentsline {subsubsection}{\numberline {4.2.1}Compile-time input}{14}{subsubsection.4.2.1}%
-\contentsline {paragraph}{Files}{14}{section*.21}%
+\contentsline {subsection}{\numberline {4.2}User input}{15}{subsection.4.2}%
+\contentsline {subsubsection}{\numberline {4.2.1}Compile-time input}{15}{subsubsection.4.2.1}%
+\contentsline {paragraph}{Files}{15}{section*.21}%
 \contentsline {subsubsection}{\numberline {4.2.2}Run-time input}{15}{subsubsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.3}Complete Examples}{15}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.3}Complete Examples}{16}{subsection.4.3}%
 \contentsline {subsubsection}{\numberline {4.3.1}complete example in {\tt C++}\xspace }{16}{subsubsection.4.3.1}%
 \contentsline {paragraph}{Parameter choice}{17}{section*.23}%
-\contentsline {paragraph}{Template arguments}{17}{section*.24}%
-\contentsline {paragraph}{Compilation}{17}{section*.25}%
+\contentsline {paragraph}{Template arguments}{18}{section*.24}%
+\contentsline {paragraph}{Compilation}{18}{section*.25}%
 \contentsline {paragraph}{The entire code}{18}{section*.26}%
 \contentsline {paragraph}{Alternative axion mass definition}{19}{section*.27}%
 \contentsline {subsubsection}{\numberline {4.3.2}complete example in {\tt python}\xspace }{19}{subsubsection.4.3.2}%
 \contentsline {paragraph}{Compilation of the shared library}{20}{section*.28}%
-\contentsline {paragraph}{The entire code}{20}{section*.29}%
+\contentsline {paragraph}{The entire code}{21}{section*.29}%
 \contentsline {paragraph}{Alternative axion mass definition}{21}{section*.30}%
 \contentsline {subsubsection}{\numberline {4.3.3}Results}{21}{subsubsection.4.3.3}%
+\contentsline {section}{\numberline {5}Acknowledgements}{23}{section.5}%
+\contentsline {section}{\numberline {6}Summary}{23}{section.6}%
 \contentsline {section}{\numberline {A}Basics of embedded Runge-Kutta Mehtods}{23}{appendix.A}%
-\contentsline {subsection}{\numberline {A.1}Embedded RK methods}{23}{subsection.A.1}%
+\contentsline {subsection}{\numberline {A.1}Embedded RK methods}{24}{subsection.A.1}%
 \contentsline {paragraph}{Step-control}{24}{section*.34}%
 \contentsline {paragraph}{Correspondence between {\tt MiMeS}\xspace parameters and RK ones}{24}{section*.35}%
 \contentsline {subsection}{\numberline {A.2}Explicit embedded RK methods}{24}{subsection.A.2}%
-\contentsline {subsection}{\numberline {A.3}Rosenbrock methods}{24}{subsection.A.3}%
+\contentsline {subsection}{\numberline {A.3}Rosenbrock methods}{25}{subsection.A.3}%
 \contentsline {paragraph}{Implementing a new Butcher tableau in {\tt NaBBODES}}{25}{section*.37}%
 \contentsline {paragraph}{How to compile {\tt MiMeS}\xspace in order to use the newly implemented method}{26}{section*.38}%
-\contentsline {section}{\numberline {B}{\tt C++}\xspace classes}{26}{appendix.B}%
-\contentsline {subsection}{\numberline {B.1}{\tt Cosmo} class}{26}{subsection.B.1}%
-\contentsline {subsection}{\numberline {B.2}{\tt AnharmonicFactor} class}{27}{subsection.B.2}%
+\contentsline {section}{\numberline {B}{\tt C++}\xspace classes}{27}{appendix.B}%
+\contentsline {subsection}{\numberline {B.1}{\tt Cosmo} class}{27}{subsection.B.1}%
+\contentsline {subsection}{\numberline {B.2}{\tt AnharmonicFactor} class}{28}{subsection.B.2}%
 \contentsline {subsection}{\numberline {B.3}{\tt AxionMass} class}{28}{subsection.B.3}%
-\contentsline {subsection}{\numberline {B.4}{\tt AxionEOM} class}{28}{subsection.B.4}%
+\contentsline {subsection}{\numberline {B.4}{\tt AxionEOM} class}{29}{subsection.B.4}%
 \contentsline {subsection}{\numberline {B.5}{\tt Axion} class}{29}{subsection.B.5}%
-\contentsline {section}{\numberline {C}{\tt python}\xspace interface}{30}{appendix.C}%
+\contentsline {section}{\numberline {C}{\tt python}\xspace interface}{31}{appendix.C}%
 \contentsline {subsection}{\numberline {C.1}{\tt Cosmo} class}{31}{subsection.C.1}%
 \contentsline {subsection}{\numberline {C.2}{\tt AxionMass} class}{32}{subsection.C.2}%
 \contentsline {subsection}{\numberline {C.3}{\tt Axion} class}{33}{subsection.C.3}%
 \contentsline {paragraph}{Important difference between the {\tt C++}\xspace version}{34}{section*.39}%
 \contentsline {section}{\numberline {D}{\tt WKB} module}{34}{appendix.D}%
 \contentsline {section}{\numberline {E}The {\tt ScanScript} module}{34}{appendix.E}%
-\contentsline {subsection}{\numberline {E.1}The {\tt Scan} class}{34}{subsection.E.1}%
+\contentsline {subsection}{\numberline {E.1}The {\tt Scan} class}{35}{subsection.E.1}%
 \contentsline {subsection}{\numberline {E.2}The {\tt ScanObs} class}{35}{subsection.E.2}%
 \contentsline {subsection}{\numberline {E.3}\tt FT class}{36}{subsection.E.3}%
-\contentsline {section}{\numberline {F}Utilities}{37}{appendix.F}%
-\contentsline {subsection}{\numberline {F.1}\tt FormatFile.sh}{37}{subsection.F.1}%
+\contentsline {section}{\numberline {F}Utilities}{38}{appendix.F}%
+\contentsline {subsection}{\numberline {F.1}\tt FormatFile.sh}{38}{subsection.F.1}%
 \contentsline {subsection}{\numberline {F.2}\tt timeit.sh}{38}{subsection.F.2}%
 \contentsline {subsection}{\numberline {F.3}{\tt Timer} {\tt C++}\xspace class}{38}{subsection.F.3}%
-\contentsline {subsection}{\numberline {F.4}{\tt linspace} function}{38}{subsection.F.4}%
+\contentsline {subsection}{\numberline {F.4}{\tt linspace} function}{39}{subsection.F.4}%
 \contentsline {subsection}{\numberline {F.5}{\tt logspace} function}{39}{subsection.F.5}%
 \contentsline {subsection}{\numberline {F.6}{\tt map} function}{39}{subsection.F.6}%
 \contentsline {section}{\numberline {G}Quick guide to the user input}{39}{appendix.G}%

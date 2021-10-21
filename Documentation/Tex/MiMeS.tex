@@ -54,7 +54,7 @@
 	We introduce a \CPP header-only library that solves the Axion equation of motion, \mimes.  
 	\mimes makes no assumptions regarding the cosmology and the thermal mass of the axion, which allows the user 
 	to consider various cosmological scenarios and axion-like models.
-	\mimes also includes a convenient \PY interface, which allows the user to use it without writing any code in \CPP.
+	\mimes also includes a convenient \PY interface, which allows the user to use it without writing any code in \CPP, with minimum overhead.
 \end{abstract}
 
 
@@ -68,15 +68,15 @@
 \section{Introduction}\label{sec:intro}
 \setcounter{equation}{0}
 %
-The axion, $a$, is a hypothetical particle that was originally introduced in order to solve the strong CP-problem of the standard model (SM)~\cite{Peccei:1977hh,Weinberg:1977ma,Wilczek:1977pj}. Furthermore, the axion is assumed to acquire a non-zero vacuum expectation value (VEV), which results in the spontaneous breaking of a global symmetry, called Peccei-Quinn (PQ). That is the axion is a pseudo-Nambu-Goldstone boson.  Moreover, it also appears to be a valid dark matter (DM) candidate~\cite{Preskill:1982cy,Dine:1982ah,Abbott:1982af}, as it is electrically neutral and long-lived.  The axion starts, at very early time, with $\vev{a} \sim \fa$, but due to the expansion of the Universe it eventually ends oscillating around $\vev{a} = 0$.   This oscillation results in an apparent constant number os axion particles (or constant energy of the axion field) today, which can account for the observed~\cite{Planck:2018vyg} DM relic abundance. 
+The axion is a hypothetical particle that was originally introduced in order to solve the strong CP-problem of the standard model (SM)~\cite{Peccei:1977hh,Weinberg:1977ma,Wilczek:1977pj}. Furthermore, the axion is assumed to acquire a non-zero vacuum expectation value (VEV), which results in the spontaneous breaking of a global symmetry, called Peccei-Quinn (PQ). That is the axion is a pseudo-Nambu-Goldstone boson.  Moreover, it also appears to be a valid dark matter (DM) candidate~\cite{Preskill:1982cy,Dine:1982ah,Abbott:1982af}, as it is electrically neutral and long-lived.  The axion starts, at very early time, with a VEV close to the PQ breaking scale (usually much higher than $100\GeV$), but due to the expansion of the Universe it eventually ends oscillating around zero. This oscillation results in an apparent constant number of axion particles (or constant energy of the axion field) today, which can account for the observed~\cite{Planck:2018vyg} DM relic abundance. 
 %
-Apart form the axion, there are other hypothetical particles (for early examples f such particles see~\cite{Chikashige:1980ui,Georgi:1981pu}; and~\cite{Ringwald:2014vqa} for a review), called axion-like particles (ALPs), which are not related to the strong CP-problem. That is, these ALPs, interact with the SM in a different way than the axion. However, they can still account for the DM of the Universe, as they follow the same equation of motion (EOM). Since from the point of view of their DM abundance, both axions and ALPs, follow the same dynamics. The only difference between the two is their mass. The mass of the axion is dictated by QCD, while it is model-dependent for other ALPs.   
+Apart form the axion, there are other hypothetical particles (for early examples of such particles see~\cite{Chikashige:1980ui,Georgi:1981pu}; and~\cite{Ringwald:2014vqa} for a review), called axion-like particles (ALPs), which are not related to the strong CP-problem. That is, these ALPs, interact with the SM in a different way than the axion. However, they can still account for the DM of the Universe. From the point of view of their DM abundance, both axions and ALPs, follow the same dynamics (similar EOM). The only difference between the two is their mass. The mass of the axion is dictated by QCD, while it is model-dependent for other ALPs.  Therefore, the cosmological evolution of both axions and ALP is often discussed together(see, for example ref.~\cite{MARSH20161}). 
 
-Here introduce a header-only \CPP library,~\footnote{\mimes is distributed under the MIT license. A copy of this license should be available in the \mimes root directory. If you have not received one, you can find it at  \href{https://github.com/dkaramit/MiMeS/blob/master/LICENSE}{github.com/dkaramit/MiMeS/blob/master/LICENSE}.} \mimes, that solves the axion (or ALP) EOM, where both the mass and the underlying cosmological evolution are treated as user inputs. Therefore, \mimes can be used to compute the relic abundance of axions or ALPs, in a wide variety of cases. Moreover, one can use \mimes in python scripts, without having to write any \CPP code.
+In this article, introduce a header-only \CPP library, \mimes,~\footnote{\mimes is distributed under the MIT license. A copy of this license should be available in the \mimes root directory. If you have not received one, you can find it at  \href{https://github.com/dkaramit/MiMeS/blob/master/LICENSE}{github.com/dkaramit/MiMeS/blob/master/LICENSE}.} that solves the axion (or ALP) EOM, where both the mass and the underlying cosmological evolution are treated as user inputs. Therefore, \mimes can be used to compute the relic abundance of axions or ALPs, in a wide variety of cases. Moreover, one can use \mimes in python scripts, without having to write any \CPP code.
 
 This paper is organized as follows: 
 %
-In section~\ref{sec:intro}, we introduce the EOM and show how it can be solved approximately. Also, we introduce the notation that \mimes follows, and discuss how the ``adiabatic" invariant of the system can be used in order to help with the numerical integration of the EOM. 
+In section~\ref{sec:Physics}, we introduce the EOM and show how it can be solved approximately. Also, we introduce the notation that \mimes follows, we derive the ``adiabatic invariant" of the system, and discuss how it is used. 
 %
 In the next section, we introduce \mimes, by showing how it can be downloaded, compiled, an ran for the first time. Also, we explain in detail all the parameters that \mimes as a user input at run-time.
 %
@@ -85,27 +85,20 @@ In section~\ref{sec:assumptions}, we discuss the few assumption that \mimes make
 \section{Physics background}\label{sec:Physics}
 \setcounter{equation}{0}
 %
-Although there are several works in the literature (such as~\cite{Chang:1998ys}) that can provide a insight on the solution of the axion equation of motion (EOM), in this section we define, derive, and discuss the various quantities we need, in order to understand how \mimes works in detail.
+Although there are several works in the literature (such as~\cite{Chang:1998ys,MARSH20161}) that can provide a insight on the cosmological evolution of axions, in this section we define, derive, and discuss various quantities we need, in order to understand how \mimes works in detail.
 
 \paragraph{The EOM} 
 %
-The axion field is written as 
+The axion field is usually expressed in terms of the so-called axion angle, $\theta$, as $A = \theta \ \fa$, with $\fa$ the scale at which the PQ symmetry breaks.~\footnote{If in a model under study, there is no $\fa$, this parameter is still expected by \mimes, but the user can set $\fa=1$.} 
 %
-\begin{equation}
-	A  \equiv \fa \ \theta,
-	\label{eq:fa_def}
-\end{equation}
-%%
-with $\fa$ the scale of the axion that determines the the scale at which the PQ symmetry breaks.~\footnote{If in the model under study, there is no $\fa$, this parameter is still expected, but the user can set $\fa=1$.} 
-%
-The so-called axion angle, $\theta$, follows the EOM 
+The axion angle follows the EOM 
 %
 \begin{equation}
 	\lrb{\dfrac{d^2}{d t^2} + 3 H(t) \ \dfrac{d}{d t} } \theta(t) + \maT^2(t) \ \sin \theta(t) = 0 \; ,
 	\label{eq:eom}
 \end{equation}
 %
-with $H(t)$ the Hubble parameter (determined by the cosmology), and $\maT(t)$  the time (temperature) dependent mass of the axion, with 
+with $H(t)$ the Hubble parameter (determined by the cosmology), and $\maT(t)$  the time (temperature) dependent mass of the axion. \mimes expects the mass to be of the form
 \begin{equation}
 	\maT^2(T) = \dfrac{\chi(T)}{\fa^2}\;,
 	\label{eq:axion_mass_def}
@@ -129,7 +122,7 @@ Assuming that the PQ symmetry breaks before inflation, the initial conditions (\
 	\label{eq:massless_eom}
 \end{equation}
 %
-which is solved by $\theta = \thetai + C \dint_{0}^t d t' \ \lrb{ \dfrac{a(t'=0)}{a(t')} }^3$, with $\thetai$ a constant and $a$ the scale factor of the Universe. That is, as the Universe expands, $\theta \approx \thetai$. Since we would like to calculate the relic abundance of axions, we can integrate \eqs{eq:eom} from a time after inflation (call it $t = \ti$) such that $ \dot \theta |_{t=\ti} = 0$ and  $\theta|_{t=\ti} \approx \thetai$.   
+which is solved by $\theta = \thetai + C \dint_{0}^t d t' \ \lrb{ \dfrac{a(t'=0)}{a(t')} }^3$, with $\thetai$ a constant and $a$ the scale factor of the Universe. That is, as the Universe expands, and as long as $\maT \ll H$, $\theta \to \thetai$. Since we would like to calculate the relic abundance of axions, we can integrate \eqs{eq:eom} from a time after inflation (call it $t = \ti$) such that $ \dot \theta |_{t=\ti} = 0$ and  $\theta|_{t=\ti} = \thetai$.   This is the most common case (there are exceptions to this; \eg~\cite{Co:2019jts}), and it is what \mimes uses.
 
 
 
@@ -142,17 +135,17 @@ In order to solve analytically \eqs{eq:eom}, we assume $\theta \ll 1$, which res
 	\label{eq:linear_eom}
 \end{equation}
 
-Using a trial solution $\theta_{\rm trial} = \exp\lrsb{ i \dint d t \ \lrBigb{u(t) +3/2 \ i \ H(t)} }$, and defining $\Omega^2 = \maT^2 - \dfrac{9}{4} H^2 -  \dfrac{3}{2} \dot H $ we can transform the \eqs{eq:linear_eom} to 
+Using a trial solution $\theta_{\rm trial} = \exp\lrsb{ i \dint d t \ \lrBigb{\psi(t) +3/2 \ i \ H(t)} }$, and defining $\Omega^2 = \maT^2 - \dfrac{9}{4} H^2 -  \dfrac{3}{2} \dot H $ we can transform the \eqs{eq:linear_eom} to 
 %
 \begin{equation}
-	u^2 = \Omega^2 + i \ \dot u \; ,
-	\label{eq:eom_of_u}=
+	\psi^2 = \Omega^2 + i \ \dot \psi \; ,
+	\label{eq:eom_of_psi}
 \end{equation}
 %
-which has a formal solution $u = \pm \sqrt{\Omega^2 + i \dot u}$. Assuming that $\dot u \ll \Omega^2$ and $\dot \Omega \ll \Omega^2$, we can approximate $u$ as
+which has a formal solution $\psi = \pm \sqrt{\Omega^2 + i \dot \psi}$. In the WKB approximation, we assume a slow time-dependence; that is $\dot \psi \ll \Omega^2$ and $\dot \Omega \ll \Omega^2$. Then we can approximate $\psi$ as
 %
 \begin{equation}
-	u \approx \pm \Omega + \dfrac{i}{2} \dfrac{d \log \Omega}{d t} \;,
+	\psi \approx \pm \Omega + \dfrac{i}{2} \dfrac{d \log \Omega}{d t} \;,
 	\label{eq:u_approx}
 \end{equation}
 %
@@ -192,21 +185,21 @@ It is worth mentioning that the accuracy of this approximation depends, in gener
 
 \paragraph{Axion energy density}
 %
-The energy density of the axion is 
+In the small angle approximation, the energy density of the axion is 
 %
 \begin{eqnarray}
 	\rho_{a} = \dfrac{1}{2} \fa^2 \lrsb{ \dot{\theta}^2 + \maT^2 \theta^2 } \;.
 	\label{eq:rho_a_def} 
 \end{eqnarray}
 %
-For the relic abundance of axions, we need to calculate their energy density at very late times. That is, $\dot{\tilde{m}}_a = 0$, $\maT \gg H$ and $\dot H \ll H^2$. After some algebra, we obtain the approximate form of the energy density (as a function of the scale factor $a$) 
+For the relic abundance of axions, we need to calculate their energy density at very late times. That is, $\dot{\tilde{m}}_a = 0$, $\maT \gg H$ and $\dot H \ll H^2$. After some algebra, we obtain the approximate form of the energy density as a function of the scale factor ($a$) 
 %
 \begin{eqnarray}
 	\rho_{a} \approx \dfrac{\ma }{2}  \ \fa^2 \ \thetai^2  \ \maT(\aosc) \ \lrb{\dfrac{\aosc}{a}}^3 \;,
 	\label{eq:rho_a0} 
 \end{eqnarray}
 %
-which shows that the energy density of axions at late times scales as the energy density of matter. If there is a period of entropy injection to the plasma for $T<\Tosc$, the axion energy density gets diluted, since 
+which shows that the energy density of axions at late times scales as the energy density of matter; \ie the number of axion particles is conserved. If there is a period of entropy injection to the plasma for $T<\Tosc$, the axion energy density gets diluted, since 
 %
 \begin{equation}
 	a^3 \ s = \gamma \ \aosc^3 \ s_{\rm osc} \Rightarrow  \lrb{\dfrac{\aosc}{a}}^3 = \gamma^{-1} \dfrac{s}{s_{\rm osc}} \;,
@@ -226,7 +219,7 @@ with $\ma$ the mass of the axion at $T=T_0$. Notice that the explicit dependence
 %
 %The WKB approximation is very useful in order to understand the evolution of the axion field. However, it fails to explain how the oscillation begins before $\dot \Omega \ll \Omega^2$ is reached. In this section we will try to understand the evolution of the axion as generally as possible. 
 %
-The EOM~(\ref{eq:eom}) depends on time, which is not very useful variable in a non-standard comsological setting. Therefore, we introduce 
+The EOM~(\ref{eq:eom}) depends on time, which is not very useful variable in cosmology. Therefore, we introduce 
 %
 \begin{eqnarray}
 	u = \log \dfrac{a}{\ai} \;,
@@ -257,9 +250,12 @@ $$
 $$
 with  $ \delta_h = 1+ \dfrac{1}{3} \dfrac{d \log \heff}{d \log T} $. 
 %
-In a general cosmological setting, the expansion rate is dominated by an energy density that scales as $\rho \sim a^{-c}$, which results in $\dfrac{d \log H^2}{du}  = -c$. However, close to rapid particle annihilations and decays, the evolution of the energy densities change, and $\dfrac{d \log H^2}{du}$ can only be computed numerically.
+In a general cosmological setting, if the expansion rate is dominated by an energy density that scales as $\rho \sim a^{-c}$, $\dfrac{d \log H^2}{du}  = -c$. 
+%
+We notice that close to rapid particle annihilations and decays, the evolution of the energy densities change, and $\dfrac{d \log H^2}{du}$ can only be computed numerically.
 
-It is also worth mentioning that the EOM~\ref{eq:eom_u} with the initial condition $\theta(u=0)=\thetai$ and $d\theta/du (u=0)=0$ can be written as a system of first order 
+Moreover, it is worth mentioning that the EOM~\ref{eq:eom_u} with the initial condition $\theta(u=0)=\thetai$ and $d\theta/du (u=0)=0$ can be written as a system of first 
+order ordinary differential equations
 %
 \begin{eqnarray}
 & \dfrac{d  \zeta}{du} + \lrsb{\dfrac{1}{2} \dfrac{d \log H^2}{du} + 3 } \zeta + \ \lrb{\dfrac{\maT}{H}}^2 \ \sin \theta
@@ -268,13 +264,13 @@ It is also worth mentioning that the EOM~\ref{eq:eom_u} with the initial conditi
 \label{eq:eom_sys}
 \end{eqnarray}
 %
-This form of the EOM is suitable for integration via Runge-Kutta methods, which are briefly discussed in Appendix~\ref{app:RK}.
+This form of the EOM is what \mimes uses, as it is suitable for integration via Runge-Kutta methods -- which are briefly discussed in Appendix~\ref{app:RK}.
 
 
 
 \subsection{Adiabatic invariant and the anharmonic factor}\label{sec:an_fac}
 %
-The WKB approximation is very useful, as it helps us understand the evolution of the axion field after it begins to oscillate adiabatically. However, it fails to capture the dynamics before the adiabatic conditions are met, result in inaccurate axion relic abundance result. Therefore, a numerical integration should be preferred. Moreover, in order to reduce the computation time, the numerical integration needs to stop as soon as the axion begins to evolve adiabatically. After this point, we can correlate its energy density at later times, using an ``adiabatic invariant", which can be defined  for oscillatory systems with varying period.
+The small angle approximation does not allow us to solve the EOM~\ref{eq:eom} analytically. Moreover, even for $\theta\ll1$, the WKB approximation fails to capture the dynamics before the adiabatic conditions are met, and result in an inaccurate axion relic abundance.  Therefore, a numerical integration should be preferred. Furthermore, in order to reduce the computation time, the numerical integration needs to stop as soon as the axion begins to evolve adiabatically. After this point, we can correlate its energy density at later times, using an ``adiabatic invariant", which can be defined  for oscillatory systems with varying period.
 
 \paragraph{Definition of the adiabatic invariant}
 %
@@ -329,7 +325,7 @@ with
 	\label{eq:potential}
 \end{eqnarray}
 
-Notice that the Hamiltonian varies slowly if $\dot \maT/\maT \ll \maT$ and $H \ll \maT$, which are the adiabatic conditions.  When these conditions are met, the adiabatic invariant for this system becomes
+Notice that the Hamiltonian varies slowly if $\dot {\tilde{m}}_{a}(T)/\maT \ll \maT$ and $H \ll \maT$, which are the adiabatic conditions.  When these conditions are met, the adiabatic invariant for this system becomes
 %
 \begin{equation}
 	J = \dfrac{\oint p \ d \theta}{\pi \fa^2} = \dfrac{1}{\pi \fa^2} \oint \sqrt{ 2\lrb{ \Ham(\theta) - V(\theta) \ a^3} \ \fa^2 a^3 \ }  \ d \theta  =
@@ -372,9 +368,9 @@ is called the anharmonic factor, with $ 0.5 \lesssim f(\thetamax) \leq 1$ (see \
 
 \paragraph{The role of the adiabatic invariant in the axion relic energy density}
 %
-The adiabatic invariant allows us to calculate the maximum value of the angle $\theta$ at late times from its corresponding value at some point after the adiabatic conditions where met. It allows us to calculate the energy density of the axions field for $\theta \gtrsim 1$ since we have taken into account the exact potential.
+The adiabatic invariant allows us to calculate the maximum value of the angle $\theta$ at late times from its corresponding value at some point just after the adiabatic conditions where fulfilled.
 
-In order to do this, we can numerically integrate \eqs{eq:eom}, and identify the maxima of $\theta$. Once the adiabatic conditions are fulfilled, we can stop the integration at a peak, $\thetamax_{,*}$ -- which corresponds to $T=T_{*}$ and $a=a_{*}$. Then, the value of the maximum angle today ($\thetamax_{,0} \ll 1$) is related to $\thetamax_{,*}$ via
+In order to do this, we can numerically integrate \eqs{eq:eom}, and identify the maxima of $\theta$.~\footnote{\mimes identifies the maxima in real time, so it stops as soon as the system becomes adiabatic.} Once the adiabatic conditions are fulfilled, we can stop the integration at a peak, $\thetamax_{,*}$ -- which corresponds to $T=T_{*}$ and $a=a_{*}$. Then, the value of the maximum angle today ($\thetamax_{,0} \ll 1$) is related to $\thetamax_{,*}$ via
 %
 \begin{eqnarray}
 	\thetamax_{,0}^2 &=  \lrb{\dfrac{a_*}{a_0}}^3 \ \dfrac{\maT_{,*}}{\ma} \ f(\thetamax_{,*}) \ \thetamax_{,*}^2  =
@@ -383,7 +379,7 @@ In order to do this, we can numerically integrate \eqs{eq:eom}, and identify the
 	\label{eq:theta_relation}
 \end{eqnarray}
 %
-Using this, and since we evaluate the energy density at the maximum of $\theta$ (\ie $\dot \theta = 0$), we can determine the energy density of axions today from \eqs{eq:rho_a_def}. That is,
+Plugging this into \eqs{eq:rho_a_def} (with $\dot \theta=0$, \ie at today's peak), we arrive at the energy density today 
 %
 \begin{equation}
 	\rho_{a,0} = \gamma^{-1} \ \dfrac{s_0}{s_*} \ \ma \ \maT_{,*} \ \dfrac{1}{2} \ \fa^2 \ \thetamax_{,*}^2 \;  \ f(\thetamax_{,*}) \;,
@@ -397,14 +393,14 @@ where $\gamma$ is the entropy injection coefficient between $T_{*}$ and $T_0$, d
 	\label{eq:entropy_injection_gamma}
 \end{equation}
 
-Notice that \eqs{eq:rho_axion_exact} is similar to the corresponding WKB result~(\ref{eq:rho_a_approx}) at $\tosc \to t_*$, multiplied by the anharmonic factor $f(\thetamax_{,*})$. That is, if the axion starts to evolve adiabatically close to $t=\tosc$, and $\thetaosc \ll 1$, the WKB approximation is valid.
+Notice that \eqs{eq:rho_axion_exact} is similar to the corresponding WKB result~(\ref{eq:rho_a_approx}) at $\tosc \to t_*$, multiplied by the anharmonic factor $f(\thetamax_{,*})$. So, the numerical integration is needed in order to correctly identify $T_{*}$ and $\thetamax_{,*}$, which are greatly affected by the underlying cosmology (especially in cases where entropy injection is active close to $\Tosc$) and whether $\thetai \gtrsim 1$~\cite{Bae:2008ue,Arias:2021rer}. 
 
 
 
-\section{First steps with \mimes}\label{sec:first_steps}
+\section{First contact with \mimes}\label{sec:first_steps}
 \setcounter{equation}{0}
 %
-The library can downloaded from \href{https:/github.com/dkaramit/MiMeS}{github.com/dkaramit/MiMeS}. Since the library depends on {\tt NaBBODES}~\cite{NaBBODES} {\tt SpleSplines}~\cite{SimpleSplines}, one has to download the, too. However, in order to get \mimes ready, one can run the following commands: 
+\mimes can downloaded from \href{https:/github.com/dkaramit/MiMeS}{github.com/dkaramit/MiMeS}. In order to get started with \mimes, one needs to run the following commands:
 %
 \begin{lstlisting}
 	git clone git@github.com:dkaramit/MiMeS.git
@@ -413,7 +409,7 @@ The library can downloaded from \href{https:/github.com/dkaramit/MiMeS}{github.c
 	git submodule update --remote
 \end{lstlisting}
 %
-%Although this method should be preferred in order to get the latest version, \mimes can also be downloaded from \href{https:/mimes.hepforge.org/downloads/}{mimes.hepforge.org/downloads}.
+This downloads \mimes, and the submodules {\tt NaBBODES}~\cite{NaBBODES} {\tt SimpleSplines}~\cite{SimpleSplines}, which are necessary components of the library. 
 
 
 Once everything is downloaded successfully, we can go inside the \mimes directory, and run \run{bash configure.sh} and \run{make}.  The {\tt bash} script {\tt configure.sh}, just writes some paths to some files, formats the data files provided in an acceptable format (in section~\ref{sec:input} the format is explained), and makes some directories.
@@ -423,9 +419,9 @@ The {\tt makefile} is responsible for compiling some examples and checks, as wel
 Although there are various options available at compile-time, we first discuss how \mimes can be used, in order for the role of these options to be clear. 
 
 
-\subsection{First examples}\label{sec:First_examples} 
+\subsection{First steps}\label{sec:First_examples} 
 %
-There are several examples in \CPP ({\tt MiMeS/UserSpace/Cpp}) and \PY ({\tt MiMeS/UserSpace/Python}), as well as \JUPY  notebooks ({\tt MiMeS/UserSpace/JupyterNotebooks}), that show in detail how \mimes can be used. 
+There are several examples in \CPP ({\tt MiMeS/UserSpace/Cpp}) and \PY ({\tt MiMeS/UserSpace/Python}), as well as \JUPY  notebooks ({\tt MiMeS/UserSpace/JupyterNotebooks}), that show in detail how \mimes can be used. Here, we discuss the various functions one may use as it will provide some insight for the following discussions. 
 
 \subsubsection{Using \mimes in \CPP}\label{sec:cpp_first_example}
 %
@@ -434,13 +430,13 @@ The class that is responsible for the solution of the EOM is \cppin{mimes::Axion
 Therefore, at the top of the main {\tt .cpp} file, we need to include 
 %
 \begin{cpp}
-	#include "MiMeS/src/AxionMass/AxionMass.hpp"
-	#include "MiMeS/src/Axion/AxionSolve.hpp"
+	#include "src/AxionMass/AxionMass.hpp"
+	#include "src/Axion/AxionSolve.hpp"
 \end{cpp}
 %
 Notice that if the this {\tt .cpp} file is not in the root directory of \mimes, we need to compile it using the flag {\tt -Ipath-to-root}, "path-to-root" the relative path to the root directory of \mimes; \eg if the {\tt .cpp} is in the {\tt MiMeS/UserSpace/Cpp/Axion} directory, this flag should be {\tt -I../../../}.
 
-The mass of the axion can be defined in two ways; either via a data file or by a user defined function. 
+The mass of the axion can be defined in two ways; either via a data file or as a user defined function. 
 
 \paragraph{Axion mass form data file} 
 In many cases, axion mass cannot be written in a closed form. In these cases, the user may provide a data file. Then, the axion mass can be defined via this file as
@@ -522,7 +518,7 @@ The various parameters are as follows:
 	is not finished. 
 \end{enumerate}
 %
-in order to understand the usage of the optional parameters, some basic techniques of Runge-Kutta methods are discussed in Appendix~\ref{app:RK}. 
+In order to understand the role of the optional parameters, some basic techniques of Runge-Kutta methods are discussed in Appendix~\ref{app:RK}. 
 
 The EOM~(\ref{eq:eom_u}), then can be solved using 
 %
@@ -530,8 +526,8 @@ The EOM~(\ref{eq:eom_u}), then can be solved using
 	ax.solveAxion();
 \end{cpp}
 %
-Once the EOM is solved, we can access $\Tosc$, $\thetaosc$, and $\Omega h^2$  via {\tt ax.T\_osc}, {\tt ax.theta\_osc}, and {\tt ax.relic}. The entire evolution (the points the integrator took) of the axion angle is stored in {\tt ax.points}, which is a two-dimensional {\tt std::vector}, with the columns corresponding to  $a$, $T~[\GeV]$, 
-$\theta$, $d\theta/du$, $\rho_a$. Moreover, the peaks of he oscillation are stored in another two-dimensional {\tt std::vector}, with the columns corresponding to $a$, $T~[\GeV]$, $\thetamax$, $d\theta/du=0$, $\rho_a$, $J$. We should note that the peaks are identified using linear interpolation between integration points, in order to ensure that $d\theta/du = 0$. That is, the values stored in {\tt ax.peaks} do not exist in {\tt ax.points}. Finally, the local errors (see Appendix~\ref{app:RK}) of the integration points of $\theta$ and $\zeta$ are stored in {\tt ax.dtheta} and {\tt ax.dzeta}.
+Once the EOM is solved, we can access $\Tosc$, $\thetaosc$, and $\Omega h^2$  via {\tt ax.T\_osc}, {\tt ax.theta\_osc}, and {\tt ax.relic}. The entire evolution (the points the integrator took) of the axion angle is stored in {\tt ax.points}, which is a two-dimensional \cppin{std::vector<LD>}, with the columns corresponding to  $a$, $T~[\GeV]$, 
+$\theta$, $d\theta/du$, $\rho_a$. Moreover, the peaks of he oscillation are stored in another two-dimensional \cppin{std::vector<LD>}, with the columns corresponding to $a$, $T~[\GeV]$, $\thetamax$, $d\theta/du=0$, $\rho_a$, $J$. We should note that the peaks are identified using linear interpolation between integration points, in order to ensure that $d\theta/du = 0$. That is, the values stored in {\tt ax.peaks} do not exist in {\tt ax.points}. Finally, the local errors (see Appendix~\ref{app:RK}) of the integration points of $\theta$ and $\zeta$ are stored in {\tt ax.dtheta} and {\tt ax.dzeta}.
 
 
 \paragraph{Changing axion mass definition}
@@ -550,18 +546,18 @@ However, since integration starts at a temperature determined by {\tt ratio\_ini
 	ax.restart();
 \end{cpp}
 %
-This function remakes the interpolations, clears all vector, and sets all variable to $0$. 
+This function remakes the interpolations, clears all vector, and sets all variables to $0$. 
 
 
 \paragraph{Changing initial condition}
 %
-The final member function is \cppin{mimes::Axion::setTheta\_i}, which allows the user to set a different $\thetai$ without generating another instance.~\footnote{Since the interpolations of the data of {\tt inputFile} are made inside the constructor of the \cppin{mimes::Axion<LD,Solver,Method>} class, \cppin{mimes::Axion<LD,Solver,Method>::setTheta\_i} is a faster choice if ones needs to solve the EOM for a different initial condition.} This function is used as    
+The final member function is \cppin{mimes::Axion::setTheta_i}, which allows the user to set a different $\thetai$ without generating another instance.~\footnote{Since the interpolations of the data of {\tt inputFile} are made inside the constructor of the \cppin{mimes::Axion<LD,Solver,Method>} class, \cppin{mimes::Axion<LD,Solver,Method>::setTheta\_i} is a faster choice if ones needs to solve the EOM for a different initial condition.} This function is used as    
 %
 \begin{cpp}
 	ax.setTeta_i(new_theta_ini);
 \end{cpp}
 %
-where {\tt new\_theta\_ini} is the new value of $\thetai$. Running this function resets all variables to $0$ (except {\tt T\_osc} and {\tt a\_osc}, since they should not change), and clears all {\tt std::vector} variables, which allows the user to simply run \run{ax.solveAxion();} as if {\tt ax} was a freshly defined instance.  
+where {\tt new\_theta\_ini} is the new value of $\thetai$. Running this function resets all variables to $0$ (except {\tt T\_osc} and {\tt a\_osc}, since they should not change), and clears all \cppin{std::vector<LD>} variables, which allows the user to simply run \run{ax.solveAxion();} as if {\tt ax} was a freshly defined instance.  
 
 
 
@@ -570,9 +566,7 @@ where {\tt new\_theta\_ini} is the new value of $\thetai$. Running this function
 The modules for the \PY interface are located in {\tt MiMeS/src/interfacePy}. Although the usage of the {\tt AxionMass} and {\tt Axion} classes is similar to the \CPP case, it is worth showing explicitly how the \PY interface works.
 
  
- 
- 
-The two classes the modules {\tt interfacePy.AxionMass} and {\tt interfacePy.Axion}, and can be loaded in a \PY script as 
+The two relevant classes are defined in the modules {\tt interfacePy.AxionMass} and {\tt interfacePy.Axion}, and can be loaded in a \PY script as 
 %
 \begin{py}
 	from sys import path as sysPath
@@ -585,8 +579,7 @@ The two classes the modules {\tt interfacePy.AxionMass} and {\tt interfacePy.Axi
 It is important that {\tt 'path\_to\_src'} provides the relative path to the {\tt MiMeS/src} directory. For example, if the script is located in {\tt MiMeS/UserSpace/Python}, {\tt 'path\_to\_src'} should be {\tt '../../src'}.
 
 \paragraph{Axion mass definition via a data file}
-As before, we first need to define the axion mass. Similarly to the previous case, in order to define the axion mass via a file
-In many cases, axion mass cannot be written in a closed form. In these cases, the user may provide a data file. Then, the axion mass can be defined via this file as
+As before, we first need to define the axion mass. Similarly to the previous case, in order to define the axion mass via a file, we use
 %
 \begin{py}
 	AxionMass axionMass(chi_PATH, minT, maxT)
@@ -599,7 +592,7 @@ Here, the constructor requires the same parameters as in \CPP. Moreover, the axi
 	axionMass.set_ma2_MIN(ma2_MIN)
 \end{py}
 %
-Although the naming is the same as in the \CPP case, there on important difference. Namely, {\tt ma2\_MAX} and {\tt ma2\_MIN} have to be functions (that take $T$ and $\fa$ as arguments and return $\maT^2$), and cannot be any other callable object. The reason is that \mimes uses the {\tt ctypes} module, which only works with objects compatible with {\tt C}. 
+Although the naming is the same as in the \CPP case, there is an important difference. Namely, {\tt ma2\_MAX} and {\tt ma2\_MIN} have to be functions (that take $T$ and $\fa$ as arguments and return $\maT^2$), and cannot be any other callable object. The reason is that \mimes uses the {\tt ctypes} module, which only works with objects compatible with {\tt C}. 
 %
 Moreover, the values of {\tt TMin}, {\tt TMax}, $\chi(${\tt TMin}$)$, and $\chi(${\tt TMax}$)$ can be obtained by {\tt axionMass.getTMin()}, {\tt axionMass.getTMax()}, {\tt axionMass.getChiMin()}, and {\tt axionMass.getChiMax()}, respectively.
 
@@ -624,7 +617,7 @@ We can define an {\tt Axion} instance as follows
 	absolute_tolerance, relative_tolerance, beta, fac_max, fac_min, maximum_No_steps)
 \end{py}
 %
-Here the input parameters are the same as in the \CPP case (the usage of the class can be found by running {\tt ?Axion} after loading the module). The only slight difference is that the {\tt axionMass} is not passed as a pointer; which is done internally using {\tt ctypes}. 
+Here the input parameters are the same as in the \CPP case (the usage of the class can be found by running {\tt ?Axion} after loading the module). The only slight difference compared to the \CPP case is that the \pyin{axionMass} instance is not passed as a pointer; it is done internally using {\tt ctypes}. 
 
 
 Using the defined variable ({\tt ax} in this example), we can simply run  
@@ -639,7 +632,7 @@ in order to solve the EOM of the axion. In contrast to the \CPP implementation, 
 	ax.getPoints()
 \end{py}
 %
-This will make {\tt numpy} arrays that contain the scale factor ({\tt ax.a}), temperature ({\tt ax.T}), $\theta$ ({\tt ax.theta}), its derivative with respect to $u$ ({\tt ax.zeta}), and the energy density of the axion ({\tt ax.rho\_axion}).
+This will make \pyin{numpy} arrays that contain the scale factor ({\tt ax.a}), temperature ({\tt ax.T}), $\theta$ ({\tt ax.theta}), its derivative with respect to $u$ ({\tt ax.zeta}), and the energy density of the axion ({\tt ax.rho\_axion}).
 
 Moreover, in order to get the various quantities on the peaks of the oscillation, we can run
 %
@@ -647,7 +640,7 @@ Moreover, in order to get the various quantities on the peaks of the oscillation
 	ax.getPeaks()
 \end{py}
 %
-This makes {\tt numpy} arrays that contain the scale factor ({\tt ax.a\_peak}), temperature ({\tt ax.T\_peak}), $\theta$ ({\tt ax.theta\_peak}), its derivative with respect to $u$ ({\tt ax.zeta\_peak}, which should be equal to $0$), the energy density of the axion ({\tt ax.rho\_axion\_peak}), and the values of the adiabatic invariant on the peaks ({\tt ax.adiabatic\_invariant}).
+This makes \pyin{numpy} arrays that contain the scale factor ({\tt ax.a\_peak}), temperature ({\tt ax.T\_peak}), $\theta$ ({\tt ax.theta\_peak}), its derivative with respect to $u$ ({\tt ax.zeta\_peak}, which should be equal to $0$), the energy density of the axion ({\tt ax.rho\_axion\_peak}), and the values of the adiabatic invariant on the peaks ({\tt ax.adiabatic\_invariant}).
 
 Moreover, we can run the following
 %
@@ -671,7 +664,7 @@ with {\tt ma2} a function that takes $T$ and $\fa$, and returns the $\maT^2$. As
 	ax.restart()
 \end{cpp}
 %
-in order to remake the interpolation of cosmological quantities and reset the various variables.x
+in order to remake the interpolation of cosmological quantities and reset the various variables.
 
 \paragraph{Changing the initial condition}
 %
@@ -1178,7 +1171,7 @@ We have introduced \mimes; a header-only library written \CPP that is used to co
 
 In this manuscript, we have provided a detailed explanation on how to use \mimes, by showing examples in both \CPP and \PY (paragraphs~\refs{sec:First_examples,sec:complete_examples}). We have described the user input that is expected, and the various options available (sections~\refs{sec:first_steps,sec:assumptions}). Moreover, in the Appendix, we provide a detailed review of all the internal components that comprise \mimes. We briefly discuss the Runge-Kutta methods that \mimes uses, and show how the user can implement their own. We explain the functionality of all the classes, modules, and utilities. Also, we provide a detailed input and option guide.
 
-In the future, \mimes will be extended in several ways. First, we should implement new functionality that will allow the user to automatically compare against various experimental data (although, there is already an available module~\cite{2020-AxionLimits} that can be used for this goal). This is going to be helpful, as the user will only need to use one program (or script) to compute what is needed. We also aim to supplement \mimes with the option to produce ALPs via interactions of the plasma (\eg freeze-out/in), which may be useful in certain cases. Finally, \mimes will continue to improve by correcting mistakes, or implementing suggestions by the community.
+In the future, \mimes will be extended in several ways. First, we should implement new functionality that will allow the user to automatically compare against various experimental data (although, there is already an available module~\cite{2020-AxionLimits} that can be used for this goal). This is going to be helpful, as the user will only need to use one program (or script) to compute what is needed. We also aim to supplement \mimes with the option to produce ALPs via interactions of the plasma (\eg freeze-out/in), which may be useful in certain cases. Finally, \mimes will continue to improve by correcting mistakes, or implementing suggestions by the community. Finally, a later version of \mimes may allow the user to define their own initial conditions as well, since there are cases where the initial conditions may be different (\eg~\cite{Co:2019jts}) that is currently implemented.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % APPENDICES

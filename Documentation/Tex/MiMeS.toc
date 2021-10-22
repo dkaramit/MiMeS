@@ -1,45 +1,45 @@
-\contentsline {section}{\numberline {1}Introduction}{3}{section.1}%
+\contentsline {section}{\numberline {1}Introduction}{2}{section.1}%
 \contentsline {section}{\numberline {2}Physics background}{3}{section.2}%
 \contentsline {paragraph}{The EOM}{3}{section*.2}%
 \contentsline {paragraph}{Initial conditions}{4}{figure.caption.4}%
 \contentsline {subsection}{\numberline {2.1}The WKB approximation}{4}{subsection.2.1}%
 \contentsline {paragraph}{Axion energy density}{5}{section*.5}%
-\contentsline {subsection}{\numberline {2.2}Notation}{6}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.2}Notation}{5}{subsection.2.2}%
 \contentsline {subsection}{\numberline {2.3}Adiabatic invariant and the anharmonic factor}{6}{subsection.2.3}%
 \contentsline {paragraph}{Definition of the adiabatic invariant}{6}{section*.6}%
-\contentsline {paragraph}{Application to the axion}{7}{section*.7}%
+\contentsline {paragraph}{Application to the axion}{6}{section*.7}%
 \contentsline {paragraph}{The role of the adiabatic invariant in the axion relic energy density}{7}{section*.9}%
 \contentsline {section}{\numberline {3}First contact with {\tt MiMeS}\xspace }{8}{section.3}%
-\contentsline {subsection}{\numberline {3.1}First steps}{9}{subsection.3.1}%
-\contentsline {subsubsection}{\numberline {3.1.1}Using {\tt MiMeS}\xspace in {\tt C++}\xspace }{9}{subsubsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1}First steps}{8}{subsection.3.1}%
+\contentsline {subsubsection}{\numberline {3.1.1}Using {\tt MiMeS}\xspace in {\tt C++}\xspace }{8}{subsubsection.3.1.1}%
 \contentsline {paragraph}{Axion mass form data file}{9}{section*.10}%
 \contentsline {paragraph}{Axion mass function}{9}{section*.11}%
-\contentsline {paragraph}{The EOM solver}{10}{section*.12}%
+\contentsline {paragraph}{The EOM solver}{9}{section*.12}%
 \contentsline {paragraph}{Changing axion mass definition}{11}{section*.13}%
 \contentsline {paragraph}{Changing initial condition}{11}{section*.14}%
 \contentsline {subsubsection}{\numberline {3.1.2}Using {\tt MiMeS}\xspace in {\tt python}\xspace }{11}{subsubsection.3.1.2}%
-\contentsline {paragraph}{Axion mass definition via a data file}{12}{section*.15}%
+\contentsline {paragraph}{Axion mass definition via a data file}{11}{section*.15}%
 \contentsline {paragraph}{Axion mass definition via a function}{12}{section*.16}%
 \contentsline {paragraph}{The EOM solver}{12}{section*.17}%
-\contentsline {paragraph}{Changing axion mass definition}{13}{section*.18}%
-\contentsline {paragraph}{Changing the initial condition}{13}{section*.19}%
+\contentsline {paragraph}{Changing axion mass definition}{12}{section*.18}%
+\contentsline {paragraph}{Changing the initial condition}{12}{section*.19}%
 \contentsline {paragraph}{Importand note}{13}{section*.20}%
 \contentsline {section}{\numberline {4}Assumptions and user input}{13}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Options at Compile-time}{13}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}User input}{15}{subsection.4.2}%
-\contentsline {subsubsection}{\numberline {4.2.1}Compile-time input}{15}{subsubsection.4.2.1}%
-\contentsline {paragraph}{Files}{15}{section*.21}%
+\contentsline {subsection}{\numberline {4.2}User input}{14}{subsection.4.2}%
+\contentsline {subsubsection}{\numberline {4.2.1}Compile-time input}{14}{subsubsection.4.2.1}%
+\contentsline {paragraph}{Files}{14}{section*.21}%
 \contentsline {subsubsection}{\numberline {4.2.2}Run-time input}{15}{subsubsection.4.2.2}%
 \contentsline {subsection}{\numberline {4.3}Complete Examples}{16}{subsection.4.3}%
 \contentsline {subsubsection}{\numberline {4.3.1}complete example in {\tt C++}\xspace }{16}{subsubsection.4.3.1}%
 \contentsline {paragraph}{Parameter choice}{17}{section*.23}%
-\contentsline {paragraph}{Template arguments}{18}{section*.24}%
+\contentsline {paragraph}{Template arguments}{17}{section*.24}%
 \contentsline {paragraph}{Compilation}{18}{section*.25}%
 \contentsline {paragraph}{The entire code}{18}{section*.26}%
 \contentsline {paragraph}{Alternative axion mass definition}{19}{section*.27}%
 \contentsline {subsubsection}{\numberline {4.3.2}complete example in {\tt python}\xspace }{19}{subsubsection.4.3.2}%
 \contentsline {paragraph}{Compilation of the shared library}{20}{section*.28}%
-\contentsline {paragraph}{The entire code}{21}{section*.29}%
+\contentsline {paragraph}{The entire code}{20}{section*.29}%
 \contentsline {paragraph}{Alternative axion mass definition}{21}{section*.30}%
 \contentsline {subsubsection}{\numberline {4.3.3}Results}{21}{subsubsection.4.3.3}%
 \contentsline {section}{\numberline {5}Acknowledgements}{23}{section.5}%

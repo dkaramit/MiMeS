@@ -51,13 +51,13 @@
 \contentsline {subsection}{\numberline {A.2}Explicit embedded RK methods}{24}{subsection.A.2}%
 \contentsline {subsection}{\numberline {A.3}Rosenbrock methods}{25}{subsection.A.3}%
 \contentsline {paragraph}{Implementing a new Butcher tableau in {\tt NaBBODES}}{25}{section*.37}%
-\contentsline {paragraph}{How to compile {\tt MiMeS}\xspace in order to use the newly implemented method}{27}{section*.38}%
+\contentsline {paragraph}{How to compile {\tt MiMeS}\xspace in order to use the newly implemented method}{26}{section*.38}%
 \contentsline {section}{\numberline {B}{\tt C++}\xspace classes}{27}{appendix.B}%
 \contentsline {subsection}{\numberline {B.1}{\tt Cosmo} class}{27}{subsection.B.1}%
 \contentsline {subsection}{\numberline {B.2}{\tt AnharmonicFactor} class}{28}{subsection.B.2}%
 \contentsline {subsection}{\numberline {B.3}{\tt AxionMass} class}{28}{subsection.B.3}%
 \contentsline {subsection}{\numberline {B.4}{\tt AxionEOM} class}{29}{subsection.B.4}%
-\contentsline {subsection}{\numberline {B.5}{\tt Axion} class}{30}{subsection.B.5}%
+\contentsline {subsection}{\numberline {B.5}{\tt Axion} class}{29}{subsection.B.5}%
 \contentsline {section}{\numberline {C}{\tt python}\xspace interface}{31}{appendix.C}%
 \contentsline {subsection}{\numberline {C.1}{\tt Cosmo} class}{31}{subsection.C.1}%
 \contentsline {subsection}{\numberline {C.2}{\tt AxionMass} class}{32}{subsection.C.2}%
@@ -69,9 +69,9 @@
 \contentsline {subsection}{\numberline {E.2}The {\tt ScanObs} class}{36}{subsection.E.2}%
 \contentsline {subsection}{\numberline {E.3}\tt FT class}{36}{subsection.E.3}%
 \contentsline {section}{\numberline {F}Utilities}{37}{appendix.F}%
-\contentsline {subsection}{\numberline {F.1}\tt FormatFile.sh}{38}{subsection.F.1}%
+\contentsline {subsection}{\numberline {F.1}\tt FormatFile.sh}{37}{subsection.F.1}%
 \contentsline {subsection}{\numberline {F.2}\tt timeit.sh}{38}{subsection.F.2}%
-\contentsline {subsection}{\numberline {F.3}{\tt Timer} {\tt C++}\xspace class}{39}{subsection.F.3}%
+\contentsline {subsection}{\numberline {F.3}{\tt Timer} {\tt C++}\xspace class}{38}{subsection.F.3}%
 \contentsline {subsection}{\numberline {F.4}{\tt linspace} function}{39}{subsection.F.4}%
 \contentsline {subsection}{\numberline {F.5}{\tt logspace} function}{39}{subsection.F.5}%
 \contentsline {subsection}{\numberline {F.6}{\tt map} function}{39}{subsection.F.6}%

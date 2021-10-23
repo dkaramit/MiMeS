@@ -400,7 +400,14 @@ Notice that \eqs{eq:rho_axion_exact} is similar to the corresponding WKB result~
 \section{\mimes usage}\label{sec:first_steps}
 \setcounter{equation}{0}
 %
-\mimes is available in \href{https:/github.com/dkaramit/MiMeS}{github.com/dkaramit/MiMeS}. In order to get started with \mimes, one needs to run the following commands:~\footnote{Instructions on how {\tt git} can be installed can be found in \href{https://github.com/git-guides/install-git}{https://github.com/git-guides/install-git}. }
+The latest stable version of \mimes is available in \href{https://github.com/dkaramit/MiMeS/tree/stable}{https://github.com/dkaramit/MiMeS/tree/stable}, which can also be obtained by running:~\footnote{Instructions on how {\tt git} can be installed can be found in \href{https://github.com/git-guides/install-git}{https://github.com/git-guides/install-git}. }
+%
+\begin{lstlisting}
+	git clone -b stable https://github.com/dkaramit/MiMeS.git
+\end{lstlisting}
+
+
+It is important to note that \mimes relies {\tt NaBBODES}~\cite{NaBBODES} and {\tt SimpleSplines}~\cite{SimpleSplines}. These are two libraries developed independently, and in order to get \mimes with the latest version of these libraries, one needs to run following commands
 %
 \begin{lstlisting}
 	git clone https://github.com/dkaramit/MiMeS.git
@@ -409,7 +416,8 @@ Notice that \eqs{eq:rho_axion_exact} is similar to the corresponding WKB result~
 	git submodule update --remote
 \end{lstlisting}
 %
-This downloads \mimes, and the submodules {\tt NaBBODES}~\cite{NaBBODES} {\tt SimpleSplines}~\cite{SimpleSplines}, which are necessary components of the library. 
+This downloads the {\tt master} branch of \mimes; and {\tt NaBBODES}~\cite{NaBBODES} and {\tt SimpleSplines}~\cite{SimpleSplines} as submodules. This guaranties that \mimes uses the most updated version of these libraries, although it may not be stable. 
+
 
 
 Once everything is downloaded successfully, we can go inside the \mimes directory, and run \run{bash configure.sh} and \run{make}.  The {\tt bash} script {\tt configure.sh}, just writes some paths to some files, formats the data files provided in an acceptable format (in section~\ref{sec:input} the format is explained), and makes some directories.

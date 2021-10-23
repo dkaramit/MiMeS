@@ -397,13 +397,13 @@ Notice that \eqs{eq:rho_axion_exact} is similar to the corresponding WKB result~
 
 
 
-\section{First contact with \mimes}\label{sec:first_steps}
+\section{\mimes usage}\label{sec:first_steps}
 \setcounter{equation}{0}
 %
-\mimes can downloaded from \href{https:/github.com/dkaramit/MiMeS}{github.com/dkaramit/MiMeS}. In order to get started with \mimes, one needs to run the following commands:
+\mimes is available in \href{https:/github.com/dkaramit/MiMeS}{github.com/dkaramit/MiMeS}. In order to get started with \mimes, one needs to run the following commands:~\footnote{Instructions on how {\tt git} can be installed can be found in \href{https://github.com/git-guides/install-git}{https://github.com/git-guides/install-git}. }
 %
 \begin{lstlisting}
-	git clone git@github.com:dkaramit/MiMeS.git
+	git clone https://github.com/dkaramit/MiMeS.git
 	cd MiMeS
 	git submodule init
 	git submodule update --remote
@@ -445,7 +445,7 @@ In many cases, axion mass cannot be written in a closed form. In these cases, th
 	mimes::AxionMass<LD> axionMass(chi_PATH, minT, maxT);
 \end{cpp}
 %
-Here {\tt chi\_PATH} is a (relative or absolute) path to a file with two columns; $T$ (in $\GeV$) and $\chi$ (in $\GeV^4$), with increasing $T$. In this case, the axion mass is interpolated between the temperatures {\tt minT} and {\tt maxT}. These two parameters are just suggestions, and the actual interpolation limits, {\tt  TMin} and {\tt TMax}, are chosen as the closest temperatures in the data file. That is, in general, {\tt TMin} $\geq$ {\tt minT} and {\tt TMax} $\leq$ {\tt maxT}. Beyond these limits, the mass is assumed to constant by default. However, one can change this by using 
+The template parameter \cppin{LD} can be a numeric type (\eg \cppin{double} or \cppin{long double}). The argument  {\tt chi\_PATH} is a (relative or absolute) path to a file with two columns; $T$ (in $\GeV$) and $\chi$ (in $\GeV^4$), with increasing $T$. In this case, the axion mass is interpolated between the temperatures {\tt minT} and {\tt maxT}. These two parameters are just suggestions, and the actual interpolation limits, {\tt  TMin} and {\tt TMax}, are chosen as the closest temperatures in the data file. That is, in general, {\tt TMin} $\geq$ {\tt minT} and {\tt TMax} $\leq$ {\tt maxT}. Beyond these limits, the mass is assumed to constant by default. However, one can change this by using 
 %
 \begin{cpp}
 	axionMass.set_ma2_MAX(ma2_MAX);
@@ -468,12 +468,12 @@ Once the axion mass is defined, we can declare a variable that will be used to s
 %
 \begin{cpp}
 	mimes::Axion<LD,Solver,Method> ax(theta_i, fa, umax, TSTOP, ratio_ini, 
-	N_convergence_max, convergence_lim, inputFile, &axionMass, initial_step_size,
-	minimum_step_size, maximum_step_size, absolute_tolerance, relative_tolerance, 
-	beta, fac_max, fac_min, maximum_No_steps);
+		N_convergence_max, convergence_lim, inputFile, &axionMass, initial_step_size,
+		minimum_step_size, maximum_step_size, absolute_tolerance, relative_tolerance, 
+		beta, fac_max, fac_min, maximum_No_steps);
 \end{cpp}
 %
-Here, {\tt LD} should be the desirable numeric type to be used; it is recommended to use {\tt long double}, but other choices are also available as we discuss later. Moreover {\tt Solver} and {\tt Method} depend on the type of Runge-Kutta the user chooses (see section~\ref{sec:options} as well as the Appendices~\refs{app:RK,app:usr_input} for more details). 
+Here, \cppin{LD} should be the numeric type to be used; it is recommended to use \cppin{long double}, but other choices are also available as we discuss later. Moreover \cppin{Solver} and \cppin{Method} depend on the type of Runge-Kutta (RK) the user chooses. The available choices are shown in table\ref{tab:template-arguments}. A discussion on RK methods is given in Appendix~\ref{app:RK}.
 
 The various parameters are as follows:
 %
@@ -563,7 +563,7 @@ where {\tt new\_theta\_ini} is the new value of $\thetai$. Running this function
 
 \subsubsection{Using \mimes in \PY}\label{sec:begin_py}
 %
-The modules for the \PY interface are located in {\tt MiMeS/src/interfacePy}. Although the usage of the {\tt AxionMass} and {\tt Axion} classes is similar to the \CPP case, it is worth showing explicitly how the \PY interface works.
+The modules for the \PY interface are located in {\tt MiMeS/src/interfacePy}. Although the usage of the {\tt AxionMass} and {\tt Axion} classes is similar to the \CPP case, it is worth showing explicitly how the \PY interface works. One should keep in mind that the various template arguments discussed in the \CPP case have to be chosen at compile-time. That is, for the \PY interface, one needs to choose the numeric type, and RK method to be used when the shared libraries are compiled. This is done by assigning the relevant variable in {\mimes/Definitions.mk} before running \run{make}. The various options are discussed in section~\ref{sec:options}, and outlined in table~\ref{tab:compile_time-options}.
 
  
 The two relevant classes are defined in the modules {\tt interfacePy.AxionMass} and {\tt interfacePy.Axion}, and can be loaded in a \PY script as 
@@ -606,6 +606,13 @@ Again this can be done as
 %
 with {\tt ma2} the axion mass squared, which should be a function (not any callable object) of $T$ and $\fa$.
 
+\paragraph{Importand note} Once an \pyin{AxionMass} is no longer required, to call the destructor. In this case, we can run
+%
+\begin{py}
+	del axionMass
+\end{py}
+%
+The reason is that \mimes constructs a pointer for every instance of the class, which needs to be deleted manually.  
 
 \paragraph{The EOM solver}
 %
@@ -613,8 +620,8 @@ We can define an {\tt Axion} instance as follows
 %
 \begin{py}
 	ax=Axion(theta_i, fa, umax, TSTOP, ratio_ini, N_convergence_max, convergence_lim, 
-	inputFile, axionMass, initial_step_size, minimum_step_size, maximum_step_size, 
-	absolute_tolerance, relative_tolerance, beta, fac_max, fac_min, maximum_No_steps)
+		inputFile, axionMass, initial_step_size, minimum_step_size, maximum_step_size, 
+		absolute_tolerance, relative_tolerance, beta, fac_max, fac_min, maximum_No_steps)
 \end{py}
 %
 Here the input parameters are the same as in the \CPP case (the usage of the class can be found by running {\tt ?Axion} after loading the module). The only slight difference compared to the \CPP case is that the \pyin{axionMass} instance is not passed as a pointer; it is done internally using {\tt ctypes}. 
@@ -903,7 +910,7 @@ This example consists of only a few lines of code, which, including the change i
 %
 \begin{cpp}
 	#include<iostream>
-	//include everything you need from \mimes
+	//include everything you need from MiMeS
 	#include"src/Axion/AxionSolve.hpp"
 	#include"src/AxionMass/AxionMass.hpp"
 	#include"src/Cosmo/Cosmo.hpp"
@@ -1016,7 +1023,7 @@ Then we can simply create an instance of the \pyin{Axion} class as
 %
 \begin{py}
 	#in python it is more convenient to use relative paths
-	inputFile = inputFile="./InputExamples/MatterInput.dat"  
+	inputFile = "./InputExamples/MatterInput.dat"  
 	
 	ax = Axion(0.1, 1e16, 500, 1e-4, 1e3, 15, 1e-2, inputFile, axionMass, 
 	1e-1, 1e-8, 1e-1, 1e-11, 1e-11, 0.9, 1.2, 0.8, int(1e7))
@@ -1223,7 +1230,7 @@ A large category of RK methods are  the so-called embedded RK methods. These met
 	\label{eq:RK_Embedded_iter}
 \end{equation}
 %
-with $b_i^{(*)}$ is an extra parameter that characterise the ``embedded" method of different order (typically, one order higher that the estimate~\ref{eq:RK_iter}). The local (for the step $t_{n+1}$) error divided by the scale of the solution, then, estimated as
+with $b_i^{*}$ is an extra parameter that characterise the ``embedded" method of different order (typically, one order higher that the estimate~\ref{eq:RK_iter}). The local (for the step $t_{n+1}$) error divided by the scale of the solution, then, estimated as
 %
 \begin{equation}
 	\Delta \equiv  \sqrt{\frac{1}{N}\sum_{d=1}^{N}\lrb{\frac{y_{n+1 ,d}-y^{*}_{n+1,d}}{ \Lambda_d }}^{2}} \;,
@@ -1281,7 +1288,7 @@ Explicit methods use only the information of the previous step in order to compu
 	\label{eq:explicit_RK_k}
 \end{equation}
 %
-with $a_{ij}$, $c_i$, together with $b_i$ and $b_i^{(*)}$, consist the so-called Butcher tableau of the corresponding method. For explicit methods this is usually presented as 
+with $a_{ij}$, $c_i$, together with $b_i$ and $b_i^{*}$, consist the so-called Butcher tableau of the corresponding method. For explicit methods this is usually presented as 
 %
 \begin{equation}
 	\begin{array}{c|cccccc}
@@ -1331,7 +1338,7 @@ which is written in such a way that everything is evaluated at $t = t_{n}$. In \
 		using arr2=std::array<std::array<LD,s>,s>;
 		
 		static constexpr arr b={0.5,0.5}; // this is ?$b_i$?
-		static constexpr arr bstar={0.5,0.5}; // this is ?$b_i^{(*)}$?
+		static constexpr arr bstar={0.5,0.5}; // this is ?$b_i^{*}$?
 		static constexpr arr c={0,1}; // remember that ?$c_i = \displaystyle\sum_{j=1}^{s} a_{ij}$?
 		
 		// this is ?$a_{ij}$?
@@ -1346,7 +1353,7 @@ In order to implement the ROS3w~\cite{RangAngermann2005} method, one can add the
 %
 \begin{cpp}
 	/*-----Implementation of the ROS3w method-----*/
-	/*-----It shouldn't be used for MiMeS, since it is likely to fail-----*/
+	/*-----It shouldn't be used, since it is likely to fail to produce a result-----*/
 	
 	
 	//LD is the numeric type (?\ie? double, or long double).
@@ -1360,7 +1367,7 @@ In order to implement the ROS3w~\cite{RangAngermann2005} method, one can add the
 		using arr2=std::array<std::array<LD,s>,s>;
 
 		static constexpr arr b={0.25,0.25,0.5 };  // this is ?$b_i$?
-		// this is ?$b_i^{(*)}$?
+		// this is ?$b_i^{*}$?
 		static constexpr arr bstar={ 0.746704703274,0.1144064078371,0.1388888888888};  
 		
 		static constexpr arr c={0,2/3.,4/3.}; // remember that ?$c_i = \displaystyle\sum_{j=1}^{s} a_{ij}$?
@@ -1382,13 +1389,13 @@ In order to implement the ROS3w~\cite{RangAngermann2005} method, one can add the
 	};
 \end{cpp}
 
-\paragraph{How to compile \mimes in order to use the newly implemented method} Once a new Butcher tableau is implemented, the \cppin{mimes::Axion} class can use it. This class, just needs the name of method assigned to the corresponding template argument; {\tt METHOD}. A convenient way to do this, is to define a macro using the {\tt -D} flag of the compiler, and use macro as the corresponding template parameter of the \cppin{mimes::Axion} class. Alternatively, if one uses the {\tt makefile} files, a method can be chosen by adding it in the corresponding {\tt Definitions.mk} file; \eg as {\tt METHOD=ROS3w} for the {\tt ROW3} method.~\footnote{One make sure to use the correct {\tt SOLVER} -- {\tt SOLVER=1} for Rosenbrock method  and {\tt SOLVER=2} for explicit RK method-- otherwise the compilation will fail.} 
+\paragraph{How to compile \mimes in order to use the newly implemented method} Once a new Butcher tableau is implemented, the \cppin{mimes::Axion} class can use it. This class, just needs the name of method assigned to the corresponding template argument; {\tt Method}. A convenient way to do this, is to define a macro using the {\tt -D} flag of the compiler, and use macro as the corresponding template parameter of the \cppin{mimes::Axion} class. Alternatively, if one uses the {\tt makefile} files, a method can be chosen by adding it in the corresponding {\tt Definitions.mk} file; \eg as {\tt METHOD=ROS3w} for the {\tt ROW3} method.~\footnote{One needs to make sure to use the correct \cppin{Solver} template argument (or \cppin{SOLVER} variable in the {\tt Definitions.mk} files), otherwise compilation will fail.} 
 
 
 \section{\CPP classes}\label{app:classes}
 \setcounter{equation}{0}
 %
-\mimes is designed as an object-oriented header-only library. That is, all the basic components of the library are defined in classes in header files. All the classes relevant to the use of \mimes are under the namespace {\tt mimes}.
+\mimes is designed as an object-oriented header-only library. That is, all the basic components of the library are defined as classes inside header files. All the classes relevant to the use of \mimes are under the namespace {\tt mimes}.
 
 \subsection{{\tt Cosmo} class}
 %
@@ -2210,7 +2217,7 @@ Both of these functions evaluate \cppin{func} (a callable object) for every elem
 
 \section{Quick guide to the user input}\label{app:usr_input}
 \setcounter{equation}{0}
-We present tables~\refs{tab:run_time-input,tab:input,tab:template-arguments}, with the various available run-time inputs, required files, and template arguments. In table~\ref{tab:compile_time-input} we show the available compile-time options, that can be used when compiling using the various {\tt makefile} files. 
+We present tables~\refs{tab:run_time-input,tab:input,tab:template-arguments}, with the various available run-time inputs, required files, and template arguments. In table~\ref{tab:compile_time-options} we show the available compile-time options, that can be used when compiling using the various {\tt makefile} files. 
 %
 \begin{table}[h!]
 	\centering
@@ -2354,7 +2361,7 @@ We present tables~\refs{tab:run_time-input,tab:input,tab:template-arguments}, wi
 
 	\end{tabular}
 	\caption{User compile-time input. These are available in the various {\tt Definitions.mk} files, which are used when compiling using {\tt make}.}
-	\label{tab:compile_time-input}
+	\label{tab:compile_time-options}
 \end{table}
 
 

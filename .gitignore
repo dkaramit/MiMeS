@@ -17,4 +17,5 @@ UserSpace/scan/*/*.dat
 *.blg 
 *.synctex.gz
 *MiMeS.pdf
+*MiMeS.toc
 *_minted-MiMeS*

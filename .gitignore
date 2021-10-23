@@ -10,12 +10,3 @@
 UserSpace/Python/*_examplePlot.pdf
 UserSpace/scan/*/*.dat
 *._mimes_
-*.aux 
-*.log 
-*.out 
-*.bbl 
-*.blg 
-*.synctex.gz
-*MiMeS.pdf
-*MiMeS.toc
-*_minted-MiMeS*

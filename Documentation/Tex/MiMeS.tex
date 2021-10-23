@@ -78,7 +78,7 @@ This paper is organized as follows:
 %
 In section~\ref{sec:Physics}, we introduce the EOM and show how it can be solved approximately. Also, we introduce the notation that \mimes follows, we derive the ``adiabatic invariant" of the system, and discuss how it is used. 
 %
-In the next section, we introduce \mimes, by showing how it can be downloaded, compiled, an ran for the first time. Also, we explain in detail all the parameters that \mimes as a user input at run-time.
+In the next section, we introduce \mimes, by showing how it can be downloaded, compiled, and run for the first time. Also, we explain in detail all the parameters that \mimes as a user input at run-time.
 %
 In section~\ref{sec:assumptions}, we discuss the few assumption that \mimes makes, its default compile-time options and user input, and how the user can change them. Moreover, we provide a complete example in both \CPP and \PY. 
 
@@ -2123,9 +2123,9 @@ This is a {\tt bash} script that formats a data file so that it is compatible wi
 	bash MiMeS/src/util/FormatFile.sh path_to_dat_file
 \end{cpp}
 %
-Here {\tt path\_to\_dat\_file} is a path to the  data file we would like to replace with the formatted one. Notice that {\tt FormatFile.sh} must be ran in order to ensure that the cosmological input needed by the \cppin{mimes::Axion<LD,SOLVER,METHOD<LD>>} class, is acceptable.
+Here {\tt path\_to\_dat\_file} is a path to the  data file we would like to replace with the formatted one. Notice that {\tt FormatFile.sh} must be run in order to ensure that the cosmological input needed by the \cppin{mimes::Axion<LD,SOLVER,METHOD<LD>>} class, is acceptable.
 
-Moreover, note that {\tt FormatFile.sh} is ran every time {\tt configure.sh} is called, in order to format the data files for the RDOFs, $\chi(T)$, and the anharmonic factor, in order to ensure that they comply with what \mimes expects. 
+Moreover, note that {\tt FormatFile.sh} runs every time {\tt configure.sh} is called, in order to format the data files for the RDOFs, $\chi(T)$, and the anharmonic factor, in order to ensure that they comply with what \mimes expects. 
 
 
 \subsection{\tt timeit.sh}

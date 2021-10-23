@@ -67,7 +67,7 @@ clean:
 	rm -rf $(wildcard exec/*)
 	rm -rf $(wildcard UserSpace/Python/*_examplePlot.pdf)
 	cd UserSpace/Cpp && $(MAKE) clean
-	cd Documentation/Tex && $(MAKE) clean
+
 
 
 #deletes directories that configure.sh made
@@ -116,7 +116,3 @@ exec/AxionSolve_check.run: $(AxionSolve_check_cpp)  $(AxionSolve_Headers) $(Axio
 						   $(Ros_Headers) $(RKF_Headers) $(SPLINE_Headers)
 	$(CC) -o $@ $< $(FLG) -DLONG=$(LONG) -DMETHOD=$(METHOD) -DSOLVER=$(SOLVER)
 
-
-# produce the documentation pdf
-doc:
-	cd Documentation/Tex && $(MAKE)

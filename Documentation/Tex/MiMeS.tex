@@ -578,8 +578,7 @@ The two relevant classes are defined in the modules {\tt interfacePy.AxionMass} 
 %
 \begin{py}
 	from sys import path as sysPath
-	from os import path as osPath
-	sysPath.append(osPath.join(osPath.dirname(__file__), 'path_to_src'))
+	sysPath.append('path_to_src')
 	from interfacePy.AxionMass import AxionMass
 	from interfacePy.Axion import Axion
 \end{py}
@@ -995,15 +994,13 @@ where $T_{\rm QCD}  \approx 150~\MeV$ and $\ma=\dfrac{3.2 \times 10^{-5} ~\GeV^4
 
 \subsubsection{complete example in \PY}
 %
-In order to be able use the \pyin{AxionMass} and \pyin{Axion} classes in \PY, we need to import the corresponding modules from {\tt \mimes/src/interfacePy}. That is, assuming that the script from which we intend to import {\tt \mimes/src/interfacePy/Axion/Axion.py} and {\tt \mimes/src/interfacePy/Axion/AxionMass.py} is in {\tt \mimes/UserSpace}, we can import the classs by writing the following
+In order to be able use the \pyin{AxionMass} and \pyin{Axion} classes in \PY, we need to import the corresponding modules from {\tt \mimes/src/interfacePy}. That is, assuming that the script from which we intend to import {\tt \mimes/src/interfacePy/Axion/Axion.py} and {\tt \mimes/src/interfacePy/Axion/AxionMass.py} is in {\tt \mimes/UserSpace}, we can import the classes by writing the following
 %
 \begin{py}
 	#add the relative path for MiMeS/src
 	from sys import path as sysPath
-	from os import path as osPath
-	sysPath.append(osPath.join(osPath.dirname(__file__), '../src'))
+	sysPath.append('../src')
 	
-
 	from interfacePy.AxionMass import AxionMass #import the AxionMass class
 	from interfacePy.Axion import Axion #import the Axion class
 	from interfacePy.Cosmo import mP #import the Planck mass
@@ -1085,8 +1082,7 @@ As in the \CPP example, this example consists of only a few lines of code. The s
 \begin{py}
 	#add the relative path for MiMeS/src
 	from sys import path as sysPath
-	from os import path as osPath
-	sysPath.append(osPath.join(osPath.dirname(__file__), '../src'))
+	sysPath.append('../src')	
 	
 	from interfacePy.AxionMass import AxionMass #import the AxionMass class
 	from interfacePy.Axion import Axion #import the Axion class

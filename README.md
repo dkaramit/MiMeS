@@ -25,8 +25,7 @@ This will compile the shared libraries you'll need in order to call <code>MiMeS<
 
 
 If you use <code>MiMeS</code>, cite it as
-
-@article{Karamitros:2021nxi,
+<pre><code>@article{Karamitros:2021nxi,
     author = "Karamitros, Dimitrios",
     title = "{MiMeS: Misalignment Mechanism Solver}",
     eprint = "2110.12253",
@@ -34,8 +33,7 @@ If you use <code>MiMeS</code>, cite it as
     primaryClass = "hep-ph",
     month = "10",
     year = "2021"
-}
-
+}</pre></code>
 
 
 

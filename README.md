@@ -30,4 +30,4 @@ Dimitris
 
 
 
-[^doc]: You can get your own version of the documentation by running <code>make doc</code>, which creates <code>MiMeS/Documentation/MiMeS.pdf</code>.
+[^doc]: You can get your own version of the documentation by running <code>make doc</code>, which creates <code>MiMeS/Documentation/Tex/MiMeS.pdf</code>.

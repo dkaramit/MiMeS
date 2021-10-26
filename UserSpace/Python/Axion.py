@@ -2,17 +2,13 @@ from time import time
 from sys import stderr
 
 from sys import path as sysPath
-from os import path as osPath
-sysPath.append(osPath.join(osPath.dirname(__file__), '../../src'))
+sysPath.append('../../src')
 
 #load the module
 from interfacePy.Axion import Axion 
 from interfacePy.AxionMass import AxionMass 
-from interfacePy.Cosmo import Cosmo
+from interfacePy.Cosmo import mP
 
-
-Hubble=Cosmo().Hubble
-mP=Cosmo().mP
 
 theta_i, fa=0.94435, 1e12
 

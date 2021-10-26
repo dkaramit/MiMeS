@@ -5,7 +5,7 @@ The documentation is available on [arXiv](https://arxiv.org/abs/2110.12253).
 
 
 If you wish to just use <code>MiMeS</code>, clone the [stabe](https://github.com/dkaramit/MiMeS/tree/stable) branch:
-<pre><code>git clone https://github.com/dkaramit/MiMeS/tree/stable</code></pre>
+<pre><code>git clone -b stable https://github.com/dkaramit/MiMeS.git</code></pre>
 
 
 Another option is the master branch, which is where developement mostly happens, including the implementation of the new versions of [<code>NaBBODES</code>](https://github.com/dkaramit/NaBBODES.git) and [<code>SimpleSplines</code>](https://github.com/dkaramit/SimpleSplines.git) (both are being developed independently by myself). This means that the code in the master branch may not always work. 

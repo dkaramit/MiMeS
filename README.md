@@ -24,7 +24,7 @@ Once you have downloaded <code>MiMeS</code>, just run
 bash configure.sh
 make</code></pre>
 
-This will compile the shared libraries you'll need in order to call <code>MiMeS</code> from <code>python</code>. Also, it compiles some examples written in <code>C++</code>. There are several examples <code>C++</code>  <code>python</code> (including <code>python</code> in <code>jupyter</code> notebooks) that can be found in <code>MiMeS/UserSpace</code>. So feel free to check them out. Detailed description of what <code>MiMeS</code> does can be found in the [documentation](https://arxiv.org/abs/2110.12253). However, for those brave enough, almost every line of code is commented, in order to be able to follow the logic yourselves.
+This will compile the shared libraries you'll need in order to call <code>MiMeS</code> from <code>python</code>. Also, it compiles some examples written in <code>C++</code>. There are several examples in <code>C++</code> and  <code>python</code> (including <code>python</code> in <code>jupyter</code> notebooks) that can be found in <code>MiMeS/UserSpace</code>. So feel free to check them out. Detailed description of what <code>MiMeS</code> does can be found in the [documentation](https://arxiv.org/abs/2110.12253). However, for those brave enough, almost every line of code is commented, in order to be able to follow the logic yourselves.
 
 If you use <code>MiMeS</code>, cite it as
 <pre><code>@article{Karamitros:2021nxi,

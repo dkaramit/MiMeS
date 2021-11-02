@@ -1,12 +1,46 @@
 <html>
-<head>
-<title>HEPForge Project</title>
-</head>
-<body>
-<h2>Welcome to the HEPForge page of MiMeS</h2>
-<p>This page is a work in progress...</p>
+    <head>
+        <title>MiMeS</title>
+    </head>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&display=swap');
+        code {
+            white-space: normal;
+            background-color: rgb(66, 66, 66);
+            color: rgb(255, 251, 251);
+            border: 2px solid rgb(140, 0, 255);
+            display: block;
+            padding: 1px;
+            width: 50%;
+            /* height: 20px; */
+            font-family: 'Source Code Pro', monospace;
+        }
 
-<p>For the moment, you can read the <a href="https://github.com/dkaramit/MiMeS/blob/stable/README.md">RADME</a>  file on github.</p>
-<p>Also, have a look at the documentation, which should be available on <a href="https://arxiv.org/abs/2110.12253">arXiv</a>. The documentation is updated regularly, so it is a good idea to get it directly from the <a href="https://github.com/dkaramit/MiMeS/blob/stable/MiMeS.pdf">MiMeS</a> github repository. </p>
-</body>
+        inCode {font-family: 'Source Code Pro', monospace;}
+    </style>
+    <body style="background-color:rgb(255, 255, 255);">
+        <h2>Welcome to the HEPForge page of MiMeS</h2>
+        <p>This page is a work in progress...</p>
+
+        <p>For the moment, you can read the <a href="https://github.com/dkaramit/MiMeS/blob/stable/README.md">RADME</a>  file on github.</p>
+        <p>Also, have a look at the documentation, which should be available on <a href="https://arxiv.org/abs/2110.12253">arXiv</a>. The documentation is updated regularly, so it is a good idea to get it directly from the <a href="https://github.com/dkaramit/MiMeS/blob/stable/MiMeS.pdf">MiMeS</a> github repository. </p>
+
+        <h2>Starting with MiMeS</h2>
+        <p> 
+            There are several way to get MiMeS:
+            <li>Verison 1.0.0 is available on hepforge, and can be download it by running <inCode>wget -c https://mimes.hepforge.org/downloads/MiMeS-1.0.0.tar.gz -O - | tar -xz</inCode>.</li>
+            <li>In order to get the most updated stable version run <inCode>git clone -b stable https://github.com/dkaramit/MiMeS.git</inCode>.</li>
+        
+            Once downloading is complete, move to the root directory of MiMeS (i.e. <inCode>d MiMeS</inCode>), and run
+            
+            <code>
+                <div>bash configure.sh</div> 
+            </code>
+
+            This is going to write write some paths to <inCode>MiMeS/src/path.hpp</inCode> and <inCode>MiMeS/src/path.py</inCode>.
+        </p>
+    </body>
+
+
+
 </html>

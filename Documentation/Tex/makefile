@@ -21,6 +21,7 @@ MiMeS.pdf:  MiMeS.tex $(figs) refs.bib
 	rm -f *.log 
 	rm -f *.out 
 	rm -f *.bbl 
+	rm -f *.toc 
 	rm -f *.blg 
 	rm -rf _minted-MiMeS
 clean:

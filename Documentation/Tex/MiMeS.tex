@@ -265,7 +265,7 @@ order ordinary differential equations
 %
 \begin{eqnarray}
 & \dfrac{d  \zeta}{du} + \lrsb{\dfrac{1}{2} \dfrac{d \log H^2}{du} + 3 } \zeta + \ \lrb{\dfrac{\maT}{H}}^2 \ \sin \theta
-=0 \;. \\ \nonumber
+=0 \;.  \nonumber \\
 &\dfrac{d \theta}{d u} - \zeta=0 \;.
 \label{eq:eom_sys}
 \end{eqnarray}
@@ -649,7 +649,7 @@ We can define an {\tt Axion} instance as follows
 		absolute_tolerance, relative_tolerance, beta, fac_max, fac_min, maximum_No_steps)
 \end{py}
 %
-Here the input parameters are the same as in the \CPP case, and outlined in table~\ref{tab:run_time-input}. Moreover, the usage of the class can be found by running \pyin{?Axion} after loading the module. The only slight difference compared to the \CPP case is that the \pyin{axionMass} instance is not passed as a pointer; it is done internally using {\tt ctypes}. 
+Here the input parameters are the same as in the \CPP case, and outlined in table~\ref{tab:AxionSolve-input}. Moreover, the usage of the class can be found by running \pyin{?Axion} after loading the module. The only slight difference compared to the \CPP case is that the \pyin{axionMass} instance is not passed as a pointer; it is done internally using {\tt ctypes}. 
 
 
 Using the defined variable ({\tt ax} in this example), we can simply run  
@@ -963,7 +963,6 @@ This example consists of only a few lines of code, which, including the change i
 			}
 		);		
 
-
 		std::string inputFile = std::string(rootDir)+
 			std::string("/UserSpace/InputExamples/MatterInput.dat");
 		
@@ -1006,13 +1005,13 @@ where $T_{\rm QCD}  \approx 150~\MeV$ and $\ma=\dfrac{3.2 \times 10^{-5} ~\GeV^4
 	    if(T<=TQCD){return ma20;}
 	    else{return ma20*std::pow((TQCD/T),8.16);}
 	};
-	mimes::AxionMass<LD> axionMass(ma2);
+	mimes::AxionMass<long double> axionMass(ma2);
 \end{cpp}
 
 
 \subsubsection{complete example in \PY}
 %
-In order to be able use the \pyin{AxionMass} and \pyin{Axion} classes in \PY, we need to import the corresponding modules from {\tt \mimes/src/interfacePy}. That is, assuming that the script from which we intend to import {\tt \mimes/src/interfacePy/Axion/Axion.py} and {\tt \mimes/src/interfacePy/Axion/AxionMass.py} is in {\tt \mimes/UserSpace}, we can import the classes by writing the following
+In order to be able use the \pyin{AxionMass} and \pyin{Axion} classes in \PY, we need to import the corresponding modules from {\tt \mimes/src/interfacePy}. That is, assuming that the script from which we intend to import {\tt \mimes/src/interfacePy/Axion/Axion.py} and {\tt \mimes/src/interfacePy/Axion/AxionMass.py} is in {\tt \mimes/UserSpace}, on top of the script, we need to write
 %
 \begin{py}
 	#add the relative path for MiMeS/src
@@ -1037,10 +1036,12 @@ Once everything we need is imported, we can simply follow the steps outlined in 
 	TMin=axionMass.getTMin() 
 	chiMin=axionMass.getChiMin()
 	
-	axionMass.set_ma2_MAX( lambda T,fa: chiMax/fa/fa*pow(T/TMax,-8.16) )
+	axionMass.set_ma2_MAX( lambda T,fa: chiMax/fa/fa*pow(TMax/T,8.16))
 	axionMass.set_ma2_MIN( lambda T,fa: chiMin/fa/fa )
 \end{py}
 %
+Similar to the \CPP case, the second and third arguments are $0$ and \pyin{mP} (the Planck mass). However, in the \PY interface, {\tt mP} needs to be imported from the \pyin{Cosmo} module.
+
 
 Then we can simply create an instance of the \pyin{Axion} class as 
 %
@@ -1049,10 +1050,10 @@ Then we can simply create an instance of the \pyin{Axion} class as
 	inputFile = "./InputExamples/MatterInput.dat"  
 	
 	ax = Axion(0.1, 1e16, 500, 1e-4, 1e3, 15, 1e-2, inputFile, axionMass, 
-	1e-1, 1e-8, 1e-1, 1e-11, 1e-11, 0.9, 1.2, 0.8, int(1e7))
+					1e-1, 1e-8, 1e-1, 1e-11, 1e-11, 0.9, 1.2, 0.8, int(1e7))
 \end{py}
 %
-Again, the parameters for the constructor are the same as in the \CPP example. The axion EOM, then, is solved using
+Again, the parameters passed to the constructor are the same as in the \CPP example. The axion EOM, then, is solved using
 %
 \begin{py}
 	ax.solveAxion()
@@ -1117,13 +1118,13 @@ As in the \CPP example, this example consists of only a few lines of code. The s
 	# define ?$\maT^2$? for ?$T\geq T_{\rm max}$?
 	TMax=axionMass.getTMax() 
 	chiMax=axionMass.getChiMax()
-	axionMass.set_ma2_MAX( lambda T,fa: chiMax/fa/fa*pow(TMax/T),8.16) )
+	axionMass.set_ma2_MAX( lambda T,fa: chiMax/fa/fa*pow(TMax/T,8.16))
 	
 	#in python it is more convenient to use relative paths
 	inputFile = inputFile="./InputExamples/MatterInput.dat"  
 	
 	ax = Axion(0.1, 1e16, 500, 1e-4, 1e3, 15, 1e-2, inputFile, axionMass, 
-	1e-1, 1e-8, 1e-1, 1e-11, 1e-11, 0.9, 1.2, 0.8, int(1e7))
+					1e-1, 1e-8, 1e-1, 1e-11, 1e-11, 0.9, 1.2, 0.8, int(1e7))
 
 	ax.solveAxion()
 	
@@ -1135,7 +1136,7 @@ As in the \CPP example, this example consists of only a few lines of code. The s
 \end{py} 
 
 
-One can find a complete example, including the option to create several plots, in the script {\tt \mimes/UserSpace/Python/Axion.py}. Also, the same example can be used interactively, in jupyter notebook environment, that can be found in {\tt \mimes/UserSpace/JupyterNotebooks/Axion.ipynb}. One can read the comments, and change all different parameters, in order to examine how the results are affected. 
+One can find a complete example, including the option to create several plots, in the script {\tt \mimes/UserSpace/Python/Axion.py}. Also, the same example can be used interactively, in jupyter notebook environment~\cite{Kluyver2016jupyter}, that can be found in {\tt \mimes/UserSpace/JupyterNotebooks/Axion.ipynb}. One can read the comments, and change all different parameters, in order to examine how the results are affected. 
 
 \paragraph{Alternative axion mass definition}
 %
@@ -1188,7 +1189,7 @@ Moreover, in \Figs{fig:RK_response}, we show the relative local error of integra
 	\label{fig:RK_response}
 \end{figure}
 %
-The local relative errors, defined in Appendix~\ref{app:RK}, are shown in \Figs{fig:local_errors-EMD}. The black and red lines correspond to $\delta \theta/\theta$ and $\delta \zeta/\zeta$, respectively. This figure indicates that the local errors are relatively well behaved for $T>\Tosc$, and they only start to oscillate violently once the oscillations start. However, the adaptation of the integration step seems to work, as the errors are kept below $\sim 10^{-7}$ (the relative error of $zeta$ is large because $\zeta \approx 0$ before the $\Tosc$).  In order to examine how the step-size is adapted to the difficulty of the problem, we also show a histogram which show how many integration steps are taken for fixed temperature intervals.~\footnote{More precisely, the histogram is made by dividing the temperature range $0.025~\GeV\lesssim T\lesssim 0.15~\GeV$ to $30$ bins of equal size.} 
+The local relative errors, defined in Appendix~\ref{app:RK}, are shown in \Figs{fig:local_errors-EMD}. The black and red lines correspond to $\delta \theta/\theta$ and $\delta \zeta/\zeta$, respectively. This figure indicates that the local errors are relatively well behaved for $T>\Tosc$, and they only start to oscillate violently once the oscillations start. However, the adaptation of the integration step seems to work, as the errors are kept below $\sim 10^{-7}$ (the initial relative error of $\zeta$ is large because $\zeta \approx 0$ before the $\Tosc$).  In order to examine how the step-size is adapted to the difficulty of the problem, we also show a histogram which shows how many integration steps are taken for fixed temperature intervals.~\footnote{More precisely, the histogram is made by dividing the temperature range $0.025~\GeV\lesssim T\lesssim 0.15~\GeV$ to $30$ bins of equal size.} 
 %
 In this figure, we see that the number of integration steps increases rapidly for temperatures below the oscillation temperature. 
 %
@@ -1421,7 +1422,7 @@ In order to implement the ROS3w~\cite{RangAngermann2005} method, one can add the
 
 \subsection{{\tt Cosmo} class}
 %
-The \cppin{mimes::Cosmo<LD>} class is responsible for interpolation of the various quantities of the plasma. Its header file is {\tt \mimes.src/Cosmo/Cosmo.hpp}, and needs to be included in order to use this class. The template parameter {\tt LD} is the numeric type that will be used, \eg \cppin{double}. The constructor of this class is
+The \cppin{mimes::Cosmo<LD>} class is responsible for interpolation of the various quantities of the plasma. Its header file is {\tt \mimes.src/Cosmo/Cosmo.hpp}, and needs to be included in order to use this class. The template parameter \cppin{LD} is the numeric type that will be used, \eg \cppin{double}. The constructor of this class is
 %
 \begin{cpp}
 	template<class LD>
@@ -1540,7 +1541,7 @@ The constructor of the class is
 	mimes::AxionEOM<LD>(LD fa, LD ratio_ini, std::string inputFile, AxionMass<LD> *axionMass)
 \end{cpp}
 %
-The role of the arguments are discussed in section~\refs{sec:cpp_first_example,sec:run_time_input} as well as in table~\ref{tab:run_time-input}. One the instance is created, the interpolations are constructed by calling the member function
+The role of the arguments are discussed in section~\refs{sec:cpp_first_example,sec:run_time_input} as well as in table~\ref{tab:AxionSolve-input}. One the instance is created, the interpolations are constructed by calling the member function
 %
 \begin{cpp}
 	template<class LD> void mimes::AxionEOM<LD>::makeInt()
@@ -1592,7 +1593,7 @@ The \cppin{mimes::Axion<LD,Solver,Method>} class is the class that combines all 
 	unsigned int maximum_No_steps=10000000)
 \end{cpp}
 %
-The various arguments are discussed in section~\refs{sec:cpp_first_example,sec:run_time_input}; and outlined in table~\ref{tab:run_time-input}.
+The various arguments are discussed in section~\refs{sec:cpp_first_example,sec:run_time_input}; and outlined in table~\ref{tab:AxionSolve-input}.
 %
 
 The member function responsible for solving the EOM is
@@ -1839,7 +1840,7 @@ Its constructor is
 	unsigned int maximum_No_steps=10000000)
 \end{py}
 %
-Again, the various arguments are discussed in section~\refs{sec:cpp_first_example,sec:run_time_input}; and can also be found in table~\ref{tab:run_time-input}. Notice one important difference between this and the \CPP verison of this class; the instance of \pyin{AxionMass}, {\tt axionMass}, is passed by value (there are no pointers in \PY). However, internally, the constructor converts this instance to a pointer, which is then passed to the underlying {\tt C} function responsible for creating the relevant instance.
+Again, the various arguments are discussed in section~\refs{sec:cpp_first_example,sec:run_time_input}; and can also be found in table~\ref{tab:AxionSolve-input}. Notice one important difference between this and the \CPP verison of this class; the instance of \pyin{AxionMass}, {\tt axionMass}, is passed by value (there are no pointers in \PY). However, internally, the constructor converts this instance to a pointer, which is then passed to the underlying {\tt C} function responsible for creating the relevant instance.
 %
 
 The member function responsible for solving the EOM is
@@ -1931,7 +1932,7 @@ Moreover, there is a function that helps to determine $\Tosc$ and $\gamma$, whic
 	WKB.getPoints(fa, ma2, inputFile, cosmo=Cosmo(_PATH_+r'/src/data/eos2020.dat',0,Cosmo.mP))
 \end{py}
 %
-The arguments {\tt fa}, {\tt inputFile},$\fa$, and {\tt cosmo} the path to a file that describes the cosmology (described in table~\ref{tab:run_time-input}), $\fa$ (in $GeV$), an instance of the \pyin{Cosmo} class, respectively.  
+The arguments {\tt fa}, {\tt inputFile},$\fa$, and {\tt cosmo} the path to a file that describes the cosmology (described in table~\ref{tab:AxionSolve-input}), $\fa$ (in $GeV$), an instance of the \pyin{Cosmo} class, respectively.  
 %
 This function returns $\gamma$ (the entropy injection between {\tt Tosc} and today) and $\Tosc$.
  
@@ -1970,7 +1971,7 @@ Its constructor is
 					beta=0.9, fac_max=1.2, fac_min=0.8, maximum_No_steps=int(1e7))
 \end{py}
 %
-Some arguments are the same as in the \pyin{Axion} class, and their definition can be found in table~\ref{tab:run_time-input}. The other arguments are
+Some arguments are the same as in the \pyin{Axion} class, and their definition can be found in table~\ref{tab:AxionSolve-input}. The other arguments are
 %
 \begin{itemize}
         \item {\tt cpus}: number of points to run simultaneously (number of cpus available). 
@@ -2132,11 +2133,11 @@ The resulting plot is shown in \Figs{fig:FT_example}.
 \section{Utilities}\label{app:util}
 \setcounter{equation}{0}
 %
-There are various utilities, that can be found {\tt \mimes/src/util}, which can be used to make the use of \mimes easier. In this section we will show how they work, and when they should be used.
+There are various utilities, that can be found {\tt \mimes/src/util}, which can be used to make the use of \mimes easier. In this section we discuss how they work.
 
 \subsection{\tt FormatFile.sh} 
 %
-This is a {\tt bash} script that formats a data file so that it is compatible with the interpolation assumptions. It takes a path to a file as an arguments, and it returns the same file, sorted (in ascenting order) with respect to the first column, removes duplicate and empty lines, and it removes the last "new line" (\ie \cppin{\n}). The script is called as 
+This is a {\tt bash} script that formats a data file so that it is compatible with the interpolation assumptions. It takes a path to a file as an argument, and it returns the same file, sorted (in ascenting order) with respect to the first column, with all duplicate or empty lines as well as the last "new line" (\ie \cppin{\n}) removed. The script is called as 
 %
 \begin{cpp}
 	bash MiMeS/src/util/FormatFile.sh path_to_dat_file
@@ -2160,7 +2161,7 @@ The script is called as
 	bash MiMeS/src/util/timeit.sh path_to_executable path_to_dat_file
 \end{cpp}
 %
-This script is useflul for running the example code in {\tt \mimes/UserSpace/Cpp/Axion/Axion.cpp}, which is compiled by calling \run{make examples} in the root directory of \mimes. The executable that results from the compilation of this source, {\tt Axion.run}, expects the same arguments as the constructor of the \cppin{mimes::Axion<LD,SOLVER,METHOD<LD>>} class (see section~\ref{app:classes}). This means that we can write a file (call it {\tt INPUT}) that contains all these arguments in each line, and simply run  
+This script is useflul for running the example code in {\tt \mimes/UserSpace/Cpp/Axion/Axion.cpp}, which is compiled by calling \run{make examples} in the root directory of \mimes. The executable that results from the compilation of this source, {\tt \mimes/UserSpace/Cpp/Axion/Axion.run}, expects the same arguments as the constructor of the \cppin{mimes::Axion<LD,SOLVER,METHOD<LD>>} class (see section~\ref{app:classes}). This means that we can write a file (call it {\tt INPUT}) that contains all these arguments in each line, and simply run  
 %
 \begin{cpp}
 	bash MiMeS/src/util/timeit.sh MiMeS/UserSpace/Cpp/Axion/Axion.run INPUT
@@ -2171,7 +2172,7 @@ The files {\tt KinationInputs}, {\tt MatterInputs}, and {\tt RDInputs}; in {\tt 
 
 \subsection{{\tt Timer} \CPP class}
 %
-The class \cppin{mimes::util::Timer}, defined in {\tt \mimes/src/util/timeit.hpp}, can be used in order to time processes in \CPP. An instance of this class prints  its life-time -- \ie time from the moment it was created until it went out of scope -- in \cppin{stderr}. Instances of this class are intended to be used inside a scope in order to count te time it took to run a block of code. For example the time it takes to compute  $\sum_{i=0}^{10^4} \ i$ can be determined as  
+The class \cppin{mimes::util::Timer}, defined in {\tt \mimes/src/util/timeit.hpp}, can be used in order to time processes in \CPP. An instance of this class prints  its life-time -- \ie time from the moment it was created until it went out of scope -- in \cppin{stderr}. Instances of this class are intended to be used inside a scope in order to count the time it took to run a block of code. For example the time it takes to compute  $\sum_{i=0}^{10^4} \ i$ can be determined as  
 %
 \begin{cpp}
 	#include "src/util/timeit.hpp"
@@ -2197,7 +2198,7 @@ The function {\tt linspace}, defined in {\tt \mimes/src/util/linspace.hpp}, is u
 	void mimes::util::linspace(LD min, LD max, unsigned int length, std::vector<LD> &X)
 \end{cpp}
 %
-Here, {\tt X} is cleared, and gets filled with  {\tt lenght} linearly spaced numbers {\tt min} and {\tt max}.
+Here, {\tt X} is cleared, and gets filled with  {\tt length} linearly spaced numbers between {\tt min} and {\tt max}.
 
 The overloaded version of this function is 
 %
@@ -2207,11 +2208,11 @@ The overloaded version of this function is
 	std::vector<LD> mimes::util::linspace(LD min, LD max, unsigned int length)
 \end{cpp}
 %
-This function does not get a reference to a {\tt std::vector<LD>}, instead it return one.
+This function does not get a reference to a \cppin{std::vector<LD>}, instead it return one.
 
 \subsection{{\tt logspace} function}
 %
-The function {\tt logspace}, defined in {\tt \mimes/src/util/logspace.hpp}, is used to generate $\log_{10}$ spaced points between a given boundary. The signatures of this function are
+The function {\tt logspace}, defined in {\tt \mimes/src/util/logspace.hpp}, is used to generate $\log_{10}$-spaced points between a given boundary. The signatures of this function are
 %
 \begin{cpp}
     /*logspace where the list is pushed in a vector that is pass by reference*/
@@ -2227,7 +2228,7 @@ Both of these functions work as \cppin{linspace}.
 
 \subsection{{\tt map} function}
 %
-The function {\tt map}, defined in {\tt \mimes/src/util/map.hpp}, applys a function of an \cppin{std::vector}, and fills anther \cppin{std::vector} with the result. The signatures of this function are
+The function {\tt map}, defined in {\tt \mimes/src/util/map.hpp}, applys a function of an \cppin{std::vector}, and fills another \cppin{std::vector} with the result. The signatures of this function are
 
 \begin{cpp}
     /*The list is pushed in a vector that is pass by reference*/
@@ -2244,13 +2245,13 @@ Both of these functions evaluate \cppin{func} (a callable object) for every elem
 
 \section{Quick guide to the user input}\label{app:usr_input}
 \setcounter{equation}{0}
-We present tables~\refs{tab:run_time-input,tab:input,tab:template-arguments}, with the various available run-time inputs, required files, and template arguments. In table~\ref{tab:compile_time-options} we show the available compile-time options, that can be used when compiling using the various {\tt makefile} files. 
+We present tables~\refs{tab:AxionSolve-input,tab:AxionMass-input,tab:input,tab:template-arguments}, with the various available run-time inputs, required files, and template arguments. In table~\ref{tab:compile_time-options} we show the available compile-time options, that can be used when compiling using the various {\tt makefile} files. 
 %
 \begin{table}[h!]
 	\centering
 	\begin{tabular}{l l}
 		\hline\\[-0.4cm]
-		\multicolumn{2}{c}{\bf User run-time input.}  \\
+		\multicolumn{2}{c}{\bf User run-time input for solving the EOM~\ref{eq:eom_sys}.}  \\
 		\hline\\[-0.4cm]
 
 		{\tt theta\_i} & Initial angle.  \\
@@ -2304,9 +2305,36 @@ We present tables~\refs{tab:run_time-input,tab:input,tab:template-arguments}, wi
 		{\tt maximum\_No\_steps} & \multirow{1}{12cm}{If integration needs more than {\tt maximum\_No\_steps} integration stops. Default value: $10^7$.}\\\\
 		\hline\\[-0.4cm]
 	\end{tabular}
-	\caption{Table of run-time user input.}
-	\label{tab:run_time-input}
+	\caption{Table of the constructor arguments of the \cppin{mimes::AxionSolve<LD,Solver,Method>} class.}
+	\label{tab:AxionSolve-input}
 \end{table}
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{l l}
+		\multicolumn{2}{c}{\bf Input required for the definition of the axion mass via a data file.}  \\
+		\hline\\[-0.4cm]
+		
+		{\tt chi\_Path}& \multirow{1}{12cm}{Relative or absolute path to data file with $T$ (in $\GeV$), $\chi(T)$ (in $\GeV^4$).}\\\\		
+		\hline\\[-0.4cm]
+		
+		{\tt minT} and {\tt maxT}& \multirow{1}{12cm}{Interpolation limits. These are used in order to stop the interpolation at the closest temperatures that exist in the data file. This means that the actual interpolation limits are $T_{\min}\geq${\tt minT} and $T_{\max}\leq${\tt maxT}. Beyond these limits hat axion mass is assumed to be constant. However, this can be changed using 
+			\cppin{mimes::AxionMass<LD>::set_ma2_MIN(std::function<LD(LD,LD)> ma2_MIN)}  and \cppin{mimes::AxionMass<LD>::set_ma2_MAX(std::function<LD(LD,LD)> ma2_MAX)}. }\\\\\\\\\\\\\\\\		
+		\hline\\[-0.4cm]
+				
+				
+		\multicolumn{2}{c}{\bf Input required for the definition of the axion mass via a function.}  \\
+		\hline\\[-0.4cm]
+
+		{\tt ma2}& \multirow{1}{12cm}{A function (or a callable object) with signature \cppin{LD ma2(LD T, LD fa)} that returns $\maT^2(T)$.}\\\\		
+		\hline\\[-0.4cm]
+
+	\end{tabular}
+	\caption{Arguments of the contructors of the \cppin{mimes::AxionMass<LD>} class. }
+	\label{tab:AxionMass-input}
+\end{table}
+
+
 		
 \begin{table}[h!]
 	\centering
@@ -2325,10 +2353,8 @@ We present tables~\refs{tab:run_time-input,tab:input,tab:template-arguments}, wi
 		{\tt bash configure.sh} and {\tt make}.}\\\\		
 		\hline\\[-0.4cm]
 
-
-
 	\end{tabular}
-	\caption{Paths to the required data files.}
+	\caption{Paths to the required data files. Variables defined in the {\tt \mimes/Paths.mk} files, and used when running {\tt bash configure.sh} in the root directory of \mimes.}
 \label{tab:input}
 \end{table}
 
@@ -2339,13 +2365,13 @@ We present tables~\refs{tab:run_time-input,tab:input,tab:template-arguments}, wi
 		\multicolumn{2}{c}{\bf Template arguments.}  \\
 		\hline\\[-0.4cm]
 		
-		{\tt LD}& \multirow{1}{12cm}{This template argument appears in all classes of \mimes. The preferred choice should be either \cppin{long double}. However, in many cases \cppin{double} can be used. The user should be careful, as the later can lead to a inaccurate result; especially for low tolerances, and small values of $\theta$.}\\\\\\\\		
+		{\tt LD}& \multirow{1}{12cm}{This template argument appears in all classes of \mimes. The preferred choice is \cppin{long double}. However, in many cases \cppin{double} can be used. The user should be careful, as the later can lead to an inaccurate result; especially for low tolerances, and small values of $\theta$.}\\\\\\\\		
 		\hline\\[-0.4cm]
 		
 		{\tt Solver}& \multirow{1}{12cm}{This is the second template argument of the \cppin{mimes::Axion<LD,Solver,Method>} class. The available choices are {\tt Solver}=$1$ for Rosenbrock method, and {\tt Solver}=$2$ for explicit RK method.}\\\\\\\\
 		\hline\\[-0.4cm]
 		
-		{\tt Method}& \multirow{1}{12cm}{The third template argument of the \cppin{mimes::Axion<LD,Solver,Method>} class. Its value depends on the choice of \cppin{Solver}; For {\tt Solver}=$1$, {\tt Method} can be either \cppin{RODASPR2<LD>} (fourth order) or \cppin{ROS34PW2<LD>} (third order). For {\tt Solver}=$2$, {\tt Method} can only be \cppin{DormandPrince<LD>} (seventh order). Notice that the definitions of the various method classes, also need a template argument,\cppin{LD}, that must be the same as thi first template argument of the \cppin{mimes::Axion<LD,Solver,Method>} class. If one defines their own Butcher table (see Appendix~\ref{app:RK}), then they would have to follow their definitions and assumptions.}\\\\\\\\\\\\\\\\\\
+		{\tt Method}& \multirow{1}{12cm}{The third template argument of the \cppin{mimes::Axion<LD,Solver,Method>} class. Its value depends on the choice of \cppin{Solver}; For {\tt Solver}=$1$, {\tt Method} can be either \cppin{RODASPR2<LD>} (fourth order) or \cppin{ROS34PW2<LD>} (third order). For {\tt Solver}=$2$, {\tt Method} can only be \cppin{DormandPrince<LD>} (seventh order). Notice that the definitions of the various method classes, also need a template argument,\cppin{LD}, that must be the same as the first template argument of the \cppin{mimes::Axion<LD,Solver,Method>} class. If one defines their own Butcher table (see Appendix~\ref{app:RK}), then they would have to follow their definitions and assumptions.}\\\\\\\\\\\\\\\\\\
 		\hline
 	\end{tabular}
 	\caption{Template arguments of the various \mimes classes.}
@@ -2373,7 +2399,7 @@ We present tables~\refs{tab:run_time-input,tab:input,tab:template-arguments}, wi
 		{\tt SOLVER}& \multirow{1}{12cm}{In order to use a Rosenbrock method {\tt SOLVER}=$1$. For explicit RK method, {\tt SOLVER}=$2$. This defines a macro that is passes as the second template argument of \cppin{mimes::Axion<LD,Solver,Method>}.  The corresponding variable in {\tt \mimes/Definitions.mk} applies to the \PY modules. The variable in {\tt \mimes/UserSpace/Cpp/Axion/Definitions.mk} applies to the example in the same directory.}\\\\\\\\\\\\\\		
 		\hline\\[-0.4cm]
 
-		{\tt METHOD}& \multirow{1}{12cm}{Depending of the solver, this macro should name one of its available methods. For {\tt SOLVER}=$1$, {\tt METHOD}=RODASPR2 (fourth order) or ROS34PW2 (third order). For {\tt SOLVER}=$2$, {\tt METHOD}=DormandPrince (seventh order). There is a macro ({\tt METHOD}) used by the shared library {\tt \mimes/lib/Axion\_py.so}. The corresponding variable in {\tt \mimes/Definitions.mk} applies to the \PY modules. The variable in {\tt \mimes/UserSpace/Cpp/Axion/Definitions.mk} applies to the examples in the that directory.}\\\\\\\\\\\\\\\\
+		{\tt METHOD}& \multirow{1}{12cm}{Depending on the solver, this variable should name one of its available methods. For {\tt SOLVER}=$1$, {\tt METHOD}={\tt RODASPR2}(fourth order) or {\tt ROS34PW2}(third order). For {\tt SOLVER}=$2$, {\tt METHOD}={\tt DormandPrince }(seventh order). There is a macro ({\tt METHOD}) used by the shared library {\tt \mimes/lib/Axion\_py.so}. The corresponding variable in {\tt \mimes/Definitions.mk} applies to the \PY modules. The variable in {\tt \mimes/UserSpace/Cpp/Axion/Definitions.mk} applies to the example in that directory.}\\\\\\\\\\\\\\\\
 		 		
 		\hline\\[-0.4cm]
 		
@@ -2383,11 +2409,11 @@ We present tables~\refs{tab:run_time-input,tab:input,tab:template-arguments}, wi
 		{\tt CC} &  \multirow{1}{12cm}{The preferred \CPP compiler ({\tt g++} by default). Corresponding variable in all {\tt Definitions.mk} files.} \\\\
 		\hline\\[-0.4cm]
 		
-		{\tt OPT} &  \multirow{1}{12cm}{Optimization level of the compiler. Available options {\tt OPT}={\tt O1}, {\tt O2}, {\tt O3} (be default). By Corresponding variable in all {\tt Definitions.mk} files.}   \\\\
+		{\tt OPT} &  \multirow{1}{12cm}{Available options are {\tt OPT}={\tt O1}, {\tt O2}, {\tt O3} (be default). This variable defines the optimization level of the compiler. The variable can be changed in all {\tt Definitions.mk} files. In the root directory of \mimes, the optimization level applies to the python modules (\ie the shared libraries), while in the subdirectories of {\tt \mimes/UserSpace/Cpp} it only applies to example inside them.}   \\\\\\\\\\\\
 		\hline\\[-0.4cm]
 
 	\end{tabular}
-	\caption{User compile-time input. These are available in the various {\tt Definitions.mk} files, which are used when compiling using {\tt make}.}
+	\caption{User compile-time input and options. These are available in the various {\tt Definitions.mk} files, which are used when compiling using {\tt make}.}
 	\label{tab:compile_time-options}
 \end{table}
 

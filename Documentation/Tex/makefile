@@ -31,5 +31,6 @@ clean:
 	rm -f *.out 
 	rm -f *.bbl 
 	rm -f *.blg 
+	rm -f *.toc 
 	rm -rf _minted-MiMeS
 	

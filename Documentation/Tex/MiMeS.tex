@@ -834,7 +834,7 @@ In order to write a \CPP program that uses \mimes in order to solve the EOM~\ref
 %
 \begin{cpp}
 	// use chi_PATH to interpolate the axion mass.
-	mimes::AxionMass<LD> axionMass(chi_PATH,0,mimes::Cosmo<LD>::mP);
+	mimes::AxionMass<long double> axionMass(chi_PATH,0,mimes::Cosmo<long double>::mP);
 
 	/* This is the axion mass squared beyond the interpolation limits 
 	for the current data. If you don't specify them, the axion mass 
@@ -943,7 +943,7 @@ This example consists of only a few lines of code, which, including the change i
 	
 	int main(){		
 		// use chi_PATH to interpolate the axion mass.
-		mimes::AxionMass<LD> axionMass(chi_PATH,0,mimes::Cosmo<LD>::mP);
+		mimes::AxionMass<long double> axionMass(chi_PATH,0,mimes::Cosmo<long double>::mP);
 		
 		/*set ?$\maT^2$? for ?$T\geq T_{\rm max}$?*/
 		long double TMax=axionMass.getTMax();    

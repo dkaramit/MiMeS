@@ -18,5 +18,6 @@ UserSpace/scan/*/*.dat
 *.synctex.gz
 *MiMeS.pdf
 *MiMeS.toc
+*MiMeS.vrb
 *_minted-MiMeS*
 *public_html*

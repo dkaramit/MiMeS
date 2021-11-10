@@ -1,0 +1,230 @@
+\providecommand{\href}[2]{#2}\begingroup\raggedright\begin{thebibliography}{10}
+
+\bibitem{Peccei:1977hh}
+R.~D. Peccei and H.~R. Quinn, {\it {CP Conservation in the Presence of
+  Instantons}},  {\em Phys. Rev. Lett.} {\bf 38} (1977) 1440--1443.
+
+\bibitem{Weinberg:1977ma}
+S.~Weinberg, {\it {A New Light Boson?}},  {\em Phys. Rev. Lett.} {\bf 40}
+  (1978) 223--226.
+
+\bibitem{Wilczek:1977pj}
+F.~Wilczek, {\it {Problem of Strong $P$ and $T$ Invariance in the Presence of
+  Instantons}},  {\em Phys. Rev. Lett.} {\bf 40} (1978) 279--282.
+
+\bibitem{Preskill:1982cy}
+J.~Preskill, M.~B. Wise, and F.~Wilczek, {\it {Cosmology of the Invisible
+  Axion}},  {\em Phys. Lett. B} {\bf 120} (1983) 127--132.
+
+\bibitem{Dine:1982ah}
+M.~Dine and W.~Fischler, {\it {The Not So Harmless Axion}},  {\em Phys. Lett.
+  B} {\bf 120} (1983) 137--141.
+
+\bibitem{Abbott:1982af}
+L.~F. Abbott and P.~Sikivie, {\it {A Cosmological Bound on the Invisible
+  Axion}},  {\em Phys. Lett. B} {\bf 120} (1983) 133--136.
+
+\bibitem{Planck:2018vyg}
+{\bf Planck} Collaboration, N.~Aghanim et~al., {\it {Planck 2018 results. VI.
+  Cosmological parameters}},  {\em Astron. Astrophys.} {\bf 641} (2020) A6,
+  [\href{http://arxiv.org/abs/1807.06209}{{\tt arXiv:1807.06209}}].
+
+\bibitem{Chikashige:1980ui}
+Y.~Chikashige, R.~N. Mohapatra, and R.~D. Peccei, {\it {Are There Real
+  Goldstone Bosons Associated with Broken Lepton Number?}},  {\em Phys. Lett.
+  B} {\bf 98} (1981) 265--268.
+
+\bibitem{Georgi:1981pu}
+H.~M. Georgi, L.~J. Hall, and M.~B. Wise, {\it {Grand Unified Models With an
+  Automatic {Peccei-Quinn} Symmetry}},  {\em Nucl. Phys. B} {\bf 192} (1981)
+  409--416.
+
+\bibitem{Ringwald:2014vqa}
+A.~Ringwald, {\it {Axions and Axion-Like Particles}},  in {\em {49th Rencontres
+  de Moriond on Electroweak Interactions and Unified Theories}}, pp.~223--230,
+  2014.
+\newblock \href{http://arxiv.org/abs/1407.0546}{{\tt arXiv:1407.0546}}.
+
+\bibitem{MARSH20161}
+D.~J. Marsh, {\it Axion cosmology},  {\em Physics Reports} {\bf 643} (2016)
+  1--79. Axion cosmology.
+
+\bibitem{Kolb:206230}
+E.~W. Kolb and M.~S. Turner, {\em {The early universe}}.
+\newblock Frontiers in Physics. Westview Press, Boulder, CO, 1990.
+
+\bibitem{Peebles:1993}
+P.~J.~E. Peebles, {\em {Principles of physical cosmology}}.
+\newblock Princeton University Press, 1993.
+
+\bibitem{Kawasaki:2000en}
+M.~Kawasaki, K.~Kohri, and N.~Sugiyama, {\it {MeV scale reheating temperature
+  and thermalization of neutrino background}},  {\em Phys. Rev. D} {\bf 62}
+  (2000) 023506, [\href{http://arxiv.org/abs/astro-ph/0002127}{{\tt
+  astro-ph/0002127}}].
+
+\bibitem{Hannestad:2004px}
+S.~Hannestad, {\it {What is the lowest possible reheating temperature?}},  {\em
+  Phys. Rev. D} {\bf 70} (2004) 043506,
+  [\href{http://arxiv.org/abs/astro-ph/0403291}{{\tt astro-ph/0403291}}].
+
+\bibitem{Ichikawa:2005vw}
+K.~Ichikawa, M.~Kawasaki, and F.~Takahashi, {\it {The Oscillation effects on
+  thermalization of the neutrinos in the Universe with low reheating
+  temperature}},  {\em Phys. Rev. D} {\bf 72} (2005) 043522,
+  [\href{http://arxiv.org/abs/astro-ph/0505395}{{\tt astro-ph/0505395}}].
+
+\bibitem{DeBernardis:2008zz}
+F.~De~Bernardis, L.~Pagano, and A.~Melchiorri, {\it {New constraints on the
+  reheating temperature of the universe after WMAP-5}},  {\em Astropart. Phys.}
+  {\bf 30} (2008) 192--195.
+
+\bibitem{Visinelli:2009kt}
+L.~Visinelli and P.~Gondolo, {\it {Axion cold dark matter in non-standard
+  cosmologies}},  {\em Phys. Rev. D} {\bf 81} (2010) 063508,
+  [\href{http://arxiv.org/abs/0912.0015}{{\tt arXiv:0912.0015}}].
+
+\bibitem{Arias:2021rer}
+P.~Arias, N.~Bernal, D.~Karamitros, C.~Maldonado, L.~Roszkowski, and
+  M.~Venegas, {\it {New opportunities for axion dark matter searches in
+  nonstandard cosmological models}},  {\em JCAP} {\bf 11} (2021) 003,
+  [\href{http://arxiv.org/abs/2107.13588}{{\tt arXiv:2107.13588}}].
+
+\bibitem{Gondolo:2004sc}
+P.~Gondolo, J.~Edsjo, P.~Ullio, L.~Bergstrom, M.~Schelke, and E.~A. Baltz, {\it
+  {DarkSUSY: Computing supersymmetric dark matter properties numerically}},
+  {\em JCAP} {\bf 07} (2004) 008,
+  [\href{http://arxiv.org/abs/astro-ph/0406204}{{\tt astro-ph/0406204}}].
+
+\bibitem{Belanger:2013oya}
+G.~Belanger, F.~Boudjema, A.~Pukhov, and A.~Semenov, {\it {micrOMEGAs$\_$3: A
+  program for calculating dark matter observables}},  {\em Comput. Phys.
+  Commun.} {\bf 185} (2014) 960--985,
+  [\href{http://arxiv.org/abs/1305.0237}{{\tt arXiv:1305.0237}}].
+
+\bibitem{Belanger:2018ccd}
+G.~B\'elanger, F.~Boudjema, A.~Goudelis, A.~Pukhov, and B.~Zaldivar, {\it
+  {micrOMEGAs5.0 : Freeze-in}},  {\em Comput. Phys. Commun.} {\bf 231} (2018)
+  173--186, [\href{http://arxiv.org/abs/1801.03509}{{\tt arXiv:1801.03509}}].
+
+\bibitem{Binder:2021bmg}
+T.~Binder, T.~Bringmann, M.~Gustafsson, and A.~Hryczuk, {\it {DRAKE: Dark
+  matter Relic Abundance beyond Kinetic Equilibrium}},  {\em Eur. Phys. J. C}
+  {\bf 81} (2021) 577, [\href{http://arxiv.org/abs/2103.01944}{{\tt
+  arXiv:2103.01944}}].
+
+\bibitem{Chang:1998ys}
+S.~Chang, C.~Hagmann, and P.~Sikivie, {\it {The Cold axion populations}},  in
+  {\em {2nd International Heidelberg Conference on Dark Matter in Astro and
+  Particle Physics}}, 7, 1998.
+\newblock \href{http://arxiv.org/abs/hep-ph/9812327}{{\tt hep-ph/9812327}}.
+
+\bibitem{Borsanyi:2016ksw}
+S.~Borsanyi et~al., {\it {Calculation of the axion mass based on
+  high-temperature lattice quantum chromodynamics}},  {\em Nature} {\bf 539}
+  (2016), no.~7627 69--71, [\href{http://arxiv.org/abs/1606.07494}{{\tt
+  arXiv:1606.07494}}].
+
+\bibitem{Visinelli:2009zm}
+L.~Visinelli and P.~Gondolo, {\it {Dark Matter Axions Revisited}},  {\em Phys.
+  Rev. D} {\bf 80} (2009) 035024, [\href{http://arxiv.org/abs/0903.4377}{{\tt
+  arXiv:0903.4377}}].
+
+\bibitem{Co:2019jts}
+R.~T. Co, L.~J. Hall, and K.~Harigaya, {\it {Axion Kinetic Misalignment
+  Mechanism}},  {\em Phys. Rev. Lett.} {\bf 124} (2020), no.~25 251802,
+  [\href{http://arxiv.org/abs/1910.14152}{{\tt arXiv:1910.14152}}].
+
+\bibitem{Lyth:1991ub}
+D.~H. Lyth, {\it {Axions and inflation: Sitting in the vacuum}},  {\em Phys.
+  Rev. D} {\bf 45} (1992) 3394--3404.
+
+\bibitem{Bae:2008ue}
+K.~J. Bae, J.-H. Huh, and J.~E. Kim, {\it {Update of axion CDM energy}},  {\em
+  JCAP} {\bf 09} (2008) 005, [\href{http://arxiv.org/abs/0806.0497}{{\tt
+  arXiv:0806.0497}}].
+
+\bibitem{NaBBODES}
+D.~Karamitros, {\it \href{https://github.com/dkaramit/NaBBODES}{NaBBODES}: Not
+  a black box ordinary differential equation solver in {C++}},  2019--.
+
+\bibitem{SimpleSplines}
+D.~Karamitros, {\it
+  \href{https://github.com/dkaramit/SimpleSplines}{SimpleSplines}: A header
+  only library for linear and cubic spline interpolation in {C++}.},  2021--.
+
+\bibitem{harris2020array}
+C.~R. Harris, K.~J. Millman, S.~J. van~der Walt, R.~Gommers, P.~Virtanen,
+  D.~Cournapeau, E.~Wieser, J.~Taylor, S.~Berg, N.~J. Smith, R.~Kern, M.~Picus,
+  S.~Hoyer, M.~H. van Kerkwijk, M.~Brett, A.~Haldane, J.~F. del R{\'{i}}o,
+  M.~Wiebe, P.~Peterson, P.~G{\'{e}}rard-Marchant, K.~Sheppard, T.~Reddy,
+  W.~Weckesser, H.~Abbasi, C.~Gohlke, and T.~E. Oliphant, {\it Array
+  programming with {NumPy}},  {\em Nature} {\bf 585} (Sept., 2020) 357--362.
+
+\bibitem{RANG2015128}
+J.~Rang, {\it Improved traditional rosenbrock–wanner methods for stiff odes
+  and daes},  {\em Journal of Computational and Applied Mathematics} {\bf 286}
+  (2015) 128--144.
+
+\bibitem{RangAngermann2005}
+J.~Rang and L.~Angermann, {\it New rosenbrock w-methods of order 3 for partial
+  differential algebraic equations of index 1},  {\em BIT Numerical
+  Mathematics} {\bf 45} (2005) 761–787.
+
+\bibitem{DORMAND198019}
+J.~Dormand and P.~Prince, {\it A family of embedded runge-kutta formulae},
+  {\em Journal of Computational and Applied Mathematics} {\bf 6} (1980), no.~1
+  19--26.
+
+\bibitem{Saikawa:2020swg}
+K.~Saikawa and S.~Shirai, {\it {Precise WIMP Dark Matter Abundance and Standard
+  Model Thermodynamics}},  {\em JCAP} {\bf 08} (2020) 011,
+  [\href{http://arxiv.org/abs/2005.03544}{{\tt arXiv:2005.03544}}].
+
+\bibitem{Arias:2019uol}
+P.~Arias, N.~Bernal, A.~Herrera, and C.~Maldonado, {\it {Reconstructing
+  Non-standard Cosmologies with Dark Matter}},  {\em JCAP} {\bf 10} (2019) 047,
+  [\href{http://arxiv.org/abs/1906.04183}{{\tt arXiv:1906.04183}}].
+
+\bibitem{Arias:2020qty}
+P.~Arias, D.~Karamitros, and L.~Roszkowski, {\it {Frozen-in fermionic singlet
+  dark matter in non-standard cosmology with a decaying fluid}},  {\em JCAP}
+  {\bf 05} (2021) 041, [\href{http://arxiv.org/abs/2012.07202}{{\tt
+  arXiv:2012.07202}}].
+
+\bibitem{Kluyver2016jupyter}
+T.~Kluyver, B.~Ragan-Kelley, F.~P{\'e}rez, B.~Granger, M.~Bussonnier,
+  J.~Frederic, K.~Kelley, J.~Hamrick, J.~Grout, S.~Corlay, P.~Ivanov, D.~Avila,
+  S.~Abdalla, and C.~Willing, {\it Jupyter notebooks -- a publishing format for
+  reproducible computational workflows},  in {\em Positioning and Power in
+  Academic Publishing: Players, Agents and Agendas} (F.~Loizides and
+  B.~Schmidt, eds.), pp.~87 -- 90, IOS Press, 2016.
+
+\bibitem{2020-AxionLimits}
+C.~O\'HARE, {\it cajohare/axionlimits: Axionlimits}, .
+
+\bibitem{Hairer}
+E.~Hairer, S.~N{\o}rsett, and G.~Wanner, {\em Solving Ordinary Differential
+  Equations {I} Nonstiff problems}.
+\newblock Springer, Berlin, second~ed., 2000.
+
+\bibitem{hairer2010solving}
+E.~Hairer and G.~Wanner, {\em Solving Ordinary Differential Equations II: Stiff
+  and Differential-Algebraic Problems}.
+\newblock Springer Series in Computational Mathematics. Springer Berlin
+  Heidelberg, 2010.
+
+\bibitem{10.5555/1403886}
+W.~H. Press, S.~A. Teukolsky, W.~T. Vetterling, and B.~P. Flannery, {\em
+  Numerical Recipes 3rd Edition: The Art of Scientific Computing}.
+\newblock Cambridge University Press, USA, 3~ed., 2007.
+
+\bibitem{Zyla:2020zbs}
+{\bf Particle Data Group} Collaboration, P.~Zyla et~al., {\it {Review of
+  Particle Physics}},  {\em PTEP} {\bf 2020} (2020), no.~8 083C01.
+
+\bibitem{Hunter:2007}
+J.~D. Hunter, {\it Matplotlib: A 2d graphics environment},  {\em Computing in
+  Science \& Engineering} {\bf 9} (2007), no.~3 90--95.
+
+\end{thebibliography}\endgroup

@@ -22,5 +22,6 @@ UserSpace/scan/*/*.dat
 *.nav
 *.toc
 *.snm
+*pres_2021.pdf
 *_minted-MiMeS*
 *public_html*

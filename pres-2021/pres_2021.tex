@@ -319,7 +319,7 @@ Axions and ALPs generally:
 		\item {\sl Easy} to use; anyone can run it and see if their model can work.
 		\item Reasonably fast; less than $0.05 \; s$ for the scenarios tested.
 		\item Tools that can help determine if the algorithm is accurate enough.
-		\item The user provides too much input. This helps the user determine is the convergence of the algorithm is consistent. 
+		\item The user provides too much input. This helps the user determine whether convergence of the algorithm is consistent. 
 	\end{itemize}
 
 \end{frame}
@@ -327,10 +327,10 @@ Axions and ALPs generally:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{\mimes}
-\subsection{What {\em is} \mimes?}
+\subsection{\mimes: General}
 \begin{frame}{\insertsubsectionhead}
 %
-From the software point of view:\pause
+%From the software point of view:\pause
 %
 \begin{itemize}
 	\item \mimes is a \CPP header-only library that contains various templated classes; there is no ``installation" and no special procedures, just include the header files. \pause
@@ -343,7 +343,7 @@ From the software point of view:\pause
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\mimes: under the hood}
+\subsection{\mimes: Under the hood}
 \begin{frame}{\insertsubsectionhead}
 	%
 	\mimes relies on \cppin{NaBBODES}~\footnote{\fontF \href{https://github.com/dkaramit/NaBBODES}{https://github.com/dkaramit/NaBBODES}.} for the numerical integration, and \cppin{SimpleSplines}~\footnote{\fontF \href{https://github.com/dkaramit/SimpleSplines}{https://github.com/dkaramit/SimpleSplines}.} for the various interpolations.\\[0.3cm] 
@@ -468,40 +468,141 @@ From the software point of view:\pause
 	\begin{bash}
 		bash configure.sh
 	\end{bash}
+	%	
+	Alter that, you can include the header file \cppin{MiMeS/MiMeS.hpp}, and you are good to go.
 	
-	 However, you can run 	\DK{List all \cppin{make ...} that make useful things.}
+	However, you can also run 
+	%
+	\begin{itemize}
+		\item \cppin{make lib}, in order to produce the (shared) libraries. This is needed in order to run the \PY interface. 
+		\item \cppin{make examples}, in order to compile the examples in \cppin{MiMeS/UserSpace/Cpp}.
+		\item \cppin{make exec}, in order to produce some test executables  (in \cppin{MiMeS/exec}). You just need to run then in order to see if you get any segfaults.
+	\end{itemize}
 \end{frame}
 
-\subsection{Know your constructors: \cppin{mimes::AxionMass<LD>}}
+
+\subsection{Classes}
 \begin{frame}[fragile]{\insertsubsectionhead}
-	\DK{Show the constructor for \cppin{mimes::AxionMass}, and discuss the input.}
+	There are three classes useful to the user.~\footnote{\fontF There are various arguments that need to be passed to the constructors, and the are all listed and explained in the Appendix of the documentation.}
+	%
+	\begin{itemize}
+	\item \cppin{mimes::Cosmo<LD>}: interpolation of relativistic degrees of freedom of the plasma. By default it uses the EOS2020~\footnote{\fontF 
+		\bl{K.~Saikawa and S.~Shirai,
+		\href{https://doi.org/10.1088/1475-7516/2020/08/011}{JCAP \textbf{08} (2020), 011}
+		\href{https://arxiv.org/abs/2005.03544}{[arXiv:2005.03544 [hep-ph]]}.}
+	} data. The user can choose another file easily.
+	%
+	\pause
+	%
+	\item \cppin{mimes::AxionMass<LD>}: definition of axion/ALP mass as a function of the temperature and $\fa$. \mimes is shipped with data from Lattice calculation~\footnote{\fontF \bl{
+			S.~Borsanyi, Z.~Fodor, J.~Guenther, K.~H.~Kampert, S.~D.~Katz, T.~Kawanai, T.~G.~Kovacs, S.~W.~Mages, A.~Pasztor and F.~Pittler, \textit{et al.}
+			\href{https://doi.org/10.1038/nature20115}{Nature \textbf{539} (2016) no.7627, 69-71}
+			\href{https://arxiv.org/abs/1606.07494}{[arXiv:1606.07494 [hep-lat]]}.}} of the QCD axion mass.
+	 %
+	 \pause
+	%	
+	\item \cppin{mimes::Axion<LD,Solver,Method>}: This is responsible for actually solving the EOM.
+	\end{itemize}
+	
+	
 \end{frame}
 
-\subsection{Know your constructors: \cppin{mimes::Axion<LD,Solver,Method>}}
+\subsection{Assumptions}
 \begin{frame}[fragile]{\insertsubsectionhead}
-	\DK{Show the constructor for \cppin{mimes::Axion}, and discuss the input.}
+	
+	\mimes is designed to make as few assumption as possible. However, it still assumes that:\pause
+	%
+	\begin{enumerate}
+		\item $H/\maT$ increases monotonically with the temperature.\pause
+		\item $\zeta(0)=0$. This will be changed in the future.\pause
+		\item The energy density of the axion/ALP is always subdominant.\pause
+		\item Only the EOM determines the energy density (no annihilations, no strings, etc.).
+	\end{enumerate}
+	
+	
 \end{frame}
+
 
 \subsection{What \mimes expects from you}
 \begin{frame}[fragile]{\insertsubsectionhead}
-	\DK{Discuss template arguments}
+	Apart from $\thetai$ and $\fa$, keep in mind that \mimes needs:
+	%
+	\begin{enumerate}
+		\item The mass of the axion/ALP. A data file or an actual function.
+		\item Data file with $\log a/a_i$ ($a_i$ is some arbitrary value; \mimes rescales it appropriately), $T$, and $\log H$ of the underlying cosmology.\pause
+		\item Value for $3H/\maT \gg 1$, which defines the point where integration begins.\pause
+		\item Relative difference of $J$ between a given number of peaks at which we consider adiabaticity to have been reached.\pause
+		\item Other input, related to the algorithm, that might confuse you; \eg temperature at which integration stops no {\em matter what}!
+	\end{enumerate}
+\end{frame}
+
+
+\subsection{Template arguments}
+\begin{frame}[fragile]{\insertsubsectionhead}
+	%
+	You need to choose what numeric type to use. This is done by the template argument \cppin{LD} which should be \cppin{double} (fast) or \cppin{long double} (accurate).~\footnote{\fontF You could choose \cppin{float}, but we live in 2021.}\\[0.5cm]
+	
+	
+	You also need to tell \mimes which integration strategy to use. This is done by choosing template arguments:
+	%
+	\begin{itemize}
+		\item \cppin{Solver} can be set to \cppin{1} for Rosenbrock (semi-implicit Runge-Kutta). 
+		The \cppin{Method} argument in this case can be:\\[-0.0cm]
+		\begin{itemize}
+			\item \cppin{RODASPR2<LD>} (4th order).
+			\item \cppin{ROS34PW2<LD>} (3rd order).
+			\item \cppin{ROS3W<LD>} (2rd order, {\em very} bad).
+		\end{itemize}
+		\item \cppin{Solver} can be set to \cppin{2} for explicit RK.
+		The \cppin{Method} argument can be:\\[-0.0cm]
+		\begin{itemize}
+			\item \cppin{DormandPrinceRK45<LD>} (7th order)
+			\item \cppin{CashKarpRK45<LD>} (5th order, {\em very} bad).
+			\item \cppin{RK45<LD>} (5th order, {\em very} bad).
+		\end{itemize}	
+	\end{itemize}
 \end{frame}
 
 \subsection{\mimes from \PY}
 \begin{frame}[fragile]{\insertsubsectionhead}
-	\DK{Discuss \cppin{Definitions.mk} and show that the constructors are the same as in \CPP}
+	In order to call the \PY interface of \mimes, we need to first call \cppin{make lib} in the root directory of \mimes.\\[0.2cm]
+	
+	Before that, we can take some time to decide what the template arguments and compilation  options should be. In the 
+	file \cppin{MiMeS/Definitions.mk}, you can change the variables:
+	%
+	\begin{itemize}
+		\item \cppin{LONG=long} will compile the library with \cppin{long double} numeric types. \cppin{LONG=} will compile the library with \cppin{double} numeric types.
+		\item \cppin{SOLVER} and \cppin{METHOD}, as in the template arguments.
+	\end{itemize}
+	
+	Also, in the same file, you can change compilation options:
+	%
+	\begin{itemize}
+		\item Compiler:
+		\begin{itemize}
+			\item \cppin{CC=g++} in order to use the \cppin{GNU} \CPP compiler.
+			\item \cppin{CC=clang -lstdc++} in order to use the \cppin{clang} \CPP compiler.
+		\end{itemize}
+	\item Optimization level:
+		\begin{itemize}
+			\item \cppin{OPT=O0}: No optimization. 
+			\item \cppin{O=O1}, \cppin{O2}, or \cppin{O3} (marginally faster, default): some optimization occurs (read the compiler documentation for more information).
+			\item \cppin{OPT=Ofast}: full optimization (fast, but dangerous). 
+		\end{itemize}
+	\end{itemize}
 \end{frame}
 
 
 \section{Examples}
 \subsection{\CPP}
 \begin{frame}[fragile]{\insertsubsectionhead}
-	\DK{can you show example code?}
+	Define everything and solve in just a few lines of code!\\[0.3cm]
+	\lstset{language = c++}
+	\lstinputlisting[basicstyle=\fontF]{example.cpp}
 \end{frame}
 
 \subsection{\PY}
 \begin{frame}[fragile]{\insertsubsectionhead}
-	\DK{can you do a live presentation of \mimes in jupyter?}
 \end{frame}
 
 \section{Outlook}
@@ -538,8 +639,11 @@ From the software point of view:\pause
 	
 	\begin{center}
 		{\color{yellow} \Huge Thank you!}
+		\begin{figure}
+			\includegraphics[width=1\textwidth]{cloc.png}
+		\end{figure}	
+
 	\end{center}
-	
 \end{frame}
 
 

@@ -8,6 +8,16 @@
 \tikzset{every picture/.style=remember picture}
 
 
+\usepackage{palatino}
+\newsavebox\spacewd
+\savebox\spacewd{\texttt{ }}
+\newenvironment{PP}{\par\catcode32=\active \setlength{\parindent}{0pt}\ttfamily}{\par}
+{
+	\catcode32=\active %
+	\gdef {\makebox[\wd\spacewd][l]{%
+			\textcolor{white}{\fontfamily{lmtt}\selectfont\large\smash{\char32}}}}% 
+}
+
 %Define blue color environment:
 \usepackage{color}
 \newenvironment{bl}[1]{{\color{blue} #1}}
@@ -57,7 +67,7 @@
 \lstset{
 	emphstyle={\color{blue!80!black}}, emph={include, std, ,string,constexpr,array,vector},
 	emph=[2]{mimes,util,Axion,AxionEOM,Cosmo,AxionMass,AnharmonicFactor,Scan,ScanObs,Timer}, emphstyle=[2]{\color{red!80!black}},
-	emph=[3]{Solver,Method,LD,METHOD,SOLVER}, emphstyle=[3]{\color{green!80!black}}
+	emph=[3]{Solver,Method,LD}, emphstyle=[3]{\color{green!80!black}}
 }
 
 

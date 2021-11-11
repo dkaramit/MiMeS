@@ -21,5 +21,6 @@ UserSpace/scan/*/*.dat
 *.vrb
 *.nav
 *.toc
+*.snm
 *_minted-MiMeS*
 *public_html*

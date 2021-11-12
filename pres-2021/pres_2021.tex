@@ -64,7 +64,7 @@
 \end{figure}
 }
 \vspace*{-0.5cm}
-\date{\bl{23/11/2021}\\{\sl El Journal Club más Sabroso} }
+\date{\bl{23/11/2021}\\{\sl El Journal Club más Sabroso} \\[1cm] \begin{center}Avalible on:\\\bl{\href{https://github.com/dkaramit/MiMeS}{github}\\\href{https://mimes.hepforge.org}{hepforge}}\end{center} }
 
 
 
@@ -180,21 +180,21 @@
 \subsection{The axion (like) particle}
 \begin{frame}{\insertsubsectionhead}
 %
-Notably, the original Axion was originally introduced in order to solve the {\em strong-CP problem} of the SM.
-Axion-Like-Particles (ALPs) arise in a number of new physics models, beyond the SM.  \\[0.5cm]
+Notably, the original axion was originally introduced in order to solve the {\em strong-CP problem} of the SM.
+Axion-like-particles (ALPs) arise in a number of new physics models, beyond the SM.  \\[0.5cm]
 
 Axions and ALPs generally:
 %
 	\begin{itemize}
 	\item Have suppressed interactions with photons.
 	\item Are (mostly) stable. 
-	\item Were non-relativistic around the epoch of structure formation. \pause
-	\item Non-baryonic (by definition), and of-course interact gravitationally.\\[1cm]
+	\item Were non-relativistic around the epoch of structure formation. 
+	\item Non-baryonic (by definition), and of-course interact gravitationally.\pause\\[1cm]
 \end{itemize}
 
 \pause
 \begin{center}
-	{\bf \em Maybe DM has Axionic nature!}	
+	{\bf \em Maybe DM has axionic nature!}	
 \end{center}
 
 \end{frame}
@@ -230,11 +230,11 @@ Axions and ALPs generally:
 	\begin{itemize}
 		\item There is no closed form solution.
 		\item There are no constants of motion (wait a minute).
-		\item No package/library/program available!\\[2cm]\pause
+		\item No package/library/program available!\pause\\[2cm]
 	\end{itemize}
 
 	\begin{center}
-		{\sl \mimes simulates the evolution of the Axion/ALP, for (virtually) any cosmological scenario and Axion/ALP (thermal) mass.}
+		{\sl \mimes simulates the evolution of the axion/ALP, for (virtually) any cosmological scenario and axion/ALP (thermal) mass.}
 	\end{center}		
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -586,7 +586,7 @@ Axions and ALPs generally:
 	\item Optimization level:
 		\begin{itemize}
 			\item \cppin{OPT=O0}: No optimization. 
-			\item \cppin{O=O1}, \cppin{O2}, or \cppin{O3} (marginally faster, default): some optimization occurs (read the compiler documentation for more information).
+			\item \cppin{O=O1}, \cppin{O2}, or \cppin{O3}: all these perform mostly the same (read the compiler documentation for more information on the optimization).
 			\item \cppin{OPT=Ofast}: full optimization (fast, but dangerous). 
 		\end{itemize}
 	\end{itemize}
@@ -616,14 +616,26 @@ Axions and ALPs generally:
 %\subsection{Future}
 \begin{frame}[fragile]{\insertsectionhead}
 	\begin{center}
-		What we show:
+		\bf{What we saw:}
 	\end{center}
-	\DK{blah blah, what you did}
+	%
+	\begin{itemize}
+		\item \mimes solves the axion/ALP EOM. 
+		\item \mimes treats both the mass and the underlying cosmology as user inputs.
+		\item \mimes allows the user to change a number of other things, from the plasma RDOFs to the convergence conditions.\\[0.5cm] 
+	\end{itemize}
 
 	\begin{center}
-		What we want to see:
+		\bf{\mimes may be amended in the future because:} 
 	\end{center}
-	\DK{Freeze-out/in, kinematic misalignment mechanism, automatically compare with searches.}
+	%
+	\begin{itemize}
+		\item \mimes should allow the user to consider different initial value of $\zeta$; the "kinematic" \mimes might come soon.
+		\item \mimes should be able to handle non-vanishing \rhs; \ie solve the "driven" dumped time-dependent pendulum.
+		\item Would be nice if \mimes could handle case of freeze-out/in.
+		\item \mimes should come be able to compare against searches on the fly. 
+	\end{itemize}
+	
 \end{frame}
 
 
@@ -649,7 +661,7 @@ Axions and ALPs generally:
 	\begin{center}
 		{\color{yellow} \Huge Thank you!}
 		\begin{figure}
-			\includegraphics[width=1\textwidth]{cloc.png}
+			\includegraphics[width=0.7\textwidth]{cloc.png}
 		\end{figure}	
 
 	\end{center}
@@ -678,13 +690,119 @@ Axions and ALPs generally:
 \setbeamertemplate{background canvas}{}
 \setbeamercolor{background canvas}{bg=white}
 
-\begin{frame}{WKB}
+\begin{frame}{WKB -- I}
+	\begin{equation*}
+		\lrb{\dfrac{d^2}{d t^2} + 3 H(t) \ \dfrac{d}{d t} + \maT^2(t) } \theta(t) = 0 \; .
+	\end{equation*}
+	%
+	Reparametrize by introducing
+	% 
+	\begin{equation*}
+		\theta_{\rm trial} = \exp\lrsb{ i \dint d t \ \lrBigb{\psi(t) +3/2 \ i \ H(t)} } \;.
+	\end{equation*}
+	%
+	The Eome, then becomes just
+	%
+	\begin{equation*}
+		\psi^2 = \Omega^2 + i \ \dot \psi \; ,
+	\end{equation*}
+	%
+	with $\Omega^2 = \maT^2 - \dfrac{9}{4} H^2 -  \dfrac{3}{2} \dot H $.
+	%
+	The solution takes the form $\psi = \pm \sqrt{\Omega^2 + i \dot \psi}$. However, for $\dot \psi \ll \Omega^2$ and $\dot \Omega \ll \Omega^2$, it can be approximated as
+	%
+	\begin{equation*}
+		\psi \approx \pm \Omega + \dfrac{i}{2} \dfrac{d \log \Omega}{d t} \;.
+	\end{equation*}
+\end{frame}
+
+\begin{frame}{WKB -- II}
+	So, after applying the initial conditions, the EOM is solved by
+	%
+	\begin{equation*}
+		\theta(t) \approx \thetai \sqrt{ \dfrac{ \Omegai }{\Omega (t)} } \lrb{\dfrac{a}{\ai}}^{-3/2} \  \cos\lrb{ \int_{\ti}^t d t^\prime  \ \Omega(t^\prime)}   \;.
+	\end{equation*}
+
+	Taking  $\ti = \tosc$ (\ie $\dot \theta(\tosc) = 0$, which is not generally good), have
+	%
+	\begin{equation*}
+		\theta(t) \approx \thetaosc \lrb{\dfrac{3}{4}}^{1/4} \sqrt{ \dfrac{ \maT|_{t=\tosc} }{\maT  (t)} } \lrb{\dfrac{a}{\aosc}}^{-3/2} \  \cos\lrb{ \int_{\tosc}^t d t^\prime  \ \maT(t^\prime)}   \;,
+	\end{equation*}
+	%
+	where $\thetaosc = \theta|_{t=\tosc}$. This equation is further simplified if we assume that $\thetaosc \approx \thetai$ (again not really good), \ie
+	%
+	\begin{equation*}
+		\theta(t) \approx \thetai \lrb{\dfrac{3}{4}}^{1/4} \sqrt{ \dfrac{ \maT|_{t=\tosc} }{\maT  (t)} } \lrb{\dfrac{a}{\aosc}}^{-3/2} \  \cos\lrb{ \int_{\tosc}^t d t^\prime  \ \maT(t^\prime)}   \;.
+	\end{equation*}
+
 	
 \end{frame}
 
-\begin{frame}{Adiabatic invariant}
+\begin{frame}{Adiabatic invariant -- I}
+	%	
+	Given a system with Hamiltonian $\mathcal{H}(\theta,p;t)$, the equations of motion are 
+	%
+	\begin{equation*}
+		\dot p = - \dfrac{\partial \mathcal{H}}{\partial \theta} \;, \;\; 
+		\dot \theta =  \dfrac{\partial \mathcal{H}}{\partial p} \;.
+	\end{equation*}
+	%
+	Also,
+	%
+	\begin{equation*}
+		d \Ham = \dot \theta \ d p - \dot p \ d \theta + \dfrac{\partial \Ham}{\partial t} \ d t \;.  
+	\end{equation*}
+
+
+	If this system exhibits closed orbits (\eg if it oscillates), we define 
+	%
+	\begin{equation*}
+		J \equiv C \ \oint p \ d \theta \;,
+	\end{equation*}
+	%
+	where the integral is over a closed path (\eg a period, $T$), and $C$ indicates that $J$ can always be rescaled with a constant. If the Hamiltonian varies slowly during a cycle,
+	%
+	\[
+	\dfrac{d J}{d t} = C \ \oint \lrBigb{\dot p \ d \theta + p \ d \dot \theta} = C \ \dint_{t}^{t+T}  \dfrac{\partial \Ham}{\partial t^\prime} \ d t^\prime \approx T \ \dfrac{\partial \Ham(t^{\prime})}{\partial t^{\prime}}\Big|_{t^{\prime}=t} \approx 0 
+	\;. 
+	\]
+	%
+	So, $J$ is an adiabatic invariant!
 	
 \end{frame}
+
+\begin{frame}{Adiabatic invariant -- II}
+	%
+	The Hamiltonian that results in the EOM
+	%
+	\begin{equation*}
+		\Ham = \dfrac{1}{2} \dfrac{p^2}{\fa^2 \ a^3} + V(\theta) \ a^3\;,
+	\end{equation*}
+	%
+	with 
+	%
+	\begin{eqnarray*}
+		& p = \fa^2 \ a^3 \ \dot \theta \\
+		\label{eq:momentum}
+		& V(\theta) = \maT^2 \fa^2 (1-\cos \theta) \;.
+	\end{eqnarray*}
+	
+	If $\Ham$ varies slowly -- $\dot {\tilde{m}}_{a}(T)/\maT \ll \maT$ and $H \ll \maT$, then
+	% 
+	\begin{eqnarray*}
+		J &=& \dfrac{\oint p \ d \theta}{\pi \fa^2} = \dfrac{1}{\pi \fa^2} \oint \sqrt{ 2\lrb{ \Ham(\theta) - V(\theta) \ a^3} \ \fa^2 a^3 \ }  \ d \theta  \\ &=&
+		\dfrac{2}{\pi \fa^2} \int_{-\thetamax}^{\thetamax} \sqrt{ 2\lrb{ \Ham(\thetamax) - V(\theta) \ a^3} \ \fa^2 a^3 \ } d \theta \\ &=&
+		 \dfrac{2 \sqrt{2} }{\pi \fa}  \int_{- \thetamax} ^{\thetamax}  \sqrt{ V(\thetamax) - V(\theta) } a^{3} d \theta \\ &=& 
+		\dfrac{2 \sqrt{2} }{\pi} \ \maT \, a^3 \ \dint_{- \thetamax}^{\thetamax} \sqrt{\cos \theta - \cos \thetamax} \ d \theta  \;,
+	\end{eqnarray*}
+	%
+	is the adiabatic invariant -- up to a multiplication with a constant.
+	
+	
+\end{frame}
+
+
+
 
 \begin{frame}{Input -- \cppin{mimes::AxionMass<LD>}}
 	

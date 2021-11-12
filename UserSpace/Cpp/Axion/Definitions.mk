@@ -21,7 +21,7 @@ METHOD=RODASPR2
 # METHOD=ROS3w
 
 #-------------------------These are explicit RK methods: Generally NOT RECOMMENDED--------------------------#
-# Solver=2
+# SOLVER=2
 
 # DormandPrince is fairly fast. It can be better than RODASPR2 at very low tolerances 
 # because it is higher order. The other two can't even finish...

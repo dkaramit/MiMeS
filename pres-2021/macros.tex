@@ -9,14 +9,6 @@
 
 
 \usepackage{palatino}
-\newsavebox\spacewd
-\savebox\spacewd{\texttt{ }}
-\newenvironment{PP}{\par\catcode32=\active \setlength{\parindent}{0pt}\ttfamily}{\par}
-{
-	\catcode32=\active %
-	\gdef {\makebox[\wd\spacewd][l]{%
-			\textcolor{white}{\fontfamily{lmtt}\selectfont\large\smash{\char32}}}}% 
-}
 
 %Define blue color environment:
 \usepackage{color}

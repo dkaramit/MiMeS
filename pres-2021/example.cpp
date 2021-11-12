@@ -1,9 +1,11 @@
+#include<iomanip>
 #include"MiMeS.hpp"
-#define numeric long double //makes life easier if you define a macro for this
+
+using numeric = long double;//make life easier if you want to change to double
 
 int main(){
     mimes::util::Timer _timer_;//use this to time it!
-    
+
     // use chi_PATH to interpolate the axion mass.
     mimes::AxionMass<numeric> axionMass(chi_PATH,0,mimes::Cosmo<numeric>::mP);
 
@@ -27,11 +29,14 @@ int main(){
 
     /*declare an instance of Axion*/
     mimes::Axion<numeric, 1, RODASPR2<numeric> > ax(0.1, 1e16, 500, 1e-4, 1e3, 10, 1e-2, 
-        inputFile, &axionMass, 1e-2, 1e-8, 1e-2, 1e-9, 1e-9, 0.9, 1.2, 0.8, int(1e7) );
-
+                    inputFile, &axionMass, 1e-2, 1e-8, 1e-2, 1e-10, 1e-10, 0.85, 1.5, 0.85,
+                    int(1e7) );
     /*solve the EOM!*/
     ax.solveAxion();
 
-    std::cout<<ax.relic<<"\n";
+    std::cout<<std::setprecision(5)
+    <<"theta_i="<<ax.theta_i<<std::setw(25)<<"f_a="<<ax.fa<<" GeV\n"<<"theta_osc~="<<ax.theta_osc
+    <<std::setw(20)<<"T_osc~="<<ax.T_osc<<"GeV \n"<<"Omega h^2="<<ax.relic<<"\n";
+    
     return 0;
 }

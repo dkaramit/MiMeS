@@ -17,7 +17,7 @@
 \usepackage{rotating}
 \usepackage{multicol}
 \include{macros}
-
+\usepackage{multirow}
 
 
 
@@ -571,7 +571,7 @@ Axions and ALPs generally:
 	file \cppin{MiMeS/Definitions.mk}, you can change the variables:
 	%
 	\begin{itemize}
-		\item \cppin{LONG=long} will compile the library with \cppin{long double} numeric types. \cppin{LONG=} will compile the library with \cppin{double} numeric types.
+		\item \cppin{LONGpy=long} will compile the library with \cppin{long double} numeric types. \cppin{LONGpy=} will compile the library with \cppin{double} numeric types.
 		\item \cppin{SOLVER} and \cppin{METHOD}, as in the template arguments.
 	\end{itemize}
 	
@@ -797,23 +797,269 @@ Axions and ALPs generally:
 	\end{eqnarray*}
 	%
 	is the adiabatic invariant -- up to a multiplication with a constant.
+\end{frame}
+
+
+
+\setbeamertemplate{background canvas}{%
+	\begin{tikzpicture}[remember picture,overlay]
+		\shade[left color=black!90!red, right color=red!80!black]
+		([shift={(0.0cm,-0.0cm)}]current page.north west)
+		rectangle
+		([shift={(-0.0cm,0.0cm)}]current page.south east);
+	\end{tikzpicture}%     
+}
+
+%%Put equations for Back-up. 
+\begin{frame}[noframenumbering]
+	%	
+	\begin{center}
+		{\color{yellow} \Huge \CPP  Input}
+	\end{center}
+	%	
+\end{frame}
+%
+\setbeamertemplate{background canvas}{}
+\setbeamercolor{background canvas}{bg=white}
+
+
+\begin{frame}{\codeL{AxionMass} class -- Definition via file}
+	\fontB
+	In order to define an instance of the \cppin{AxionMass} class that interpolates the $\maT$, use the constructor:
+	\lstset{language = c++}
+	\lstinputlisting[basicstyle=\fontL]{AxionMassClass_interpolation}
+	%
+	The arguments are:
+	%
+	\begin{enumerate}
+		\item \cppin{chi_Path}: Relative or absolute path to data file with $T$ (in $\GeV$), $\chi(T)$ (in $\GeV^4$).
+		\item \cppin{minT}, \cppin{maxT}: Interpolation limits. These are used in order to stop the interpolation at the closest temperatures that exist in the data file. This means that the actual interpolation limits are $T_{\min}\geq$\cppin{minT} and $T_{\max}\leq$\cppin{maxT}. Beyond these limits hat axion mass is assumed to be constant.
+	\end{enumerate}
 	
-	
+	The definition of $\maT^2$ beyond $T_{\min}$ and $T_{\max}$ can be changed to realistic function, using \codeB{mimes::AxionMass<LD>::set_ma2_MIN(std::function<LD(LD,LD)> ma2_MIN)}  and \codeB{mimes::AxionMass<LD>::set_ma2_MAX(std::function<LD(LD,LD)> ma2_MAX)}. These definitions may need the actual values of   $T_{\min,\max}$ and $\chi(T_{\min,\max})$. These are obtained from
+	%
+	\begin{itemize}
+		\item \codeB{template<class LD> LD mimes::AxionMass<LD>::getTMin()}: This function returns the minimum interpolation temperature, $T_{\rm min}$. 
+		\item \codeB{template<class LD> LD mimes::AxionMass<LD>::getTMax()}: This function returns the maximum interpolation temperature, $T_{\rm max}$.
+		\item \codeB{template<class LD> LD mimes::AxionMass<LD>::getChiMin()}: This function returns $\chi(T_{\rm min})$.
+		\item \codeB{template<class LD> LD mimes::AxionMass<LD>::getChiMax()}: This function returns $\chi(T_{\rm max})$.
+	\end{itemize}
+
+	Note that all \codeB{std::function<LD(LD,LD)>} can be any callable object that takes $T$ and $\fa$ and returns $\maT^2$.
+
+\end{frame}
+
+\begin{frame}{\codeL{AxionMass} class -- Definition via function}
+	\fontB
+	In order to define an instance of the \cppin{AxionMass} class via a function, use the constructor:
+	\lstset{language = c++}
+	\lstinputlisting[basicstyle=\fontL]{AxionMassClass_function}	
+
+	Here, \codeB{ma2} can be any callable object that takes $T$ and $\fa$ and returns $\maT^2$.
 \end{frame}
 
 
 
 
-\begin{frame}{Input -- \cppin{mimes::AxionMass<LD>}}
+
+\begin{frame}{\codeL{Axion} class -- Expected input}
+	\fontB
+	The constructor of the \cppin{Axion} class is
+		\lstset{language = c++}
+		\lstinputlisting[basicstyle=\fontL]{AxionClass}
+
+The input that \mimes expects is:
+%	
+	\begin{enumerate}
+		\item \cppin{theta_i}:  Initial angle. 
+		\item \cppin{fa}  The PQ scale.
+		\item \cppin{umax}:  Once $u=\log a/a_i>$\cppin{umax}, the integration stops. Typical value: $\sim 500$.
+		\item \cppin{TSTOP}:  Once $T<$\cppin{TSTOP}, integration stops. Typical value: $10^{-4}~\GeV$.
+		\item \cppin{ratio_ini}: Integration starts at $u$ with $3H/\maT \approx$\cppin{ratio_ini}. Typical value: $\sim 10^{3}$.
+		\item \cppin{N_convergence_max}, \cppin{convergence_lim}: Integration stops when  the relative difference 
+		between two consecutive peaks  is less than \cppin{convergence_lim} for \cppin{N_convergence_max} 
+		consecutive peaks.
+		\item \cppin{inputFile}: Relative (or absolute) path to a file that describes the cosmology. The columns should be: $u$ $T ~[\GeV]$ $\log H$, with acceding $u$. Entropy injection should have stopped before the lowest temperature of given in \cppin{inputFile}.
+		\item \cppin{axionMass}: Instance of \cppin{mimes::AxionMass<LD>} class. In \CPP this instance is passed as a pointer to the constructor
+		of the \cppin{mimes::Axion<LD,Solver,Method>} class, while in \PY it is simply passed as a variable.
+	\end{enumerate}
+
+\end{frame}
+\begin{frame}{\codeL{Axion} class -- Optional input}
+	\fontB
 	
+	The optional input, relative to the RK algorithm, is:\\[0.5cm]
+	\begin{enumerate}
+		\item \cppin{initial_stepsize}: Initial step-size of the solver. Default value: $10^{-2}$.
+		\item \cppin{minimum_stepsize}: Lower limit of the step-size. Default value:  $10^{-8}$.
+		\item \cppin{maximum_stepsize}: Upper limit of the step-size. Default value:  $10^{-2}$.
+		\item \cppin{absolute_tolerance}: Absolute tolerance of the RK solver.  Default value:  $10^{-8}$.
+		\item \cppin{relative_tolerance}: Relative tolerance of the RK solver.  Default value:  $10^{-8}$.
+		\item \cppin{beta}: Aggressiveness of the adaptation strategy.  Default value:  $0.9$.
+		\item \cppin{fac_max}, \cppin{fac_min}: The step-size does not change more than \cppin{fac_max} and less than \cppin{fac_min} within a trial step. Default values: $1.2$ and $0.8$, respectively.
+		\item \cppin{maximum_No_steps}: If integration needs more than \cppin{maximum_No_steps} integration stops. Default value: $10^7$.
+	\end{enumerate}
 \end{frame}
 
-\begin{frame}{Input -- \cppin{mimes::Axion<LD,Solver,Method>}}
+
+
+
+\setbeamertemplate{background canvas}{%
+	\begin{tikzpicture}[remember picture,overlay]
+		\shade[left color=black!90!red, right color=red!80!black]
+		([shift={(0.0cm,-0.0cm)}]current page.north west)
+		rectangle
+		([shift={(-0.0cm,0.0cm)}]current page.south east);
+	\end{tikzpicture}%     
+}
+
+%%Put equations for Back-up. 
+\begin{frame}[noframenumbering]
+	%	
+	\begin{center}
+		{\color{yellow} \Huge \PY  Input}
+	\end{center}
+	%	
+\end{frame}
+%
+\setbeamertemplate{background canvas}{}
+\setbeamercolor{background canvas}{bg=white}
+
+
+\begin{frame}{\codeL{AxionMass} class -- Definition via file}
+	\fontB
+	The actual constructor of the \pyin{AxionMass} in the \PY interface is \codeB{AxionMass(*args)}. However, it is intended to be used in {\em only} two ways. 
 	
+	In order to define an instance of the \pyin{AxionMass} class that interpolates the $\maT$, use the constructor as:
+	\lstset{language = python}
+	\lstinputlisting[basicstyle=\fontL]{AxionMassClass_interpolation-py}
+	%
+	The arguments are the same as in the \CPP case. \\[0.5cm]
+	
+	The definition of $\maT^2$ beyond $T_{\min}$ and $T_{\max}$ can be changed using \codeB{AxionMass.set_ma2_MIN(ma2_MIN)}  and \codeB{AxionMass.set_ma2_MAX(ma2_MAX)}. These definitions may need the actual values of   $T_{\min,\max}$ and $\chi(T_{\min,\max})$. These are obtained from
+	%
+	\begin{itemize}
+		\item \codeB{AxionMass.getTMin()}: This function returns the minimum interpolation temperature, $T_{\rm min}$. 
+		\item \codeB{AxionMass.getTMax()}: This function returns the maximum interpolation temperature, $T_{\rm max}$.
+		\item \codeB{AxionMass.getChiMin()}: This function returns $\chi(T_{\rm min})$.
+		\item \codeB{AxionMass.getChiMax()}: This function returns $\chi(T_{\rm max})$.
+	\end{itemize}
+	
+	The difference between the \CPP case is that \codeB{ma2} cannot be any callable object; it has to be a regular function that takes $T$ and $\fa$ and returns $\maT^2$.
+\end{frame}
+
+\begin{frame}{\codeL{AxionMass} class -- Definition via function}
+	\fontB
+	In order to define an instance of the \cppin{AxionMass} class via a function, use the constructor as:
+	\lstset{language = python}
+	\lstinputlisting[basicstyle=\fontL]{AxionMassClass_function-py}
+	%
+
+	The difference between the \CPP case is that \codeB{ma2} cannot be any callable object; it has to be a regular function that takes $T$ and $\fa$ and returns $\maT^2$.
 \end{frame}
 
 
 
+
+
+\begin{frame}{\codeL{Axion} class}
+	\fontB
+	The constructor of the \cppin{Axion} class is
+	\lstset{language = python}
+	\lstinputlisting[basicstyle=\fontL]{AxionClass-py}
+	
+	All the arguments are the same as in the \CPP case. The only difference is that the \codeB{AxionMass} instance (\codeB{axionMass}) is not
+	passed as a pointer, as there is no direct way to do it in \PY. However, the underlying object is the same, as it is converted internally using \codeB{ctypes}.
+\end{frame}
+
+
+\setbeamertemplate{background canvas}{%
+	\begin{tikzpicture}[remember picture,overlay]
+		\shade[left color=black!90!red, right color=red!80!black]
+		([shift={(0.0cm,-0.0cm)}]current page.north west)
+		rectangle
+		([shift={(-0.0cm,0.0cm)}]current page.south east);
+	\end{tikzpicture}%     
+}
+
+%%Put equations for Back-up. 
+\begin{frame}[noframenumbering]
+	%	
+	\begin{center}
+		{\color{yellow} \Huge Files and compilation variables}
+	\end{center}
+	%	
+\end{frame}
+%
+\setbeamertemplate{background canvas}{}
+\setbeamercolor{background canvas}{bg=white}
+
+\begin{frame}{\codeL{Paths.mk}}
+	There are some paths to file that the user can provide in order to use different data for the RDOF, anharmonic factor, and $\chi$ (optional). 
+	These paths are stored as strings in \cppin{MiMeS/src/misc_dir/path.hpp} when \cppin{bash configure.sh} is run.
+	
+	These paths can be changed by changing the following variables in \cppin{MiMeS/Paths.mk}:
+	\begin{itemize}
+		\item \cppin{cosmoDat}: Relative path to data file with $T$ (in $\GeV$), $\heff$, $\geff$.
+		\item \cppin{axMDat}: Relative path to data file with $T$ (in $\GeV$), $\heff$, $\geff$. This variable can be ommitted if the user indents to define all masses via functions. 
+		\item \cppin{anFDat}: Relative path to data file with $\thetamax$, $f(\thetamax)$.
+	\end{itemize} 
+	
+	It is advisable that if the paths change \cppin{bash configure.sh} and \cppin{make} should be run.	
+\end{frame}
+
+\begin{frame}[fragile]{Template arguments}
+	%
+	You need to choose what numeric type to use. This is done by the template argument \cppin{LD} which should be \cppin{double} (fast) or \cppin{long double} (accurate).~\footnote{\fontF You could choose \cppin{float}, but we live in 2021.}\\[0.5cm]
+	
+	
+	You also need to tell \mimes which integration strategy to use. This is done by choosing template arguments:
+	%
+	\begin{itemize}
+		\item \cppin{Solver} can be set to \cppin{1} for Rosenbrock (semi-implicit Runge-Kutta). 
+		The \cppin{Method} argument in this case can be:\\[-0.0cm]
+		\begin{itemize}
+			\item \cppin{RODASPR2<LD>} (4th order).
+			\item \cppin{ROS34PW2<LD>} (3rd order).
+			\item \cppin{ROS3W<LD>} (2rd order, {\em very} bad).
+		\end{itemize}
+		\item \cppin{Solver} can be set to \cppin{2} for explicit RK.
+		The \cppin{Method} argument can be:\\[-0.0cm]
+		\begin{itemize}
+			\item \cppin{DormandPrinceRK45<LD>} (7th order)
+			\item \cppin{CashKarpRK45<LD>} (5th order, {\em very} bad).
+			\item \cppin{RK45<LD>} (5th order, {\em very} bad).
+		\end{itemize}	
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{\codeL{Definitions.mk}}
+	In order to call the \PY interface of \mimes, we need to first call \cppin{make lib} in the root directory of \mimes.\\[0.2cm]
+	
+	Before that, we can take some time to decide what the template arguments and compilation  options should be. In the 
+	file \cppin{MiMeS/Definitions.mk}, you can change the variables:
+	%
+	\begin{itemize}
+		\item \cppin{LONGpy=long} will compile the library with \cppin{long double} numeric types. \cppin{LONGpy=} will compile the library with \cppin{double} numeric types.
+		\item \cppin{SOLVER} and \cppin{METHOD}, as in the template arguments.
+	\end{itemize}
+	
+	Also, in the same file, you can change compilation options:
+	%
+	\begin{itemize}
+		\item Compiler:
+		\begin{itemize}
+			\item \cppin{CC=g++} in order to use the \cppin{GNU} \CPP compiler.
+			\item \cppin{CC=clang -lstdc++} in order to use the \cppin{clang} \CPP compiler.
+		\end{itemize}
+		\item Optimization level:
+		\begin{itemize}
+			\item \cppin{OPT=O0}: No optimization. 
+			\item \cppin{O=O1}, \cppin{O2}, or \cppin{O3}: all these perform mostly the same (read the compiler documentation for more information on the optimization).
+			\item \cppin{OPT=Ofast}: full optimization (fast, but dangerous). 
+		\end{itemize}
+	\end{itemize}
+\end{frame}
 
 
 

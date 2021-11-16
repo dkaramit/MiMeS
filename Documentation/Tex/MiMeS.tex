@@ -1578,14 +1578,13 @@ Finally, the actual EOM is given an overloaded call operator
 Here, the inputs are $u=\log a/\ai$, {\tt y[0]}$=\theta$, and {\tt y[1]}$=\zeta$; which are used to calculate the components of the EOM, with {\tt lhs[0]}$=\frac{d \theta}{d u}$ and {\tt lhs[1]}$=\frac{d \zeta}{d u}$.
 
 
-
 \subsection{{\tt Axion} class}
 %
 The \cppin{mimes::Axion<LD,Solver,Method>} class is the class that combines all the others, and actually solves the axion EOM~\ref{eq:eom_sys}. Its header file is {\tt \mimes/src/Axion/AxionSolve.hpp}, and its constructor is
 %
 \begin{cpp}
  	template<class LD, const int Solver, class Method>
-	mimes::Axion< LD, Solver, Method<LD> >(LD theta_i, LD fa, LD umax, LD TSTOP, 
+	mimes::Axion< LD, Solver, Method >(LD theta_i, LD fa, LD umax, LD TSTOP, 
 	LD ratio_ini, unsigned int N_convergence_max, LD convergence_lim, 
 	std::string inputFile, AxionMass<LD> *axionMass, LD initial_step_size=1e-2, 
 	LD minimum_step_size=1e-8, LD maximum_step_size=1e-2, LD absolute_tolerance=1e-8, 
@@ -1600,7 +1599,7 @@ The member function responsible for solving the EOM is
 %
 \begin{cpp}
 	template<class LD, const int Solver, class Method>
-	void mimes::Axion< LD, Solver, Method<LD> >::solveAxion()
+	void mimes::Axion< LD, Solver, Method >::solveAxion()
 \end{cpp}
 %
 Once this function finishes, the results are stored in several member variables.
@@ -1609,7 +1608,7 @@ The quantities $a/\ai, \ T, \ \theta, \ \zeta, \rho_a$, at the integration  step
 %
 \begin{cpp}
 	template<class LD, const int Solver, class Method> 
-	std::vector< std::vector<LD> > mimes::Axion< LD, Solver, Method<LD> >::points
+	std::vector< std::vector<LD> > mimes::Axion< LD, Solver, Method >::points
 \end{cpp}
 %
 
@@ -1617,7 +1616,7 @@ The quantities $a/\ai, \ T, \ \theta, \ \zeta, \rho_a, \ J$, at the peaks of the
 %
 \begin{cpp}
 	template<class LD, const int Solver, class Method> 
-	std::vector< std::vector<LD> > mimes::Axion< LD, Solver, Method<LD> >::peaks
+	std::vector< std::vector<LD> > mimes::Axion< LD, Solver, Method >::peaks
 \end{cpp}
 %
 Note that these points are computed using linear interpolation between two integration points with a change in the sign of $\zeta$.
@@ -1627,37 +1626,37 @@ The local integration errors for $\theta$ and $\zeta$ are stored in
 %
 \begin{cpp}
 	template<class LD, const int Solver, class Method> 
-	std::vector<LD> mimes::Axion< LD, Solver, Method<LD> >::dtheta
+	std::vector<LD> mimes::Axion< LD, Solver, Method >::dtheta
 	
 	template<class LD, const int Solver, class Method> 
-	std::vector<LD> mimes::Axion< LD, Solver, Method<LD> >::dzeta
+	std::vector<LD> mimes::Axion< LD, Solver, Method>::dzeta
 \end{cpp}
 %
 Moreover, the oscillation temperature, $\Tosc$, and the corresponding values of $a/\ai$ and $\theta$ are given in
 %
 \begin{cpp}
 	template<class LD, const int Solver, class Method>
-	LD mimes::Axion< LD, Solver, Method<LD> >::T_osc
+	LD mimes::Axion< LD, Solver, Method>::T_osc
 	
 	template<class LD, const int Solver, class Method>
-	LD mimes::Axion< LD, Solver, Method<LD> >::a_osc
+	LD mimes::Axion< LD, Solver, Method>::a_osc
 
 	template<class LD, const int Solver, class Method>
-	LD mimes::Axion< LD, Solver, Method<LD> >::theta_osc
+	LD mimes::Axion< LD, Solver, Method>::theta_osc
 \end{cpp}
 %
 Also, the entropy injection between the last peak ($T=T_{\rm peak}$) and today ($T=T_0$), $\gamma$ (defined as in \eqs{eq:entropy_injection_gamma}), is given in 
 %
 \begin{cpp}
 	template<class LD, const int Solver, class Method>
-	LD mimes::Axion< LD, Solver, Method<LD> >::gamma
+	LD mimes::Axion< LD, Solver, Method>::gamma
 \end{cpp}
 %
 The relic abundance is stored in the following member variable 
 %
 \begin{cpp}
 	template<class LD, const int Solver, class Method>
-	LD mimes::Axion< LD, Solver, Method<LD> >::relic
+	LD mimes::Axion< LD, Solver, Method>::relic
 \end{cpp}
 
 
@@ -1666,7 +1665,7 @@ We can set another initial condition, $\thetai$, using
 %
 \begin{cpp}
 	template<class LD, const int Solver, class Method>
-	void mimes::Axion< LD, Solver, Method<LD> >::setTheta_i(LD theta_i)
+	void mimes::Axion< LD, Solver, Method>::setTheta_i(LD theta_i)
 \end{cpp}
 %
 We should note that running this function all variables are cleared. So we lose all information about the last time {\tt axionSolve()} ran. 
@@ -1675,7 +1674,7 @@ In case the mass of the axion is changed, we also need to remake  the interpolat
 %
 \begin{cpp}
 	template<class LD, const int Solver, class Method>
-	void mimes::Axion< LD, Solver, Method<LD> >::restart()
+	void mimes::Axion< LD, Solver, Method>::restart()
 \end{cpp}
 %
 Again, this function clears all member variables. So it should be used with caution.
@@ -1685,7 +1684,7 @@ Finally, there is static \cppin{mimes::Cosmo<LD>} member variable
 %
 \begin{cpp}
 	template<class LD, const int Solver, class Method>
-	static mimes::Cosmo<LD> mimes::Axion< LD, Solver, Method<LD> >::plasma
+	static mimes::Cosmo<LD> mimes::Axion< LD, Solver, Method >::plasma
 \end{cpp}
 %
 This variable can be used without an instance of the \cppin{mimes::Axion<LD,Solver,Method>} class.

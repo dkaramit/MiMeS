@@ -1,0 +1,7 @@
+template<class LD, const int Solver, class Method>
+mimes::Axion<LD, Solver, Method>(LD theta_i, LD fa, LD umax, LD TSTOP, 
+            LD ratio_ini, unsigned int N_convergence_max, LD convergence_lim, 
+            std::string inputFile, AxionMass<LD> *axionMass, LD initial_step_size=1e-2, 
+            LD minimum_step_size=1e-8, LD maximum_step_size=1e-2,  
+            LD absolute_tolerance=1e-8, LD relative_tolerance=1e-8, LD beta=0.9,  
+            LD fac_max=1.2, LD fac_min=0.8, unsigned int maximum_No_steps=10000000)

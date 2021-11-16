@@ -1,0 +1,2 @@
+template<class LD>
+mimes::AxionMass<LD>(std::string chi_PATH, LD minT=0, LD maxT=mimes::Cosmo::mP)

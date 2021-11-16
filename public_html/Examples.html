@@ -1,34 +1,152 @@
 <html>
     <head>
         <title>MiMeS: Examples</title>
+        <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
     </head>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&display=swap');
-        code {
-            white-space: normal;
-            background-color: rgb(66, 66, 66);
-            color: rgb(255, 251, 251);
-            border: 1px solid rgb(140, 0, 255);
-            display: block;
-            padding: 1px;
-            width: 50%;
-            /* height: 20px; */
-            font-family: 'Source Code Pro', monospace;
-        }
-
-        inCode {font-family: 'Source Code Pro', monospace;}
-        p { 
-            text-align:left;
-            width: 75%;
-         }
+        code {font-family: 'Source Code Pro', monospace; color: rgb(0,0,0);}
     </style>
     <body style="background-color:rgb(255, 255, 255);">
         <h2>MiMeS examples</h2>
         <p>This page is a work in progress...</p>
         
-        <p>There are several examples in <inCode>MiMeS/UserSpace</inCode>. However, the simplest ones in the form of jupyter-notebooks.
-        For example, see how to use MiMeS in order to calculate the axion relic abundance and plot several things <a href="Axion.html">here</a>.</p>
 
+        <section>
+            <h2>C++ example</h2>
+            <p>Write the following in a subdirectory of <code>MiMeS</code> (e.g. in <code>MiMeS/UserSpace/example.cpp</code>).</p>
+
+            <pre><code class="prettyprint">
+        #include &lt iomanip &gt
+        #include"MiMeS.hpp"
+        
+        using numeric = long double;//make life easier if you want to change to double
+        
+        int main(){
+            mimes::util::Timer _timer_;//use this to time it!
+        
+            // use chi_PATH to interpolate the axion mass.
+            mimes::AxionMass &lt numeric &gt axionMass(chi_PATH,0,mimes::Cosmo &lt numeric &gt::mP);
+        
+            /*set $\maT^2$ for $T\geq T_{\rm max}$*/
+            numeric TMax=axionMass.getTMax(), chiMax=axionMass.getChiMax();    
+        
+            axionMass.set_ma2_MAX(
+                [&chiMax,&TMax](numeric T, numeric fa){ return chiMax/fa/fa*std::pow(T/TMax,-8.16);}
+            );  
+        
+            /*set $\maT^2$ for $T\leq T_{\rm min}$*/
+            numeric TMin=axionMass.getTMin(), chiMin=axionMass.getChiMin();    
+        
+            axionMass.set_ma2_MIN( 
+                [&chiMin,&TMin](numeric T, numeric fa){ return chiMin/fa/fa;}
+            );		
+        
+            /*this path contains the cosmology*/
+            std::string inputFile = std::string(rootDir)+
+                std::string("/UserSpace/InputExamples/MatterInput.dat");
+        
+            /*declare an instance of Axion*/
+            mimes::Axion &lt numeric, 1, RODASPR2 &lt numeric &gt &gt ax(0.1, 1e16, 500, 1e-4, 1e3, 10, 1e-2, 
+                            inputFile, &axionMass, 1e-2, 1e-8, 1e-2, 1e-10, 1e-10, 0.85, 1.5, 0.85,
+                            int(1e7) );
+            /*solve the EOM!*/
+            ax.solveAxion();
+        
+            std::cout<<std::setprecision(5)
+            <<"theta_i="<<ax.theta_i<<std::setw(25)<<"f_a="<<ax.fa<<" GeV\n"<<"theta_osc~="<<ax.theta_osc
+            <<std::setw(20)<<"T_osc~="<<ax.T_osc<<"GeV \n"<<"Omega h^2="<<ax.relic<<"\n";
+            
+            return 0;
+        }
+    </code></pre>
+            
+            <br>
+            <br>
+            <br>
+            <p>This code can be compiled using <code>g++ -lm -std=c++17 -I../ example.cpp -O3 -o example.run</code>, which should create an executable <code>example.run</code>.
+            This, in turn, is run simply as <code>./example.run</code>, and should print something like:</p>
+                <pre><code> 
+                    theta_i=0.1                     f_a=1e+16 GeV
+                    theta_osc~=0.045618             T_osc~=0.059194GeV 
+                    Omega h^2=0.1224
+                    0.0389824
+                </code></pre>
+        </section>
+
+
+        <section>
+            <h2>Python example</h2>
+            <p>Write the following in a subdirectory of <code>MiMeS</code> (e.g. in <code>MiMeS/UserSpace/example.py</code>).</p>
+
+            <pre><code class="prettyprint">
+        #you need these in order to print the time it took to run main in stderr
+        from time import time; 
+        from sys import stderr 
+        
+        #add the relative path for MiMeS/src (we assume here that this script is one birectory below the root of MiMeS)
+        from sys import path as sysPath; sysPath.append(&#39;../src&#39;)   
+        
+        from interfacePy.AxionMass import AxionMass #import the AxionMass class
+        from interfacePy.Axion import Axion #import the Axion class
+        from interfacePy.Cosmo import mP #import the Planck mass from Cosmo
+        
+        def main():
+        
+            # AxionMass instance
+            axionMass = AxionMass(r&#39;../src/data/chi.dat&#39;,0,mP)
+        
+            # define $\maT^2$ for $T\leq T_{\rm min}$
+            TMin, chiMin=axionMass.getTMin(), axionMass.getChiMin()
+            
+            axionMass.set_ma2_MIN( lambda T,fa: chiMin/fa/fa )
+        
+            # define $\maT^2$ for $T\geq T_{\rm max}$
+            TMax, chiMax=axionMass.getTMax(), axionMass.getChiMax()
+        
+            axionMass.set_ma2_MAX( lambda T,fa: chiMax/fa/fa*pow(TMax/T,8.16))
+        
+            #in python it is more convenient to use relative paths
+            inputFile=&quot;../UserSpace/InputExamples/MatterInput.dat&quot;  
+        
+            ax = Axion(0.1, 1e16, 500, 1e-4, 1e3, 10, 1e-2, inputFile, axionMass, 
+                1e-2, 1e-8, 1e-2, 1e-10, 1e-10, 0.85, 1.5, 0.85, int(1e7))
+                
+            ax.solveAxion()
+        
+            print(&quot; theta_i=&quot;,ax.theta_i,&quot;\t\t\t\t&quot;,&quot;f_a=&quot;,ax.fa,&quot; GeV\n&quot;,&quot;theta_osc~=&quot;,
+                    ax.theta_osc,&quot;\t&quot;,&quot;T_osc~=&quot;,ax.T_osc,&quot;GeV \n&quot;,&quot;Omega h^2=&quot;,ax.relic)
+        
+            #once we are done we should run the destructor
+            del ax,axionMass
+        
+        if __name__ == &#39;__main__&#39;:
+            _=time()
+            main()
+            print(round(time()-_,3),file=stderr)
+        </code></pre>
+        
+                <br>
+                <br>
+                <br>
+                <p>
+                <div>This script is simply run as <code>python example.py</code>. The output should look like:
+                
+                    <pre><code> 
+                        theta_i= 0.1                            f_a= 1e+16  GeV
+                        theta_osc~= 0.04561752103101018         T_osc~= 0.05919445773033808 GeV 
+                        Omega h^2= 0.12239928594726415
+                    0.059    
+                    </code></pre>
+                </div>
+                </p>
+                
+        </section>
+
+
+
+
+        
     </body>
 
 

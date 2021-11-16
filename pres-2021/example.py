@@ -26,7 +26,7 @@ def main():
     inputFile="../UserSpace/InputExamples/MatterInput.dat"  
 
     ax = Axion(0.1, 1e16, 500, 1e-4, 1e3, 10, 1e-2, inputFile, axionMass, 
-        1e-2, 1e-8, 1e-2, 1e-10, 1e-10, 0.8, 1.5, 0.85, int(1e7))
+        1e-2, 1e-8, 1e-2, 1e-10, 1e-10, 0.85, 1.5, 0.85, int(1e7))
 
     ax.solveAxion()
 

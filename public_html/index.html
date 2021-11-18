@@ -1,21 +1,8 @@
-
-<html>
-    <head>
-        <title>MiMeS</title>
-        <script src=https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js></script>
-        <script type=module src=https://cdn.jsdelivr.net/gh/zerodevx/zero-md@2/dist/zero-md.min.js></script>
-    </head>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&display=swap');
-        code {font-family: 'Source Code Pro', monospace; color: rgb(0,0,0);}
-    </style>
-    
-    <body style=background-color:rgb(255, 255, 255);>
-
+<html> <head> <title>MiMeS</title> <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script> <script type="module" src="https://cdn.jsdelivr.net/gh/zerodevx/zero-md@2/dist/zero-md.min.js"></script> </head> <style> @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&display=swap'); code {font-family: 'Source Code Pro', monospace; color: rgb(0,0,0);} </style> <body style="background-color:rgb\(255, 255, 255\)\;">
 <h1 id="welcome-to-the-hepforge-page-of-mimes">Welcome to the HEPForge page of MiMeS</h1>
 <p>This page is a work in progress…</p>
 <p>For the moment, you can read the <a href="https://github.com/dkaramit/MiMeS/blob/stable/README.md">RADME</a> file on github. Also, have a look at the documentation, which should be available on <a href="https://arxiv.org/abs/2110.12253">arXiv</a>. The documentation is updated regularly, so it is a good idea to get it directly from the <a href="https://github.com/dkaramit/MiMeS/blob/stable/MiMeS.pdf">MiMeS</a> github repository.</p>
-<h3 id="get-mimes">Get MiMeS</h3>
+<h2 id="get-mimes">Get MiMeS</h2>
 <p>There are several way to get MiMeS:</p>
 <li>
 Verison 1.0.0 is available on hepforge, and can be download it by running <code>wget -c https://mimes.hepforge.org/downloads/MiMeS-1.0.0.tar.gz -O - | tar -xz</code>.
@@ -23,39 +10,14 @@ Verison 1.0.0 is available on hepforge, and can be download it by running <code>
 <li>
 In order to get the most updated stable version run <code>git clone -b stable https://github.com/dkaramit/MiMeS.git</code>.
 </li>
-<h3 id="files-that-you-need-to-know-of">Files that you need to know of</h3>
-<p>MiMeS is written in order to be as general and as simple to use as possible. For this reason, there is a file in <code>MiMeS/Paths.mk</code> where the user can provide paths to the files needed. The file paths are given in terms of the variables <code>cosmoDat</code>, <code>axMDat</code>, and <code>anFDat</code>; corresponding to the data for the relativistic degrees of freedom (RDOF), axion mass, and the anharmonic factor. MiMeS, by default uses the RDOF tabulated in <a href="https://arxiv.org/abs/2005.03544">2005.03544</a>, the data for the axion mass as given in <a href="https://arxiv.org/abs/1606.07494">1606.07494</a>, and a few data points for the anharmonic factor, in order to avoid computing the same integral every time MiMeS is called. It is worth noting, that the axion mass data file path can be omitted if the user intends to define a function that does not need any data.</p>
-<p>These paths are stored as strings in <code>MiMeS/src/misc_dir/path.hpp</code> when <code>bash configure.sh</code> is run. They can be changed by changing the following variables in <code>MiMeS/Paths.mk</code>:</p>
-<ol type="1">
-<li><code>cosmoDat</code>: Relative path to data file with <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math> (in GeV), <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>h</mi><mrow><mi>e</mi><mi>f</mi><mi>f</mi></mrow></msub><annotation encoding="application/x-tex">h_{eff}</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>g</mi><mrow><mi>e</mi><mi>f</mi><mi>f</mi></mrow></msub><annotation encoding="application/x-tex">g_{eff}</annotation></semantics></math>.</li>
-<li><code>axMDat</code>: Relative path to data file with <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math> (in <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mi>e</mi><mi>V</mi></mrow><annotation encoding="application/x-tex">{GeV}</annotation></semantics></math>) and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>χ</mi><mo stretchy="false" form="prefix">(</mo><mi>T</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\chi(T)</annotation></semantics></math> (in <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mrow><mi>G</mi><mi>e</mi><mi>V</mi></mrow><mn>4</mn></msup><annotation encoding="application/x-tex">{GeV}^4</annotation></semantics></math>). This variable can be ommitted if the user indents to define all masses via functions.</li>
-<li><code>anFDat</code>: Relative path to data file with <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>θ</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">\theta_{max}</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>θ</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">f(\theta_{max})</annotation></semantics></math>.</li>
-</ol>
-<p>It is advisable that if the paths change <code>bash configure.sh</code> and <code>make</code> should be run.</p>
-<p><strong><em>Important</em></strong>: The axion mass is assumed to be a function of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mi>a</mi></msub><annotation encoding="application/x-tex">f_a</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>. Especially, when it is defined from a file, it is assumed to be of the form <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mover><mi>m</mi><mo accent="true">̃</mo></mover><mi>a</mi><mn>2</mn></msubsup><mo stretchy="false" form="prefix">(</mo><mi>T</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mstyle displaystyle="true"><mfrac><mrow><mi>χ</mi><mo stretchy="false" form="prefix">(</mo><mi>T</mi><mo stretchy="false" form="postfix">)</mo></mrow><msubsup><mi>f</mi><mi>a</mi><mn>2</mn></msubsup></mfrac></mstyle><mspace width="0.278em"></mspace><mi>.</mi></mrow><annotation encoding="application/x-tex">
-    \tilde{m}_{a}^{2}(T)=\dfrac{\chi(T)}{f_a^2} \;.
-</annotation></semantics></math> Therefore, in a model where there is no <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mi>a</mi></msub><annotation encoding="application/x-tex">f_a</annotation></semantics></math>, the user may use <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>a</mi></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">f_a=1</annotation></semantics></math>.</p>
-<h3 id="template-arguments-and-compile-time-options">Template arguments and compile-time options</h3>
-<p>You need to choose what numeric type to use. This is done by the template argument <code>LD</code> which should be <code>double</code> (fast) or <code>long double</code> (accurate).</p>
-<p>You also need to tell <code>MiMeS</code> which integration strategy to use. This is done by choosing template arguments:</p>
-<ol type="1">
-<li><code>Solver</code> can be set to <code>1</code> for Rosenbrock (semi-implicit Runge-Kutta). The <code>Method</code> argument in this case can be:
-<ol type="a">
-<li><code>RODASPR2&lt;LD&gt;</code> (4th order).</li>
-<li><code>ROS34PW2&lt;LD&gt;</code> (3rd order).</li>
-<li><code>ROS3W&lt;LD&gt;</code> (2rd order, <strong><em>very</em></strong> bad).</li>
-</ol></li>
-<li><code>Solver can be set to 2</code> for explicit RK. The <code>Method</code> argument can be:
-<ol type="a">
-<li><code>DormandPrinceRK45&lt;LD&gt;</code> (7th order)</li>
-<li><code>CashKarpRK45&lt;LD&gt;</code> (5th order, <strong><em>very</em></strong> bad).</li>
-<li><code>RK45&lt;LD&gt;</code> (5th order, <strong><em>very</em></strong> bad).</li>
-</ol></li>
-</ol>
-<h3 id="configuring-mimes">Configuring MiMeS</h3>
-Once everything is set, move to the root directory of MiMeS (i.e. <code>MiMeS</code>), and run
-<pre><code class="prettyprint">bash configure.sh</code></pre>
-
-</body>
-</html>
-
+<p>Once downloaded, you can run <code>bash configure</code> and <code>make</code>. This will compile the shared libraries needed to run <code>MiMeS</code> in python, as well as several examples that can be found in <code>MiMeS/UserSpace</code>. You can also some simple examples <a href="Examples.html">here</a>.</p>
+<h2>
+Go to <a href="compile_time.html">Compile-time choices</a>
+</h2>
+<h2>
+Go to <a href="classes_cpp.html"><code>C++</code> classes</a>
+</h2>
+<h2>
+Go to <a href="classes_py.html"><code>Python</code> classes</a>
+</h2>
+</body> </html>

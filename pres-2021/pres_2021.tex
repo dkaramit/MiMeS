@@ -66,21 +66,13 @@
 \vspace*{-0.5cm}
 \date{\bl{
 		\begin{figure}\vspace{-2.cm}
-			\hspace*{-8cm}\href{https://github.com/dkaramit/MiMeS}{ \includegraphics[width=2cm]{GitHub.png} }
+			\hspace*{-8cm}\href{https://github.com/dkaramit/MiMeS}{ \includegraphics[width=2.5cm]{GitHub.png} }
 		\end{figure}
-		\begin{figure}\vspace{-2.6cm}
-			\hspace*{8cm}\href{https://mimes.hepforge.org}{\includegraphics[width=2cm]{hepforge.png}}
+		\begin{figure}\vspace{-3.1cm}
+			\hspace*{8cm}\href{https://mimes.hepforge.org}{\includegraphics[width=2.5cm]{hepforge.png}}
 		\end{figure}
 		
 		23/11/2021}\\{\sl El Journal Club más Sabroso}
-	
-%	\begin{center}Avalible on:\\\bl{\href{https://github.com/dkaramit/MiMeS}{github}\\\href{https://mimes.hepforge.org}{hepforge}}\end{center} 
-
-
-
-%\includegraphics[width=2cm]{hepforge-icon.png}
-
-
 }
 
 
@@ -209,7 +201,6 @@ Axions and ALPs generally:
 	\item Non-baryonic (by definition), and of-course interact gravitationally.\pause\\[1cm]
 \end{itemize}
 
-\pause
 \begin{center}
 	{\bf \em Maybe DM has axionic nature!}	
 \end{center}
@@ -316,7 +307,6 @@ Axions and ALPs generally:
 	%
 	where $\gamma$ the amount of entropy injection between $\Tosc$ and today.~\footnote{\fontF Defined from $s(T_0) = \gamma \ \aosc^3 \ s_{\rm osc}$.}
 \end{frame}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\subsection{I feel a need... need for accuracy (and speed)}
 \subsection{Need for accuracy, speed, and automation}
@@ -329,37 +319,104 @@ Axions and ALPs generally:
 		\item There is no available tool that can help us reproduce published results obtained by numerical integration; people use their own {\bf \em private} code. %peer-review process?
 		\item If someone wants to simply see if an ALP model is compatible with a cosmological scenario, they have to develop their own private code; the overall effort of the community increases.
 	\end{itemize}
-
-	\mimes:
-	% 
-	\begin{itemize}
-		\item {\sl Easy} to use; anyone can run it and see if their model can work.
-		\item Reasonably fast; less than $0.05 \; s$ for the scenarios tested.
-		\item Tools that can help determine if the algorithm is accurate enough.
-		\item The user provides too much input. This helps the user determine whether convergence of the algorithm is consistent. 
-	\end{itemize}
-
+	
+	
 \end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Ingredients for numerical integration: Adiabatic invariant}
+\begin{frame}{\insertsubsectionhead}
+	%
+	If a system exhibits closed orbits, the quantity
+	%
+	\begin{equation*}
+		J \equiv C \ \oint p \ d \theta \;,
+	\end{equation*}
+	%
+	is the adiabatic invariant. In this case, it becomes
+	%
+	\begin{equation*}
+		J = a^3 \ \maT \ \thetamax^2  \, f(\thetamax)  \;,
+	\end{equation*}
+	%
+	with 
+	\begin{equation*}
+		f(\thetamax) =\dfrac{ 2 \sqrt{2}}{\pi \thetamax^2 } \dint_{- \thetamax}^{\thetamax} d \theta \sqrt{ \cos \theta - \cos \thetamax } \;,
+	\end{equation*}
+	%
+	the so-called anharmonic factor.\pause
+	
+	\textbf{Important}: $\thetamax$ is the peak of the oscillation. So, $J$ can be used to determine how $\thetamax$ changes with time. By definition, at $\theta=\thetamax$, $p \sim \dot \theta = 0$.
+	This means that we can find $\rho_{a,0}$ on the peak of today's $\theta$, as
+	%
+	\begin{equation*}
+		\rho_{a,0} = \gamma^{-1} \ \dfrac{s_0}{s_*} \ \ma \ \maT_{,*} \ \dfrac{1}{2} \ \fa^2 \ \thetamax_{,*}^2 \;  \ f(\thetamax_{,*}) \;,
+	\end{equation*}
+	%
+	where $T_{*}$ the temperature at which adiabaticity was reached, and $\gamma$ the entropy injection between $T_*$ and today (\ie $s_0 = \gamma a_*^3 s_*$). 	  
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Ingredients for numerical integration: Integration limits}
+\begin{frame}{\insertsubsectionhead}
+	%
+	The starting condition should be: 
+	\begin{itemize}
+		\item At a point with $\dot \theta=0$.
+		\item At some $\Ti$ with $3H(\Ti)/\maT(\Ti) \gg 1$.
+		\item Such that the evolution of $\theta$ is the same for any other starting point with $T>\Ti$.
+		\item {\em User defined, so that we can change it the cosmology.}
+	\end{itemize}
+	
+	The stopping condition should be:
+	\begin{itemize}
+		\item At a point, $T = T_*$, with $\Delta J/J \leq \epsilon \ll 1$.
+		\item Such that the evolution of $\theta$ is the same for any other end point with $T<T_*$.
+		\item {\em User defined, so that we can change it the cosmology.}
+	\end{itemize}
+	
+	
+	
+	
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{\mimes}
-\subsection{\mimes: General}
+\subsection{\mimes: Why?}
 \begin{frame}{\insertsubsectionhead}
-%
-%From the software point of view:\pause
-%
-\begin{itemize}
-	\item \mimes is a \CPP header-only library that contains various templated classes; there is no ``installation" and no special procedures, just include the header files. \pause
-	%
-	\item \mimes comes with a \PY interface so that everybody can use it.\pause
-	%
-	\item \mimes is distributed under the MIT license; you can do whatever you want with it, and I am {\em not} responsible.\pause
-\end{itemize}
+	We need accurate code that solves the EOM, but most importantly we need {\sl Reproducible} results! \\[1cm]
+	
+	\mimes is:
+	% 
+	\begin{itemize}
+		\item \mimes is a \CPP header-only library that contains various templated classes; there is no ``installation" and no special procedures, just include the header files. 
+		%
+		\item \mimes comes with a \PY interface so that everybody can use it.
+		%
+		\item \mimes is distributed under the MIT license; you can do whatever you want with it, and I am {\em not} responsible.\\[1.cm]
+	\end{itemize}
 
+	\mimes also
+	% 
+	\begin{itemize}
+		\item Is {\sl easy} to use; anyone can run it and see if their model can work or check against the literature.
+		\item Is reasonably fast; less than $0.05 \; s$ for the scenarios tested.
+		\item Provides full access to results and their errors, which can help determine if the results are accurate.
+		\item Asks the user to decide when to start, stop, and when adiabaticity is reached; {\em no guesses anywhere}! 
+	\end{itemize}
 
+	
+	
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsection{\mimes: Under the hood}
 \begin{frame}{\insertsubsectionhead}
 	%
@@ -388,20 +445,13 @@ Axions and ALPs generally:
 	%
 	\vspace{-0.2cm}
 	\mimes uses a notation suitable (any) underlying cosmology, since it is up to the user to define the cosmological evolution.	
+	
 	First, we define 
 	\begin{equation*}\vspace{-0.2cm}
 		u \equiv \log \lrb{a/\ai}\;,
 	\end{equation*} 
 	%
-	with $\ai$ some initial value of the scale factor.~\footnote{\fontF Only the ratios $a/\ai$ appear in the calculations. So, the choice does not matter as long as it is consistent.} in order to express the time derivatives as 
-	%
-	\begin{equation*}
-		\dfrac{d  }{dt}  \to  H  \dfrac{d }{du} \;, 
-		 \quad
-		\dfrac{d^2 }{dt^2}  \to H^2 \ \lrb{ \dfrac{d^2 }{du^2} + \dfrac{1}{2} \dfrac{d \log H^2}{du}  \dfrac{d }{du} }\;.
-	\end{equation*}
-	%
-	Then, we express the EOM as a system of first order ordinary differential equations
+	with $\ai$ some initial value of the scale factor.~\footnote{\fontF Only the ratios $a/\ai$ appear in the calculations.}	Then, the EOM becomes
 	%
 	\begin{eqnarray*}\vspace*{-0.5cm}
 		& \dfrac{d  \zeta}{du} + \lrsb{\dfrac{1}{2} \dfrac{d \log H^2}{du} + 3 } \zeta + \ \lrb{\dfrac{\maT}{H}}^2 \ \sin \theta
@@ -409,49 +459,15 @@ Axions and ALPs generally:
 		&\dfrac{d \theta}{d u} - \zeta=0 \;.
 	\end{eqnarray*}\\[-0.2cm]
 	%
-	Observe that, by definition, $\zeta = d\theta / du$. The initial conditions are $\zeta(0)=0$ and $\theta(0)=\thetai$.
+	The initial conditions are $\zeta(0)=0$ and $\theta(0)=\thetai$.\\[1cm]\pause
+	
+	\begin{center}
+		{\em This is the same notation as in the code} $\Rightarrow$ {\em You can change it easily.}
+	\end{center}
+	
 	
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\mimes: When do you start and stop integrating?}
-\begin{frame}{\insertsubsectionhead}
-	%
-	The choice of a good starting point is important, as need to start at a temperature where $\zeta=0$ is a good approximation. So you can start at some $\Ti$ with a given ratio $3H(\Ti)/\maT(\Ti) \gg 1$.  This needs to be chosen carefully, as low values of $3H(\Ti)/\maT(\Ti)$ result in inaccurate result, while high values may result in a slow calculation. {\sl Advice}: Use various values of that ratio, and find where the relic abundance becomes $\Ti$-independent.\\[0.5cm]
-	
-	The stopping condition is more difficult. You should stop at some point where the axion/ALP evolves "adiabatically". Find a quantity that becomes constant as the system relaxes, and use this to determine when adiabaticity is reached. Once $\theta$ starts to evolve adiabatically, the amplitude of its oscillation is known at later times!
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\mimes: Some (classical) physics}
-\begin{frame}{\insertsubsectionhead}
-	%
-	If a system exhibits closed orbits, the quantity
-	%
-	\begin{equation*}
-		J \equiv C \ \oint p \ d \theta \;,
-	\end{equation*}
-	%
-	is the adiabatic invariant. In this case, it becomes
-	%
-	\begin{equation*}
-		J = a^3 \ \maT \ \thetamax^2  \, f(\thetamax)  \;,
-	\end{equation*}
-	%
-	with 
-	\begin{equation*}
-		f(\thetamax) =\dfrac{ 2 \sqrt{2}}{\pi \thetamax^2 } \dint_{- \thetamax}^{\thetamax} d \theta \sqrt{ \cos \theta - \cos \thetamax } \;,
-	\end{equation*}
-	 %
-	 the so-called anharmonic factor.\pause
-		 
-	\textbf{Important}: $\thetamax$ is the peak of the oscillation. So, $J$ can be used to determine how $\thetamax$ changes with time. By definition, at $\theta=\thetamax$, $p \sim \dot \theta = 0$.
-	This means that we can find $\rho_{a,0}$ on the peak of today's $\theta$, as
-	%
-	\begin{equation*}
-		\rho_{a,0} = \gamma^{-1} \ \dfrac{s_0}{s_*} \ \ma \ \maT_{,*} \ \dfrac{1}{2} \ \fa^2 \ \thetamax_{,*}^2 \;  \ f(\thetamax_{,*}) \;,
-	\end{equation*}
-	%
-	where $T_{*}$ the temperature at which adiabaticity was reached, and $\gamma$ the entropy injection between $T_*$ and today (\ie $s_0 = \gamma a_*^3 s_*$). 	  
-\end{frame}
 
 \section{Using \mimes}
 
@@ -500,7 +516,7 @@ Axions and ALPs generally:
 
 \subsection{Classes}
 \begin{frame}[fragile]{\insertsubsectionhead}
-	There are three classes useful to the user.~\footnote{\fontF There are various arguments that need to be passed to the constructors, and the are all listed and explained in the Appendix of the documentation.}
+	There are three classes useful to the user.~\footnote{\fontF There are various arguments that need to be passed to the constructors, and the are all listed and explained in the Appendix of the documentation.}\pause
 	%
 	\begin{itemize}
 	\item \cppin{mimes::Cosmo<LD>}: interpolation of relativistic degrees of freedom of the plasma. By default it uses the EOS2020~\footnote{\fontF 
@@ -542,10 +558,10 @@ Axions and ALPs generally:
 
 \subsection{What \mimes expects from you}
 \begin{frame}[fragile]{\insertsubsectionhead}
-	Apart from $\thetai$ and $\fa$, keep in mind that \mimes needs:
+	Apart from $\thetai$ and $\fa$, keep in mind that \mimes needs:\pause
 	%
 	\begin{enumerate}
-		\item The mass of the axion/ALP. A data file or an actual function.
+		\item The mass of the axion/ALP. A data file or an actual function.\pause
 		\item Data file with $\log a/a_i$ ($a_i$ is some arbitrary value; \mimes rescales it appropriately), $T$, and $\log H$ of the underlying cosmology.\pause
 		\item Value for $3H/\maT \gg 1$, which defines the point where integration begins.\pause
 		\item Relative difference of $J$ between a given number of peaks at which we consider adiabaticity to have been reached.\pause
@@ -573,7 +589,7 @@ Axions and ALPs generally:
 		\item \cppin{Solver} can be set to \cppin{2} for explicit RK.
 		The \cppin{Method} argument can be:\\[-0.0cm]
 		\begin{itemize}
-			\item \cppin{DormandPrinceRK45<LD>} (7th order)
+			\item \cppin{DormandPrince<LD>} (7th order)
 			\item \cppin{CashKarpRK45<LD>} (5th order, {\em very} bad).
 			\item \cppin{RK45<LD>} (5th order, {\em very} bad).
 		\end{itemize}	

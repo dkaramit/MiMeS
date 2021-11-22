@@ -23,14 +23,14 @@ def main():
     axionMass.set_ma2_MAX( lambda T,fa: chiMax/fa/fa*pow(TMax/T,8.16))
 
     #in python it is more convenient to use relative paths
-    inputFile="../UserSpace/InputExamples/MatterInput.dat"  
+    inputFile="../UserSpace/InputExamples/MatterInput.dat" 
 
     ax = Axion(0.1, 1e16, 500, 1e-4, 1e3, 10, 1e-2, inputFile, axionMass, 
         1e-2, 1e-8, 1e-2, 1e-10, 1e-10, 0.85, 1.5, 0.85, int(1e7))
 
     ax.solveAxion()
 
-    print(" theta_i=",ax.theta_i,"\t\t\t\t","f_a=",ax.fa," GeV\n","theta_osc~=",
+    print("theta_i=",ax.theta_i,"\t\t\t\t","f_a=",ax.fa,"GeV\n","theta_osc~=",
             ax.theta_osc,"\t","T_osc~=",ax.T_osc,"GeV \n","Omega h^2=",ax.relic)
 
     #once we are done we should run the destructor

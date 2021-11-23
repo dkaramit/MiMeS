@@ -324,74 +324,13 @@ Axions and ALPs generally:
 \end{frame}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Ingredients for numerical integration: Adiabatic invariant}
-\begin{frame}{\insertsubsectionhead}
-	%
-	If a system exhibits closed orbits, the quantity
-	%
-	\begin{equation*}
-		J \equiv C \ \oint p \ d \theta \;,
-	\end{equation*}
-	%
-	is the adiabatic invariant. In this case, it becomes
-	%
-	\begin{equation*}
-		J = a^3 \ \maT \ \thetamax^2  \, f(\thetamax)  \;,
-	\end{equation*}
-	%
-	with 
-	\begin{equation*}
-		f(\thetamax) =\dfrac{ 2 \sqrt{2}}{\pi \thetamax^2 } \dint_{- \thetamax}^{\thetamax} d \theta \sqrt{ \cos \theta - \cos \thetamax } \;,
-	\end{equation*}
-	%
-	the so-called anharmonic factor.\pause
-	
-	\textbf{Important}: $\thetamax$ is the peak of the oscillation. So, $J$ can be used to determine how $\thetamax$ changes with time. By definition, at $\theta=\thetamax$, $p \sim \dot \theta = 0$.
-	This means that we can find $\rho_{a,0}$ on the peak of today's $\theta$, as
-	%
-	\begin{equation*}
-		\rho_{a,0} = \gamma^{-1} \ \dfrac{s_0}{s_*} \ \ma \ \maT_{,*} \ \dfrac{1}{2} \ \fa^2 \ \thetamax_{,*}^2 \;  \ f(\thetamax_{,*}) \;,
-	\end{equation*}
-	%
-	where $T_{*}$ the temperature at which adiabaticity was reached, and $\gamma$ the entropy injection between $T_*$ and today (\ie $s_0 = \gamma a_*^3 s_*$). 	  
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Ingredients for numerical integration: Integration limits}
-\begin{frame}{\insertsubsectionhead}
-	%
-	The starting condition should be: 
-	\begin{itemize}
-		\item At a point with $\dot \theta=0$.
-		\item At some $\Ti$ with $3H(\Ti)/\maT(\Ti) \gg 1$.
-		\item Such that the evolution of $\theta$ is the same for any other starting point with $T>\Ti$.
-		\item {\em User defined, so that we can change it the cosmology.}
-	\end{itemize}
-	
-	The stopping condition should be:
-	\begin{itemize}
-		\item At a point, $T = T_*$, with $\Delta J/J \leq \epsilon \ll 1$.
-		\item Such that the evolution of $\theta$ is the same for any other end point with $T<T_*$.
-		\item {\em User defined, so that we can change it the cosmology.}
-	\end{itemize}
-	
-	
-	
-	
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{\mimes}
 \subsection{\mimes: Why?}
 \begin{frame}{\insertsubsectionhead}
-	We need accurate code that solves the EOM, but most importantly we need {\sl Reproducible} results! \\[1cm]
+	We need accurate code that solves the EOM, but most importantly we need {\sl reproducible} results! \\[0.5cm]
 	
 	\mimes is:
 	% 
@@ -400,7 +339,7 @@ Axions and ALPs generally:
 		%
 		\item \mimes comes with a \PY interface so that everybody can use it.
 		%
-		\item \mimes is distributed under the MIT license; you can do whatever you want with it, and I am {\em not} responsible.\\[1.cm]
+		\item \mimes is distributed under the MIT license; you can do whatever you want with it, and I am {\em not} responsible.\\[0.1cm]
 	\end{itemize}
 
 	\mimes also
@@ -467,6 +406,66 @@ Axions and ALPs generally:
 	
 	
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\subsection{Ingredients for numerical integration: Adiabatic invariant}
+%\begin{frame}{\insertsubsectionhead}
+%	%
+%	If a system exhibits closed orbits, the quantity
+%	%
+%	\begin{equation*}
+%		J \equiv C \ \oint p \ d \theta \;,
+%	\end{equation*}
+%	%
+%	is the adiabatic invariant. In this case, it becomes
+%	%
+%	\begin{equation*}
+%		J = a^3 \ \maT \ \thetamax^2  \, f(\thetamax)  \;,
+%	\end{equation*}
+%	%
+%	with 
+%	\begin{equation*}
+%		f(\thetamax) =\dfrac{ 2 \sqrt{2}}{\pi \thetamax^2 } \dint_{- \thetamax}^{\thetamax} d \theta \sqrt{ \cos \theta - \cos \thetamax } \;,
+%	\end{equation*}
+%	%
+%	the so-called anharmonic factor.\pause
+%	
+%	\textbf{Important}: $\thetamax$ is the peak of the oscillation. So, $J$ can be used to determine how $\thetamax$ changes with time. By definition, at $\theta=\thetamax$, $p \sim \dot \theta = 0$.
+%	This means that we can find $\rho_{a,0}$ on the peak of today's $\theta$, as
+%	%
+%	\begin{equation*}
+%		\rho_{a,0} = \gamma^{-1} \ \dfrac{s_0}{s_*} \ \ma \ \maT_{,*} \ \dfrac{1}{2} \ \fa^2 \ \thetamax_{,*}^2 \;  \ f(\thetamax_{,*}) \;,
+%	\end{equation*}
+%	%
+%	where $T_{*}$ the temperature at which adiabaticity was reached, and $\gamma$ the entropy injection between $T_*$ and today (\ie $s_0 = \gamma a_*^3 s_*$). 	  
+%\end{frame}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\subsection{Ingredients for numerical integration: Integration limits}
+%\begin{frame}{\insertsubsectionhead}
+%	%
+%	The starting condition should be: 
+%	\begin{itemize}
+%		\item At a point with $\dot \theta=0$.
+%		\item At some $\Ti$ with $3H(\Ti)/\maT(\Ti) \gg 1$.
+%		\item Such that the evolution of $\theta$ is the same for any other starting point with $T>\Ti$.
+%		\item {\em User defined, so that we can change it the cosmology.}
+%	\end{itemize}
+%	
+%	The stopping condition should be:
+%	\begin{itemize}
+%		\item At a point, $T = T_*$, with $\Delta J/J \leq \epsilon \ll 1$.
+%		\item Such that the evolution of $\theta$ is the same for any other end point with $T<T_*$.
+%		\item {\em User defined, so that we can change it the cosmology.}
+%	\end{itemize}
+%	
+%	
+%	
+%	
+%\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Using \mimes}
@@ -540,31 +539,7 @@ Axions and ALPs generally:
 	
 \end{frame}
 
-\subsection{Classes}
-\begin{frame}[fragile]{\insertsubsectionhead}
-	There are three classes useful to the user.~\footnote{\fontF There are various arguments that need to be passed to the constructors, and the are all listed and explained in the Appendix of the documentation.}\pause
-	%
-	\begin{itemize}
-		\item \cppin{mimes::Cosmo<LD>}: interpolation of relativistic degrees of freedom of the plasma. By default it uses the EOS2020~\footnote{\fontF 
-			\bl{K.~Saikawa and S.~Shirai,
-				\href{https://doi.org/10.1088/1475-7516/2020/08/011}{JCAP \textbf{08} (2020), 011}
-				\href{https://arxiv.org/abs/2005.03544}{[arXiv:2005.03544 [hep-ph]]}.}
-		} data. The user can choose another file easily.
-		%
-		\pause
-		%
-		\item \cppin{mimes::AxionMass<LD>}: definition of axion/ALP mass as a function of the temperature and $\fa$. \mimes is shipped with data from Lattice calculation~\footnote{\fontF \bl{
-				S.~Borsanyi, Z.~Fodor, J.~Guenther, K.~H.~Kampert, S.~D.~Katz, T.~Kawanai, T.~G.~Kovacs, S.~W.~Mages, A.~Pasztor and F.~Pittler, \textit{et al.}
-				\href{https://doi.org/10.1038/nature20115}{Nature \textbf{539} (2016) no.7627, 69-71}
-				\href{https://arxiv.org/abs/1606.07494}{[arXiv:1606.07494 [hep-lat]]}.}} of the QCD axion mass.
-		%
-		\pause
-		%	
-		\item \cppin{mimes::Axion<LD,Solver,Method>}: This is responsible for actually solving the EOM.
-	\end{itemize}
-	
-	
-\end{frame}
+
 
 
 \subsection{Template arguments}

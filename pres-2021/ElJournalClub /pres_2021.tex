@@ -58,21 +58,21 @@
 \title[]{\mimes: Misalignment Mechanism Solver}
 \author{Dimitrios Karamitros}
 \institute{
-	Manchester U.\\
-\begin{figure}\vspace{-0.0cm}
-%	\includegraphics[width=0.2\textwidth,height=0.2\textheight]{ }
-\end{figure}
+	Manchester U.
 }
 \vspace*{-0.5cm}
 \date{\bl{
-		\begin{figure}\vspace{-2.cm}
-			\hspace*{-8cm}\href{https://github.com/dkaramit/MiMeS}{ \includegraphics[width=2.5cm]{GitHub.png} }
-		\end{figure}
-		\begin{figure}\vspace{-3.1cm}
-			\hspace*{8cm}\href{https://mimes.hepforge.org}{\includegraphics[width=2.5cm]{hepforge.png}}
-		\end{figure}
 		
-		23/11/2021}\\{\sl El Journal Club más Sabroso}
+		23/11/2021}\\{\sl El Journal Club más Sabroso}\\[1cm]
+	
+	Detailed documentation:
+	\href{https://arxiv.org/abs/2110.12253}{\textbf{arXiv:2110.12253}}\\
+	Github repository:
+	\href{https://github.com/dkaramit/MiMeS}{\textbf{github.com/dkaramit/MiMeS}}\\
+	HEPForge page:
+	\href{https://mimes.hepforge.org/}{\textbf{mimes.hepforge.org}}
+	
+		
 }
 
 
@@ -540,33 +540,30 @@ Axions and ALPs generally:
 	
 \end{frame}
 
-\subsection{Assumptions}
+\subsection{Classes}
 \begin{frame}[fragile]{\insertsubsectionhead}
-	
-	\mimes is designed to make as few assumptions as possible. However, it still assumes that:\pause
+	There are three classes useful to the user.~\footnote{\fontF There are various arguments that need to be passed to the constructors, and the are all listed and explained in the Appendix of the documentation.}\pause
 	%
-	\begin{enumerate}
-		\item $H/\maT$ increases monotonically with the temperature.\pause
-		\item $\zeta(0)=0$. This will be changed in the future.\pause
-		\item The energy density of the axion/ALP is always subdominant.\pause
-		\item Only the EOM determines the energy density (no annihilations, no strings, etc.).
-	\end{enumerate}
+	\begin{itemize}
+		\item \cppin{mimes::Cosmo<LD>}: interpolation of relativistic degrees of freedom of the plasma. By default it uses the EOS2020~\footnote{\fontF 
+			\bl{K.~Saikawa and S.~Shirai,
+				\href{https://doi.org/10.1088/1475-7516/2020/08/011}{JCAP \textbf{08} (2020), 011}
+				\href{https://arxiv.org/abs/2005.03544}{[arXiv:2005.03544 [hep-ph]]}.}
+		} data. The user can choose another file easily.
+		%
+		\pause
+		%
+		\item \cppin{mimes::AxionMass<LD>}: definition of axion/ALP mass as a function of the temperature and $\fa$. \mimes is shipped with data from Lattice calculation~\footnote{\fontF \bl{
+				S.~Borsanyi, Z.~Fodor, J.~Guenther, K.~H.~Kampert, S.~D.~Katz, T.~Kawanai, T.~G.~Kovacs, S.~W.~Mages, A.~Pasztor and F.~Pittler, \textit{et al.}
+				\href{https://doi.org/10.1038/nature20115}{Nature \textbf{539} (2016) no.7627, 69-71}
+				\href{https://arxiv.org/abs/1606.07494}{[arXiv:1606.07494 [hep-lat]]}.}} of the QCD axion mass.
+		%
+		\pause
+		%	
+		\item \cppin{mimes::Axion<LD,Solver,Method>}: This is responsible for actually solving the EOM.
+	\end{itemize}
 	
 	
-\end{frame}
-
-
-\subsection{What \mimes expects from you}
-\begin{frame}[fragile]{\insertsubsectionhead}
-	Apart from $\thetai$ and $\fa$, keep in mind that \mimes needs:\pause
-	%
-	\begin{enumerate}
-		\item The mass of the axion/ALP. A data file or an actual function.\pause
-		\item Data file with $\log a/a_i$ ($a_i$ is some arbitrary value; \mimes rescales it appropriately), $T$, and $\log H$ of the underlying cosmology.\pause
-		\item Value for $3H/\maT \gg 1$, which defines the point where integration begins.\pause
-		\item Relative difference of $J$ between a given number of peaks at which we consider adiabaticity to have been reached.\pause
-		\item Other input, related to the algorithm, that might confuse you; \eg temperature at which integration stops no {\em matter what}!
-	\end{enumerate}
 \end{frame}
 
 
@@ -616,7 +613,7 @@ Axions and ALPs generally:
 			\item \cppin{CC=g++} in order to use the \cppin{GNU} \CPP compiler.
 			\item \cppin{CC=clang -lstdc++} in order to use the \cppin{clang} \CPP compiler.
 		\end{itemize}
-	\item Optimization level:
+		\item Optimization level:
 		\begin{itemize}
 			\item \cppin{OPT=O0}: No optimization. 
 			\item \cppin{O=O1}, \cppin{O2}, or \cppin{O3}: all these perform mostly the same (read the compiler documentation for more information on the optimization).
@@ -624,6 +621,34 @@ Axions and ALPs generally:
 		\end{itemize}
 	\end{itemize}
 \end{frame}
+
+\subsection{Assumptions}
+\begin{frame}[fragile]{\insertsubsectionhead}
+	
+	\mimes is designed to make as few assumptions as possible. However, it still assumes that:\pause
+	%
+	\begin{enumerate}
+		\item $H/\maT$ increases monotonically with the temperature.\pause
+		\item $\zeta(0)=0$. This will be changed in the future.\pause
+		\item The energy density of the axion/ALP is always subdominant.\pause
+		\item Only the EOM determines the energy density (no annihilations, no strings, etc.).
+	\end{enumerate}	
+\end{frame}
+
+
+\subsection{What \mimes expects from you}
+\begin{frame}[fragile]{\insertsubsectionhead}
+	Apart from $\thetai$ and $\fa$, keep in mind that \mimes needs:\pause
+	%
+	\begin{enumerate}
+		\item The mass of the axion/ALP. A data file or an actual function.\pause
+		\item Data file with $\log a/a_i$ ($a_i$ is some arbitrary value; \mimes rescales it appropriately), $T$, and $\log H$ of the underlying cosmology.\pause
+		\item Value for $3H/\maT \gg 1$, which defines the point where integration begins.\pause
+		\item Relative difference of $J$ between a given number of peaks at which we consider adiabaticity to have been reached.\pause
+		\item Other input, related to the algorithm, that might confuse you; \eg temperature at which integration stops no {\em matter what}!
+	\end{enumerate}
+\end{frame}
+
 
 
 \section{Examples}
@@ -665,7 +690,7 @@ Axions and ALPs generally:
 	\begin{itemize}
 		\item \mimes should allow the user to consider different initial value of $\zeta$; the "kinematic" \mimes might come soon.
 		\item \mimes should be able to handle non-vanishing \rhs; \ie solve the "driven" dumped time-dependent pendulum.
-		\item Would be nice if \mimes could handle case of freeze-out/in.
+%		\item Would be nice if \mimes could handle case of freeze-out/in.
 		\item \mimes should be able to compare against searches on the fly. 
 	\end{itemize}
 	
@@ -693,11 +718,20 @@ Axions and ALPs generally:
 	
 	\begin{center}
 		{\color{yellow} \Huge Thank you!}
+		
 		\begin{figure}
 			\includegraphics[width=0.7\textwidth]{cloc.png}
 		\end{figure}	
 
 	\end{center}
+
+\begin{figure}\vspace{1.cm}
+	\hspace*{-8cm}\href{https://github.com/dkaramit/MiMeS}{ \includegraphics[width=2.5cm]{GitHub.png} }
+\end{figure}
+\begin{figure}\vspace{-3.1cm}
+	\hspace*{8cm}\href{https://mimes.hepforge.org}{\includegraphics[width=2.5cm]{hepforge.png}}
+\end{figure}
+
 \end{frame}
 
 

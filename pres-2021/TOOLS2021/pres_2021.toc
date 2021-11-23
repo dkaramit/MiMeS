@@ -10,10 +10,10 @@
 \beamer@subsectionintoc {3}{1}{How to get {\tt MiMeS}\xspace }{14}{0}{3}
 \beamer@subsectionintoc {3}{2}{Configure (and make)}{15}{0}{3}
 \beamer@subsectionintoc {3}{3}{Classes}{16}{0}{3}
-\beamer@subsectionintoc {3}{4}{Assumptions}{20}{0}{3}
-\beamer@subsectionintoc {3}{5}{What {\tt MiMeS}\xspace expects from you}{25}{0}{3}
-\beamer@subsectionintoc {3}{6}{Template arguments}{31}{0}{3}
-\beamer@subsectionintoc {3}{7}{{\tt MiMeS}\xspace from {\tt python}\xspace }{32}{0}{3}
+\beamer@subsectionintoc {3}{4}{Template arguments}{20}{0}{3}
+\beamer@subsectionintoc {3}{5}{{\tt MiMeS}\xspace from {\tt python}\xspace }{21}{0}{3}
+\beamer@subsectionintoc {3}{6}{Assumptions}{22}{0}{3}
+\beamer@subsectionintoc {3}{7}{What {\tt MiMeS}\xspace expects from you}{27}{0}{3}
 \beamer@sectionintoc {4}{Examples}{33}{0}{4}
 \beamer@subsectionintoc {4}{1}{{\tt python}\xspace }{34}{0}{4}
 \beamer@subsectionintoc {4}{2}{{\tt C++}\xspace }{35}{0}{4}

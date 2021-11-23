@@ -50,23 +50,23 @@
 \headcommand {\slideentry {3}{3}{1}{16/19}{Classes}{0}}
 \headcommand {\beamer@framepages {16}{19}}
 \headcommand {\beamer@subsectionpages {16}{19}}
-\headcommand {\beamer@subsectionentry {0}{3}{4}{20}{Assumptions}}
-\headcommand {\slideentry {3}{4}{1}{20/24}{Assumptions}{0}}
-\headcommand {\beamer@framepages {20}{24}}
-\headcommand {\beamer@subsectionpages {20}{24}}
-\headcommand {\beamer@subsectionentry {0}{3}{5}{25}{What {\tt MiMeS}\xspace expects from you}}
-\headcommand {\slideentry {3}{5}{1}{25/30}{What {\tt MiMeS}\xspace expects from you}{0}}
-\headcommand {\beamer@framepages {25}{30}}
-\headcommand {\beamer@subsectionpages {25}{30}}
-\headcommand {\beamer@subsectionentry {0}{3}{6}{31}{Template arguments}}
-\headcommand {\slideentry {3}{6}{1}{31/31}{Template arguments}{0}}
-\headcommand {\beamer@framepages {31}{31}}
-\headcommand {\beamer@subsectionpages {31}{31}}
-\headcommand {\beamer@subsectionentry {0}{3}{7}{32}{{\tt MiMeS}\xspace from {\tt python}\xspace }}
-\headcommand {\slideentry {3}{7}{1}{32/32}{{\tt MiMeS}\xspace from {\tt python}\xspace }{0}}
-\headcommand {\beamer@framepages {32}{32}}
+\headcommand {\beamer@subsectionentry {0}{3}{4}{20}{Template arguments}}
+\headcommand {\slideentry {3}{4}{1}{20/20}{Template arguments}{0}}
+\headcommand {\beamer@framepages {20}{20}}
+\headcommand {\beamer@subsectionpages {20}{20}}
+\headcommand {\beamer@subsectionentry {0}{3}{5}{21}{{\tt MiMeS}\xspace from {\tt python}\xspace }}
+\headcommand {\slideentry {3}{5}{1}{21/21}{{\tt MiMeS}\xspace from {\tt python}\xspace }{0}}
+\headcommand {\beamer@framepages {21}{21}}
+\headcommand {\beamer@subsectionpages {21}{21}}
+\headcommand {\beamer@subsectionentry {0}{3}{6}{22}{Assumptions}}
+\headcommand {\slideentry {3}{6}{1}{22/26}{Assumptions}{0}}
+\headcommand {\beamer@framepages {22}{26}}
+\headcommand {\beamer@subsectionpages {22}{26}}
+\headcommand {\beamer@subsectionentry {0}{3}{7}{27}{What {\tt MiMeS}\xspace expects from you}}
+\headcommand {\slideentry {3}{7}{1}{27/32}{What {\tt MiMeS}\xspace expects from you}{0}}
+\headcommand {\beamer@framepages {27}{32}}
 \headcommand {\beamer@sectionpages {13}{32}}
-\headcommand {\beamer@subsectionpages {32}{32}}
+\headcommand {\beamer@subsectionpages {27}{32}}
 \headcommand {\sectionentry {4}{Examples}{33}{Examples}{0}}
 \headcommand {\slideentry {4}{0}{1}{33/33}{}{0}}
 \headcommand {\beamer@framepages {33}{33}}

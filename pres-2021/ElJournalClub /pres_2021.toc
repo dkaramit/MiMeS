@@ -23,11 +23,12 @@
 \beamer@subsectionintoc {4}{1}{How to get {\tt MiMeS}\xspace }{30}{0}{4}
 \beamer@subsectionintoc {4}{2}{Configure (and make)}{31}{0}{4}
 \beamer@subsectionintoc {4}{3}{Classes}{32}{0}{4}
-\beamer@subsectionintoc {4}{4}{Assumptions}{36}{0}{4}
-\beamer@subsectionintoc {4}{5}{What {\tt MiMeS}\xspace expects from you}{41}{0}{4}
-\beamer@subsectionintoc {4}{6}{Template arguments}{47}{0}{4}
-\beamer@subsectionintoc {4}{7}{{\tt MiMeS}\xspace from {\tt python}\xspace }{48}{0}{4}
-\beamer@sectionintoc {5}{Examples}{49}{0}{5}
-\beamer@subsectionintoc {5}{1}{{\tt python}\xspace }{50}{0}{5}
-\beamer@subsectionintoc {5}{2}{{\tt C++}\xspace }{51}{0}{5}
-\beamer@sectionintoc {6}{Outlook}{52}{0}{6}
+\beamer@subsectionintoc {4}{4}{Classes}{36}{0}{4}
+\beamer@subsectionintoc {4}{5}{Template arguments}{40}{0}{4}
+\beamer@subsectionintoc {4}{6}{{\tt MiMeS}\xspace from {\tt python}\xspace }{41}{0}{4}
+\beamer@subsectionintoc {4}{7}{Assumptions}{42}{0}{4}
+\beamer@subsectionintoc {4}{8}{What {\tt MiMeS}\xspace expects from you}{47}{0}{4}
+\beamer@sectionintoc {5}{Examples}{53}{0}{5}
+\beamer@subsectionintoc {5}{1}{{\tt python}\xspace }{54}{0}{5}
+\beamer@subsectionintoc {5}{2}{{\tt C++}\xspace }{55}{0}{5}
+\beamer@sectionintoc {6}{Outlook}{56}{0}{6}

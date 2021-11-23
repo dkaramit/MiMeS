@@ -87,81 +87,85 @@
 \headcommand {\slideentry {4}{3}{1}{32/35}{Classes}{0}}
 \headcommand {\beamer@framepages {32}{35}}
 \headcommand {\beamer@subsectionpages {32}{35}}
-\headcommand {\beamer@subsectionentry {0}{4}{4}{36}{Assumptions}}
-\headcommand {\slideentry {4}{4}{1}{36/40}{Assumptions}{0}}
-\headcommand {\beamer@framepages {36}{40}}
-\headcommand {\beamer@subsectionpages {36}{40}}
-\headcommand {\beamer@subsectionentry {0}{4}{5}{41}{What {\tt MiMeS}\xspace expects from you}}
-\headcommand {\slideentry {4}{5}{1}{41/46}{What {\tt MiMeS}\xspace expects from you}{0}}
-\headcommand {\beamer@framepages {41}{46}}
-\headcommand {\beamer@subsectionpages {41}{46}}
-\headcommand {\beamer@subsectionentry {0}{4}{6}{47}{Template arguments}}
-\headcommand {\slideentry {4}{6}{1}{47/47}{Template arguments}{0}}
-\headcommand {\beamer@framepages {47}{47}}
-\headcommand {\beamer@subsectionpages {47}{47}}
-\headcommand {\beamer@subsectionentry {0}{4}{7}{48}{{\tt MiMeS}\xspace from {\tt python}\xspace }}
-\headcommand {\slideentry {4}{7}{1}{48/48}{{\tt MiMeS}\xspace from {\tt python}\xspace }{0}}
-\headcommand {\beamer@framepages {48}{48}}
-\headcommand {\beamer@sectionpages {29}{48}}
-\headcommand {\beamer@subsectionpages {48}{48}}
-\headcommand {\sectionentry {5}{Examples}{49}{Examples}{0}}
-\headcommand {\slideentry {5}{0}{1}{49/49}{}{0}}
-\headcommand {\beamer@framepages {49}{49}}
-\headcommand {\beamer@subsectionpages {49}{49}}
-\headcommand {\beamer@subsectionentry {0}{5}{1}{50}{{\tt python}\xspace }}
-\headcommand {\slideentry {5}{1}{1}{50/50}{{\tt python}\xspace }{0}}
-\headcommand {\beamer@framepages {50}{50}}
-\headcommand {\beamer@subsectionpages {50}{50}}
-\headcommand {\beamer@subsectionentry {0}{5}{2}{51}{{\tt C++}\xspace }}
-\headcommand {\slideentry {5}{2}{1}{51/51}{{\tt C++}\xspace }{0}}
-\headcommand {\beamer@framepages {51}{51}}
-\headcommand {\beamer@sectionpages {49}{51}}
-\headcommand {\beamer@subsectionpages {51}{51}}
-\headcommand {\sectionentry {6}{Outlook}{52}{Outlook}{0}}
-\headcommand {\slideentry {6}{0}{1}{52/52}{}{0}}
-\headcommand {\beamer@framepages {52}{52}}
-\headcommand {\slideentry {6}{0}{2}{53/53}{}{0}}
+\headcommand {\beamer@subsectionentry {0}{4}{4}{36}{Classes}}
+\headcommand {\slideentry {4}{4}{1}{36/39}{Classes}{0}}
+\headcommand {\beamer@framepages {36}{39}}
+\headcommand {\beamer@subsectionpages {36}{39}}
+\headcommand {\beamer@subsectionentry {0}{4}{5}{40}{Template arguments}}
+\headcommand {\slideentry {4}{5}{1}{40/40}{Template arguments}{0}}
+\headcommand {\beamer@framepages {40}{40}}
+\headcommand {\beamer@subsectionpages {40}{40}}
+\headcommand {\beamer@subsectionentry {0}{4}{6}{41}{{\tt MiMeS}\xspace from {\tt python}\xspace }}
+\headcommand {\slideentry {4}{6}{1}{41/41}{{\tt MiMeS}\xspace from {\tt python}\xspace }{0}}
+\headcommand {\beamer@framepages {41}{41}}
+\headcommand {\beamer@subsectionpages {41}{41}}
+\headcommand {\beamer@subsectionentry {0}{4}{7}{42}{Assumptions}}
+\headcommand {\slideentry {4}{7}{1}{42/46}{Assumptions}{0}}
+\headcommand {\beamer@framepages {42}{46}}
+\headcommand {\beamer@subsectionpages {42}{46}}
+\headcommand {\beamer@subsectionentry {0}{4}{8}{47}{What {\tt MiMeS}\xspace expects from you}}
+\headcommand {\slideentry {4}{8}{1}{47/52}{What {\tt MiMeS}\xspace expects from you}{0}}
+\headcommand {\beamer@framepages {47}{52}}
+\headcommand {\beamer@sectionpages {29}{52}}
+\headcommand {\beamer@subsectionpages {47}{52}}
+\headcommand {\sectionentry {5}{Examples}{53}{Examples}{0}}
+\headcommand {\slideentry {5}{0}{1}{53/53}{}{0}}
 \headcommand {\beamer@framepages {53}{53}}
-\headcommand {\slideentry {6}{0}{3}{54/54}{}{0}}
+\headcommand {\beamer@subsectionpages {53}{53}}
+\headcommand {\beamer@subsectionentry {0}{5}{1}{54}{{\tt python}\xspace }}
+\headcommand {\slideentry {5}{1}{1}{54/54}{{\tt python}\xspace }{0}}
 \headcommand {\beamer@framepages {54}{54}}
-\headcommand {\slideentry {6}{0}{4}{55/55}{}{0}}
+\headcommand {\beamer@subsectionpages {54}{54}}
+\headcommand {\beamer@subsectionentry {0}{5}{2}{55}{{\tt C++}\xspace }}
+\headcommand {\slideentry {5}{2}{1}{55/55}{{\tt C++}\xspace }{0}}
 \headcommand {\beamer@framepages {55}{55}}
-\headcommand {\slideentry {6}{0}{5}{56/56}{}{0}}
+\headcommand {\beamer@sectionpages {53}{55}}
+\headcommand {\beamer@subsectionpages {55}{55}}
+\headcommand {\sectionentry {6}{Outlook}{56}{Outlook}{0}}
+\headcommand {\slideentry {6}{0}{1}{56/56}{}{0}}
 \headcommand {\beamer@framepages {56}{56}}
-\headcommand {\slideentry {6}{0}{6}{57/57}{}{0}}
+\headcommand {\slideentry {6}{0}{2}{57/57}{}{0}}
 \headcommand {\beamer@framepages {57}{57}}
-\headcommand {\slideentry {6}{0}{7}{58/58}{}{0}}
+\headcommand {\slideentry {6}{0}{3}{58/58}{}{0}}
 \headcommand {\beamer@framepages {58}{58}}
-\headcommand {\slideentry {6}{0}{8}{59/59}{}{0}}
+\headcommand {\slideentry {6}{0}{4}{59/59}{}{0}}
 \headcommand {\beamer@framepages {59}{59}}
-\headcommand {\slideentry {6}{0}{9}{60/60}{}{0}}
+\headcommand {\slideentry {6}{0}{5}{60/60}{}{0}}
 \headcommand {\beamer@framepages {60}{60}}
-\headcommand {\slideentry {6}{0}{10}{61/61}{}{0}}
+\headcommand {\slideentry {6}{0}{6}{61/61}{}{0}}
 \headcommand {\beamer@framepages {61}{61}}
-\headcommand {\slideentry {6}{0}{11}{62/62}{}{0}}
+\headcommand {\slideentry {6}{0}{7}{62/62}{}{0}}
 \headcommand {\beamer@framepages {62}{62}}
-\headcommand {\slideentry {6}{0}{12}{63/63}{}{0}}
+\headcommand {\slideentry {6}{0}{8}{63/63}{}{0}}
 \headcommand {\beamer@framepages {63}{63}}
-\headcommand {\slideentry {6}{0}{13}{64/64}{}{0}}
+\headcommand {\slideentry {6}{0}{9}{64/64}{}{0}}
 \headcommand {\beamer@framepages {64}{64}}
-\headcommand {\slideentry {6}{0}{14}{65/65}{}{0}}
+\headcommand {\slideentry {6}{0}{10}{65/65}{}{0}}
 \headcommand {\beamer@framepages {65}{65}}
-\headcommand {\slideentry {6}{0}{15}{66/66}{}{0}}
+\headcommand {\slideentry {6}{0}{11}{66/66}{}{0}}
 \headcommand {\beamer@framepages {66}{66}}
-\headcommand {\slideentry {6}{0}{16}{67/67}{}{0}}
+\headcommand {\slideentry {6}{0}{12}{67/67}{}{0}}
 \headcommand {\beamer@framepages {67}{67}}
-\headcommand {\slideentry {6}{0}{17}{68/68}{}{0}}
+\headcommand {\slideentry {6}{0}{13}{68/68}{}{0}}
 \headcommand {\beamer@framepages {68}{68}}
-\headcommand {\slideentry {6}{0}{18}{69/69}{}{0}}
+\headcommand {\slideentry {6}{0}{14}{69/69}{}{0}}
 \headcommand {\beamer@framepages {69}{69}}
-\headcommand {\slideentry {6}{0}{19}{70/70}{}{0}}
+\headcommand {\slideentry {6}{0}{15}{70/70}{}{0}}
 \headcommand {\beamer@framepages {70}{70}}
-\headcommand {\slideentry {6}{0}{20}{71/71}{}{0}}
+\headcommand {\slideentry {6}{0}{16}{71/71}{}{0}}
 \headcommand {\beamer@framepages {71}{71}}
-\headcommand {\slideentry {6}{0}{21}{72/72}{}{0}}
+\headcommand {\slideentry {6}{0}{17}{72/72}{}{0}}
 \headcommand {\beamer@framepages {72}{72}}
-\headcommand {\beamer@partpages {1}{72}}
-\headcommand {\beamer@subsectionpages {52}{72}}
-\headcommand {\beamer@sectionpages {52}{72}}
-\headcommand {\beamer@documentpages {72}}
-\headcommand {\gdef \inserttotalframenumber {37}}
+\headcommand {\slideentry {6}{0}{18}{73/73}{}{0}}
+\headcommand {\beamer@framepages {73}{73}}
+\headcommand {\slideentry {6}{0}{19}{74/74}{}{0}}
+\headcommand {\beamer@framepages {74}{74}}
+\headcommand {\slideentry {6}{0}{20}{75/75}{}{0}}
+\headcommand {\beamer@framepages {75}{75}}
+\headcommand {\slideentry {6}{0}{21}{76/76}{}{0}}
+\headcommand {\beamer@framepages {76}{76}}
+\headcommand {\beamer@partpages {1}{76}}
+\headcommand {\beamer@subsectionpages {56}{76}}
+\headcommand {\beamer@sectionpages {56}{76}}
+\headcommand {\beamer@documentpages {76}}
+\headcommand {\gdef \inserttotalframenumber {38}}

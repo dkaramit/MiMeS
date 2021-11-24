@@ -3,18 +3,16 @@
 \beamer@subsectionintoc {1}{1}{The axion EOM}{4}{0}{1}
 \beamer@subsectionintoc {1}{2}{How hard can it be?}{5}{0}{1}
 \beamer@sectionintoc {2}{{\tt MiMeS}\xspace }{8}{0}{2}
-\beamer@subsectionintoc {2}{1}{{\tt MiMeS}\xspace : Why?}{9}{0}{2}
-\beamer@subsectionintoc {2}{2}{{\tt MiMeS}\xspace : Under the hood}{10}{0}{2}
-\beamer@subsectionintoc {2}{3}{{\tt MiMeS}\xspace : Notation}{11}{0}{2}
-\beamer@sectionintoc {3}{Using {\tt MiMeS}\xspace }{13}{0}{3}
-\beamer@subsectionintoc {3}{1}{How to get {\tt MiMeS}\xspace }{14}{0}{3}
-\beamer@subsectionintoc {3}{2}{Configure (and make)}{15}{0}{3}
-\beamer@subsectionintoc {3}{3}{Classes}{16}{0}{3}
-\beamer@subsectionintoc {3}{4}{Template arguments}{20}{0}{3}
-\beamer@subsectionintoc {3}{5}{{\tt MiMeS}\xspace from {\tt python}\xspace }{21}{0}{3}
-\beamer@subsectionintoc {3}{6}{Assumptions}{22}{0}{3}
-\beamer@subsectionintoc {3}{7}{What {\tt MiMeS}\xspace expects from you}{27}{0}{3}
-\beamer@sectionintoc {4}{Examples}{33}{0}{4}
-\beamer@subsectionintoc {4}{1}{{\tt python}\xspace }{34}{0}{4}
-\beamer@subsectionintoc {4}{2}{{\tt C++}\xspace }{35}{0}{4}
-\beamer@sectionintoc {5}{Outlook}{36}{0}{5}
+\beamer@subsectionintoc {2}{1}{{\tt MiMeS}\xspace }{9}{0}{2}
+\beamer@subsectionintoc {2}{2}{{\tt MiMeS}\xspace under the hood}{10}{0}{2}
+\beamer@subsectionintoc {2}{3}{How to get {\tt MiMeS}\xspace }{11}{0}{2}
+\beamer@subsectionintoc {2}{4}{Configure (and make)}{12}{0}{2}
+\beamer@subsectionintoc {2}{5}{Classes}{13}{0}{2}
+\beamer@subsectionintoc {2}{6}{Template arguments}{17}{0}{2}
+\beamer@subsectionintoc {2}{7}{{\tt MiMeS}\xspace from {\tt python}\xspace }{18}{0}{2}
+\beamer@subsectionintoc {2}{8}{Assumptions}{19}{0}{2}
+\beamer@subsectionintoc {2}{9}{What {\tt MiMeS}\xspace expects from you}{24}{0}{2}
+\beamer@sectionintoc {3}{Examples}{30}{0}{3}
+\beamer@subsectionintoc {3}{1}{{\tt python}\xspace }{31}{0}{3}
+\beamer@subsectionintoc {3}{2}{{\tt C++}\xspace }{32}{0}{3}
+\beamer@sectionintoc {4}{Outlook}{33}{0}{4}

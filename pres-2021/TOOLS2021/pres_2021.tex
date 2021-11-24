@@ -59,21 +59,20 @@
 \author{Dimitrios Karamitros}
 \institute{
 	Manchester U.\\
-\begin{figure}\vspace{-0.0cm}
-%	\includegraphics[width=0.2\textwidth,height=0.2\textheight]{ }
-\end{figure}
+
 }
 \vspace*{-0.5cm}
 \date{\bl{		
-		24/11/2021}\\{\sl Computational Tools for High Energy Physics and Cosmology\\ {\fontF Institut de Physique des 2 Infinis (IP2I)
-		Lyon, France}}\\[1cm]
+		24/11/2021}\\{\sl Computational Tools for High Energy Physics and Cosmology\\ {\fontF Institut de Physique des 2 Infinis
+		Lyon, France}}\\[0.5cm]
 	
 	Detailed documentation:
 	\href{https://arxiv.org/abs/2110.12253}{\textbf{arXiv:2110.12253}}\\
 	Github:
 	\href{https://github.com/dkaramit/MiMeS}{\textbf{github.com/dkaramit/MiMeS}}\\
 	HEPForge:
-	\href{https://mimes.hepforge.org/}{\textbf{mimes.hepforge.org}}
+	\href{https://mimes.hepforge.org/}{\textbf{mimes.hepforge.org}}\\[1.5cm]
+	
 	
 }
 
@@ -94,6 +93,8 @@
 	%\usebackgroundtemplate{\includegraphics[width=\paperwidth]{}}
 	\begin{frame}[noframenumbering,plain]
 		\titlepage
+	\flushbottom{\fontsize{5}{1}\selectfont Supported by the Lancaster–Manchester–Sheffield Consortium for Fundamental
+	Physics, under STFC research grant \bl{ST/T001038/1}.}\nonumber
 
 	\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -136,7 +137,7 @@
 	%
 	\begin{itemize}
 		\item There is no closed form solution.
-		\item There are no constants of motion (wait a minute).
+		\item There are no constants of motion.~\footnote{There is the adiabatic invariant, $J$, but it only helps us if the Hamiltonian varies slowly.}
 		\item No package/library/program available!\pause\\[2cm]
 	\end{itemize}
 
@@ -153,11 +154,11 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{\mimes}
-\subsection{\mimes: Why?}
+\subsection{\mimes}
 \begin{frame}{\insertsubsectionhead}
-	We need accurate code that solves the EOM, but most importantly we need {\sl reproducible} results! \\[0.3cm]
+	We need accurate code that solves the EOM, but most importantly we need {\sl reproducible} results! \\[0.1cm]
 	
-	\mimes is:
+	First of all:
 	% 
 	\begin{itemize}
 		\item \mimes is a \CPP header-only library that contains various templated classes; there is no ``installation" and no special procedures, just include the header files. 
@@ -181,7 +182,7 @@
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{\mimes: Under the hood}
+\subsection{\mimes under the hood}
 \begin{frame}{\insertsubsectionhead}
 	%
 	\mimes relies on \cppin{NaBBODES}~\footnote{\fontF \href{https://github.com/dkaramit/NaBBODES}{https://github.com/dkaramit/NaBBODES}.} for the numerical integration, and \cppin{SimpleSplines}~\footnote{\fontF \href{https://github.com/dkaramit/SimpleSplines}{https://github.com/dkaramit/SimpleSplines}.} for the various interpolations.\\[0.3cm] 
@@ -204,36 +205,36 @@
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\mimes: Notation}
-\begin{frame}{\insertsubsectionhead}
-	%
-	\vspace{-0.2cm}
-	\mimes uses a notation suitable (any) underlying cosmology, since it is up to the user to define the cosmological evolution.	
-	
-	First, we define 
-	\begin{equation*}\vspace{-0.2cm}
-		u \equiv \log \lrb{a/\ai}\;,
-	\end{equation*} 
-	%
-	with $\ai$ some initial value of the scale factor.~\footnote{\fontF Only the ratios $a/\ai$ appear in the calculations.}	Then, the EOM becomes
-	%
-	\begin{eqnarray*}\vspace*{-0.5cm}
-		& \dfrac{d  \zeta}{du} + \lrsb{\dfrac{1}{2} \dfrac{d \log H^2}{du} + 3 } \zeta + \ \lrb{\dfrac{\maT}{H}}^2 \ \sin \theta
-		=0 \;. \\[-0.2cm]
-		&\dfrac{d \theta}{d u} - \zeta=0 \;.
-	\end{eqnarray*}\\[-0.2cm]
-	%
-	The initial conditions are $\zeta(0)=0$ and $\theta(0)=\thetai$.\\[1cm]\pause
-	
-	\begin{center}
-		{\em This is the same notation as in the code} $\Rightarrow$ {\em You can change it easily.}
-	\end{center}
-	
-	
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Using \mimes}
+%\subsection{\mimes: Notation}
+%\begin{frame}{\insertsubsectionhead}
+%	%
+%	\vspace{-0.2cm}
+%	\mimes uses a notation suitable (any) underlying cosmology, since it is up to the user to define the cosmological evolution.	
+%	
+%	First, we define 
+%	\begin{equation*}\vspace{-0.2cm}
+%		u \equiv \log \lrb{a/\ai}\;,
+%	\end{equation*} 
+%	%
+%	with $\ai$ some initial value of the scale factor.~\footnote{\fontF Only the ratios $a/\ai$ appear in the calculations.}	Then, the EOM becomes
+%	%
+%	\begin{eqnarray*}\vspace*{-0.5cm}
+%		& \dfrac{d  \zeta}{du} + \lrsb{\dfrac{1}{2} \dfrac{d \log H^2}{du} + 3 } \zeta + \ \lrb{\dfrac{\maT}{H}}^2 \ \sin \theta
+%		=0 \;. \\[-0.2cm]
+%		&\dfrac{d \theta}{d u} - \zeta=0 \;.
+%	\end{eqnarray*}\\[-0.2cm]
+%	%
+%	The initial conditions are $\zeta(0)=0$ and $\theta(0)=\thetai$.\\[1cm]\pause
+%	
+%	\begin{center}
+%		{\em This is the same notation as in the code} $\Rightarrow$ {\em You can change it easily.}
+%	\end{center}
+%	
+%	
+%\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\section{Using \mimes}
 
 \subsection{How to get \mimes}
 \begin{frame}[fragile]{\insertsubsectionhead}
@@ -367,7 +368,7 @@
 	%
 	\begin{enumerate}
 		\item $H/\maT$ increases monotonically with the temperature.\pause
-		\item $\zeta(0)=0$. This will be changed in the future.\pause
+		\item $\dot \theta(0)=0$. This will be changed in the future.\pause
 		\item The energy density of the axion/ALP is always subdominant.\pause
 		\item Only the EOM determines the energy density (no annihilations, no strings, etc.).
 	\end{enumerate}	
@@ -383,7 +384,7 @@
 		\item The mass of the axion/ALP. A data file or an actual function.\pause
 		\item Data file with $\log a/a_i$ ($a_i$ is some arbitrary value; \mimes rescales it appropriately), $T$, and $\log H$ of the underlying cosmology.\pause
 		\item Value for $3H/\maT \gg 1$, which defines the point where integration begins.\pause
-		\item Relative difference of $J$ between a given number of peaks at which we consider adiabaticity to have been reached.\pause
+		\item At which point the adiabatic invariant is constant  enough so that numerical integration can stop.\pause
 		\item Other input, related to the algorithm, that might confuse you; \eg temperature at which integration stops no {\em matter what}!
 	\end{enumerate}
 \end{frame}

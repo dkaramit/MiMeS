@@ -8,41 +8,42 @@
 \BOOKMARK [3][-]{subsubsection.3.1.1}{Using MiMeS in C++}{subsection.3.1}% 8
 \BOOKMARK [3][-]{subsubsection.3.1.2}{Using MiMeS in python}{subsection.3.1}% 9
 \BOOKMARK [1][-]{section.4}{Assumptions and user input}{}% 10
-\BOOKMARK [2][-]{subsection.4.1}{Options at Compile-time}{section.4}% 11
-\BOOKMARK [2][-]{subsection.4.2}{User input}{section.4}% 12
-\BOOKMARK [3][-]{subsubsection.4.2.1}{Compile-time input}{subsection.4.2}% 13
-\BOOKMARK [3][-]{subsubsection.4.2.2}{Run-time input}{subsection.4.2}% 14
-\BOOKMARK [2][-]{subsection.4.3}{Complete Examples}{section.4}% 15
-\BOOKMARK [3][-]{subsubsection.4.3.1}{complete example in C++}{subsection.4.3}% 16
-\BOOKMARK [3][-]{subsubsection.4.3.2}{complete example in python}{subsection.4.3}% 17
-\BOOKMARK [3][-]{subsubsection.4.3.3}{Results}{subsection.4.3}% 18
-\BOOKMARK [1][-]{section.5}{Acknowledgements}{}% 19
-\BOOKMARK [1][-]{section.6}{Summary}{}% 20
-\BOOKMARK [1][-]{appendix.A}{Basics of embedded Runge-Kutta Mehtods}{}% 21
-\BOOKMARK [2][-]{subsection.A.1}{Embedded RK methods}{appendix.A}% 22
-\BOOKMARK [2][-]{subsection.A.2}{Explicit embedded RK methods}{appendix.A}% 23
-\BOOKMARK [2][-]{subsection.A.3}{Rosenbrock methods}{appendix.A}% 24
-\BOOKMARK [1][-]{appendix.B}{C++ classes}{}% 25
-\BOOKMARK [2][-]{subsection.B.1}{Cosmo class}{appendix.B}% 26
-\BOOKMARK [2][-]{subsection.B.2}{AnharmonicFactor class}{appendix.B}% 27
-\BOOKMARK [2][-]{subsection.B.3}{AxionMass class}{appendix.B}% 28
-\BOOKMARK [2][-]{subsection.B.4}{AxionEOM class}{appendix.B}% 29
-\BOOKMARK [2][-]{subsection.B.5}{Axion class}{appendix.B}% 30
-\BOOKMARK [1][-]{appendix.C}{MiMeS \040python interface}{}% 31
-\BOOKMARK [2][-]{subsection.C.1}{Cosmo class}{appendix.C}% 32
-\BOOKMARK [2][-]{subsection.C.2}{AxionMass class}{appendix.C}% 33
-\BOOKMARK [2][-]{subsection.C.3}{Axion class}{appendix.C}% 34
-\BOOKMARK [1][-]{appendix.D}{Other modules}{}% 35
-\BOOKMARK [2][-]{subsection.D.1}{WKB module}{appendix.D}% 36
-\BOOKMARK [2][-]{subsection.D.2}{The ScanScript module}{appendix.D}% 37
-\BOOKMARK [3][-]{subsubsection.D.2.1}{The Scan class}{subsection.D.2}% 38
-\BOOKMARK [3][-]{subsubsection.D.2.2}{The ScanObs class}{subsection.D.2}% 39
-\BOOKMARK [2][-]{subsection.D.3}{FT module}{appendix.D}% 40
-\BOOKMARK [1][-]{appendix.E}{Utilities}{}% 41
-\BOOKMARK [2][-]{subsection.E.1}{FormatFile.sh}{appendix.E}% 42
-\BOOKMARK [2][-]{subsection.E.2}{timeit.sh}{appendix.E}% 43
-\BOOKMARK [2][-]{subsection.E.3}{Timer C++ class}{appendix.E}% 44
-\BOOKMARK [2][-]{subsection.E.4}{linspace function}{appendix.E}% 45
-\BOOKMARK [2][-]{subsection.E.5}{logspace function}{appendix.E}% 46
-\BOOKMARK [2][-]{subsection.E.6}{map function}{appendix.E}% 47
-\BOOKMARK [1][-]{appendix.F}{Quick guide to the user input}{}% 48
+\BOOKMARK [2][-]{subsection.4.1}{Restrictions}{section.4}% 11
+\BOOKMARK [2][-]{subsection.4.2}{Options at Compile-time}{section.4}% 12
+\BOOKMARK [2][-]{subsection.4.3}{User input}{section.4}% 13
+\BOOKMARK [3][-]{subsubsection.4.3.1}{Compile-time input}{subsection.4.3}% 14
+\BOOKMARK [3][-]{subsubsection.4.3.2}{Run-time input}{subsection.4.3}% 15
+\BOOKMARK [2][-]{subsection.4.4}{Complete Examples}{section.4}% 16
+\BOOKMARK [3][-]{subsubsection.4.4.1}{complete example in C++}{subsection.4.4}% 17
+\BOOKMARK [3][-]{subsubsection.4.4.2}{complete example in python}{subsection.4.4}% 18
+\BOOKMARK [3][-]{subsubsection.4.4.3}{Results}{subsection.4.4}% 19
+\BOOKMARK [1][-]{section.5}{Acknowledgements}{}% 20
+\BOOKMARK [1][-]{section.6}{Summary}{}% 21
+\BOOKMARK [1][-]{appendix.A}{Basics of embedded Runge-Kutta Mehtods}{}% 22
+\BOOKMARK [2][-]{subsection.A.1}{Embedded RK methods}{appendix.A}% 23
+\BOOKMARK [2][-]{subsection.A.2}{Explicit embedded RK methods}{appendix.A}% 24
+\BOOKMARK [2][-]{subsection.A.3}{Rosenbrock methods}{appendix.A}% 25
+\BOOKMARK [1][-]{appendix.B}{C++ classes}{}% 26
+\BOOKMARK [2][-]{subsection.B.1}{Cosmo class}{appendix.B}% 27
+\BOOKMARK [2][-]{subsection.B.2}{AnharmonicFactor class}{appendix.B}% 28
+\BOOKMARK [2][-]{subsection.B.3}{AxionMass class}{appendix.B}% 29
+\BOOKMARK [2][-]{subsection.B.4}{AxionEOM class}{appendix.B}% 30
+\BOOKMARK [2][-]{subsection.B.5}{Axion class}{appendix.B}% 31
+\BOOKMARK [1][-]{appendix.C}{MiMeS \040python interface}{}% 32
+\BOOKMARK [2][-]{subsection.C.1}{Cosmo class}{appendix.C}% 33
+\BOOKMARK [2][-]{subsection.C.2}{AxionMass class}{appendix.C}% 34
+\BOOKMARK [2][-]{subsection.C.3}{Axion class}{appendix.C}% 35
+\BOOKMARK [1][-]{appendix.D}{Other modules}{}% 36
+\BOOKMARK [2][-]{subsection.D.1}{WKB module}{appendix.D}% 37
+\BOOKMARK [2][-]{subsection.D.2}{The ScanScript module}{appendix.D}% 38
+\BOOKMARK [3][-]{subsubsection.D.2.1}{The Scan class}{subsection.D.2}% 39
+\BOOKMARK [3][-]{subsubsection.D.2.2}{The ScanObs class}{subsection.D.2}% 40
+\BOOKMARK [2][-]{subsection.D.3}{FT module}{appendix.D}% 41
+\BOOKMARK [1][-]{appendix.E}{Utilities}{}% 42
+\BOOKMARK [2][-]{subsection.E.1}{FormatFile.sh}{appendix.E}% 43
+\BOOKMARK [2][-]{subsection.E.2}{timeit.sh}{appendix.E}% 44
+\BOOKMARK [2][-]{subsection.E.3}{Timer C++ class}{appendix.E}% 45
+\BOOKMARK [2][-]{subsection.E.4}{linspace function}{appendix.E}% 46
+\BOOKMARK [2][-]{subsection.E.5}{logspace function}{appendix.E}% 47
+\BOOKMARK [2][-]{subsection.E.6}{map function}{appendix.E}% 48
+\BOOKMARK [1][-]{appendix.F}{Quick guide to the user input}{}% 49

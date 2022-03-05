@@ -1,0 +1,12 @@
+<html> <head> <title>MiMeS</title> <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script> <script type="module" src="https://cdn.jsdelivr.net/gh/zerodevx/zero-md@2/dist/zero-md.min.js"></script> </head> <style> @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&display=swap'); code {font-family: 'Source Code Pro', monospace; color: rgb(0,0,0);} </style> <body style="background-color:rgb\(255, 255, 255\)\;">
+<h2 id="classes-in-python">Classes in <code>python</code></h2>
+<p>All <code>python</code> classes can be used similarly to <code>C++</code>. Obviously, since there are no tempates and pointers in <code>python</code>, the syntax is a bit different. Regarding the template arguments, they are chosen at compile-time using some macros, which can be adjusted from the <code>Definitions.mk</code> file inside the root directory of <code>MiMeS</code>. Furthermore, in the corresponding <code>Axion</code> class, instead of pointer to <code>AxionMass</code> instance we just pass the instance by value.</p>
+In order to be able to load the various modules, the following has to be included at the top of the script
+<pre><code class="prettyprint">
+    from sys import path as sysPath
+    sysPath.append('path_to_src')
+</code></pre>
+<p>where <code>'path_to_src'</code> is the relative or absolute path to <code>MiMeS/src</code>.</p>
+<h3 id="the-cosmo-class">The <code>Cosmo</code> class</h3>
+<p>The <code>Cosmo</code> class is used to interpolate various quantities of the plasma.<a href="https://inspirehep.net/literature/1682902">Planck Collaboration</a>.</p>
+</body> </html>

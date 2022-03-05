@@ -85,7 +85,7 @@ An alternative way to define the axion mass is via the constructor
     mimes::AxionMass<LD>(std::function<LD(LD,LD)> ma2)
 </code></pre>
 <p>Here, the only argument is the axion mass squared, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>m</mi><mo accent="true">̃</mo></mover><mi>a</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>T</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\tilde{m}_a(T)</annotation></semantics></math>, defined as a callable object.</p>
-Once an instance of the class is defined, we can get <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover><mi>m</mi><mo accent="true">̃</mo></mover><mi>a</mi></msub><mo stretchy="false" form="prefix">(</mo><mi>T</mi><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">\tilde{m}_a(T)^2</annotation></semantics></math> using the member function
+Once an instance of the class is defined, we can get <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mover><mi>m</mi><mo accent="true">̃</mo></mover><mi>a</mi><mn>2</mn></msubsup><mo stretchy="false" form="prefix">(</mo><mi>T</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\tilde{m}^2_a(T)</annotation></semantics></math> using the member function
 <pre><code class="prettyprint">
     template< class LD >    LD mimes::AxionMass<LD>::ma2(LD T, LD fa)
 </code></pre>
@@ -93,6 +93,18 @@ Once an instance of the class is defined, we can get <math display="inline" xmln
 <pre><code class="prettyprint">
     template< class LD > void mimes::AxionMass<LD>::set_ma2(std::function<LD(LD,LD)> ma2)
 </code></pre>
+<h3 id="the-axion-class">The <code>Axion</code> class</h3>
+The <code>mimes::Axion&lt;LD,Solver,Method&gt;</code> class is the class that combines all the others, and actually solves the axion EOM. Its header file is <code>\mimes/src/Axion/AxionSolve.hpp</code> and its constructor is
+<pre><code class="prettyprint">
+    template<class LD, const int Solver, class Method>
+    mimes::Axion< LD, Solver, Method >(LD theta_i, LD fa, LD umax, LD TSTOP, 
+                    LD ratio_ini, unsigned int N_convergence_max, LD convergence_lim, 
+                    std::string inputFile, AxionMass<LD> *axionMass, LD initial_step_size=1e-2, 
+                    LD minimum_step_size=1e-8, LD maximum_step_size=1e-2, LD absolute_tolerance=1e-8, 
+                    LD relative_tolerance=1e-8, LD beta=0.9, LD fac_max=1.2, LD fac_min=0.8, 
+                    unsigned int maximum_No_steps=10000000)
+</code></pre>
+<p>The various arguments are :</p>
 <section class="footnotes">
 <hr />
 <ol>

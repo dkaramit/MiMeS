@@ -68,7 +68,7 @@ An alternative way to define the axion mass is via the constructor
 </code></pre>
 Here, the only argument is the axion mass squared, $\tilde{m}_a(T)$, defined as a callable object.
 
-Once an instance of the class is defined, we can get $\tilde{m}_a(T)^2$ using the member function
+Once an instance of the class is defined, we can get $\tilde{m}^2_a(T)$ using the member function
 <pre><code class="prettyprint">
 	template< class LD >	LD mimes::AxionMass<LD>::ma2(LD T, LD fa)
 </code></pre>
@@ -80,3 +80,18 @@ We should note that ```ma2``` is a public ```std::function<LD(LD,LD)>``` member 
 </code></pre>
 
 [^ref]: Taken from [PRD](https://inspirehep.net/literature/1812251) and the [Planck Collaboration](https://inspirehep.net/literature/1682902).
+
+
+### The ```Axion``` class
+
+The ```mimes::Axion<LD,Solver,Method>``` class is the class that combines all the others, and actually solves the axion EOM. Its header file is ```\mimes/src/Axion/AxionSolve.hpp``` and its constructor is
+<pre><code class="prettyprint">
+ 	template<class LD, const int Solver, class Method>
+	mimes::Axion< LD, Solver, Method >(LD theta_i, LD fa, LD umax, LD TSTOP, 
+					LD ratio_ini, unsigned int N_convergence_max, LD convergence_lim, 
+					std::string inputFile, AxionMass<LD> *axionMass, LD initial_step_size=1e-2, 
+					LD minimum_step_size=1e-8, LD maximum_step_size=1e-2, LD absolute_tolerance=1e-8, 
+					LD relative_tolerance=1e-8, LD beta=0.9, LD fac_max=1.2, LD fac_min=0.8, 
+					unsigned int maximum_No_steps=10000000)
+</code></pre>
+The various arguments are :

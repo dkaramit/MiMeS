@@ -2142,7 +2142,7 @@ This is a {\tt bash} script that formats a data file so that it is compatible wi
 	bash MiMeS/src/util/FormatFile.sh path_to_dat_file
 \end{cpp}
 %
-Here {\tt path\_to\_dat\_file} is a path to the  data file we would like to replace with the formatted one. Notice that {\tt FormatFile.sh} must be run in order to ensure that the cosmological input needed by the \cppin{mimes::Axion<LD,SOLVER,METHOD<LD>>} class, is acceptable.
+Here {\tt path\_to\_dat\_file} is a path to the  data file we would like to replace with the formatted one. Notice that {\tt FormatFile.sh} must be run in order to ensure that the cosmological input needed by the \cppin{mimes::Axion<LD,Solver,Method>} class, is acceptable.
 
 Moreover, note that {\tt FormatFile.sh} runs every time {\tt configure.sh} is called, in order to format the data files for the RDOFs, $\chi(T)$, and the anharmonic factor, in order to ensure that they comply with what \mimes expects. 
 
@@ -2160,7 +2160,7 @@ The script is called as
 	bash MiMeS/src/util/timeit.sh path_to_executable path_to_dat_file
 \end{cpp}
 %
-This script is useflul for running the example code in {\tt \mimes/UserSpace/Cpp/Axion/Axion.cpp}, which is compiled by calling \run{make examples} in the root directory of \mimes. The executable that results from the compilation of this source, {\tt \mimes/UserSpace/Cpp/Axion/Axion.run}, expects the same arguments as the constructor of the \cppin{mimes::Axion<LD,SOLVER,METHOD<LD>>} class (see section~\ref{app:classes}). This means that we can write a file (call it {\tt INPUT}) that contains all these arguments in each line, and simply run  
+This script is useflul for running the example code in {\tt \mimes/UserSpace/Cpp/Axion/Axion.cpp}, which is compiled by calling \run{make examples} in the root directory of \mimes. The executable that results from the compilation of this source, {\tt \mimes/UserSpace/Cpp/Axion/Axion.run}, expects the same arguments as the constructor of the \cppin{mimes::Axion<LD,Solver,Method>} class (see section~\ref{app:classes}). This means that we can write a file (call it {\tt INPUT}) that contains all these arguments in each line, and simply run  
 %
 \begin{cpp}
 	bash MiMeS/src/util/timeit.sh MiMeS/UserSpace/Cpp/Axion/Axion.run INPUT

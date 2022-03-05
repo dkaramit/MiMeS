@@ -1,0 +1,12 @@
+\BOOKMARK [1][-]{section.1}{Motivation}{}% 1
+\BOOKMARK [1][-]{section.2}{About MiMeS}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Under the hood}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{How to get MiMeS}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{Configure \(and make\)}{section.2}% 5
+\BOOKMARK [2][-]{subsection.2.4}{Classes}{section.2}% 6
+\BOOKMARK [2][-]{subsection.2.5}{Calling MiMeS from python}{section.2}% 7
+\BOOKMARK [2][-]{subsection.2.6}{Assumptions}{section.2}% 8
+\BOOKMARK [1][-]{section.3}{Examples}{}% 9
+\BOOKMARK [2][-]{subsection.3.1}{C++ example}{section.3}% 10
+\BOOKMARK [2][-]{subsection.3.2}{python example}{section.3}% 11
+\BOOKMARK [1][-]{section.4}{Outlook}{}% 12

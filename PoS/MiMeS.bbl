@@ -1,0 +1,97 @@
+\providecommand{\href}[2]{#2}\begingroup\raggedright\begin{thebibliography}{10}
+
+\bibitem{Peccei:1977hh}
+R.~D. Peccei and H.~R. Quinn, {\it {CP Conservation in the Presence of
+  Instantons}},  {\em Phys. Rev. Lett.} {\bf 38} (1977) 1440--1443.
+
+\bibitem{Weinberg:1977ma}
+S.~Weinberg, {\it {A New Light Boson?}},  {\em Phys. Rev. Lett.} {\bf 40}
+  (1978) 223--226.
+
+\bibitem{Wilczek:1977pj}
+F.~Wilczek, {\it {Problem of Strong $P$ and $T$ Invariance in the Presence of
+  Instantons}},  {\em Phys. Rev. Lett.} {\bf 40} (1978) 279--282.
+
+\bibitem{Preskill:1982cy}
+J.~Preskill, M.~B. Wise, and F.~Wilczek, {\it {Cosmology of the Invisible
+  Axion}},  {\em Phys. Lett. B} {\bf 120} (1983) 127--132.
+
+\bibitem{Dine:1982ah}
+M.~Dine and W.~Fischler, {\it {The Not So Harmless Axion}},  {\em Phys. Lett.
+  B} {\bf 120} (1983) 137--141.
+
+\bibitem{Abbott:1982af}
+L.~F. Abbott and P.~Sikivie, {\it {A Cosmological Bound on the Invisible
+  Axion}},  {\em Phys. Lett. B} {\bf 120} (1983) 133--136.
+
+\bibitem{Berezhiani:1989fp}
+Z.~G. Berezhiani and M.~Y. Khlopov, {\it {Cosmology of Spontaneously Broken
+  Gauge Family Symmetry}},  {\em Z. Phys. C} {\bf 49} (1991) 73--78.
+
+\bibitem{Berezhiani:1992rk}
+Z.~G. Berezhiani, A.~S. Sakharov, and M.~Y. Khlopov, {\it {Primordial
+  background of cosmological axions}},  {\em Sov. J. Nucl. Phys.} {\bf 55}
+  (1992) 1063--1071.
+
+\bibitem{Sakharov:1994id}
+A.~S. Sakharov and M.~Y. Khlopov, {\it {The Nonhomogeneity problem for the
+  primordial axion field}},  {\em Phys. Atom. Nucl.} {\bf 57} (1994) 485--487.
+
+\bibitem{Sakharov:1996xg}
+A.~S. Sakharov, D.~D. Sokoloff, and M.~Y. Khlopov, {\it {Large scale modulation
+  of the distribution of coherent oscillations of a primordial axion field in
+  the universe}},  {\em Phys. Atom. Nucl.} {\bf 59} (1996) 1005--1010.
+
+\bibitem{Khlopov:1999tm}
+M.~Y. Khlopov, A.~S. Sakharov, and D.~D. Sokoloff, {\it {The nonlinear
+  modulation of the density distribution in standard axionic CDM and its
+  cosmological impact}},  {\em Nucl. Phys. B Proc. Suppl.} {\bf 72} (1999)
+  105--109.
+
+\bibitem{Chikashige:1980ui}
+Y.~Chikashige, R.~N. Mohapatra, and R.~D. Peccei, {\it {Are There Real
+  Goldstone Bosons Associated with Broken Lepton Number?}},  {\em Phys. Lett.
+  B} {\bf 98} (1981) 265--268.
+
+\bibitem{Georgi:1981pu}
+H.~M. Georgi, L.~J. Hall, and M.~B. Wise, {\it {Grand Unified Models With an
+  Automatic {Peccei-Quinn} Symmetry}},  {\em Nucl. Phys. B} {\bf 192} (1981)
+  409--416.
+
+\bibitem{Ringwald:2014vqa}
+A.~Ringwald, {\it {Axions and Axion-Like Particles}},  in {\em {49th Rencontres
+  de Moriond on Electroweak Interactions and Unified Theories}}, pp.~223--230,
+  2014.
+\newblock \href{http://arxiv.org/abs/1407.0546}{{\tt arXiv:1407.0546}}.
+
+\bibitem{Karamitros:2021nxi}
+D.~Karamitros, {\it {MiMeS: Misalignment Mechanism Solver}},
+  \href{http://arxiv.org/abs/2110.12253}{{\tt arXiv:2110.12253}}.
+
+\bibitem{NaBBODES}
+D.~Karamitros, {\it \href{https://github.com/dkaramit/NaBBODES}{NaBBODES}: Not
+  a black box ordinary differential equation solver in {C++}},  2019--.
+
+\bibitem{SimpleSplines}
+D.~Karamitros, {\it
+  \href{https://github.com/dkaramit/SimpleSplines}{SimpleSplines}: A header
+  only library for linear and cubic spline interpolation in {C++}.},  2021--.
+
+\bibitem{Saikawa:2020swg}
+K.~Saikawa and S.~Shirai, {\it {Precise WIMP Dark Matter Abundance and Standard
+  Model Thermodynamics}},  {\em JCAP} {\bf 08} (2020) 011,
+  [\href{http://arxiv.org/abs/2005.03544}{{\tt arXiv:2005.03544}}].
+
+\bibitem{Borsanyi:2016ksw}
+S.~Borsanyi et~al., {\it {Calculation of the axion mass based on
+  high-temperature lattice quantum chromodynamics}},  {\em Nature} {\bf 539}
+  (2016), no.~7627 69--71, [\href{http://arxiv.org/abs/1606.07494}{{\tt
+  arXiv:1606.07494}}].
+
+\bibitem{Arias:2020qty}
+P.~Arias, D.~Karamitros, and L.~Roszkowski, {\it {Frozen-in fermionic singlet
+  dark matter in non-standard cosmology with a decaying fluid}},  {\em JCAP}
+  {\bf 05} (2021) 041, [\href{http://arxiv.org/abs/2012.07202}{{\tt
+  arXiv:2012.07202}}].
+
+\end{thebibliography}\endgroup

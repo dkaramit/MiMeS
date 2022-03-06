@@ -6,8 +6,8 @@
     template< class LD >
     mimes::Cosmo< LD >(std::string cosmo_PATH, LD minT=0, LD maxT=mimes::Cosmo< LD >::mP)
 </code></pre>
-<p>The argument <code>cosmo_PATH</code> is the path of the data file that contains <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math> (in <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mi>e</mi><mi>V</mi></mrow><annotation encoding="application/x-tex">GeV</annotation></semantics></math>), <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>h</mi><mrow><mi>e</mi><mi>f</mi><mi>f</mi></mrow></msub><annotation encoding="application/x-tex">h_{eff}</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>g</mi><mrow><mi>e</mi><mi>f</mi><mi>f</mi></mrow></msub><annotation encoding="application/x-tex">g_{eff}</annotation></semantics></math>, with increasing <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>. The parameters <code>minT</code> and <code>maxT</code> are minimum and maximum interpolation temperatures. These temperatures are just limits, and the action interpolation is done between the closest temperatures in the data file. Moreover, beyond the interpolation temperatures, both <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>h</mi><mrow><mi>e</mi><mi>f</mi><mi>f</mi></mrow></msub><annotation encoding="application/x-tex">h_{eff}</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>g</mi><mrow><mi>e</mi><mi>f</mi><mi>f</mi></mrow></msub><annotation encoding="application/x-tex">g_{eff}</annotation></semantics></math> are assumed to be constants.</p>
-<p>Interpolation of the RDOF, allows us to define various quantities related to the plasma; that is. These quantities are given as the member functions:</p>
+<p>The argument <code>cosmo_PATH</code> is the path of the data file that contains <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math> (in GeV), <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>h</mi><mrow><mi>e</mi><mi>f</mi><mi>f</mi></mrow></msub><annotation encoding="application/x-tex">h_{eff}</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>g</mi><mrow><mi>e</mi><mi>f</mi><mi>f</mi></mrow></msub><annotation encoding="application/x-tex">g_{eff}</annotation></semantics></math>, with increasing <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>. The parameters <code>minT</code> and <code>maxT</code> are minimum and maximum interpolation temperatures. These temperatures are just limits, and the action interpolation is done between the closest temperatures in the data file. Moreover, beyond the interpolation temperatures, both <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>h</mi><mrow><mi>e</mi><mi>f</mi><mi>f</mi></mrow></msub><annotation encoding="application/x-tex">h_{eff}</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>g</mi><mrow><mi>e</mi><mi>f</mi><mi>f</mi></mrow></msub><annotation encoding="application/x-tex">g_{eff}</annotation></semantics></math> are assumed to be constants.</p>
+<p>Interpolation of the RDOF, allows us to define various quantities related to the plasma. These quantities are given as the member functions:</p>
 <ol>
 <li>
 <code class="prettyprint">template&lt; class LD &gt; LD mimes::Cosmo&lt; LD &gt;::heff(LD T)</code>: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>h</mi><mrow><mi>e</mi><mi>f</mi><mi>f</mi></mrow></msub><annotation encoding="application/x-tex">h_{eff}</annotation></semantics></math> as a function of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>.
@@ -37,19 +37,19 @@
 <p>Moreover, there are several cosmological quantities are given as members variables:<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
 <ol>
 <li>
-<code class="prettyprint">template&lt; class LD &gt; constexpr static LD mimes::Cosmo&lt; LD &gt;::T0</code>: CMB temperature today in <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mi>e</mi><mi>V</mi></mrow><annotation encoding="application/x-tex">GeV</annotation></semantics></math>.
+<code class="prettyprint">template&lt; class LD &gt; constexpr static LD mimes::Cosmo&lt; LD &gt;::T0</code>: CMB temperature today in GeV.
 </li>
 <li>
 <code class="prettyprint">template&lt; class LD &gt; constexpr static LD mimes::Cosmo&lt; LD &gt;::h_hub</code>: Dimensionless Hubble constant.
 </li>
 <li>
-<code class="prettyprint">template&lt; class LD &gt; constexpr static LD mimes::Cosmo&lt; LD &gt;::rho_crit</code>: Critical density in <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mi>e</mi><msup><mi>V</mi><mn>3</mn></msup></mrow><annotation encoding="application/x-tex">GeV^3</annotation></semantics></math>.
+<code class="prettyprint">template&lt; class LD &gt; constexpr static LD mimes::Cosmo&lt; LD &gt;::rho_crit</code>: Critical density in GeV<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>3</mn></msup><annotation encoding="application/x-tex">^3</annotation></semantics></math>.
 </li>
 <li>
 <code class="prettyprint">template&lt; class LD &gt; constexpr static LD mimes::Cosmo&lt; LD &gt;::relicDM_obs</code>: Central value of the measured DM relic abundance.
 </li>
 <li>
-<code class="prettyprint">template&lt; class LD &gt; constexpr static LD mimes::Cosmo&lt; LD &gt;::mP</code>: Planck mass in <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mi>e</mi><mi>V</mi></mrow><annotation encoding="application/x-tex">GeV</annotation></semantics></math>.
+<code class="prettyprint">template&lt; class LD &gt; constexpr static LD mimes::Cosmo&lt; LD &gt;::mP</code>: Planck mass in GeV.
 </li>
 </ol>
 <h3 id="the-axionmass-class">The <code>AxionMass</code> class</h3>
@@ -59,7 +59,7 @@ The class has two constructors. The first one is
     template< class LD >
     mimes::AxionMass<LD>(std::string chi_PATH, LD minT=0, LD maxT=mimes::Cosmo::mP)
 </code></pre>
-<p>The first argument, <code>chi\_PATH</code>, is the path to a data file that contains two columns; <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math> (in <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mi>e</mi><mi>V</mi></mrow><annotation encoding="application/x-tex">GeV</annotation></semantics></math>) and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>χ</mi><annotation encoding="application/x-tex">\chi</annotation></semantics></math> (in <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mi>e</mi><msup><mi>V</mi><mn>4</mn></msup></mrow><annotation encoding="application/x-tex">GeV^4</annotation></semantics></math>), with increasing <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>. The arguments <code>minT</code> and <code>maxT</code> are the interpolation limits. These limits are used in order to stop the interpolation in the closest temperatures that exist in the data file. That is the actual interpolation limits are <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mo>min</mo></msub><mo>≥</mo></mrow><annotation encoding="application/x-tex">T_{\min}\geq</annotation></semantics></math><code>minT</code> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mo>max</mo></msub><mo>≤</mo></mrow><annotation encoding="application/x-tex">T_{\max}\leq</annotation></semantics></math><code>maxT</code>. Beyond these limits, by default, the axion mass is assumed to be constant. However, this can be changed by using the member functions</p>
+<p>The first argument, <code>chi_PATH</code>, is the path to a data file that contains two columns; <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math> (in GeV) and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>χ</mi><annotation encoding="application/x-tex">\chi</annotation></semantics></math> (in <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi><mi>e</mi><msup><mi>V</mi><mn>4</mn></msup></mrow><annotation encoding="application/x-tex">GeV^4</annotation></semantics></math>), with increasing <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>. The arguments <code>minT</code> and <code>maxT</code> are the interpolation limits. These limits are used in order to stop the interpolation in the closest temperatures that exist in the data file. That is the actual interpolation limits are <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mo>min</mo></msub><mo>≥</mo></mrow><annotation encoding="application/x-tex">T_{\min}\geq</annotation></semantics></math><code>minT</code> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mo>max</mo></msub><mo>≤</mo></mrow><annotation encoding="application/x-tex">T_{\max}\leq</annotation></semantics></math><code>maxT</code>. Beyond these limits, by default, the axion mass is assumed to be constant. However, this can be changed by using the member functions</p>
 <pre><code class="prettyprint">
     void set_ma2_MIN(std::function<LD(LD,LD)> ma2_MIN)
     void set_ma2_MAX(std::function<LD(LD,LD)> ma2_MAX)
@@ -94,9 +94,9 @@ Once an instance of the class is defined, we can get <math display="inline" xmln
     template< class LD > void mimes::AxionMass<LD>::set_ma2(std::function<LD(LD,LD)> ma2)
 </code></pre>
 <h3 id="the-axion-class">The <code>Axion</code> class</h3>
-The <code>mimes::Axion&lt;LD,Solver,Method&gt;</code> class is the class that combines all the others, and actually solves the axion EOM. Its header file is <code>\mimes/src/Axion/AxionSolve.hpp</code> and its constructor is
+The <code>mimes::Axion&lt; LD,Solver,Method &gt;</code> class is the class that combines all the others, and actually solves the axion EOM. Its header file is <code>\mimes/src/Axion/AxionSolve.hpp</code> and its constructor is
 <pre><code class="prettyprint">
-    template<class LD, const int Solver, class Method>
+    template< class LD, const int Solver, class Method >
     mimes::Axion< LD, Solver, Method >(LD theta_i, LD fa, LD umax, LD TSTOP, 
                     LD ratio_ini, unsigned int N_convergence_max, LD convergence_lim, 
                     std::string inputFile, AxionMass<LD> *axionMass, LD initial_step_size=1e-2, 
@@ -104,11 +104,126 @@ The <code>mimes::Axion&lt;LD,Solver,Method&gt;</code> class is the class that co
                     LD relative_tolerance=1e-8, LD beta=0.9, LD fac_max=1.2, LD fac_min=0.8, 
                     unsigned int maximum_No_steps=10000000)
 </code></pre>
-<p>The various arguments are :</p>
+The various arguments are :
+<ol>
+<li>
+<code class="prettyprint">theta_i</code>: Initial angle, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>θ</mi><mi>i</mi></msub><annotation encoding="application/x-tex">\theta_i</annotation></semantics></math>.
+</li>
+<li>
+<code class="prettyprint"> fa</code>: The PQ scale.
+</li>
+<li>
+<code class="prettyprint"> umax </code>: If <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mo>&gt;</mo></mrow><annotation encoding="application/x-tex">u&gt;</annotation></semantics></math><code class="prettyprint"> umax</code> the integration stops (remember that <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mo>=</mo><mo>log</mo><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mi>/</mi><msub><mi>a</mi><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">u=\log(a/a_i)</annotation></semantics></math>). Typically, this should be a large number (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∼</mo><mn>1000</mn></mrow><annotation encoding="application/x-tex">\sim 1000</annotation></semantics></math>), in order to avoid stopping the integration before the axion begins to evolve adiabatically.
+</li>
+<li>
+<code class="prettyprint"> TSTOP</code>: If the temperature drops below this, integration stops. In most cases this should be around <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup><annotation encoding="application/x-tex">10^{-4}</annotation></semantics></math> GeV, in order to be sure that any entropy injection has stopped before integration stops should not be violated).
+</li>
+<li>
+<code class="prettyprint"> ratio_ini</code>: Integration starts when $3H/ m_a(T) $<code class="prettyprint"> ratio_ini</code> (the exact point depends on the file ``<code class="prettyprint"> inputFile</code>", which we will see later).
+</li>
+<li>
+<code class="prettyprint"> N_convergence_max</code> and <code class="prettyprint"> convergence_lim</code>: Integration stops when the relative difference between two consecutive peaks is less than <code class="prettyprint"> convergence_lim</code> for <code class="prettyprint"> N_convergence_max</code> consecutive peaks. This is the point beyond which adiabatic evolution is assumed.
+</li>
+<li>
+<code class="prettyprint"> inputFile </code>: Relative (or absolute) path to a file that describes the cosmology. the columns should be: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>u</mi><annotation encoding="application/x-tex">u</annotation></semantics></math> <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math> (in GeV) <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>log</mo><mi>H</mi></mrow><annotation encoding="application/x-tex">\log H</annotation></semantics></math>, sorted so that <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>u</mi><annotation encoding="application/x-tex">u</annotation></semantics></math> increases.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> It is important to remember that <code class="prettyprint"> MiMeS </code> assumes that the entropy injection has stopped before the lowest temperature given in <code class="prettyprint"> inputFile</code>. Since <code class="prettyprint"> MiMeS </code> is unable to guess the cosmology beyond what is given in this file, the user has to make sure that there are data between the initial temperature (which corresponds to <code class="prettyprint"> ratio_ini</code>), and <code class="prettyprint"> TSTOP</code>.
+</li>
+<li>
+<code class="prettyprint"> axionMass</code>: An instance of the <code class="prettyprint">mimes::AxionMass<LD></code> class, passed by pointer.
+</li>
+<li>
+<code class="prettyprint"> initial_stepsize</code> (optional): Initial step the solver takes.
+</li>
+<li>
+<code class="prettyprint"> maximum_stepsize</code> (optional): This limits the step-size to an upper limit.
+</li>
+<li>
+<code class="prettyprint"> minimum_stepsize</code> (optional): This limits the step-size to a lower limit.
+</li>
+<li>
+<code class="prettyprint"> absolute_tolerance</code> (optional): Absolute tolerance of the RK solver.
+</li>
+<li>
+<code class="prettyprint"> relative_tolerance</code> (optional): Relative tolerance of the RK solver. Generally, both absolute and relative tolerances should be <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mrow><mo>−</mo><mn>8</mn></mrow></msup><annotation encoding="application/x-tex">10^{-8}</annotation></semantics></math>. In some cases, however, one may need more accurate result (if <code class="prettyprint">fa</code> is extremely high, the oscillations happen violently, and the system destabilizes). In any case, if the tolerances are below <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mrow><mo>−</mo><mn>8</mn></mrow></msup><annotation encoding="application/x-tex">10^{-8}</annotation></semantics></math>, <code class="prettyprint">LD</code> should be <code class="prettyprint">long double</code>. <code class="prettyprint"> MiMeS </code> by default uses <code class="prettyprint">long double</code> variables, in order to change it see the options available in <a href="compile_time.html">Compile-time choices</a>.
+</li>
+<li>
+<code class="prettyprint"> beta</code> (optional): Controls how agreesive the adaptation is. Generally, it should be around but less than 1.
+</li>
+<li>
+<code class="prettyprint"> fac_max</code>, <code class="prettyprint"> fac_min</code> (optional): The stepsize does not increase more than fac_max, and less than fac_min. This ensures a better stability. Ideally, <code class="prettyprint"> fac_max</code><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mi>∞</mi></mrow><annotation encoding="application/x-tex">=\infty</annotation></semantics></math> and <code class="prettyprint"> fac_min</code><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">=0</annotation></semantics></math>, but in reality one must tweak them in order to avoid instabilities.
+</li>
+<li>
+<code class="prettyprint"> maximum_No_steps</code> (optional): Maximum steps the solver can take. Quits if this number is reached even if integration is not finished.
+</li>
+</ol>
+The member function responsible for solving the EOM is
+<pre><code class="prettyprint">
+    template< class LD, const int Solver, class Method >
+    void mimes::Axion< LD, Solver, Method >::solveAxion()
+</code></pre>
+<p>Once this function finishes, the results are stored in several member variables.</p>
+The quantities <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>/</mi><msub><mi>a</mi><mi>i</mi></msub><mo>,</mo><mspace width="0.222em"></mspace><mi>T</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>θ</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>ζ</mi><mo>,</mo><msub><mi>ρ</mi><mi>a</mi></msub></mrow><annotation encoding="application/x-tex">a/a_i, \ T, \ \theta, \ \zeta, \rho_a</annotation></semantics></math>, at the integration steps are stored in
+<pre><code class="prettyprint">
+    template< class LD, const int Solver, class Method > 
+    std::vector< std::vector< LD > > mimes::Axion< LD, Solver, Method >::points
+</code></pre>
+The quantities <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>/</mi><msub><mi>a</mi><mi>i</mi></msub><mo>,</mo><mspace width="0.222em"></mspace><mi>T</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>θ</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>ζ</mi><mo>,</mo><msub><mi>ρ</mi><mi>a</mi></msub><mo>,</mo><mspace width="0.222em"></mspace><mi>J</mi></mrow><annotation encoding="application/x-tex">a/a_i, \ T, \ \theta, \ \zeta, \rho_a, \ J</annotation></semantics></math>, at the peaks of the oscillation are stored in
+<pre><code class="prettyprint">
+    template< class LD, const int Solver, class Method > 
+    std::vector< std::vector< LD > > mimes::Axion< LD, Solver, Method >::peaks
+</code></pre>
+<p>Note that these points are computed using linear interpolation between two integration points with a change in the sign of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ζ</mi><annotation encoding="application/x-tex">\zeta</annotation></semantics></math>.</p>
+The local integration errors for <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ζ</mi><annotation encoding="application/x-tex">\zeta</annotation></semantics></math> are stored in
+<pre><code class="prettyprint">
+    template< class LD, const int Solver, class Method > 
+    std::vector< LD > mimes::Axion< LD, Solver, Method >::dtheta
+    
+    template< class LD, const int Solver, class Method > 
+    std::vector< LD > mimes::Axion< LD, Solver, Method >::dzeta
+</code></pre>
+Moreover, the oscillation temperature, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mrow><mi>o</mi><mi>s</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">T_{osc}</annotation></semantics></math>, and the corresponding values of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>/</mi><msub><mi>a</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">a/a_i</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math> are given in
+<pre><code class="prettyprint">
+    template< class LD, const int Solver, class Method >
+    LD mimes::Axion< LD, Solver, Method >::T_osc
+    
+    template< class LD, const int Solver, class Method >
+    LD mimes::Axion< LD, Solver, Method >::a_osc
+
+    template< class LD, const int Solver, class Method >
+    LD mimes::Axion< LD, Solver, Method >::theta_osc
+</code></pre>
+Also, the entropy injection between the last peak (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>=</mo><msub><mi>T</mi><mrow><mi>p</mi><mi>e</mi><mi>a</mi><mi>k</mi></mrow></msub></mrow><annotation encoding="application/x-tex">T=T_{peak}</annotation></semantics></math>) and today (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>=</mo><msub><mi>T</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">T=T_0</annotation></semantics></math>), <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>γ</mi><annotation encoding="application/x-tex">\gamma</annotation></semantics></math> (the entropy increase factor from <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>=</mo><msub><mi>T</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">T=T_i</annotation></semantics></math>), is given in
+<pre><code class="prettyprint">
+    template<c lass LD, const int Solver, class Method >
+    LD mimes::Axion< LD, Solver, Method >::gamma
+</code></pre>
+The relic abundance is stored in the following member variable
+<pre><code class="prettyprint">
+    template< class LD, const int Solver, class Method >
+    LD mimes::Axion< LD, Solver, Method >::relic
+</code></pre>
+We can set another initial condition, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>θ</mi><mi>i</mi></msub><annotation encoding="application/x-tex">\theta_i</annotation></semantics></math>, using
+<pre><code class="prettyprint">
+    template< class LD, const int Solver, class Method >
+    void mimes::Axion< LD, Solver, Method >::setTheta_i(LD theta_i)
+</code></pre>
+<p>We should note that running this function all variables are cleared. So we lose all information about the last time <code class="prettyprint">axionSolve()</code> ran.</p>
+In case the mass of the axion is changed, we also need to remake the interpolation (run <code class="prettyprint">mimes::AxionEOM::makeInt()</code>). This is done using
+<pre><code class="prettyprint">
+    template< class LD, const int Solver, class Method >
+    void mimes::Axion< LD, Solver, Method >::restart()
+</code></pre>
+<p>Again, this function clears all member variables. So it should be used with caution.</p>
+Finally, there is static <code class="prettyprint">mimes::Cosmo&lt; LD &gt;</code> member variable
+<pre><code class="prettyprint">
+    template< class LD, const int Solver, class Method >
+    static mimes::Cosmo< LD > mimes::Axion< LD, Solver, Method >::plasma
+</code></pre>
+<p>This variable can be used without an instance of the <code class="prettyprint">mimes::Axion&lt; LD,Solver,Method &gt;</code> class.</p>
 <section class="footnotes">
 <hr />
 <ol>
 <li id="fn1"><p>Taken from <a href="https://inspirehep.net/literature/1812251">PRD</a> and the <a href="https://inspirehep.net/literature/1682902">Planck Collaboration</a>.<a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>One can run <code class="prettyprint">bash MiMeS/src/FormatFile.sh inputFile</code> in order to sort it and remove any unwanted duplicates.<a href="#fnref2" class="footnote-back">↩</a></p></li>
 </ol>
 </section>
 </body> </html>

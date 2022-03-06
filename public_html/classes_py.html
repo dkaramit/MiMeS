@@ -8,5 +8,192 @@ In order to be able to load the various modules, the following has to be include
 </code></pre>
 <p>where <code>'path_to_src'</code> is the relative or absolute path to <code>MiMeS/src</code>.</p>
 <h3 id="the-cosmo-class">The <code>Cosmo</code> class</h3>
-<p>The <code>Cosmo</code> class is used to interpolate various quantities of the plasma.<a href="https://inspirehep.net/literature/1682902">Planck Collaboration</a>.</p>
+The <code>Cosmo</code> class is used to interpolate various quantities of the plasma.<a href="https://inspirehep.net/literature/1682902">Planck Collaboration</a>. The class can be imported by running
+<pre><code class="prettyprint">
+    from interfacePy.Cosmo import Cosmo
+</code></pre>
+Its constructor is
+<pre><code class="prettyprint">
+    Cosmo(cosmo_PATH, minT=0, maxT=mP)
+</code></pre>
+The argument <code class="prettyprint">cosmo_PATH</code> is the path (a string) of a data file that contains <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math> (in GeV), <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>h</mi><mrow><mi>e</mi><mi>f</mi><mi>f</mi></mrow></msub><annotation encoding="application/x-tex">h_{eff}</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>g</mi><mrow><mi>e</mi><mi>f</mi><mi>f</mi></mrow></msub><annotation encoding="application/x-tex">g_{eff}</annotation></semantics></math>, with accenting <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>. The second and third arguments, <code class="prettyprint">minT</code> and <code class="prettyprint">maxT</code>, are minimum and maximum interpolation temperatures, with the interpolation being between the closest temperatures in the data file. Moreover, beyond these limits, both <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>h</mi><mrow><mi>e</mi><mi>f</mi><mi>f</mi></mrow></msub><annotation encoding="application/x-tex">h_{eff}</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>g</mi><mrow><mi>e</mi><mi>f</mi><mi>f</mi></mrow></msub><annotation encoding="application/x-tex">g_{eff}</annotation></semantics></math> are assumed to be constants. It is important to note that the class creates a <code class="prettyprint">void</code> pointer that gets recasted to <code class="prettyprint">mimes::Cosmo&lt; LD &gt;</code> in order to call the various member functions. This means that once an instance of <code class="prettyprint">Cosmo</code> is no longer needed, it must be deleted, in order to free the memory that it occupies. An instance, say <code class="prettyprint">cosmo</code>, is deleted using
+<pre><code class="prettyprint">
+    del cosmo
+</code></pre>
+<p>Interpolation of the RDOF, allows us to define various quantities related to the plasma. These quantities are given as the member functions:</p>
+<ol>
+<li>
+<code class="prettyprint">Cosmo.heff(T)</code>: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>h</mi><mrow><mi>e</mi><mi>f</mi><mi>f</mi></mrow></msub><annotation encoding="application/x-tex">h_{eff}</annotation></semantics></math> as a function of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>.
+</li>
+<li>
+<code class="prettyprint">Cosmo.geff(T)</code>: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>g</mi><mrow><mi>e</mi><mi>f</mi><mi>f</mi></mrow></msub><annotation encoding="application/x-tex">g_{eff}</annotation></semantics></math> as a function of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>.
+</li>
+<li>
+<code class="prettyprint">Cosmo.dheffdT(T)</code>: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><msub><mi>h</mi><mrow><mi>e</mi><mi>f</mi><mi>f</mi></mrow></msub><mi>/</mi><mi>d</mi><mi>T</mi></mrow><annotation encoding="application/x-tex">dh_{eff}/dT</annotation></semantics></math> as a function of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>.
+</li>
+<li>
+<code class="prettyprint">Cosmo.dgeffdT(T)</code>: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><msub><mi>g</mi><mrow><mi>e</mi><mi>f</mi><mi>f</mi></mrow></msub><mi>/</mi><mi>d</mi><mi>T</mi></mrow><annotation encoding="application/x-tex">dg_{eff}/dT</annotation></semantics></math> as a function of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>.
+</li>
+<li>
+<code class="prettyprint">Cosmo.dh(T)</code>: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>δ</mi><mi>h</mi></msub><mo>=</mo><mn>1</mn><mo>+</mo><mfrac><mn>1</mn><mn>3</mn></mfrac><mfrac><mrow><mi>d</mi><mo>log</mo><msub><mi>h</mi><mrow><mi>e</mi><mi>f</mi><mi>f</mi></mrow></msub></mrow><mrow><mi>d</mi><mo>log</mo><mi>T</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\delta_h = 1 + \frac{1}{3} \frac{d\log h_{eff}}{d\log T}</annotation></semantics></math> as a function of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>.
+</li>
+<li>
+<code class="prettyprint">Cosmo.s(T)</code>: The entropy density of the plasma as a function of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>.
+</li>
+<li>
+<code class="prettyprint">Cosmo.rhoR(T)</code>: The energy density of the plasma as a function of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>.
+</li>
+<li>
+<code class="prettyprint">Cosmo.Hubble(T)</code>: The Hubble parameter assuming radiation dominated expansion as a function of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>.
+</li>
+</ol>
+<p>Moreover, there are several cosmological quantities are given as members variables:<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
+<ol>
+<li>
+<code class="prettyprint">Cosmo.T0</code>: CMB temperature today in GeV.
+</li>
+<li>
+<code class="prettyprint">Cosmo.h_hub</code>: Dimensionless Hubble constant.
+</li>
+<li>
+<code class="prettyprint">Cosmo.rho_crit</code>: Critical density in GeV<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>3</mn></msup><annotation encoding="application/x-tex">^3</annotation></semantics></math>.
+</li>
+<li>
+<code class="prettyprint">Cosmo.relicDM_obs</code>: Central value of the measured DM relic abundance.
+</li>
+<li>
+<code class="prettyprint">Cosmo.mP</code>: Planck mass in GeV.
+</li>
+</ol>
+Note that these values can be directly imported from the module, without declaring an instance of the class, as
+<pre><code class="prettyprint">
+    from interfacePy.Cosmo import T0, h_hub, rho_crit, relicDM_obs, mP
+</pre>
+<p></code></p>
+<h3 id="the-axionmass-class">The <code>AxionMass</code> class</h3>
+<p>The <code class="prettyprint">AxionMass</code> class is defined in the module with the same name that can be found in the directory <code class="prettyprint">MiMeS/src/interfacePy/AxionMass</code>. This class is responsible for the definition of the axion mass. This module loads the corresponding shared library from <code class="prettyprint">MiMeS/lib/libma.so</code>, which is created by compiling <code class="prettyprint"> MiMeS/src/AxionMass/AxionMass.cpp</code> using <code class="prettyprint">make lib/libma.so</code>. Its usage is described in the <a href="Examples.html">Examples</a>. Moreover, this class is used in the same way as . However, we should append in this section the definition of its member functions in <code class="prettyprint">python</code>.</p>
+The constructor is
+<pre><code class="prettyprint">
+    AxionMass(*args)
+</pre>
+<p></code> and can be used in two different ways.</p>
+First, one can pass three arguments, as
+<pre><code class="prettyprint">
+    AxionMass(chi_PAT, minT, maxT)
+</pre>
+</code> The first argument is the path to a data file that contains two columns; <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math> (in GeV) and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mi>h</mi><mi>i</mi></mrow><annotation encoding="application/x-tex">chi</annotation></semantics></math> (in GeV<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>4</mn></msup><annotation encoding="application/x-tex">^4</annotation></semantics></math>), with increasing <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>. The arguments <code>minT</code> and <code>maxT</code> are the interpolation limits. These limits are used in order to stop the interpolation in the closest temperatures in <code>chi_PATH</code>. That is the actual interpolation limits are <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mrow><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub><mo>≥</mo></mrow><annotation encoding="application/x-tex">T_{min}\geq</annotation></semantics></math><code>minT</code> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>≤</mo></mrow><annotation encoding="application/x-tex">T_{max}\leq</annotation></semantics></math><code>maxT</code>. Beyond these limits, by default, the axion mass is assumed to be constant. However, this can be changed by using the member functions
+<pre><code class="prettyprint">
+    AxionMass.set_ma2_MIN(ma2_MIN)
+    AxionMass.set_ma2_MAX(ma2_MAX)
+</pre>
+<p></code></p>
+<p>Here, <code>ma2_MIN(T,fa)</code> and <code>ma2_MAX(T,fa)</code>, are functions (not any callable object), should take as arguments <code>T</code> and <code>fa</code>, and return the axion mass squared beyond the interpolation limits. In order to ensure that the axion mass is continuous, usually we need <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mrow><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub><annotation encoding="application/x-tex">T_{min}</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">T_{max}</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>χ</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mrow><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\chi(T_{min})</annotation></semantics></math>, and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>χ</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\chi(T_{max})</annotation></semantics></math>. These values can be obtained using the member functions</p>
+<ol>
+<li>
+<code>AxionMass.getTMin()</code>: This function returns the minimum interpolation temperature, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mrow><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub><annotation encoding="application/x-tex">T_{min}</annotation></semantics></math>.
+</li>
+<li>
+<code>AxionMass.getTMax()</code>: This function returns the maximum interpolation temperature, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">T_{max}</annotation></semantics></math>.
+</li>
+<li>
+<code>AxionMass.getChiMin()</code>: This function returns <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>χ</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mrow><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\chi(T_{min})</annotation></semantics></math>.
+</li>
+<li>
+<code>AxionMass.getChiMax()</code>: This function returns <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>χ</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>T</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\chi(T_{max})</annotation></semantics></math>.
+</li>
+</ol>
+An alternative way to define the axion mass is via the constructor
+<pre><code class="prettyprint">
+    AxionMass(ma2)
+</pre>
+<p></code> Here, <code>ma2(T,fa)</code> is a function (not any callable object) that takes <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math> (in GeV) and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mi>a</mi></msub><annotation encoding="application/x-tex">f_a</annotation></semantics></math>, and returns <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>m</mi><mi>a</mi><mn>2</mn></msubsup><mo stretchy="false" form="prefix">(</mo><mi>T</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">m_a^2(T)</annotation></semantics></math> (in GeV). As in the other <code>python</code> classes, once the instances of this class are no longer needed, they must be deleted using the destructor, <code>del</code>.</p>
+The member function that returns <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>m</mi><mi>a</mi><mn>2</mn></msubsup><mo stretchy="false" form="prefix">(</mo><mi>T</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">m^2_a(T)</annotation></semantics></math> is
+<pre><code class="prettyprint">
+    AxionMassma2(T,fa)
+</pre>
+</code> We should note that another <code>ma2</code> can be changed using the following member function:
+<pre><code class="prettyprint">
+    AxionMass.set_ma2(ma2)
+</pre>
+<p></code> Again, <code>ma2(T,fa)</code> is a function (not any callable object) that takes <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math> (in GeV) and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mi>a</mi></msub><annotation encoding="application/x-tex">f_a</annotation></semantics></math>, and returns <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>m</mi><mi>a</mi><mn>2</mn></msubsup><mo stretchy="false" form="prefix">(</mo><mi>T</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">m_a^2(T)</annotation></semantics></math> (in GeV).</p>
+<h3 id="the-axionmass-class-1">The <code>AxionMass</code> class</h3>
+<p>The class <code>Axion</code>, solves the axion EOM. This class is defined in <code>MiMeS/interfacePy/Axion/Axion.py</code>, and imports the corresponding shared library. This library is compiled by running <code>make lib/Axion_py.so</code>, and its source file is <code>MiMeS/src/Axion/Axion-py.cpp</code>. As in the previous classes, its usage is similar to the <code>C++</code> version.</p>
+Its constructor is
+<pre><code class="prettyprint">
+    Axion(theta_i, fa, umax, TSTOP, 
+            ratio_ini, unsigned int N_convergence_max, convergence_lim, 
+            inputFile, axionMass, initial_step_size=1e-2, 
+            minimum_step_size=1e-8, maximum_step_size=1e-2, absolute_tolerance=1e-8, 
+            relative_tolerance=1e-8, beta=0.9, fac_max=1.2, fac_min=0.8, 
+            unsigned int maximum_No_steps=10000000)
+</pre>
+<p></code> Again, the various arguments are discussed in the <a href="classes_cpp.html"><code>C++</code> case</a>. Notice one important difference between this and the <code>C++</code> verison of this class; the instance of <code>AxionMass</code>, <code>axionMass</code>, is passed by value. However, internally, the constructor converts this instance to a pointer, which is then passed to the underlying <code>C</code> function responsible for creating the relevant instance.</p>
+The member function responsible for solving the EOM is
+<pre><code class="prettyprint">
+    Axion.solveAxion()
+</pre>
+<p></code></p>
+<p>Once this function is finished, the following member variables are available</p>
+<ol>
+<li>
+<code>Axion.T_osc</code>: the oscillation temperature, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mrow><mi>o</mi><mi>s</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">T_{osc}</annotation></semantics></math>, in GeV.
+</li>
+<li>
+<code>Axion.a_osc</code>: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mstyle displaystyle="true"><mfrac><mi>a</mi><msub><mi>a</mi><mi>i</mi></msub></mfrac></mstyle><annotation encoding="application/x-tex">\dfrac{a}{a_i}</annotation></semantics></math> at the oscillation temperature.
+</li>
+<li>
+<code>Axion.theta_osc</code>: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mi>h</mi><mi>e</mi><mi>t</mi><msub><mi>a</mi><mrow><mi>o</mi><mi>s</mi><mi>c</mi></mrow></msub></mrow><annotation encoding="application/x-tex">theta_{osc}</annotation></semantics></math>, i.e. <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math> at <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mrow><mi>o</mi><mi>s</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">T_{osc}</annotation></semantics></math>.
+</li>
+<li>
+<code>Axion.gamma</code>: the entropy injection between the last peak (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>=</mo><msub><mi>T</mi><mrow><mi>p</mi><mi>e</mi><mi>a</mi><mi>k</mi></mrow></msub></mrow><annotation encoding="application/x-tex">T=T_{peak}</annotation></semantics></math>) and today (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>=</mo><msub><mi>T</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">T=T_0</annotation></semantics></math>), <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>γ</mi><annotation encoding="application/x-tex">\gamma</annotation></semantics></math> (entropy injection factor from <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>T</mi><mi>i</mi></msub><annotation encoding="application/x-tex">T_i</annotation></semantics></math>).
+</li>
+<li>
+<code>Axion.relic</code> The relic abundance of the axion.
+</li>
+</ol>
+The evolution of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>/</mi><msub><mi>a</mi><mi>i</mi></msub><mo>,</mo><mspace width="0.222em"></mspace><mi>T</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>θ</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>ζ</mi><mo>,</mo><msub><mi>ρ</mi><mi>a</mi></msub></mrow><annotation encoding="application/x-tex">a/a_i, \ T, \ \theta, \ \zeta, \rho_a</annotation></semantics></math> at the integration steps, is not automatically accessible to user, but they can be made so using
+<pre><code class="prettyprint">
+    Axion.getPoints()
+</pre>
+</code> Then, the following member variables are filled
+<ol>
+<li>
+<code>Axion.a</code>: The scale factor over its initial value, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mstyle displaystyle="true"><mfrac><mi>a</mi><msub><mi>a</mi><mi>i</mi></msub></mfrac></mstyle><annotation encoding="application/x-tex">\dfrac{a}{a_i}</annotation></semantics></math>.
+</li>
+<li>
+<code>Axion.T</code>: The temperature in GeV.
+</li>
+<li>
+<code>Axion.theta</code>: The axion angle, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math>.
+</li>
+<li>
+<code>Axion.zeta</code>: The derivative of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ζ</mi><mo>≡</mo><mstyle displaystyle="true"><mfrac><mrow><mi>d</mi><mi>θ</mi></mrow><mrow><mi>d</mi><mo>log</mo><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mi>/</mi><msub><mi>a</mi><mi>i</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow></mfrac></mstyle></mrow><annotation encoding="application/x-tex">\zeta \equiv \dfrac{d \theta}{d \log (a/a_i)}</annotation></semantics></math>.
+</li>
+<li>
+<code>Axion.rho_axion</code>: The axion energy density in GeV<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>4</mn></msup><annotation encoding="application/x-tex">^4</annotation></semantics></math>.
+</li>
+</ol>
+Moreover, the function
+<pre><code class="prettyprint">
+    Axion.getPeaks()
+</pre>
+<p></code> fills the (<code>numpy</code>) arrays <code>Axion.a_peak</code>, <code>Axion.T_peak</code>, <code>Axion.theta_peak</code>, <code>Axion.zeta_peak</code>, <code>Axion.rho_axion_peak</code>, and <code>Axion.adiabatic_invariant</code> with the quantities <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>/</mi><msub><mi>a</mi><mi>i</mi></msub><mo>,</mo><mspace width="0.222em"></mspace><mi>T</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>θ</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>ζ</mi><mo>,</mo><msub><mi>ρ</mi><mi>a</mi></msub><mo>,</mo><mspace width="0.222em"></mspace><mi>J</mi></mrow><annotation encoding="application/x-tex">a/a_i, \ T, \ \theta, \ \zeta, \rho_a, \ J</annotation></semantics></math>, at the peaks of the oscillation. These points are computed using linear interpolation between two integration points with a change in the sign of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ζ</mi><annotation encoding="application/x-tex">\zeta</annotation></semantics></math>.</p>
+The local integration errors for <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ζ</mi><annotation encoding="application/x-tex">\zeta</annotation></semantics></math> are stored in <code>Axion.dtheta</code> and <code>Axion.dzeta</code>, after the following function is run
+<pre><code class="prettyprint">
+    Axion.getErrors()
+</pre>
+<p></code></p>
+Another initial condition, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>θ</mi><mi>i</mi></msub><annotation encoding="application/x-tex">\theta_i</annotation></semantics></math>, can be used without declaring a new instance using
+<pre><code class="prettyprint">
+    Axion.setTheta_i(theta_i)
+</pre>
+<p></code> We should note that running this function all variables are cleared.</p>
+<p>As in the previous <code>py</code> classes, once an instance of the <code>Axion</code> class is no longer needed, it needs to be deleted, by calling the destructor, <code>del</code>.</p>
+<p><strong>Important difference between the <code>C++</code> version</strong> Since the axion mass is passed by value in the constructor, a change of the <code>AxionMass</code> instance has no effect on the <code>Axion</code> instance that uses it. Therefore, if the definition of the axion mass changes, one has to declare a new instance of the <code>Axion</code> class. The new instance can be named using the name of the previous one, if the latter is deleted by running its destructor.</p>
+<section class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Taken from <a href="https://inspirehep.net/literature/1812251">PRD</a> and the <a href="https://inspirehep.net/literature/1682902">Planck Collaboration</a>.<a href="#fnref1" class="footnote-back">↩</a></p></li>
+</ol>
+</section>
 </body> </html>

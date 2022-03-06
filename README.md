@@ -27,15 +27,19 @@ make</code></pre>
 This will compile the shared libraries you'll need in order to call <code>MiMeS</code> from <code>python</code>. Also, it compiles some examples written in <code>C++</code>. There are several examples in <code>C++</code> and  <code>python</code> (including <code>python</code> in <code>jupyter</code> notebooks) that can be found in <code>MiMeS/UserSpace</code>. So feel free to check them out. Detailed description of what <code>MiMeS</code> does can be found in the [documentation](https://arxiv.org/abs/2110.12253). However, for those brave enough, almost every line of code is commented, in order to be able to follow the logic yourselves.
 
 If you use <code>MiMeS</code>, cite it as
-<pre><code>@article{Karamitros:2021nxi,
+<pre><code>@@article{Karamitros:2021nxi,
     author = "Karamitros, Dimitrios",
-    title = "{MiMeS: Misalignment Mechanism Solver}",
+    title = "{MiMeS: Misalignment mechanism solver}",
     eprint = "2110.12253",
     archivePrefix = "arXiv",
     primaryClass = "hep-ph",
-    month = "10",
-    year = "2021"
-}</pre></code>
+    doi = "10.1016/j.cpc.2022.108311",
+    journal = "Comput. Phys. Commun.",
+    volume = "275",
+    pages = "108311",
+    year = "2022"
+}
+</pre></code>
 
 
 

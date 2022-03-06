@@ -1,6 +1,5 @@
 # Welcome to the HEPForge page of MiMeS
 
-This page is a work in progress…
 
 For the moment, you can read the <a href="https://github.com/dkaramit/MiMeS/blob/stable/README.md">RADME</a> file on github. Also, have a look at the documentation, which should be available on <a href="https://arxiv.org/abs/2110.12253">arXiv</a>. The documentation is updated regularly, so it is a good idea to get it directly from the <a href="https://github.com/dkaramit/MiMeS/blob/stable/MiMeS.pdf">MiMeS</a> github repository.
         

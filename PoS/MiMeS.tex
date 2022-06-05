@@ -41,12 +41,12 @@
 		\label{eq:eom}
 	\end{equation}	
 	%
-	where $\theta= A \, \fa$, with $A$ the axion filed, and $\fa$ some energy scale that characterises the potential (Peccei-Quinn breaking scale). 
+	where $\theta= A \, \fa$, with $A$ the axion field, and $\fa$ some energy scale that characterises the potential (Peccei-Quinn breaking scale). 
 	The classical analogue is the dumped pendulum with both frequency (length) and friction being time-dependent. That is, there is no closed form solution, 
 	no constants of motion until the Hamiltonian starts to vary slowly. 
 	
 	
-	In this proceedings, we present the basic aspects of \mimes~\cite{Karamitros:2021nxi}. \mimes is designed to solve the EOM~\ref{eq:eom} numerically; \ie~\mimes simulates the evolution of the axion/ALP, for many cosmological scenarios and axion/ALP (thermal) masses. In sort, \mimes is a \CPP header-only library that contains various templated classes; there is no ``installation" and no special procedures, just include the header files. It comes with a \PY interface making it accessible to everyone. \mimes also is easy to use; anyone can run it and see if their model can work or check against the literature. Moreover, the user is 
+	In this proceedings, we present the basic aspects of \mimes~\cite{Karamitros:2021nxi}. \mimes is designed to solve the EOM~(\ref{eq:eom}) numerically; \ie~\mimes simulates the evolution of the axion/ALP, for many cosmological scenarios and axion/ALP (thermal) masses. In short, \mimes is a \CPP header-only library that contains various templated classes; there is no ``installation" and no special procedures, just include the header files. It comes with a \PY interface making it accessible to everyone. \mimes also is easy to use; anyone can run it and see if their model can work or check against the literature. Moreover, the user is 
 	free to decide when to start, stop, and when adiabaticity is reached. So, almost every aspect of the numerical solution can be tuned by the user.	
 
 	
@@ -56,8 +56,8 @@
 	\subsection{Under the hood}
 	%
 	\mimes relies on \cppin{NaBBODES}~\cite{NaBBODES} for the numerical integration, and \cppin{SimpleSplines}~\cite{SimpleSplines} for the various interpolations. 
-	These are header-only libraries developed and maintained by DK. They are included in the source code of \mimes, which means that \mimes only needs the standard \CPP library.
-	Moreover, their integration with \mimes is guaranteed, since there will always be suitable version of these libraries that work with the current version of   \mimes.
+	These are header-only libraries developed and maintained by the author. They are included in the source code of \mimes, which means that \mimes only needs the standard \CPP library.
+	Moreover, their integration with \mimes is guaranteed, since there will always be suitable versions of these libraries that work with the current version of   \mimes.
 	
 	\subsection{How to get \mimes}
 	%
@@ -77,7 +77,7 @@
 
 	\subsection{Configure (and make)}
 	%
-	If the user intents to use \mimes directly from \CPP they do not need the install anything in particular. The only requirement is to run 
+	If the user intents to use \mimes directly from \CPP they do not need to install anything in particular. The only requirement is to run 
 	\begin{bash}
 		bash configure.sh
 	\end{bash}
@@ -98,7 +98,7 @@
 	The class that is responsible for actually solving the EOM is \cppin{mimes::Axion<LD,Solver,Method>}. Here, the user is free to use a number of different Runge-Kutta methods,
 	as well control various aspects of how integration happens. The details on how exactly these classes work can be found in ref.~\cite{Karamitros:2021nxi}.
 	
-	All classes take a template argument labelled \cppin{LD}, which should be \cppin{double} (fast) or \cppin{long double} (accurate). For most cases, the later is
+	All classes take a template argument labelled \cppin{LD}, which should be \cppin{double} (fast) or \cppin{long double} (accurate). For most cases, the latter is
 	recommended, since $\theta$ can be very small especially in cosmologies with entropy injection. Moreover, the other template arguments are
 	%
 	\begin{itemize}
@@ -150,11 +150,10 @@
 	\mimes is designed to make as few assumptions as possible. The basic assumption it makes are:
 	%
 	\begin{enumerate}
-		\item $\dot \theta(0)=0$. This means that at high temperatures the kinetic energy dominates, which to $\dot \theta$ being a conserved current; \ie it falls as $a^{-3}$ ($a$ is the scale factor). Therefore, at low temperatures, $\dot \theta(0)$ can be assumed to be negligible.   
+		\item $\dot \theta(0)=0$. This means that at high temperatures the kinetic energy dominates, $\dot \theta$ is a conserved current; \ie it falls as $a^{-3}$ ($a$ is the scale factor). Therefore, at low temperatures, $\dot \theta(0)$ can be assumed to be negligible.   
 		\item $H/\maT$ increases monotonically with the temperature. This is related to the previous assumption. Practically, it is also used to find an appropriate starting integration point. 
-		\item The energy density of the axion/ALP is always subdominant. This ensures that the EOM~\ref{eq:eom} assuming a  cosmological background. Otherwise, one would need to solve a system of
-		equations that take into account the effect of the axion to the evolution of the Universe. For the dark matter point of view  
-		\item Only the EOM determines the energy density. That is, there are other sources of axion production.
+		\item The energy density of the axion/ALP is always subdominant, since the axion/ALP is assumed to be at least a DM component. This ensures that the axion/ALP evolves in some cosmological background. Otherwise, one would need to solve a system of equations that take into account the effect of the axion to the evolution of the rest of Universe (\eg contribution to plasma energy density).
+		\item Only \eqs{eq:eom} determines the axion/ALP energy density. That is, there are other sources of axion production.
 	\end{enumerate}	
 	
 	
@@ -170,7 +169,7 @@
 	\lstinputlisting[basicstyle=\footnotesize]{example.cpp}
 	
 	
-	We note here that the axion mass is interpolated between the temperature that exist in the corresponding file. Beyond these points, we set the mass to follow the functions
+	We note here that the axion mass is interpolated between the temperatures that exist in the corresponding file. Beyond these points, we set the mass to follow the functions
 	that are passed as arguments in \cppin{set_ma2_MAX} and \cppin{set_ma2_MIN}.  Here, we choose
 	%
 	\begin{equation}
@@ -183,7 +182,7 @@
 		\label{eq:axM-limits}
 	\end{equation}
  	%
-	Once the mass is defined according to our model, we move to setting-up and solving the EOM. This is done in lines 30-34. Observe that the constructor of the \cppin{mimes::Axion} class takes a lot of arguments. The role of all these arguments is explained in detail in the documentation of \mimes~\cite{Karamitros:2021nxi}. However, it is important to note that we choose as a starting point the temperature where $H/\ma = 1000$. One can detemine if this is a valid value by taking a larger one and confirming that the end result does not change.
+	Once the mass is defined according to our model, we move to setting-up and solving the EOM. This is done in lines $30$-$34$. Observe that the constructor of the \cppin{mimes::Axion} class takes a lot of arguments. The role of all these arguments is explained in detail in the documentation of \mimes~\cite{Karamitros:2021nxi}. However, it is important to note that we choose as a starting point the temperature where $H/\ma = 1000$. One can detemine if this is a valid value by taking a larger one and confirming that the end result does not change.
 	%
 	 Also, we consider the axion to start evolving adiabatically at the point where the relative difference of its adiabatic invariant is less that $10^{-2}$ between peaks of the oscillation for $10$ consecutive times.
 	 
@@ -191,10 +190,11 @@
 	 \begin{bash}
 	 	g++ -O3 -std=c++17 -lm -I../ -o axion example.cpp
 	 \end{bash}
-	Then, the executable (\tt{axion}) can be called as \cppin{./axion}.
+	Then, the executable (\cppin{axion}) can be called as \cppin{./axion}.
 	
 	
 	\subsection{\PY example}
+	%
 	\mimes can also be called from \PY using a script with similar structure. The \PY interface is made as close to the \CPP code as possible. This can be seen by the following example, where 
 	we show a \PY script that performs the same calculation as the \CPP example, in a very similar way.
 	

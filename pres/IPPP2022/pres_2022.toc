@@ -1,18 +1,29 @@
 \babel@toc {english}{}
-\beamer@sectionintoc {1}{Calculating the Relic Abundance}{3}{0}{1}
-\beamer@subsectionintoc {1}{1}{The axion EOM}{4}{0}{1}
-\beamer@subsectionintoc {1}{2}{How hard can it be?}{5}{0}{1}
-\beamer@sectionintoc {2}{{\tt MiMeS}\xspace }{8}{0}{2}
-\beamer@subsectionintoc {2}{1}{{\tt MiMeS}\xspace }{9}{0}{2}
-\beamer@subsectionintoc {2}{2}{{\tt MiMeS}\xspace under the hood}{10}{0}{2}
-\beamer@subsectionintoc {2}{3}{How to get {\tt MiMeS}\xspace }{11}{0}{2}
-\beamer@subsectionintoc {2}{4}{Configure (and make)}{12}{0}{2}
-\beamer@subsectionintoc {2}{5}{Classes}{13}{0}{2}
-\beamer@subsectionintoc {2}{6}{Template arguments}{17}{0}{2}
-\beamer@subsectionintoc {2}{7}{{\tt MiMeS}\xspace from {\tt python}\xspace }{18}{0}{2}
-\beamer@subsectionintoc {2}{8}{Assumptions}{19}{0}{2}
-\beamer@subsectionintoc {2}{9}{What {\tt MiMeS}\xspace expects from you}{24}{0}{2}
-\beamer@sectionintoc {3}{Examples}{30}{0}{3}
-\beamer@subsectionintoc {3}{1}{{\tt python}\xspace }{31}{0}{3}
-\beamer@subsectionintoc {3}{2}{{\tt C++}\xspace }{32}{0}{3}
-\beamer@sectionintoc {4}{Outlook}{33}{0}{4}
+\beamer@sectionintoc {1}{Axion Dark Matter}{3}{0}{1}
+\beamer@subsectionintoc {1}{1}{Why particle dark matter}{4}{0}{1}
+\beamer@subsectionintoc {1}{2}{The dark matter particle}{5}{0}{1}
+\babel@toc {greek}{}
+\babel@toc {english}{}
+\beamer@subsectionintoc {1}{3}{The axion (like) particle}{6}{0}{1}
+\beamer@sectionintoc {2}{Calculating the Relic Abundance}{8}{0}{2}
+\beamer@subsectionintoc {2}{1}{The axion EOM}{9}{0}{2}
+\beamer@subsectionintoc {2}{2}{How hard can it be?}{10}{0}{2}
+\beamer@subsectionintoc {2}{3}{Initial conditions}{13}{0}{2}
+\beamer@subsectionintoc {2}{4}{(Bad) Analytical approximations}{14}{0}{2}
+\beamer@subsectionintoc {2}{5}{Need for speed, accuracy, and automation}{19}{0}{2}
+\beamer@sectionintoc {3}{{\tt MiMeS}\xspace }{23}{0}{3}
+\beamer@subsectionintoc {3}{1}{{\tt MiMeS}\xspace : Why?}{24}{0}{3}
+\beamer@subsectionintoc {3}{2}{{\tt MiMeS}\xspace : Under the hood}{25}{0}{3}
+\beamer@subsectionintoc {3}{3}{{\tt MiMeS}\xspace : Notation}{26}{0}{3}
+\beamer@sectionintoc {4}{Using {\tt MiMeS}\xspace }{28}{0}{4}
+\beamer@subsectionintoc {4}{1}{How to get {\tt MiMeS}\xspace }{29}{0}{4}
+\beamer@subsectionintoc {4}{2}{Configure (and make)}{30}{0}{4}
+\beamer@subsectionintoc {4}{3}{Classes}{31}{0}{4}
+\beamer@subsectionintoc {4}{4}{Template arguments}{35}{0}{4}
+\beamer@subsectionintoc {4}{5}{{\tt MiMeS}\xspace from {\tt python}\xspace }{36}{0}{4}
+\beamer@subsectionintoc {4}{6}{Assumptions}{37}{0}{4}
+\beamer@subsectionintoc {4}{7}{What {\tt MiMeS}\xspace expects from you}{42}{0}{4}
+\beamer@sectionintoc {5}{Examples}{48}{0}{5}
+\beamer@subsectionintoc {5}{1}{{\tt python}\xspace }{49}{0}{5}
+\beamer@subsectionintoc {5}{2}{{\tt C++}\xspace }{50}{0}{5}
+\beamer@sectionintoc {6}{Outlook}{51}{0}{6}

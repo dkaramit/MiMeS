@@ -104,6 +104,110 @@
 
 
 
+\section{Axion Dark Matter}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Why particle dark matter}
+\begin{frame}{}%\transblindsvertical
+	\frametitle{\insertsubsectionhead}
+	
+	\begin{columns}
+		\column{0.5\textwidth}
+		\vspace{-0.5cm} \centering \includegraphics[width=5.5cm,height=4.cm]{rotationCurve.jpg}\\[-0.2cm] 
+		\bl{   \fontF E.~Corbelli and P.~Salucci,   {\em Mon.\ Not.\ Roy.\ Astron.\ Soc.\  {\bf 311} 441}  (2000), %\\[-0.3cm]
+			\href{https://arxiv.org/abs/astro-ph/9909252}{\fontF  arXiv:astro-ph/9909252}.}  
+		\begin{textblock}{0.8}(0.94,1.5)
+			\begin{turn}{70}
+				{\bf \color{yellow} \Large Hint}
+			\end{turn}
+		\end{textblock}
+		
+		\column{0.5\textwidth}
+		\vspace{-0.0cm}\centering \includegraphics[width=5.5cm,height=4.cm]{BulletCluster.jpg} \\[-0.2cm] 
+		\bl{ \fontF   M.~Markevitch, ESA Spec.\ Publ.\  {\bf 604} (2006) 723, \href{https://arxiv.org/abs/astro-ph/0511345}{\fontF  astro-ph/0511345}.%\\[-0.3cm] 
+			Clowe, Bradac, {\em  et. al.}  Astrophys.\ J.\  {\bf 648}, L109 (2006),    \href{https://arxiv.org/abs/astro-ph/0608407}{\fontF  astro-ph/0608407}           }
+		
+	\end{columns}
+	\begin{textblock}{0.8}(8.4,1.5)
+		\begin{turn}{70}
+			{\bf \color{yellow} \Large Evidence}
+		\end{turn}
+	\end{textblock}
+	
+	\vspace*{-0.2cm}
+	\begin{center}
+		
+		\includegraphics[width=6.cm, height=3.cm]{Planck_CMB.jpg}\\[-0.25cm] 
+		\bl{ 
+			\fontF  N.~Aghanim {\it et al.} [Planck Collaboration],
+			%``Planck 2018 results. VI. Cosmological parameters,''
+			\href{https://arxiv.org/abs/1807.06209}{\fontF  arXiv:1807.06209} [astro-ph.CO].
+		}
+		\begin{textblock}{0.8}(6.2,11.3)
+			%				$\Lambda$CDM
+			\begin{turn}{0}
+				{\color{black}  \Large $\Omega_{\rm DM}h^2 \approx 0.12$}
+			\end{turn}
+		\end{textblock}
+		
+	\end{center}	
+	
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The dark matter particle}
+
+%\vspace*{-6.5mm}    
+%\begin{frame}{\insertsubsectionhead}
+%	\hspace*{-11mm}
+%	\includegraphics[width=\paperwidth]{You_Know_Nothing.jpg}
+%\end{frame} 
+
+
+%\newgeometry{margin=0pt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{\insertsubsectionhead}
+	\begin{center}
+		\begin{otherlanguage}{greek}
+			<<Έν οἶδα, ὅτι οὐδὲν οἶδα.>>\\
+		\end{otherlanguage}		
+		``I know one thing,  that I know nothing."
+		\flushright --Socrates %\pause
+	\end{center}
+	
+	%	Properties:\pause
+	\begin{itemize}
+		\item Gravitational interactions.
+		\item Mostly electrically neutral.
+		\item Stable or very slow decay rate. 
+		\item Non-Baryonic.
+		\item Cold/Warm and non-relativistic today.
+	\end{itemize}
+	
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The axion (like) particle}
+\begin{frame}{\insertsubsectionhead}
+	%
+	Notably, the original axion was originally introduced in order to solve the {\em strong-CP problem} of the SM.
+	Axion-like-particles (ALPs) arise in a number of new physics models, beyond the SM.  \\[0.5cm]
+	
+	Axions and ALPs generally:
+	%
+	\begin{itemize}
+		\item Have suppressed interactions with photons.
+		\item Are (mostly) stable. 
+		\item Were non-relativistic around the epoch of structure formation. 
+		\item Non-baryonic (by definition), and of-course interact gravitationally.\pause\\[1cm]
+	\end{itemize}
+	
+	\begin{center}
+		{\bf \em Maybe DM has axionic nature!}	
+	\end{center}
+	
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Calculating the Relic Abundance}
@@ -116,8 +220,8 @@
 	\end{equation*}	
 	%
 	where $\theta= A \, \fa$, with $A$ the axion filed, and $\fa$ some energy scale that characterises the potential (Peccei-Quinn breaking scale).
-
-
+	
+	
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -128,33 +232,107 @@
 	\begin{center}
 		\textbf{Hard} (in general).\\[1cm]\pause
 	\end{center}	
-
+	
 	The classical analogue is the dumped pendulum with both frequency (length) and friction being time-dependent:
 	%
 	\begin{itemize}
 		\item There is no closed form solution.
-		\item There are no constants of motion.~\footnote{There is the adiabatic invariant, $J$, but it only helps us if the Hamiltonian varies slowly.}
+		\item There are no constants of motion (wait a minute...).
 		\item No package/library/program available!\pause\\[2cm]
 	\end{itemize}
-
+	
 	\begin{center}
 		{\sl \mimes simulates the evolution of the axion/ALP, for (virtually) any cosmological scenario and axion/ALP (thermal) mass.}
 	\end{center}		
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Initial conditions}
+\begin{frame}{\insertsubsectionhead}
+	%
+	Some time at the very early Universe, $\maT \ll H(T)$,~\footnote{\fontF This is an assumption that \mimes has to make for the sake of generality.} with
+	\begin{equation*}
+		\ddot{\theta}  + 3H \ \dot{\theta} \approx 0 \;.
+	\end{equation*}	
+	%
+	The solution is 
+	$$
+	\theta = \thetai + C \dint_{0}^t d t' \ \lrb{ \dfrac{a(t'=0)}{a(t')} }^3 \;.
+	$$
+	%this is true especially in the case where the PQ symmetry breakes before inflation.
+	So, $\dot{\theta} \sim a^{-3}$. Since we are interested in $\theta$ at much later times (once the potential becomes relevant), $\dot{\theta} \approx 0$.%~\footnote{\fontF Standard misalignment mechanism. For the kinetic one see
+%		
+%		\bl{\fontF R.~T.~Co, L.~J.~Hall and K.~Harigaya,
+%			\href{https://doi.org/10.1103/PhysRevLett.124.251802}{Phys. Rev. Lett. \textbf{124} (2020) no.25, 251802}
+%			\href{https://arxiv.org/abs/1910.14152}{[arXiv:1910.14152 [hep-ph]]}},
+%		%
+%		\bl{\fontF  C.~F.~Chang and Y.~Cui,
+%			\href{https://doi.org/10.1103/PhysRevD.102.015003}{Phys. Rev. D \textbf{102} (2020) no.1, 015003}
+%			\href{https://arxiv.org/abs/1911.11885}{[arXiv:1911.11885 [hep-ph]]}}, or 
+%		% 
+%		\bl{\fontF  B.~Barman, N.~Bernal, N.~Ramberg and L.~Visinelli,
+%			\href{https://arxiv.org/abs/2111.03677}{[arXiv:2111.03677 [hep-ph]]} }.	
+%	}
+	%
+	Therefore, we can begin integration at some point with $3H \gg \maT$, and set $\theta(t=\ti) = \thetai$ and $\dot \theta(t=\ti) = 0$. 
+	
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{(Bad) Analytical approximations}
+\begin{frame}{\insertsubsectionhead}
+	Once we agree on the initial conditions, we move to the next important things:\pause
+	%	
+	%\begin{equation*}
+	%	\ddot \theta + \underbrace{  \bl{ 3\overbrace{H(t) }^{\text{Slow}}  } \ \dot \theta + \bl{ \overbrace{\maT^2(t)}^{\text{Slow}}  }}_{\maT > 3 H} \ \rd{\underbrace{ \sin \theta(t) }_{\theta \ll 1}  } = 0 \; ,
+	%\end{equation*}	
+	%
+	\begin{itemize}
+		\item Assume $\theta \ll 1$, and linearise the EOM. {\sl Not always that bad.}\pause
+		\item Assume that at $\maT(\Tosc) \approx 3H(\Tosc)$ we have $\dot\theta(\Tosc)=0$. {\sl Not very precise.}\pause
+		\item Assume that $\thetaosc \approx \thetai$. {\sl Generally quite bad.}\pause
+	\end{itemize}
+	
+	Then, we get the ``WKB"-approximate solution
+	%
+	\begin{equation*}\vspace*{-0.2cm}
+		\theta(t) \approx \thetai \lrb{\dfrac{3}{4}}^{1/4} \sqrt{ \dfrac{ \maT(\Tosc) }{\maT(T)} } \lrb{\dfrac{a}{\aosc}}^{-3/2} \  \cos\lrb{ \int_{\tosc}^t d t^\prime  \ \maT(t^\prime)}   \;.
+	\end{equation*}
+	
+	The advantage of this approximation is that we get an easy formula for the axion/ALP energy density today:
+	%
+	\begin{equation*}\vspace*{-0.2cm}		
+		\rho_{a,0} = \gamma^{-1}  \dfrac{s_0}{s_{\rm osc}} \  \dfrac{1 }{2}  \ \fa^2 \ \ma \ \maT_{,{\rm osc}} \ \thetai^2    \;,
+	\end{equation*}
+	%
+	where $\gamma$ the amount of entropy injection between $\Tosc$ and today.%~\footnote{\fontF Defined from $s(T_0) = \gamma \ \aosc^3 \ s_{\rm osc}$.}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Need for speed, accuracy, and automation}
+\begin{frame}{\insertsubsectionhead}
+	%
+	Life before \mimes: \\[1cm]\pause
+	%
+	\begin{itemize}
+		\item No available tool that can help us reproduce published results obtained by numerical integration. \emph{Reproducing results means reproducing effort}.\pause
+		\item The approximations can be tested against numerical results in a case-by-case basis. \emph{No measure of accuracy}.\pause%There is no way to tell if they will work in new models and cosmological scenarios.
+		\item If someone wants to simply see if an ALP model is compatible with a cosmological scenario. \emph{Slow}. 
+	\end{itemize}
+	
+	
+	
+\end{frame}
 
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{\mimes}
-\subsection{\mimes}
+\subsection{\mimes: Why?}
 \begin{frame}{\insertsubsectionhead}
-	We need accurate code that solves the EOM, but most importantly we need {\sl reproducible} results! \\[0.1cm]
+	We need accurate code that solves the EOM, but most importantly we need {\sl reproducible} results! \\[0.5cm]
 	
-	First of all:
+	\mimes is:
 	% 
 	\begin{itemize}
 		\item \mimes is a \CPP header-only library that contains various templated classes; there is no ``installation" and no special procedures, just include the header files. 
@@ -163,7 +341,7 @@
 		%
 		\item \mimes is distributed under the MIT license; you can do whatever you want with it, and I am {\em not} responsible.\\[0.1cm]
 	\end{itemize}
-
+	
 	\mimes also
 	% 
 	\begin{itemize}
@@ -172,13 +350,13 @@
 		\item Provides full access to results and their errors, which can help determine if the results are accurate.
 		\item Asks the user to decide when to start, stop, and when adiabaticity is reached; {\em no guesses anywhere}! 
 	\end{itemize}
-
+	
 	
 	
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{\mimes under the hood}
+\subsection{\mimes: Under the hood}
 \begin{frame}{\insertsubsectionhead}
 	%
 	\mimes relies on \cppin{NaBBODES}~\footnote{\fontF \href{https://github.com/dkaramit/NaBBODES}{https://github.com/dkaramit/NaBBODES}.} for the numerical integration, and \cppin{SimpleSplines}~\footnote{\fontF \href{https://github.com/dkaramit/SimpleSplines}{https://github.com/dkaramit/SimpleSplines}.} for the various interpolations.\\[0.3cm] 
@@ -198,39 +376,99 @@
 		\item No community of contributors; if it doesn't work, I have to fix it.
 		\item Slow development.
 	\end{itemize}	
-
+	
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\subsection{\mimes: Notation}
+\subsection{\mimes: Notation}
+\begin{frame}{\insertsubsectionhead}
+	%
+	\vspace{-0.2cm}
+	\mimes uses a notation suitable (any) underlying cosmology, since it is up to the user to define the cosmological evolution.	
+	
+	First, we define 
+	\begin{equation*}\vspace{-0.2cm}
+		u \equiv \log \lrb{a/\ai}\;,
+	\end{equation*} 
+	%
+	with $\ai$ some initial value of the scale factor.~\footnote{\fontF Only the ratios $a/\ai$ appear in the calculations.}	Then, the EOM becomes
+	%
+	\begin{eqnarray*}\vspace*{-0.5cm}
+		& \dfrac{d  \zeta}{du} + \lrsb{\dfrac{1}{2} \dfrac{d \log H^2}{du} + 3 } \zeta + \ \lrb{\dfrac{\maT}{H}}^2 \ \sin \theta
+		=0 \;. \\[-0.2cm]
+		&\dfrac{d \theta}{d u} - \zeta=0 \;.
+	\end{eqnarray*}\\[-0.2cm]
+	%
+	The initial conditions are $\zeta(0)=0$ and $\theta(0)=\thetai$.\\[1cm]\pause
+	
+	\begin{center}
+		{\em This is the same notation as in the code} $\Rightarrow$ {\em You can change it easily.}
+	\end{center}
+	
+	
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\subsection{Ingredients for numerical integration: Adiabatic invariant}
 %\begin{frame}{\insertsubsectionhead}
 %	%
-%	\vspace{-0.2cm}
-%	\mimes uses a notation suitable (any) underlying cosmology, since it is up to the user to define the cosmological evolution.	
+%	If a system exhibits closed orbits, the quantity
+%	%
+%	\begin{equation*}
+%		J \equiv C \ \oint p \ d \theta \;,
+%	\end{equation*}
+%	%
+%	is the adiabatic invariant. In this case, it becomes
+%	%
+%	\begin{equation*}
+%		J = a^3 \ \maT \ \thetamax^2  \, f(\thetamax)  \;,
+%	\end{equation*}
+%	%
+%	with 
+%	\begin{equation*}
+%		f(\thetamax) =\dfrac{ 2 \sqrt{2}}{\pi \thetamax^2 } \dint_{- \thetamax}^{\thetamax} d \theta \sqrt{ \cos \theta - \cos \thetamax } \;,
+%	\end{equation*}
+%	%
+%	the so-called anharmonic factor.\pause
 %	
-%	First, we define 
-%	\begin{equation*}\vspace{-0.2cm}
-%		u \equiv \log \lrb{a/\ai}\;,
-%	\end{equation*} 
+%	\textbf{Important}: $\thetamax$ is the peak of the oscillation. So, $J$ can be used to determine how $\thetamax$ changes with time. By definition, at $\theta=\thetamax$, $p \sim \dot \theta = 0$.
+%	This means that we can find $\rho_{a,0}$ on the peak of today's $\theta$, as
 %	%
-%	with $\ai$ some initial value of the scale factor.~\footnote{\fontF Only the ratios $a/\ai$ appear in the calculations.}	Then, the EOM becomes
+%	\begin{equation*}
+%		\rho_{a,0} = \gamma^{-1} \ \dfrac{s_0}{s_*} \ \ma \ \maT_{,*} \ \dfrac{1}{2} \ \fa^2 \ \thetamax_{,*}^2 \;  \ f(\thetamax_{,*}) \;,
+%	\end{equation*}
 %	%
-%	\begin{eqnarray*}\vspace*{-0.5cm}
-%		& \dfrac{d  \zeta}{du} + \lrsb{\dfrac{1}{2} \dfrac{d \log H^2}{du} + 3 } \zeta + \ \lrb{\dfrac{\maT}{H}}^2 \ \sin \theta
-%		=0 \;. \\[-0.2cm]
-%		&\dfrac{d \theta}{d u} - \zeta=0 \;.
-%	\end{eqnarray*}\\[-0.2cm]
+%	where $T_{*}$ the temperature at which adiabaticity was reached, and $\gamma$ the entropy injection between $T_*$ and today (\ie $s_0 = \gamma a_*^3 s_*$). 	  
+%\end{frame}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\subsection{Ingredients for numerical integration: Integration limits}
+%\begin{frame}{\insertsubsectionhead}
 %	%
-%	The initial conditions are $\zeta(0)=0$ and $\theta(0)=\thetai$.\\[1cm]\pause
+%	The starting condition should be: 
+%	\begin{itemize}
+%		\item At a point with $\dot \theta=0$.
+%		\item At some $\Ti$ with $3H(\Ti)/\maT(\Ti) \gg 1$.
+%		\item Such that the evolution of $\theta$ is the same for any other starting point with $T>\Ti$.
+%		\item {\em User defined, so that we can change it the cosmology.}
+%	\end{itemize}
 %	
-%	\begin{center}
-%		{\em This is the same notation as in the code} $\Rightarrow$ {\em You can change it easily.}
-%	\end{center}
+%	The stopping condition should be:
+%	\begin{itemize}
+%		\item At a point, $T = T_*$, with $\Delta J/J \leq \epsilon \ll 1$.
+%		\item Such that the evolution of $\theta$ is the same for any other end point with $T<T_*$.
+%		\item {\em User defined, so that we can change it the cosmology.}
+%	\end{itemize}
+%	
+%	
 %	
 %	
 %\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%\section{Using \mimes}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Using \mimes}
 
 \subsection{How to get \mimes}
 \begin{frame}[fragile]{\insertsubsectionhead}
@@ -243,17 +481,17 @@
 		%
 		\item Go to \href{https://github.com/dkaramit/MiMeS/releases}{github.com/dkaramit/MiMeS/releases}, and download a released version.    
 	\end{enumerate}
-
+	
 	
 	You can get the most up-to-date code -- not always the most stable one -- including the latest version of {\tt NaBBODES} and {\tt SimpleSplines}, by running
 	%
 	\begin{lstlisting}
-		git clone https://github.com/dkaramit/MiMeS.git
-		cd MiMeS
-		git submodule init
-		git submodule update --remote
+	git clone https://github.com/dkaramit/MiMeS.git
+	cd MiMeS
+	git submodule init
+	git submodule update --remote
 	\end{lstlisting}
-
+	
 \end{frame}
 
 \subsection{Configure (and make)}
@@ -280,26 +518,28 @@
 	There are three classes useful to the user.~\footnote{\fontF There are various arguments that need to be passed to the constructors, and the are all listed and explained in the Appendix of the documentation.}\pause
 	%
 	\begin{itemize}
-	\item \cppin{mimes::Cosmo<LD>}: interpolation of relativistic degrees of freedom of the plasma. By default it uses the EOS2020~\footnote{\fontF 
-		\bl{K.~Saikawa and S.~Shirai,
-		\href{https://doi.org/10.1088/1475-7516/2020/08/011}{JCAP \textbf{08} (2020), 011}
-		\href{https://arxiv.org/abs/2005.03544}{[arXiv:2005.03544 [hep-ph]]}.}
-	} data. The user can choose another file easily.
-	%
-	\pause
-	%
-	\item \cppin{mimes::AxionMass<LD>}: definition of axion/ALP mass as a function of the temperature and $\fa$. \mimes is shipped with data from Lattice calculation~\footnote{\fontF \bl{
-			S.~Borsanyi, Z.~Fodor, J.~Guenther, K.~H.~Kampert, S.~D.~Katz, T.~Kawanai, T.~G.~Kovacs, S.~W.~Mages, A.~Pasztor and F.~Pittler, \textit{et al.}
-			\href{https://doi.org/10.1038/nature20115}{Nature \textbf{539} (2016) no.7627, 69-71}
-			\href{https://arxiv.org/abs/1606.07494}{[arXiv:1606.07494 [hep-lat]]}.}} of the QCD axion mass.
-	 %
-	 \pause
-	%	
-	\item \cppin{mimes::Axion<LD,Solver,Method>}: This is responsible for actually solving the EOM.
+		\item \cppin{mimes::Cosmo<LD>}: interpolation of relativistic degrees of freedom of the plasma. By default it uses the EOS2020~\footnote{\fontF 
+			\bl{K.~Saikawa and S.~Shirai,
+				\href{https://doi.org/10.1088/1475-7516/2020/08/011}{JCAP \textbf{08} (2020), 011}
+				\href{https://arxiv.org/abs/2005.03544}{[arXiv:2005.03544 [hep-ph]]}.}
+		} data. The user can choose another file easily.
+		%
+		\pause
+		%
+		\item \cppin{mimes::AxionMass<LD>}: definition of axion/ALP mass as a function of the temperature and $\fa$. \mimes is shipped with data from Lattice calculation~\footnote{\fontF \bl{
+				S.~Borsanyi, Z.~Fodor, J.~Guenther, K.~H.~Kampert, S.~D.~Katz, T.~Kawanai, T.~G.~Kovacs, S.~W.~Mages, A.~Pasztor and F.~Pittler, \textit{et al.}
+				\href{https://doi.org/10.1038/nature20115}{Nature \textbf{539} (2016) no.7627, 69-71}
+				\href{https://arxiv.org/abs/1606.07494}{[arXiv:1606.07494 [hep-lat]]}.}} of the QCD axion mass.
+		%
+		\pause
+		%	
+		\item \cppin{mimes::Axion<LD,Solver,Method>}: This is responsible for actually solving the EOM.
 	\end{itemize}
 	
 	
 \end{frame}
+
+
 
 
 \subsection{Template arguments}
@@ -351,7 +591,7 @@
 		\item Optimization level:
 		\begin{itemize}
 			\item \cppin{OPT=O0}: No optimization. 
-			\item \cppin{OPT=O1}, \cppin{O2}, or \cppin{O3}: all these perform mostly the same (read the compiler documentation for more information on the optimization).
+			\item \cppin{O=O1}, \cppin{O2}, or \cppin{O3}: all these perform mostly the same (read the compiler documentation for more information on the optimization).
 			\item \cppin{OPT=Ofast}: full optimization (fast, but dangerous). 
 		\end{itemize}
 	\end{itemize}
@@ -364,12 +604,11 @@
 	%
 	\begin{enumerate}
 		\item $H/\maT$ increases monotonically with the temperature.\pause
-		\item $\dot \theta(0)=0$. This will be changed in the future.\pause
+		\item $\zeta(0)=0$. This will be changed in the future.\pause
 		\item The energy density of the axion/ALP is always subdominant.\pause
 		\item Only the EOM determines the energy density (no annihilations, no strings, etc.).
 	\end{enumerate}	
 \end{frame}
-
 
 
 \subsection{What \mimes expects from you}
@@ -380,11 +619,10 @@
 		\item The mass of the axion/ALP. A data file or an actual function.\pause
 		\item Data file with $\log a/a_i$ ($a_i$ is some arbitrary value; \mimes rescales it appropriately), $T$, and $\log H$ of the underlying cosmology.\pause
 		\item Value for $3H/\maT \gg 1$, which defines the point where integration begins.\pause
-		\item At which point the adiabatic invariant is constant  enough so that numerical integration can stop.\pause
+		\item Relative difference of $J$ between a given number of peaks at which we consider adiabaticity to have been reached.\pause
 		\item Other input, related to the algorithm, that might confuse you; \eg temperature at which integration stops no {\em matter what}!
 	\end{enumerate}
 \end{frame}
-
 
 
 
@@ -419,15 +657,15 @@
 		\item \mimes treats both the mass and the underlying cosmology as user inputs.
 		\item \mimes allows the user to change a number of other things, from the plasma RDOFs to the convergence conditions.\\[0.5cm] 
 	\end{itemize}
-
+	
 	\begin{center}
 		\bf{\mimes may be amended in the future because:} 
 	\end{center}
 	%
 	\begin{itemize}
-		\item \mimes should allow the user to consider different initial value of $\dot \theta$; the "kinematic" \mimes might come soon.
+		\item \mimes should allow the user to consider different initial value of $\zeta$; the "kinematic" \mimes might come soon.
 		\item \mimes should be able to handle non-vanishing \rhs; \ie solve the "driven" dumped time-dependent pendulum.
-%		\item Would be nice if \mimes could handle case of freeze-out/in.
+		%		\item Would be nice if \mimes could handle case of freeze-out/in.
 		\item \mimes should be able to compare against searches on the fly. 
 	\end{itemize}
 	
@@ -438,33 +676,36 @@
 \setbeamercolor{section in head/foot}{fg=white, bg=red}
 \setbeamertemplate{footline}{
 	%\begin{beamercolorbox}[wd=1\textwidth,ht=2.25ex,dp=1ex,right]{section in head/foot}%
-		%\insertsubsectionhead 
-		%\insertframenumber/\inserttotalframenumber
-		%\end{beamercolorbox}
+	%\insertsubsectionhead 
+	%\insertframenumber/\inserttotalframenumber
+	%\end{beamercolorbox}
 }
 \setbeamertemplate{background canvas}{%
 	\begin{tikzpicture}[remember picture,overlay]
-		\shade[left color=red!90!black, right color=black!80!red]
-		([shift={(0.0cm,-0.0cm)}]current page.north west)
-		rectangle
-		([shift={(-0.0cm,0.0cm)}]current page.south east);
+	\shade[left color=red!90!black, right color=black!80!red]
+	([shift={(0.0cm,-0.0cm)}]current page.north west)
+	rectangle
+	([shift={(-0.0cm,0.0cm)}]current page.south east);
 	\end{tikzpicture}%     
 }
 %\setbeamercolor{background canvas}{bg=red}
 \begin{frame}[noframenumbering]
 	
 	\begin{center}
-		{\color{yellow} \Huge Thank you!}\\[0.5cm]
+		{\color{yellow} \Huge Thank you!}
 		
-		Breakdown of \mimes:\\
-		{\fontsize{10}{1} \selectfont \color{white} \verbatiminput{cloc.txt}}
+		\begin{figure}
+			\includegraphics[width=0.7\textwidth]{cloc.png}
+		\end{figure}	
+		
 	\end{center}
-
 	
-		\hspace*{0.7cm}
-		\href{https://github.com/dkaramit/MiMeS}{ \includegraphics[width=2.5cm]{GitHub.png} }
-		\hspace*{4.0cm}
-		\href{https://mimes.hepforge.org}{\includegraphics[width=2.5cm]{hepforge.png}}
+	\begin{figure}\vspace{1.cm}
+		\hspace*{-8cm}\href{https://github.com/dkaramit/MiMeS}{ \includegraphics[width=2.5cm]{GitHub.png} }
+	\end{figure}
+	\begin{figure}\vspace{-3.1cm}
+		\hspace*{8cm}\href{https://mimes.hepforge.org}{\includegraphics[width=2.5cm]{hepforge.png}}
+	\end{figure}
 	
 \end{frame}
 
@@ -472,10 +713,10 @@
 
 \setbeamertemplate{background canvas}{%
 	\begin{tikzpicture}[remember picture,overlay]
-		\shade[left color=black!90!red, right color=red!80!black]
-		([shift={(0.0cm,-0.0cm)}]current page.north west)
-		rectangle
-		([shift={(-0.0cm,0.0cm)}]current page.south east);
+	\shade[left color=black!90!red, right color=red!80!black]
+	([shift={(0.0cm,-0.0cm)}]current page.north west)
+	rectangle
+	([shift={(-0.0cm,0.0cm)}]current page.south east);
 	\end{tikzpicture}%     
 }
 
@@ -523,7 +764,7 @@
 	\begin{equation*}
 		\theta(t) \approx \thetai \sqrt{ \dfrac{ \Omegai }{\Omega (t)} } \lrb{\dfrac{a}{\ai}}^{-3/2} \  \cos\lrb{ \int_{\ti}^t d t^\prime  \ \Omega(t^\prime)}   \;.
 	\end{equation*}
-
+	
 	Taking  $\ti = \tosc$ (\ie $\dot \theta(\tosc) = 0$, which is not generally good), have
 	%
 	\begin{equation*}
@@ -535,7 +776,7 @@
 	\begin{equation*}
 		\theta(t) \approx \thetai \lrb{\dfrac{3}{4}}^{1/4} \sqrt{ \dfrac{ \maT|_{t=\tosc} }{\maT  (t)} } \lrb{\dfrac{a}{\aosc}}^{-3/2} \  \cos\lrb{ \int_{\tosc}^t d t^\prime  \ \maT(t^\prime)}   \;.
 	\end{equation*}
-
+	
 	
 \end{frame}
 
@@ -553,8 +794,8 @@
 	\begin{equation*}
 		d \Ham = \dot \theta \ d p - \dot p \ d \theta + \dfrac{\partial \Ham}{\partial t} \ d t \;.  
 	\end{equation*}
-
-
+	
+	
 	If this system exhibits closed orbits (\eg if it oscillates), we define 
 	%
 	\begin{equation*}
@@ -593,7 +834,7 @@
 	\begin{eqnarray*}
 		J &=& \dfrac{\oint p \ d \theta}{\pi \fa^2} = \dfrac{1}{\pi \fa^2} \oint \sqrt{ 2\lrb{ \Ham(\theta) - V(\theta) \ a^3} \ \fa^2 a^3 \ }  \ d \theta  \\ &=&
 		\dfrac{2}{\pi \fa^2} \int_{-\thetamax}^{\thetamax} \sqrt{ 2\lrb{ \Ham(\thetamax) - V(\theta) \ a^3} \ \fa^2 a^3 \ } d \theta \\ &=&
-		 \dfrac{2 \sqrt{2} }{\pi \fa}  \int_{- \thetamax} ^{\thetamax}  \sqrt{ V(\thetamax) - V(\theta) } a^{3} d \theta \\ &=& 
+		\dfrac{2 \sqrt{2} }{\pi \fa}  \int_{- \thetamax} ^{\thetamax}  \sqrt{ V(\thetamax) - V(\theta) } a^{3} d \theta \\ &=& 
 		\dfrac{2 \sqrt{2} }{\pi} \ \maT \, a^3 \ \dint_{- \thetamax}^{\thetamax} \sqrt{\cos \theta - \cos \thetamax} \ d \theta  \;,
 	\end{eqnarray*}
 	%
@@ -604,10 +845,10 @@
 
 \setbeamertemplate{background canvas}{%
 	\begin{tikzpicture}[remember picture,overlay]
-		\shade[left color=black!90!red, right color=red!80!black]
-		([shift={(0.0cm,-0.0cm)}]current page.north west)
-		rectangle
-		([shift={(-0.0cm,0.0cm)}]current page.south east);
+	\shade[left color=black!90!red, right color=red!80!black]
+	([shift={(0.0cm,-0.0cm)}]current page.north west)
+	rectangle
+	([shift={(-0.0cm,0.0cm)}]current page.south east);
 	\end{tikzpicture}%     
 }
 
@@ -645,9 +886,9 @@
 		\item \codeB{template<class LD> LD mimes::AxionMass<LD>::getChiMin()}: This function returns $\chi(T_{\rm min})$.
 		\item \codeB{template<class LD> LD mimes::AxionMass<LD>::getChiMax()}: This function returns $\chi(T_{\rm max})$.
 	\end{itemize}
-
+	
 	Note that all \codeB{std::function<LD(LD,LD)>} can be any callable object that takes $T$ and $\fa$ and returns $\maT^2$.
-
+	
 \end{frame}
 
 \begin{frame}{\codeL{AxionMass} class -- Definition via function}
@@ -655,7 +896,7 @@
 	In order to define an instance of the \cppin{AxionMass} class via a function, use the constructor:
 	\lstset{language = c++}
 	\lstinputlisting[basicstyle=\fontL]{AxionMassClass_function}	
-
+	
 	Here, \codeB{ma2} can be any callable object that takes $T$ and $\fa$ and returns $\maT^2$.
 \end{frame}
 
@@ -666,11 +907,11 @@
 \begin{frame}{\codeL{Axion} class -- Expected input}
 	\fontB
 	The constructor of the \cppin{Axion} class is
-		\lstset{language = c++}
-		\lstinputlisting[basicstyle=\fontL]{AxionClass}
-
-The input that \mimes expects is:
-%	
+	\lstset{language = c++}
+	\lstinputlisting[basicstyle=\fontL]{AxionClass}
+	
+	The input that \mimes expects is:
+	%	
 	\begin{enumerate}
 		\item \cppin{theta_i}:  Initial angle. 
 		\item \cppin{fa}  The PQ scale.
@@ -684,7 +925,7 @@ The input that \mimes expects is:
 		\item \cppin{axionMass}: Instance of \cppin{mimes::AxionMass<LD>} class. In \CPP this instance is passed as a pointer to the constructor
 		of the \cppin{mimes::Axion<LD,Solver,Method>} class, while in \PY it is simply passed as a variable.
 	\end{enumerate}
-
+	
 \end{frame}
 \begin{frame}{\codeL{Axion} class -- Optional input}
 	\fontB
@@ -707,10 +948,10 @@ The input that \mimes expects is:
 
 \setbeamertemplate{background canvas}{%
 	\begin{tikzpicture}[remember picture,overlay]
-		\shade[left color=black!90!red, right color=red!80!black]
-		([shift={(0.0cm,-0.0cm)}]current page.north west)
-		rectangle
-		([shift={(-0.0cm,0.0cm)}]current page.south east);
+	\shade[left color=black!90!red, right color=red!80!black]
+	([shift={(0.0cm,-0.0cm)}]current page.north west)
+	rectangle
+	([shift={(-0.0cm,0.0cm)}]current page.south east);
 	\end{tikzpicture}%     
 }
 
@@ -755,7 +996,7 @@ The input that \mimes expects is:
 	\lstset{language = python}
 	\lstinputlisting[basicstyle=\fontL]{AxionMassClass_function-py}
 	%
-
+	
 	The difference between the \CPP case is that \codeB{ma2} cannot be any callable object; it has to be a regular function that takes $T$ and $\fa$ and returns $\maT^2$.
 \end{frame}
 
@@ -776,10 +1017,10 @@ The input that \mimes expects is:
 
 \setbeamertemplate{background canvas}{%
 	\begin{tikzpicture}[remember picture,overlay]
-		\shade[left color=black!90!red, right color=red!80!black]
-		([shift={(0.0cm,-0.0cm)}]current page.north west)
-		rectangle
-		([shift={(-0.0cm,0.0cm)}]current page.south east);
+	\shade[left color=black!90!red, right color=red!80!black]
+	([shift={(0.0cm,-0.0cm)}]current page.north west)
+	rectangle
+	([shift={(-0.0cm,0.0cm)}]current page.south east);
 	\end{tikzpicture}%     
 }
 
@@ -861,6 +1102,7 @@ The input that \mimes expects is:
 		\end{itemize}
 	\end{itemize}
 \end{frame}
+
 
 
 

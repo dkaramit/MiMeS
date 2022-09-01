@@ -24,6 +24,7 @@ pres_2022.pdf:  pres_2022.tex $(figs)
 	rm -f *.blg 
 	rm -f *.snm
 	rm -f *.nav
+	rm -f *.vrb
 
 clean:
 	rm -f pres_2022.pdf 
@@ -36,3 +37,4 @@ clean:
 	rm -f *.snm
 	rm -f *.nav
 	rm -f *.synctex.gz
+	rm -f *.vrb

@@ -57,6 +57,24 @@
 	\mimes also includes a convenient \PY interface that allows the library to be called without writing any code in \CPP, with minimal overhead.
 \end{abstract}
 
+{\bf Program summary:}
+
+{\sl 
+	Program title: \mimes.
+	
+	Developer's respository link: \href{https://github.com/dkaramit/MiMeS}{https://github.com/dkaramit/MiMeS}.
+	
+	Programming language: \CPP and \PY.
+	
+	Licensing provisions: MIT license.
+	
+	Nature of problem: Solving numerically the axion (or axion-like-particle) equation of motion, in order to determine the corresponding relic abundance.  The library is designed to be quite general, 
+	and can be used to obtain the relic abundance in various cosmological scenarios, and axion-like-particle models. 
+	
+	Solution method: Embedded Runge-Kutta for the numerical integration of the equation of motion. The user may choose between explicit and Rosenborck methods, or implement their own Butcher tableau. For the various interpolations, the library uses cubic splines. 
+	
+	Restrictions: The the derivative of the axion-angle initially is assumed vanish. This is hard-coded in the library, and there is no easy way for the user to change it. Furthermore, any additional contribution from decays or annihilation of plasma particles to the axion (or ALP) energy density is assumed to be subdominant.   
+}
 
 %\newpage
 \tableofcontents
@@ -121,7 +139,7 @@ with $\chi$ a function of the temperature. For the QCD axion, this has been calc
 	\label{fig:axion_mass}
 \end{figure}
 %
-We assume that at very high temperatures $\maT \to 0$ (for the axion this is true; see \Figs{fig:axion_mass}) -- \ie $\maT \ll H$ -- at very early times.  Therefore, at the very early Universe, the EOM is\footnote{For the QCD axion the PQ symmetry breaking scale determines whether there are domains with different $\thetai$.  However, one can still use a mean value of the angle as its initial condition. This is discussed in the literature; \eg in~\cite{Preskill:1982cy,Visinelli:2009zm,Visinelli:2009kt}.}
+We assume that at very high temperatures $\maT \to 0$ (for the QCD axion this is true; see \Figs{fig:axion_mass}) -- \ie $\maT \ll H$ -- at very early times.  Therefore, at the very early Universe, the EOM is\footnote{For the QCD axion the PQ symmetry breaking scale determines whether there are domains with different $\thetai$.  However, one can still use a mean value of the angle as its initial condition. This is discussed in the literature; \eg in~\cite{Preskill:1982cy,Visinelli:2009zm,Visinelli:2009kt}.}
 %
 \begin{equation}
 	\lrb{\dfrac{d^2}{d t^2} + 3 H(t) \ \dfrac{d}{d t}  } \theta(t) = 0 \; .
@@ -130,8 +148,20 @@ We assume that at very high temperatures $\maT \to 0$ (for the axion this is tru
 %
 which is solved by $\theta = \thetai + C \dint_{0}^t d t' \ \lrb{ \dfrac{a(t'=0)}{a(t')} }^3$, with $\thetai$ a constant (some initial value) and $a$ the scale factor of the Universe. That is, as the Universe expands, and as long as $\maT \ll H$, $\theta \to \thetai$, and $\dot \theta \to 0$. Since we would like to calculate the angle today, we can integrate \eqs{eq:eom} from a time after inflation (call it $t = \ti$) such that $ \dot \theta |_{t=\ti} = 0$ and  $\theta|_{t=\ti} = \thetai$.   This is the most common case (there are exceptions to this; \eg~\cite{Co:2019jts}), and it is what \mimes uses.
 
+\paragraph{The shift symmetry}
+It is important to note that  $\dot \theta \sim a^{-3}$ is expected from symmetry grounds. The axion is assumed to be the phase of a complex scalar field
+%
+\begin{equation}
+	\Phi(x) = \dfrac{1}{\sqrt{2}}(\fa + \phi(x)) \exp{(i \theta(x))} \;, 
+\end{equation}
+%
+charged under a global symmetry. If this symmetry is not broken, then the Lagrangian is invariant under a shift $\theta \to \theta + z$. Then there exists a Noether charge $Q  \sim a^3 \dot \theta = const.$ Thus, at high temperatures tha shift symmetry is restored (\ie the mass of the axion vanishes is much smaller than its kinetic energy), and $\dot \theta \sim a^{-3}$.
 
+On the other hand, if at high temperatures there exist shift symmetry  breaking interactions, then $ a^3 \dot \theta \neq const.$ This means that at low temperatures, $\dot \theta$ can be sizeable. The explicit breaking of the shift symmetry was introduced recently as a means to alter the axion production mechanism  (for details on how this affects the evolution of the axion see \eg  ~\cite{Co:2019jts,Chang:2019tvx}). Practically, a non-vanishing $\dot \theta$ can change the point where it starts to oscillate, which greatly affects its final energy density. 
 
+From this point, we are not going to discuss a non-vanishing $\dot \theta |_{t=\ti}$  further, since it is beyond the scope of \mimes.
+
+ 
 \subsection{The WKB approximation}
 %
 In order to solve analytically \eqs{eq:eom}, we assume $\theta \ll 1$, which results in the linearised EOM
@@ -477,9 +507,9 @@ The template parameter \cppin{LD} is a numeric type (\eg \cppin{double} or \cppi
 	axionMass.set_ma2_MIN(ma2_MIN);
 \end{cpp}
 %
-with \cppin{ma2\_MAX} and \cppin{ma2\_MIN} the axion mass squared as functions (or any other callable objects) with signatures \cppin{LD ma2_MAX(LD T, LD fa)} and \cppin{LD ma2_MIN(LD T, LD fa)}. These functions are called for $T\geq${\tt TMax} and $T\leq${\tt TMin}, respectively. Usually, in order to ensure continuity of the axion mass, one needs to know {\tt TMin}, {\tt TMax}, $\chi(${\tt TMin}$)$, and $\chi(${\tt TMax}$)$; which can be found by calling {\tt axionMass.getTMin()}, {\tt axionMass.getTMax()}, {\tt axionMass.getChiMin()}, and {\tt axionMass.getChiMax()}, respectively.
+with \cppin{ma2_MAX} and \cppin{ma2_MIN} the axion mass squared as functions (or any other callable objects) with signatures \cppin{LD ma2_MAX(LD T, LD fa)} and \cppin{LD ma2_MIN(LD T, LD fa)}. These functions are called for $T\geq${\tt TMax} and $T\leq${\tt TMin}, respectively. Usually, in order to ensure continuity of the axion mass, one needs to know {\tt TMin}, {\tt TMax}, $\chi(${\tt TMin}$)$, and $\chi(${\tt TMax}$)$; which can be found by calling {\tt axionMass.getTMin()}, {\tt axionMass.getTMax()}, {\tt axionMass.getChiMin()}, and {\tt axionMass.getChiMax()}, respectively.
 
-\paragraph{Axion mass function} 
+\paragraph{Axion mass from a function} 
 In some cases, the dependence of the axion mass on the temperature can be expressed analytically. If this is the case, the user can define the axion mass via 
 %
 \begin{cpp}
@@ -498,7 +528,7 @@ Once the axion mass is defined, we can declare a variable that will be used to s
 		beta, fac_max, fac_min, maximum_No_steps);
 \end{cpp}
 %
-Here, \cppin{LD} should be the numeric type to be used; it is recommended to use \cppin{long double}, but other choices are also available as we discuss later. Moreover \cppin{Solver} and \cppin{Method} depend on the type of Runge-Kutta (RK) the user chooses. The available choices are shown in table\ref{tab:template-arguments}. A discussion on RK methods is given in Appendix~\ref{app:RK}.
+Here, \cppin{LD} should be the numeric type to be used; it is recommended to use \cppin{long double}, but other choices are also available as we discuss later. Moreover \cppin{Solver} and \cppin{Method} depend on the type of Runge-Kutta (RK) the user chooses. The available choices are shown in table\ref{tab:template-arguments}. 
 
 The various parameters are as follows:
 %
@@ -544,7 +574,7 @@ The various parameters are as follows:
 	is not finished. 
 \end{enumerate}
 %
-In order to understand the role of the optional parameters, some basic techniques of Runge-Kutta methods are discussed in Appendix~\ref{app:RK}. 
+In order to understand the role of the optional parameters, some basic techniques of RK methods are discussed in Appendix~\ref{app:RK}. 
 
 The EOM~(\ref{eq:eom_u}), then can be solved using 
 %
@@ -553,12 +583,14 @@ The EOM~(\ref{eq:eom_u}), then can be solved using
 \end{cpp}
 %
 Once the EOM is solved, we can access $\Tosc$, $\thetaosc$, and $\Omega h^2$  via {\tt ax.T\_osc}, {\tt ax.theta\_osc}, and {\tt ax.relic}. The entire evolution (the points the integrator took) of the axion angle is stored in {\tt ax.points}, which is a two-dimensional \cppin{std::vector<LD>}, with the columns corresponding to  $a$, $T~[\GeV]$, 
-$\theta$, $d\theta/du$, $\rho_a$. Moreover, the peaks of he oscillation are stored in another two-dimensional \cppin{std::vector<LD>}, with the columns corresponding to $a$, $T~[\GeV]$, $\thetamax$, $d\theta/du=0$, $\rho_a$, $J$. We should note that the peaks are identified using linear interpolation between integration points, in order to ensure that $d\theta/du = 0$. That is, the values stored in {\tt ax.peaks} do not exist in {\tt ax.points}. Finally, the local errors (see Appendix~\ref{app:RK}) of the integration points of $\theta$ and $\zeta$ are stored in {\tt ax.dtheta} and {\tt ax.dzeta}.
+$\theta$, $d\theta/du$, $\rho_a$. Moreover, the peaks of he oscillation are stored in another two-dimensional \cppin{std::vector<LD>}, with the columns corresponding to $a$, $T~[\GeV]$, $\thetamax$, $d\theta/du=0$, $\rho_a$, $J$. We should note that the peaks are identified using linear interpolation between integration points, in order to ensure that $d\theta/du = 0$. That is, the values stored in {\tt ax.peaks} do not exist in {\tt ax.points}. 
+
+As already mentioned, \mimes uses embedded RK methods in order to solve the axion EOM. That is, each integration point is calculated twice using two estimates of different order. The difference between the two estimates is then interpreted as the local integration error (see Appendix~\ref{app:RK} for details). These local errors at the integration points of $\theta$ and $\zeta$ are stored in {\tt ax.dtheta} and {\tt ax.dzeta}.
 
 
 \paragraph{Changing axion mass definition}
 %
-The axion mass definiton can change at any time by changing the data file (or {\tt ma2\_MIN} and {\tt ma2\_MAX}) or using using 
+The axion mass definiton can change at any time by changing the data file (or {\tt ma2\_MIN} and {\tt ma2\_MAX}) or using 
 %
 \begin{cpp}
 	ax.set_ma2(ma2);
@@ -720,12 +752,15 @@ We should note that this must run even if we assign another instance to the same
 \section{Assumptions and user input}\label{sec:assumptions}
 \setcounter{equation}{0}
 %
-\mimes only makes a few, fairly general, assumptions. First of all, it is assumed that the axion energy density is always subdominant compared to radiation or any other component of the Universe, and that decays and annihilations of particles have a negligible effect on the axion energy density. Moreover, the initial condition is always assumed to be $\theta_{t=\ti} = \thetai$ and $\dot \theta|_{t=\ti}=0$. 
-%
-Furthermore, it is also assumed that $3H/\maT$ increases monotonically at high temperatures. 
-%
-Also, it is assumed that the entropy of the plasma resumes its conserved status at a temperature higher than the minimum temperature of  {\tt inputFile} (which is required by the constructor of the \cppin{mimes::Axion<LD,Solver,Method>} class).  
-%
+\subsection{Restrictions}\label{sec:restrictions}
+\mimes only makes a few, fairly general, assumptions. If these assumptions are violated, then \mimes might not work as expected.
+
+First of all, it is assumed that the axion energy density is always subdominant compared to radiation or any other dominant component of the Universe, and that decays and annihilations of particles have a negligible effect on the axion energy density. 
+
+Moreover, the initial condition -- discussed in detail in section~\ref{sec:Physics} -- is always assumed to be $\theta_{t=\ti} = \thetai$ and $\dot \theta|_{t=\ti}=0$. This cannot change, since it is an integral part of how \mimes finds a suitable starting point. Furthermore, it is also assumed that $3H/\maT$ increases monotonically at high temperatures.~\footnote{This assumption is connected to the initial condition, as a sizeable mass at high temperatures can break the shift symmetry mentioned in section~\ref{sec:Physics}.} 
+
+Also, it is assumed that the entropy of the plasma resumes its conserved status at a temperature higher than the minimum temperature of {\tt inputFile} (which is required by the constructor of the \cppin{mimes::Axion<LD,Solver,Method>} class).  
+
 Finally, \mimes does not try to predict anything regarding the cosmology. Therefore, the temperatures in {\tt inputFile} {\em must} cover the entire region of  integration; \ie the maximum temperature has to be larger than the one required to reach {\tt ratio\_ini}, while the minimum one should be lower than {\tt TSTOP}.
 
 \subsection{Options at Compile-time}\label{sec:options}
@@ -779,7 +814,7 @@ The format of the files has to be the following:
 	\item The data for the anharmonic factor must be give in two columns   $\thetamax$ $f(\thetamax)$; with increasing $\thetamax$.
 \end{itemize}
 %
-The paths to these files should be given at compile time. That is, once {\tt Paths.mk} changes, \run{bash configure.sh} and then \run{\tt make} must be ran. The user can change the content of the data files (without changing their paths), in order to use them without compiling \mimes again. However, the user has to make sure that all the files are sorted so that the values of first column increase (with no duplicates or empty lines). In order to ensure this, it is advised to run \run{bash FormatFile.sh path-to-file} (in Appendix~\ref{app:util} there are some details on {\tt MiMeS/src/FormatFile.sh}), in order to format the file (that should exist in \run{path-to-file}) so that it complies with the requirements of \mimes.
+The paths to these files should be given at compile time. That is, once {\tt Paths.mk} changes, we must run \run{bash configure.sh} and then \run{\tt make} in order to make sure that they will be used. The user can change the content of the data files (without changing their paths), in order to use them without compiling \mimes again. However, the user has to make sure that all the files are sorted so that the values of first column increase (with no duplicates or empty lines). In order to ensure this, it is advised to run \run{bash FormatFile.sh path-to-file} (in Appendix~\ref{app:util} there are some details on {\tt MiMeS/src/FormatFile.sh}), in order to format the file (that should exist in \run{path-to-file}) so that it complies with the requirements of \mimes.
 
 These paths are stored as strings in {\tt \mimes/src/misc\_dir/path.hpp} at compile-time (they are defined as {\tt constexpr}), and can be accessed once this header file is included. The corresponding variables are {\tt cosmo\_PATH}, {\tt chi\_PATH}, and {\tt anharmonic\_PATH}, for the path to data file of the plasma quantities, $\chi(T)$, and $f(\thetamax)$; respectively. Although, the axion mass data file may be omitted -- since the axion mass is defined by the user, the variable {\tt chi\_PATH} is still useful if the axion mass is defined via a data file, as it is automatically converted to an absolute path.~\footnote{Absolute paths have the advantage to be accessible from everywhere else in the system. Thus, executables that seek the corresponding files can be called and copied easily.}
 
@@ -797,7 +832,7 @@ independent from  {\tt ratio\_ini}, but one has to choose it carefully, in order
 
 Finally, the convergence conditions -- \ie~{\tt N\_convergence\_max} and {\tt convergence\_lim} -- allow the user to decide when the adiabatic evolution of the axion begins. Generally, the relic abundance does not have a strong dependence on these parameters as long as {\tt N\_convergence\_max}$>3$ and {\tt convergence\_lim}$<10^{-1}$ (\ie the adiabatic invariant does not vary more that $10\%$ for three consecutive peaks of the oscillation). 
 %
-However, we should note that greedy choices (\eg~{\tt N\_convergence\_max}$=100$ and {\tt convergence\_lim}$=10^{-5}$) are dangerous, as $\theta$ tends to oscillate rapidly and destabilize the differential equation solver. Therefore, these parameters should be chosen carefully, in order to ensure that integration stops when axion has reached its adiabatic evolution, without destabilising the EOM.
+However, we should note that greedy choices (\eg~{\tt N\_convergence\_max}$=100$ and {\tt convergence\_lim}$=10^{-5}$) are dangerous, as $\theta$ tends to oscillate rapidly which  destabilizes the differential equation solver. Therefore, these parameters should be chosen carefully, in order to ensure that integration stops when the axion has reached its adiabatic evolution, without destabilising the EOM.
 
 \subsection{Complete Examples}\label{sec:complete_examples}
 %
@@ -1429,7 +1464,7 @@ The \cppin{mimes::Cosmo<LD>} class is responsible for interpolation of the vario
 	mimes::Cosmo<LD>(std::string cosmo_PATH, LD minT=0, LD maxT=mimes::Cosmo<LD>::mP)
 \end{cpp}
 %
-The argument {\tt cosmo\_PATH} is the path of the data file that contains $T$ (in $\GeV$), $\heff$, $\geff$, with increasing $T$. The parameters {\tt minT} and {\tt maxT} are minimum and maximum interpolation temperatures. These temperatures are just limits, and the action interpolation is done between the closest temperatures in the data file. Moreover, beyond the interpolation temperatures, both $\heff$ and $\geff$ are assumed to be constants.   
+The argument {\tt cosmo\_PATH} is the path of the data file that contains $T$ (in $\GeV$), $\heff$, $\geff$, with increasing $T$. The parameters {\tt minT} and {\tt maxT} are minimum and maximum interpolation temperatures. These temperatures are just limits, and the actual interpolation is done between the closest temperatures in the data file. Moreover, beyond the interpolation temperatures, both $\heff$ and $\geff$ are assumed to be constants.   
 
 Interpolation of the RDOF, allows us to define various quantities related to the plasma; \eg the entropy density is defined as $s = \dfrac{2\pi^2}{45} \heff T^3$. These quantities are given as the member functions:
 %
@@ -1523,7 +1558,7 @@ Once an instance of the class is defined, we can get $\maT^2$ using the member f
 	template<class LD>	LD mimes::AxionMass<LD>::ma2(LD T, LD fa)
 \end{cpp}
 %
-We should note that {\tt ma2} is a public {\tt std::function<LD(LD,LD)>} member variable. Therefore, it can be assigned using the assignment operator. However,  in order to change its definition, we can also use the following member function:
+We should note that {\tt ma2} is a public \cppin{std::function<LD(LD,LD)>} member variable. Therefore, it can be assigned using the assignment operator. However,  in order to change its definition, we can also use the following member function:
 %
 \begin{cpp}
 	template<class LD> void mimes::AxionMass<LD>::set_ma2(std::function<LD(LD,LD)> ma2)
@@ -1578,6 +1613,7 @@ Finally, the actual EOM is given an overloaded call operator
 Here, the inputs are $u=\log a/\ai$, {\tt y[0]}$=\theta$, and {\tt y[1]}$=\zeta$; which are used to calculate the components of the EOM, with {\tt lhs[0]}$=\frac{d \theta}{d u}$ and {\tt lhs[1]}$=\frac{d \zeta}{d u}$.
 
 
+
 \subsection{{\tt Axion} class}
 %
 The \cppin{mimes::Axion<LD,Solver,Method>} class is the class that combines all the others, and actually solves the axion EOM~\ref{eq:eom_sys}. Its header file is {\tt \mimes/src/Axion/AxionSolve.hpp}, and its constructor is
@@ -1585,11 +1621,11 @@ The \cppin{mimes::Axion<LD,Solver,Method>} class is the class that combines all 
 \begin{cpp}
  	template<class LD, const int Solver, class Method>
 	mimes::Axion< LD, Solver, Method >(LD theta_i, LD fa, LD umax, LD TSTOP, 
-	LD ratio_ini, unsigned int N_convergence_max, LD convergence_lim, 
-	std::string inputFile, AxionMass<LD> *axionMass, LD initial_step_size=1e-2, 
-	LD minimum_step_size=1e-8, LD maximum_step_size=1e-2, LD absolute_tolerance=1e-8, 
-	LD relative_tolerance=1e-8, LD beta=0.9, LD fac_max=1.2, LD fac_min=0.8, 
-	unsigned int maximum_No_steps=10000000)
+			LD ratio_ini, unsigned int N_convergence_max, LD convergence_lim, 
+			std::string inputFile, AxionMass<LD> *axionMass, LD initial_step_size=1e-2, 
+			LD minimum_step_size=1e-8, LD maximum_step_size=1e-2, LD absolute_tolerance=1e-8, 
+			LD relative_tolerance=1e-8, LD beta=0.9, LD fac_max=1.2, LD fac_min=0.8, 
+			unsigned int maximum_No_steps=10000000)
 \end{cpp}
 %
 The various arguments are discussed in section~\refs{sec:cpp_first_example,sec:run_time_input}; and outlined in table~\ref{tab:AxionSolve-input}.
@@ -1599,7 +1635,7 @@ The member function responsible for solving the EOM is
 %
 \begin{cpp}
 	template<class LD, const int Solver, class Method>
-	void mimes::Axion< LD, Solver, Method >::solveAxion()
+	void mimes::Axion< LD, Solver, Method>::solveAxion()
 \end{cpp}
 %
 Once this function finishes, the results are stored in several member variables.
@@ -1608,7 +1644,7 @@ The quantities $a/\ai, \ T, \ \theta, \ \zeta, \rho_a$, at the integration  step
 %
 \begin{cpp}
 	template<class LD, const int Solver, class Method> 
-	std::vector< std::vector<LD> > mimes::Axion< LD, Solver, Method >::points
+	std::vector< std::vector<LD> > mimes::Axion< LD, Solver, Method>::points
 \end{cpp}
 %
 
@@ -1616,7 +1652,7 @@ The quantities $a/\ai, \ T, \ \theta, \ \zeta, \rho_a, \ J$, at the peaks of the
 %
 \begin{cpp}
 	template<class LD, const int Solver, class Method> 
-	std::vector< std::vector<LD> > mimes::Axion< LD, Solver, Method >::peaks
+	std::vector< std::vector<LD> > mimes::Axion< LD, Solver, Method>::peaks
 \end{cpp}
 %
 Note that these points are computed using linear interpolation between two integration points with a change in the sign of $\zeta$.
@@ -1626,7 +1662,7 @@ The local integration errors for $\theta$ and $\zeta$ are stored in
 %
 \begin{cpp}
 	template<class LD, const int Solver, class Method> 
-	std::vector<LD> mimes::Axion< LD, Solver, Method >::dtheta
+	std::vector<LD> mimes::Axion< LD, Solver, Method>::dtheta
 	
 	template<class LD, const int Solver, class Method> 
 	std::vector<LD> mimes::Axion< LD, Solver, Method>::dzeta
@@ -1684,7 +1720,7 @@ Finally, there is static \cppin{mimes::Cosmo<LD>} member variable
 %
 \begin{cpp}
 	template<class LD, const int Solver, class Method>
-	static mimes::Cosmo<LD> mimes::Axion< LD, Solver, Method >::plasma
+	static mimes::Cosmo<LD> mimes::Axion< LD, Solver, Method>::plasma
 \end{cpp}
 %
 This variable can be used without an instance of the \cppin{mimes::Axion<LD,Solver,Method>} class.
@@ -1832,11 +1868,11 @@ Its constructor is
 %
 \begin{py}
 	Axion(theta_i, fa, umax, TSTOP, 
-	ratio_ini, unsigned int N_convergence_max, convergence_lim, 
-	inputFile, axionMass, initial_step_size=1e-2, 
-	minimum_step_size=1e-8, maximum_step_size=1e-2, absolute_tolerance=1e-8, 
-	relative_tolerance=1e-8, beta=0.9, fac_max=1.2, fac_min=0.8, 
-	unsigned int maximum_No_steps=10000000)
+			ratio_ini, unsigned int N_convergence_max, convergence_lim, 
+			inputFile, axionMass, initial_step_size=1e-2, 
+			minimum_step_size=1e-8, maximum_step_size=1e-2, absolute_tolerance=1e-8, 
+			relative_tolerance=1e-8, beta=0.9, fac_max=1.2, fac_min=0.8, 
+			unsigned int maximum_No_steps=10000000)
 \end{py}
 %
 Again, the various arguments are discussed in section~\refs{sec:cpp_first_example,sec:run_time_input}; and can also be found in table~\ref{tab:AxionSolve-input}. Notice one important difference between this and the \CPP verison of this class; the instance of \pyin{AxionMass}, {\tt axionMass}, is passed by value (there are no pointers in \PY). However, internally, the constructor converts this instance to a pointer, which is then passed to the underlying {\tt C} function responsible for creating the relevant instance.

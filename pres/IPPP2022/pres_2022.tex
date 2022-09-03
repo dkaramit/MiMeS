@@ -383,14 +383,16 @@
 \begin{frame}{\insertsubsectionhead}
 	%
 	\vspace{-0.2cm}
-	\mimes uses a notation suitable (any) underlying cosmology, since it is up to the user to define the cosmological evolution.	
 	
-	First, we define 
+	``Time" in \mimes:
+	 %
 	\begin{equation*}\vspace{-0.2cm}
-		u \equiv \log \lrb{a/\ai}\;,
+		u \equiv \log \lrb{a/\ai}\;.
 	\end{equation*} 
 	%
-	with $\ai$ some initial value of the scale factor.~\footnote{\fontF Only the ratios $a/\ai$ appear in the calculations.}	Then, the EOM becomes
+	~\footnote{\fontF With $\ai$ some initial value of the scale factor}
+	%
+	The EOM is transformed to
 	%
 	\begin{eqnarray*}\vspace*{-0.5cm}
 		& \dfrac{d  \zeta}{du} + \lrsb{\dfrac{1}{2} \dfrac{d \log H^2}{du} + 3 } \zeta + \ \lrb{\dfrac{\maT}{H}}^2 \ \sin \theta
@@ -620,7 +622,7 @@
 		\item Data file with $\log a/a_i$ ($a_i$ is some arbitrary value; \mimes rescales it appropriately), $T$, and $\log H$ of the underlying cosmology.\pause
 		\item Value for $3H/\maT \gg 1$, which defines the point where integration begins.\pause
 		\item Relative difference of $J$ between a given number of peaks at which we consider adiabaticity to have been reached.\pause
-		\item Other input, related to the algorithm, that might confuse you; \eg temperature at which integration stops no {\em matter what}!
+		\item Other input, such as the temperature at which integration exits.
 	\end{enumerate}
 \end{frame}
 

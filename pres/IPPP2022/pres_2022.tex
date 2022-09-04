@@ -385,10 +385,82 @@
 	\end{itemize}	
 		
 \end{frame}
+\subsection{Sidenote: adiabatic invariant -- $I$}
+\begin{frame}{\insertsubsectionhead}
+	%	
+	Given a system with Hamiltonian $\mathcal{H}(\theta,p;t)$, the equations of motion are 
+	%
+	\begin{equation*}
+	\dot p = - \dfrac{\partial \mathcal{H}}{\partial \theta} \;, \;\; 
+	\dot \theta =  \dfrac{\partial \mathcal{H}}{\partial p} \;.
+	\end{equation*}
+	%
+	Also,
+	%
+	\begin{equation*}
+	d \Ham = \dot \theta \ d p - \dot p \ d \theta + \dfrac{\partial \Ham}{\partial t} \ d t \;.  
+	\end{equation*}
+	
+	
+	If this system exhibits closed orbits (\eg if it oscillates), we define 
+	%
+	\begin{equation*}
+	J \equiv C \ \oint p \ d \theta \;,
+	\end{equation*}
+	%
+	where the integral is over a closed path (\eg a period, $T$), and $C$ indicates that $J$ can always be rescaled with a constant. If the Hamiltonian varies slowly during a cycle,
+	%
+	\[
+	\dfrac{d J}{d t} = C \ \oint \lrBigb{\dot p \ d \theta + p \ d \dot \theta} = C \ \dint_{t}^{t+T}  \dfrac{\partial \Ham}{\partial t^\prime} \ d t^\prime \approx T \ \dfrac{\partial \Ham(t^{\prime})}{\partial t^{\prime}}\Big|_{t^{\prime}=t} \approx 0 
+	\;. 
+	\]
+	%
+	So, $J$ is an adiabatic invariant!
+\end{frame}
+\subsection{Sidenote: adiabatic invariant -- $II$}
+\begin{frame}{\insertsubsectionhead}
+	%
+	The Hamiltonian that results in the EOM
+	%
+	\begin{equation*}
+	\Ham = \dfrac{1}{2} \dfrac{p^2}{\fa^2 \ a^3} + V(\theta) \ a^3\;,
+	\end{equation*}
+	%
+	with 
+	%
+	\begin{eqnarray*}
+		& p = \fa^2 \ a^3 \ \dot \theta\;, \hfill
+		& V(\theta) = \maT^2 \fa^2 (1-\cos \theta) \;.
+	\end{eqnarray*}
+	
+	If $\Ham$ varies slowly ($\dot {\tilde{m}}_{a}(T)/\maT \ll \maT$ and $H \ll \maT$):
+	% 
+	\begin{eqnarray*}
+		J &=& \dfrac{\oint p \ d \theta}{\pi \fa^2} = \dfrac{1}{\pi \fa^2} \oint \sqrt{ 2\lrb{ \Ham(\theta) - V(\theta) \ a^3} \ \fa^2 a^3 \ }  \ d \theta  \\ &=&
+		\dfrac{2}{\pi \fa^2} \int_{-\thetamax}^{\thetamax} \sqrt{ 2\lrb{ \Ham(\thetamax) - V(\theta) \ a^3} \ \fa^2 a^3 \ } d \theta \\ &=&
+		\dfrac{2 \sqrt{2} }{\pi \fa}  \int_{- \thetamax} ^{\thetamax}  \sqrt{ V(\thetamax) - V(\theta) } a^{3} d \theta \\ &=& 
+		\dfrac{2 \sqrt{2} }{\pi} \ \maT \, a^3 \ \dint_{- \thetamax}^{\thetamax} \sqrt{\cos \theta - \cos \thetamax} \ d \theta  \;,
+	\end{eqnarray*}
+	%
+	is the adiabatic invariant -- up to a multiplication with a constant.
+\end{frame}
 
 \subsection{\mimes: the \emph{solver} part}
 \begin{frame}{\insertsubsectionhead}
-	
+		\vspace{-0.2cm}
+		%
+		\mimes solves the transformed EOM:~\footnote{Suitable for Runge-Kutta.}
+		%
+		\begin{eqnarray*}\vspace*{-0.5cm}
+			& \dfrac{d  \zeta}{du} + \lrsb{\dfrac{1}{2} \dfrac{d \log H^2}{du} + 3 } \zeta + \ \lrb{\dfrac{\maT}{H}}^2 \ \sin \theta
+			=0 \;. \\[-0.2cm]
+			&\dfrac{d \theta}{d u} - \zeta=0 \;.
+		\end{eqnarray*}\\[-0.2cm]
+		%
+		The parameter $u$ is ``time''~\footnote{\fontF With $\ai$ the initial value of the scale factor. It corresponds to $\Ti$.} $u \equiv \log \lrb{a/\ai}$.
+		Integration starts at $\Ti$ such that $3H(\Ti)/\ma(\Ti) = x \gg 1$,~\footnote{User defined $x$. $\Ti$ is automatically determined.}	
+		with initial conditions are $\zeta(\Ti)=0$ and $\theta(\Ti)=\thetai$.	
+		\mimes stops integrating when $J$ becomes acceptably constant.
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\subsection{\mimes: Notation}

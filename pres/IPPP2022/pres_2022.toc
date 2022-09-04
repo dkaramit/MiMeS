@@ -15,15 +15,15 @@
 \beamer@subsectionintoc {3}{3}{Sidenote: adiabatic invariant -- $I$}{22}{0}{3}
 \beamer@subsectionintoc {3}{4}{Sidenote: adiabatic invariant -- $II$}{23}{0}{3}
 \beamer@subsectionintoc {3}{5}{{\tt MiMeS}\xspace : the \emph {solver} part}{24}{0}{3}
-\beamer@sectionintoc {4}{Using {\tt MiMeS}\xspace }{25}{0}{4}
-\beamer@subsectionintoc {4}{1}{How to get {\tt MiMeS}\xspace }{26}{0}{4}
-\beamer@subsectionintoc {4}{2}{Configure (and make)}{27}{0}{4}
-\beamer@subsectionintoc {4}{3}{Classes}{28}{0}{4}
-\beamer@subsectionintoc {4}{4}{Template arguments}{32}{0}{4}
-\beamer@subsectionintoc {4}{5}{{\tt MiMeS}\xspace from {\tt python}\xspace }{33}{0}{4}
-\beamer@subsectionintoc {4}{6}{Assumptions}{34}{0}{4}
-\beamer@subsectionintoc {4}{7}{What {\tt MiMeS}\xspace expects from you}{39}{0}{4}
-\beamer@sectionintoc {5}{Examples}{45}{0}{5}
-\beamer@subsectionintoc {5}{1}{{\tt python}\xspace }{46}{0}{5}
-\beamer@subsectionintoc {5}{2}{{\tt C++}\xspace }{47}{0}{5}
-\beamer@sectionintoc {6}{Outlook}{48}{0}{6}
+\beamer@sectionintoc {4}{Using {\tt MiMeS}\xspace }{26}{0}{4}
+\beamer@subsectionintoc {4}{1}{How to get {\tt MiMeS}\xspace }{27}{0}{4}
+\beamer@subsectionintoc {4}{2}{Configure (and make)}{28}{0}{4}
+\beamer@subsectionintoc {4}{3}{Classes}{29}{0}{4}
+\beamer@subsectionintoc {4}{4}{Template arguments}{33}{0}{4}
+\beamer@subsectionintoc {4}{5}{{\tt MiMeS}\xspace from {\tt python}\xspace }{34}{0}{4}
+\beamer@subsectionintoc {4}{6}{Assumptions}{35}{0}{4}
+\beamer@subsectionintoc {4}{7}{What {\tt MiMeS}\xspace expects from you}{40}{0}{4}
+\beamer@sectionintoc {5}{Examples}{46}{0}{5}
+\beamer@subsectionintoc {5}{1}{{\tt python}\xspace }{47}{0}{5}
+\beamer@subsectionintoc {5}{2}{{\tt C++}\xspace }{48}{0}{5}
+\beamer@sectionintoc {6}{Outlook}{49}{0}{6}

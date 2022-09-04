@@ -424,14 +424,14 @@
 	%
 	\begin{equation*}
 	\Ham = \dfrac{1}{2} \dfrac{p^2}{\fa^2 \ a^3} + V(\theta) \ a^3\;,
-	\end{equation*}
+	\end{equation*}\\[-0.3cm]
 	%
-	with 
+	with \\[-0.3cm]
 	%
 	\begin{eqnarray*}
 		& p = \fa^2 \ a^3 \ \dot \theta\;, \hfill
 		& V(\theta) = \maT^2 \fa^2 (1-\cos \theta) \;.
-	\end{eqnarray*}
+	\end{eqnarray*}\\[-0.1cm]
 	
 	If $\Ham$ varies slowly ($\dot {\tilde{m}}_{a}(T)/\maT \ll \maT$ and $H \ll \maT$):
 	% 
@@ -442,8 +442,39 @@
 		\dfrac{2 \sqrt{2} }{\pi} \ \maT \, a^3 \ \dint_{- \thetamax}^{\thetamax} \sqrt{\cos \theta - \cos \thetamax} \ d \theta  \;,
 	\end{eqnarray*}
 	%
-	is the adiabatic invariant -- up to a multiplication with a constant.
+	is the adiabatic invariant -- up to a multiplication with a constant.\pause\\[0.2cm]
+	
+	\begin{center}
+		\textbf{Important}: $\thetamax$ is the peak of the oscillation.
+	\end{center}
 \end{frame}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Using adiabatic invariant}
+\begin{frame}{\insertsubsectionhead}
+	We rewrite the adiabatic invariant as
+	%
+	\begin{equation*}
+	J = a^3 \ \maT \ \thetamax^2  \, f(\thetamax)  \;,
+	\end{equation*}
+	%
+	with 
+	\begin{equation*}
+	f(\thetamax) =\dfrac{ 2 \sqrt{2}}{\pi \thetamax^2 } \dint_{- \thetamax}^{\thetamax} d \theta \sqrt{ \cos \theta - \cos \thetamax } \;,
+	\end{equation*}
+	%
+	the so-called anharmonic factor.\pause \\[0.5cm]
+	
+	$J$ can be used to determine how $\thetamax$ changes with time. By definition, at $\theta=\thetamax$, $p \sim \dot \theta = 0$.
+	This means that we can find $\rho_{a,0}$ on the peak of today's $\theta$, as
+	%
+	\begin{equation*}
+	\rho_{a,0} = \gamma^{-1} \ \dfrac{s_0}{s_*} \ \ma \ \maT_{,*} \ \dfrac{1}{2} \ \fa^2 \ \thetamax_{,*}^2 \;  \ f(\thetamax_{,*}) \;,
+	\end{equation*}
+	%
+	where $T_{*}$ the temperature at which adiabaticity was reached, and $\gamma$ the entropy injection between $T_*$ and today (\ie $s_0 = \gamma a_*^3 s_*$). 	  
+\end{frame}
+%
 
 \subsection{\mimes: the \emph{solver} part}
 \begin{frame}{\insertsubsectionhead}
@@ -471,70 +502,6 @@
 	
 		
 \end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\subsection{\mimes: Notation}
-%\begin{frame}{\insertsubsectionhead}
-%	%
-%	\vspace{-0.2cm}
-%	
-%	``Time'' in \mimes:
-%	 %
-%	\begin{equation*}\vspace{-0.2cm}
-%		u \equiv \log \lrb{a/\ai}\;.
-%	\end{equation*} 
-%	%
-%	~\footnote{\fontF With $\ai$ some initial value of the scale factor}
-%	%
-%	The EOM is transformed to
-%	%
-%	\begin{eqnarray*}\vspace*{-0.5cm}
-%		& \dfrac{d  \zeta}{du} + \lrsb{\dfrac{1}{2} \dfrac{d \log H^2}{du} + 3 } \zeta + \ \lrb{\dfrac{\maT}{H}}^2 \ \sin \theta
-%		=0 \;. \\[-0.2cm]
-%		&\dfrac{d \theta}{d u} - \zeta=0 \;.
-%	\end{eqnarray*}\\[-0.2cm]
-%	%
-%	The initial conditions are $\zeta(0)=0$ and $\theta(0)=\thetai$.\\[1cm]\pause
-%	
-%	\begin{center}
-%		{\em This is the same notation as in the code} $\Rightarrow$ {\em You can change it easily.}
-%	\end{center}
-%	
-%	
-%\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\subsection{Ingredients for numerical integration: Adiabatic invariant}
-%\begin{frame}{\insertsubsectionhead}
-%	%
-%	If a system exhibits closed orbits, the quantity
-%	%
-%	\begin{equation*}
-%		J \equiv C \ \oint p \ d \theta \;,
-%	\end{equation*}
-%	%
-%	is the adiabatic invariant. In this case, it becomes
-%	%
-%	\begin{equation*}
-%		J = a^3 \ \maT \ \thetamax^2  \, f(\thetamax)  \;,
-%	\end{equation*}
-%	%
-%	with 
-%	\begin{equation*}
-%		f(\thetamax) =\dfrac{ 2 \sqrt{2}}{\pi \thetamax^2 } \dint_{- \thetamax}^{\thetamax} d \theta \sqrt{ \cos \theta - \cos \thetamax } \;,
-%	\end{equation*}
-%	%
-%	the so-called anharmonic factor.\pause
-%	
-%	\textbf{Important}: $\thetamax$ is the peak of the oscillation. So, $J$ can be used to determine how $\thetamax$ changes with time. By definition, at $\theta=\thetamax$, $p \sim \dot \theta = 0$.
-%	This means that we can find $\rho_{a,0}$ on the peak of today's $\theta$, as
-%	%
-%	\begin{equation*}
-%		\rho_{a,0} = \gamma^{-1} \ \dfrac{s_0}{s_*} \ \ma \ \maT_{,*} \ \dfrac{1}{2} \ \fa^2 \ \thetamax_{,*}^2 \;  \ f(\thetamax_{,*}) \;,
-%	\end{equation*}
-%	%
-%	where $T_{*}$ the temperature at which adiabaticity was reached, and $\gamma$ the entropy injection between $T_*$ and today (\ie $s_0 = \gamma a_*^3 s_*$). 	  
-%\end{frame}
-%
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\subsection{Ingredients for numerical integration: Integration limits}
@@ -790,7 +757,7 @@
 		{\color{yellow} \Huge Thank you!}\\[0.5cm]
 		
 		{\color{yellow}Breakdown of \mimes}:\\
-		{\fontsize{10}{1} \selectfont \color{white} \verbatiminput{cloc.txt}}
+		\hspace*{-10.2cm}{\fontsize{10}{1} \selectfont \color{white} \verbatiminput{cloc.txt}}
 	\end{center}
 	
 	\begin{center}
@@ -870,67 +837,6 @@
 	\end{equation*}
 	
 	
-\end{frame}
-
-\begin{frame}{Adiabatic invariant -- I}
-	%	
-	Given a system with Hamiltonian $\mathcal{H}(\theta,p;t)$, the equations of motion are 
-	%
-	\begin{equation*}
-		\dot p = - \dfrac{\partial \mathcal{H}}{\partial \theta} \;, \;\; 
-		\dot \theta =  \dfrac{\partial \mathcal{H}}{\partial p} \;.
-	\end{equation*}
-	%
-	Also,
-	%
-	\begin{equation*}
-		d \Ham = \dot \theta \ d p - \dot p \ d \theta + \dfrac{\partial \Ham}{\partial t} \ d t \;.  
-	\end{equation*}
-	
-	
-	If this system exhibits closed orbits (\eg if it oscillates), we define 
-	%
-	\begin{equation*}
-		J \equiv C \ \oint p \ d \theta \;,
-	\end{equation*}
-	%
-	where the integral is over a closed path (\eg a period, $T$), and $C$ indicates that $J$ can always be rescaled with a constant. If the Hamiltonian varies slowly during a cycle,
-	%
-	\[
-	\dfrac{d J}{d t} = C \ \oint \lrBigb{\dot p \ d \theta + p \ d \dot \theta} = C \ \dint_{t}^{t+T}  \dfrac{\partial \Ham}{\partial t^\prime} \ d t^\prime \approx T \ \dfrac{\partial \Ham(t^{\prime})}{\partial t^{\prime}}\Big|_{t^{\prime}=t} \approx 0 
-	\;. 
-	\]
-	%
-	So, $J$ is an adiabatic invariant!
-	
-\end{frame}
-
-\begin{frame}{Adiabatic invariant -- II}
-	%
-	The Hamiltonian that results in the EOM
-	%
-	\begin{equation*}
-		\Ham = \dfrac{1}{2} \dfrac{p^2}{\fa^2 \ a^3} + V(\theta) \ a^3\;,
-	\end{equation*}
-	%
-	with 
-	%
-	\begin{eqnarray*}
-		& p = \fa^2 \ a^3 \ \dot \theta \\
-		\label{eq:momentum}
-		& V(\theta) = \maT^2 \fa^2 (1-\cos \theta) \;.
-	\end{eqnarray*}
-	
-	If $\Ham$ varies slowly -- $\dot {\tilde{m}}_{a}(T)/\maT \ll \maT$ and $H \ll \maT$, then
-	% 
-	\begin{eqnarray*}
-		J &=& \dfrac{\oint p \ d \theta}{\pi \fa^2} = \dfrac{1}{\pi \fa^2} \oint \sqrt{ 2\lrb{ \Ham(\theta) - V(\theta) \ a^3} \ \fa^2 a^3 \ }  \ d \theta  \\ &=&
-		\dfrac{2}{\pi \fa^2} \int_{-\thetamax}^{\thetamax} \sqrt{ 2\lrb{ \Ham(\thetamax) - V(\theta) \ a^3} \ \fa^2 a^3 \ } d \theta \\ &=&
-		\dfrac{2 \sqrt{2} }{\pi \fa}  \int_{- \thetamax} ^{\thetamax}  \sqrt{ V(\thetamax) - V(\theta) } a^{3} d \theta \\ &=& 
-		\dfrac{2 \sqrt{2} }{\pi} \ \maT \, a^3 \ \dint_{- \thetamax}^{\thetamax} \sqrt{\cos \theta - \cos \thetamax} \ d \theta  \;,
-	\end{eqnarray*}
-	%
-	is the adiabatic invariant -- up to a multiplication with a constant.
 \end{frame}
 
 

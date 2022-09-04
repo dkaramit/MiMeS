@@ -133,10 +133,10 @@
 		\end{turn}
 	\end{textblock}
 	
-	\vspace*{-0.2cm}
+	\vspace*{-0.18cm}
 	\begin{center}
 		
-		\includegraphics[width=6.cm, height=3.cm]{Planck_CMB.jpg}\\[-0.25cm] 
+		\includegraphics[width=6.cm, height=3.cm]{Planck_CMB.jpg}\\[-0.23cm] 
 		\bl{ 
 			\fontF  N.~Aghanim {\it et al.} [Planck Collaboration],
 			%``Planck 2018 results. VI. Cosmological parameters,''
@@ -197,8 +197,9 @@
 	\begin{itemize}
 		\item Have suppressed interactions with photons.
 		\item Are (mostly) stable. 
-		\item Were non-relativistic around the epoch of structure formation. 
-		\item Non-baryonic (by definition), and of-course interact gravitationally.\pause\\[1cm]
+		\item Non-baryonic by definition.
+		\item Light but non-relativistic around the epoch of structure formation. 
+		\pause\\[1cm]
 	\end{itemize}
 	
 	\begin{center}
@@ -233,11 +234,11 @@
 		\textbf{Hard} (in general).\\[1cm]
 	\end{center}	
 	
-	The classical analogue is the dumped pendulum with both frequency (length) and friction being time-dependent:
+	The classical analogue is the damped pendulum with time-dependent length and friction:
 	%
 	\begin{itemize}
 		\item There is no closed form solution.
-		\item There are no constants of motion (wait a minute...).
+		\item There are no constants of motion during its entire evolution.
 		\item No package/library/program available!\pause\\[1cm]
 	\end{itemize}
 	
@@ -251,7 +252,7 @@
 \subsection{Initial conditions}
 \begin{frame}{\insertsubsectionhead}
 	%
-	Some time at the very early Universe, $\maT \ll H(T)$,~\footnote{\fontF This is an assumption that \mimes has to make for the sake of generality.} with
+	Some time at the very early Universe, $\maT \ll H(T)$, with
 	\begin{equation*}
 		\ddot{\theta}  + 3H \ \dot{\theta} \approx 0 \;.
 	\end{equation*}	
@@ -260,20 +261,20 @@
 	$$
 	\theta = \thetai + C \dint_{0}^t d t' \ \lrb{ \dfrac{a(t'=0)}{a(t')} }^3 \;.
 	$$
-	%this is true especially in the case where the PQ symmetry breakes before inflation.
-	So, $\dot{\theta} \sim a^{-3}$. Since we are interested in $\theta$ at much later times (once the potential becomes relevant), $\dot{\theta} \approx 0$.%~\footnote{\fontF Standard misalignment mechanism. For the kinetic one see
-%		
-%		\bl{\fontF R.~T.~Co, L.~J.~Hall and K.~Harigaya,
-%			\href{https://doi.org/10.1103/PhysRevLett.124.251802}{Phys. Rev. Lett. \textbf{124} (2020) no.25, 251802}
-%			\href{https://arxiv.org/abs/1910.14152}{[arXiv:1910.14152 [hep-ph]]}},
-%		%
-%		\bl{\fontF  C.~F.~Chang and Y.~Cui,
-%			\href{https://doi.org/10.1103/PhysRevD.102.015003}{Phys. Rev. D \textbf{102} (2020) no.1, 015003}
-%			\href{https://arxiv.org/abs/1911.11885}{[arXiv:1911.11885 [hep-ph]]}}, or 
-%		% 
-%		\bl{\fontF  B.~Barman, N.~Bernal, N.~Ramberg and L.~Visinelli,
-%			\href{https://arxiv.org/abs/2111.03677}{[arXiv:2111.03677 [hep-ph]]} }.	
-%	}
+	
+	So, $\dot{\theta} \sim a^{-3}$. Since we are interested in $\theta$ once the potential becomes relevant (\ie much later times), $\dot{\theta} \approx 0$.~\footnote{\fontF Extensions of this are
+		the ``Kinetic misalignment mechanism'' 			
+		\bl{\fontF R.~T.~Co, L.~J.~Hall and K.~Harigaya,
+			\href{https://doi.org/10.1103/PhysRevLett.124.251802}{Phys. Rev. Lett. \textbf{124} (2020) no.25, 251802}
+			\href{https://arxiv.org/abs/1910.14152}{[arXiv:1910.14152 [hep-ph]]}},
+		%
+		\bl{\fontF  C.~F.~Chang and Y.~Cui,
+			\href{https://doi.org/10.1103/PhysRevD.102.015003}{Phys. Rev. D \textbf{102} (2020) no.1, 015003}
+			\href{https://arxiv.org/abs/1911.11885}{[arXiv:1911.11885 [hep-ph]]}},
+		and ``Frictional misalignment''
+		\bl{A.~Papageorgiou, P.~Qu\'\i{}lez and K.~Schmitz,
+		\href{https://arxiv.org/abs/2206.01129}{[arXiv:2206.01129 [hep-ph]]}}.
+	}
 	%
 	Therefore, we can begin integration at some point with $3H \gg \maT$, and set $\theta(t=\ti) = \thetai$ and $\dot \theta(t=\ti) = 0$. 
 	
@@ -302,6 +303,7 @@
 	\begin{itemize}
 		\item Assume $\theta \ll 1$, and linearise the EOM. {\sl Not general.}
 		\item Assume that at $\maT(\Tosc) \approx 3H(\Tosc)$ we have $\dot\theta(\Tosc)=0$. {\sl Not very precise.}
+		\item For $T<\Tosc$ the axion oscillates harmonically. {\sl Not good.}
 		\item Assume that $\thetaosc \approx \thetai$. {\sl Generally quite bad.}\pause
 	\end{itemize}
 	
@@ -320,14 +322,22 @@
 	where $\gamma$ the amount of entropy injection between $\Tosc$ and today.%~\footnote{\fontF Defined from $s(T_0) = \gamma \ \aosc^3 \ s_{\rm osc}$.}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Need for speed, accuracy, and automation}
+\subsection{Is it that bad?}
+\begin{frame}{\insertsubsectionhead}
+	\begin{center}
+		\vspace{-0.22cm}\includegraphics[width=0.82\textwidth]{figs/theta_evolution-RD.pdf}\\[-0.39cm]
+		\includegraphics[width=0.82\textwidth]{figs/theta_evolution-EMD.pdf}
+	\end{center}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Need for speed, accuracy, and reproducability}
 \begin{frame}{\insertsubsectionhead}
 	%
 	Life before \mimes: \\[1cm]\pause
 	%
 	\begin{itemize}
-		\item No available tool that can help us reproduce published results obtained by numerical integration. \emph{Reproducing results means reproducing effort}.\pause
 		\item The approximations can be tested against numerical results in a case-by-case basis. \emph{No measure of accuracy}.\pause%There is no way to tell if they will work in new models and cosmological scenarios.
+		\item No available tool that can help us reproduce published results obtained by numerical integration. \emph{Reproducing results means reproducing effort}.\pause
 		\item Simply checking if an ALP model is compatible with a cosmological scenario is \emph{slow} or \emph{inaccurate}. 
 	\end{itemize}
 	
@@ -340,7 +350,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{\mimes}
-\subsection{\mimes: Why?}
+\subsection{\mimes: What is it?}
 \begin{frame}{\insertsubsectionhead}
 	We need accurate code that solves the EOM, but most importantly we need {\sl reproducible} results! \\[0.2cm]
 	
@@ -367,10 +377,7 @@
 \begin{frame}{\insertsubsectionhead}
 	%
 	\begin{center}
-	%		\begin{otherlanguage}{greek}
-	%			<<Έν οἶδα, ὅτι οὐδὲν οἶδα.>>\\
-	%		\end{otherlanguage}		
-		``It is the empty space which makes a bowl useful.''
+		``It is the empty space that makes a bowl useful.''
 		\flushright --Laozi %\pause
 	\end{center}
 	%
@@ -378,10 +385,10 @@
 	\\[0.3cm] 
 	%
 	\begin{itemize}
-		\item \mimes relies on \cppin{NaBBODES}~\footnote{\fontF \href{https://github.com/dkaramit/NaBBODES}{https://github.com/dkaramit/NaBBODES}.} \cppin{SimpleSplines}~\footnote{\fontF \href{https://github.com/dkaramit/SimpleSplines}{https://github.com/dkaramit/SimpleSplines}.}.
-		\item You only need to have the standard \CPP library.
-		\item The two libraries are developed by myself, so their integration with \mimes is seamless.
-		\item There is always going to be a compatible version of these libraries that works with \mimes.\\[0.3cm]
+		\item \mimes relies on \cppin{NaBBODES}~\footnote{\fontF \href{https://github.com/dkaramit/NaBBODES}{https://github.com/dkaramit/NaBBODES}.} and \cppin{SimpleSplines}~\footnote{\fontF \href{https://github.com/dkaramit/SimpleSplines}{https://github.com/dkaramit/SimpleSplines}.}.
+		\item Guaranteed seamless integration with \mimes.
+		\item There is always going to be a compatible version of these libraries that works with \mimes.
+		\item You only need a \CPP compiler.~\footnote{Support of {\tt C++17} for full functionality.}
 	\end{itemize}	
 		
 \end{frame}
@@ -494,7 +501,6 @@
 		%
 		\begin{itemize}
 			\item Integration starts at $\Ti$ such that $3H(\Ti)/\ma(\Ti) = x \gg 1$, with a user defined $x$ ($\Ti$ is automatically determined).
-			\item $H(u)$, $\ma(u)$, and plasma parameters are interpolated from $\Ti$.
 			\item Initial conditions, set at $\Ti$, $\zeta(\Ti)=0$ and $\theta(\Ti)=\thetai$. The initial angle $\thetai$ is user defined.
 			\item \mimes stops integrating when $J$ becomes slowly varying over enough cycles. This is a user defined condition. 
 		\end{itemize}	
@@ -607,7 +613,7 @@
 \subsection{Template arguments}
 \begin{frame}[fragile]{\insertsubsectionhead}
 	%
-	You need to choose what numeric type to use. This is done by the template argument \cppin{LD} which should be \cppin{double} (fast) or \cppin{long double} (accurate).~\footnote{\fontF You could choose \cppin{float}, but we live in 2021.}\\[0.5cm]
+	You need to choose what numeric type to use. This is done by the template argument \cppin{LD} which should be \cppin{double} (fast) or \cppin{long double} (accurate).~\footnote{\fontF You could choose \cppin{float}, but we live in 2022.}\\[0.5cm]
 	
 	
 	You also need to tell \mimes which integration strategy to use. This is done by choosing template arguments:
@@ -725,7 +731,7 @@
 	\end{center}
 	%
 	\begin{itemize}
-		\item \mimes should allow the user to consider different initial value of $\zeta$; the ''kinematic'' \mimes might come soon.
+		\item \mimes should allow the user to consider other flavours of missalignment.
 		\item \mimes should be able to handle non-vanishing \rhs; \ie solve the ''driven'' dumped time-dependent pendulum.
 		%		\item Would be nice if \mimes could handle case of freeze-out/in.
 		\item \mimes should be able to compare against searches on the fly. 

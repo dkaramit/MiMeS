@@ -1,7 +1,8 @@
 -include Definitions.mk 
 
 #c++ std
-STD=c++17
+# STD=c++17
+STD=c++11
 
 #you can inlude more things here
 PATH_INCLUDE= -I$(rootDir)

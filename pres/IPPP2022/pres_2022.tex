@@ -54,7 +54,7 @@
 \setbeamertemplate{blocks}[rounded][shadow=false]
 
 
-\title[]{\mimes: Misalignment Mechanism Solver}
+\title[]{\emph{\bf Mi}salignment \emph{\bf Me}chanism \emph{\bf S}olver}
 \author{Dimitrios Karamitros}
 \institute{
 	Manchester U.\\
@@ -230,7 +230,7 @@
 \begin{frame}{\insertsubsectionhead}
 	%
 	\begin{center}
-		\textbf{Hard} (in general).\\[1cm]\pause
+		\textbf{Hard} (in general).\\[1cm]
 	\end{center}	
 	
 	The classical analogue is the dumped pendulum with both frequency (length) and friction being time-dependent:
@@ -238,7 +238,7 @@
 	\begin{itemize}
 		\item There is no closed form solution.
 		\item There are no constants of motion (wait a minute...).
-		\item No package/library/program available!\pause\\[2cm]
+		\item No package/library/program available!\pause\\[1cm]
 	\end{itemize}
 	
 	\begin{center}
@@ -300,18 +300,18 @@
 	%\end{equation*}	
 	%
 	\begin{itemize}
-		\item Assume $\theta \ll 1$, and linearise the EOM. {\sl Not general.}\pause
-		\item Assume that at $\maT(\Tosc) \approx 3H(\Tosc)$ we have $\dot\theta(\Tosc)=0$. {\sl Not very precise.}\pause
+		\item Assume $\theta \ll 1$, and linearise the EOM. {\sl Not general.}
+		\item Assume that at $\maT(\Tosc) \approx 3H(\Tosc)$ we have $\dot\theta(\Tosc)=0$. {\sl Not very precise.}
 		\item Assume that $\thetaosc \approx \thetai$. {\sl Generally quite bad.}\pause
 	\end{itemize}
 	
-	Then, we get the ``WKB''-approximate solution
+	These result in ``WKB''-approximate solution
 	%
 	\begin{equation*}\vspace*{-0.2cm}
-		\theta(t) \approx \thetai \lrb{\dfrac{3}{4}}^{1/4} \sqrt{ \dfrac{ \maT(\Tosc) }{\maT(T)} } \lrb{\dfrac{a}{\aosc}}^{-3/2} \  \cos\lrb{ \int_{\tosc}^t d t^\prime  \ \maT(t^\prime)}   \;.
+		\theta(t) \approx \thetai \lrb{\dfrac{3}{4}}^{1/4} \sqrt{ \dfrac{ \maT(\Tosc) }{\maT(T)} } \lrb{\dfrac{a}{\aosc}}^{-3/2} \  \cos\lrb{ \int_{\tosc}^t d t^\prime  \ \maT(t^\prime)}   \;,
 	\end{equation*}
-	
-	The advantage of this approximation is that we get an easy formula for the axion/ALP energy density today:
+	%
+	which gives us:
 	%
 	\begin{equation*}\vspace*{-0.2cm}		
 		\rho_{a,0} = \gamma^{-1}  \dfrac{s_0}{s_{\rm osc}} \  \dfrac{1 }{2}  \ \fa^2 \ \ma \ \maT_{,{\rm osc}} \ \thetai^2    \;,
@@ -384,6 +384,11 @@
 		\item There is always going to be a compatible version of these libraries that works with \mimes.\\[0.3cm]
 	\end{itemize}	
 		
+\end{frame}
+
+\subsection{\mimes: the \emph{solver} part}
+\begin{frame}{\insertsubsectionhead}
+	
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\subsection{\mimes: Notation}

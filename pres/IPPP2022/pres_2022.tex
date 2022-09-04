@@ -457,10 +457,13 @@
 			&\dfrac{d \theta}{d u} - \zeta=0 \;.
 		\end{eqnarray*}\\[-0.2cm]
 		%
-		The parameter $u$ is ``time''~\footnote{\fontF With $\ai$ the initial value of the scale factor. It corresponds to $\Ti$.} $u \equiv \log \lrb{a/\ai}$. \pause\\[0.5cm]
+		The parameter $u$ is ``time'' $u \equiv \log \lrb{a/\ai}$.~\footnote{\fontF With $\ai$ the initial value of the scale factor. It corresponds to $\Ti$.} \pause\\[0.5cm]
 
+		
+		%
 		\begin{itemize}
-			\item Integration starts at $\Ti$ such that $3H(\Ti)/\ma(\Ti) = x \gg 1$, with a u ser defined $x$ ($\Ti$ is automatically determined).
+			\item Integration starts at $\Ti$ such that $3H(\Ti)/\ma(\Ti) = x \gg 1$, with a user defined $x$ ($\Ti$ is automatically determined).
+			\item $H(u)$, $\ma(u)$, and plasma parameters are interpolated from $\Ti$.
 			\item Initial conditions, set at $\Ti$, $\zeta(\Ti)=0$ and $\theta(\Ti)=\thetai$. The initial angle $\thetai$ is user defined.
 			\item \mimes stops integrating when $J$ becomes slowly varying over enough cycles. This is a user defined condition. 
 		\end{itemize}	

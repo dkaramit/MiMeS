@@ -166,10 +166,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{\insertsubsectionhead}
 	\begin{center}
-		\begin{otherlanguage}{greek}
-			<<Έν οἶδα, ὅτι οὐδὲν οἶδα.>>\\
-		\end{otherlanguage}		
-		``I know one thing,  that I know nothing."
+%		\begin{otherlanguage}{greek}
+%			<<Έν οἶδα, ὅτι οὐδὲν οἶδα.>>\\
+%		\end{otherlanguage}		
+		``I know one thing,  that I know nothing.''
 		\flushright --Socrates %\pause
 	\end{center}
 	
@@ -279,21 +279,33 @@
 	
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{(Bad) Analytical approximations}
+\subsection{(Bad) Approximations}
 \begin{frame}{\insertsubsectionhead}
-	Once we agree on the initial conditions, we move to the next important things:\pause
-	%	
+
+%	\begin{center}
+%		``He who thinks great thoughts, often makes great errors.''
+%		\flushright --Martin Heidegger %\pause
+%	\end{center}
+
+	\begin{center}
+		``If a man knows not which port he sails, no wind is favourable.''
+		\flushright --Seneca %\pause
+	\end{center}
+
+
+%	Once we agree on the initial conditions, we move to the next important things:\pause
+%		
 	%\begin{equation*}
 	%	\ddot \theta + \underbrace{  \bl{ 3\overbrace{H(t) }^{\text{Slow}}  } \ \dot \theta + \bl{ \overbrace{\maT^2(t)}^{\text{Slow}}  }}_{\maT > 3 H} \ \rd{\underbrace{ \sin \theta(t) }_{\theta \ll 1}  } = 0 \; ,
 	%\end{equation*}	
 	%
 	\begin{itemize}
-		\item Assume $\theta \ll 1$, and linearise the EOM. {\sl Not always that bad.}\pause
+		\item Assume $\theta \ll 1$, and linearise the EOM. {\sl Not general.}\pause
 		\item Assume that at $\maT(\Tosc) \approx 3H(\Tosc)$ we have $\dot\theta(\Tosc)=0$. {\sl Not very precise.}\pause
 		\item Assume that $\thetaosc \approx \thetai$. {\sl Generally quite bad.}\pause
 	\end{itemize}
 	
-	Then, we get the ``WKB"-approximate solution
+	Then, we get the ``WKB''-approximate solution
 	%
 	\begin{equation*}\vspace*{-0.2cm}
 		\theta(t) \approx \thetai \lrb{\dfrac{3}{4}}^{1/4} \sqrt{ \dfrac{ \maT(\Tosc) }{\maT(T)} } \lrb{\dfrac{a}{\aosc}}^{-3/2} \  \cos\lrb{ \int_{\tosc}^t d t^\prime  \ \maT(t^\prime)}   \;.
@@ -316,7 +328,7 @@
 	\begin{itemize}
 		\item No available tool that can help us reproduce published results obtained by numerical integration. \emph{Reproducing results means reproducing effort}.\pause
 		\item The approximations can be tested against numerical results in a case-by-case basis. \emph{No measure of accuracy}.\pause%There is no way to tell if they will work in new models and cosmological scenarios.
-		\item If someone wants to simply see if an ALP model is compatible with a cosmological scenario. \emph{Slow}. 
+		\item Simply checking if an ALP model is compatible with a cosmological scenario is \emph{slow} or \emph{inaccurate}. 
 	\end{itemize}
 	
 	
@@ -330,28 +342,23 @@
 \section{\mimes}
 \subsection{\mimes: Why?}
 \begin{frame}{\insertsubsectionhead}
-	We need accurate code that solves the EOM, but most importantly we need {\sl reproducible} results! \\[0.5cm]
+	We need accurate code that solves the EOM, but most importantly we need {\sl reproducible} results! \\[0.2cm]
 	
 	\mimes is:
 	% 
 	\begin{itemize}
-		\item \mimes is a \CPP header-only library that contains various templated classes; there is no ``installation" and no special procedures, just include the header files. 
-		%
-		\item \mimes comes with a \PY interface so that everybody can use it.
-		%
-		\item \mimes is distributed under the MIT license; you can do whatever you want with it, and I am {\em not} responsible.\\[0.1cm]
-	\end{itemize}
-	
-	\mimes also
-	% 
-	\begin{itemize}
+		\item \mimes is a \CPP header-only library that contains various templated classes. 
+%		
+		\item \mimes comes with a \PY interface.
+%
 		\item Is {\sl easy} to use; anyone can run it and see if their model can work or check against the literature.
+%
 		\item Is reasonably fast; less than $0.05 \; s$ for the scenarios tested.
+%
 		\item Provides full access to results and their errors, which can help determine if the results are accurate.
-		\item Asks the user to decide when to start, stop, and when adiabaticity is reached; {\em no guesses anywhere}! 
+%
+		\item Asks the user to decide when to start, stop, and when adiabaticity is reached.
 	\end{itemize}
-	
-	
 	
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -359,55 +366,55 @@
 \subsection{\mimes: Under the hood}
 \begin{frame}{\insertsubsectionhead}
 	%
-	\mimes relies on \cppin{NaBBODES}~\footnote{\fontF \href{https://github.com/dkaramit/NaBBODES}{https://github.com/dkaramit/NaBBODES}.} for the numerical integration, and \cppin{SimpleSplines}~\footnote{\fontF \href{https://github.com/dkaramit/SimpleSplines}{https://github.com/dkaramit/SimpleSplines}.} for the various interpolations.\\[0.3cm] 
-	
-	Advantages:
+	\begin{center}
+	%		\begin{otherlanguage}{greek}
+	%			<<Έν οἶδα, ὅτι οὐδὲν οἶδα.>>\\
+	%		\end{otherlanguage}		
+		``It is the empty space which makes a bowl useful.''
+		\flushright --Laozi %\pause
+	\end{center}
+	%
+	\mimes is built as minimally as possible:
+	\\[0.3cm] 
 	%
 	\begin{itemize}
+		\item \mimes relies on \cppin{NaBBODES}~\footnote{\fontF \href{https://github.com/dkaramit/NaBBODES}{https://github.com/dkaramit/NaBBODES}.} \cppin{SimpleSplines}~\footnote{\fontF \href{https://github.com/dkaramit/SimpleSplines}{https://github.com/dkaramit/SimpleSplines}.}.
 		\item You only need to have the standard \CPP library.
 		\item The two libraries are developed by myself, so their integration with \mimes is seamless.
 		\item There is always going to be a compatible version of these libraries that works with \mimes.\\[0.3cm]
 	\end{itemize}	
-	
-	Disadvantages:
-	%
-	\begin{itemize}
-		\item These are not well tested libraries.
-		\item No community of contributors; if it doesn't work, I have to fix it.
-		\item Slow development.
-	\end{itemize}	
-	
+		
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{\mimes: Notation}
-\begin{frame}{\insertsubsectionhead}
-	%
-	\vspace{-0.2cm}
-	
-	``Time" in \mimes:
-	 %
-	\begin{equation*}\vspace{-0.2cm}
-		u \equiv \log \lrb{a/\ai}\;.
-	\end{equation*} 
-	%
-	~\footnote{\fontF With $\ai$ some initial value of the scale factor}
-	%
-	The EOM is transformed to
-	%
-	\begin{eqnarray*}\vspace*{-0.5cm}
-		& \dfrac{d  \zeta}{du} + \lrsb{\dfrac{1}{2} \dfrac{d \log H^2}{du} + 3 } \zeta + \ \lrb{\dfrac{\maT}{H}}^2 \ \sin \theta
-		=0 \;. \\[-0.2cm]
-		&\dfrac{d \theta}{d u} - \zeta=0 \;.
-	\end{eqnarray*}\\[-0.2cm]
-	%
-	The initial conditions are $\zeta(0)=0$ and $\theta(0)=\thetai$.\\[1cm]\pause
-	
-	\begin{center}
-		{\em This is the same notation as in the code} $\Rightarrow$ {\em You can change it easily.}
-	\end{center}
-	
-	
-\end{frame}
+%\subsection{\mimes: Notation}
+%\begin{frame}{\insertsubsectionhead}
+%	%
+%	\vspace{-0.2cm}
+%	
+%	``Time'' in \mimes:
+%	 %
+%	\begin{equation*}\vspace{-0.2cm}
+%		u \equiv \log \lrb{a/\ai}\;.
+%	\end{equation*} 
+%	%
+%	~\footnote{\fontF With $\ai$ some initial value of the scale factor}
+%	%
+%	The EOM is transformed to
+%	%
+%	\begin{eqnarray*}\vspace*{-0.5cm}
+%		& \dfrac{d  \zeta}{du} + \lrsb{\dfrac{1}{2} \dfrac{d \log H^2}{du} + 3 } \zeta + \ \lrb{\dfrac{\maT}{H}}^2 \ \sin \theta
+%		=0 \;. \\[-0.2cm]
+%		&\dfrac{d \theta}{d u} - \zeta=0 \;.
+%	\end{eqnarray*}\\[-0.2cm]
+%	%
+%	The initial conditions are $\zeta(0)=0$ and $\theta(0)=\thetai$.\\[1cm]\pause
+%	
+%	\begin{center}
+%		{\em This is the same notation as in the code} $\Rightarrow$ {\em You can change it easily.}
+%	\end{center}
+%	
+%	
+%\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\subsection{Ingredients for numerical integration: Adiabatic invariant}
@@ -665,8 +672,8 @@
 	\end{center}
 	%
 	\begin{itemize}
-		\item \mimes should allow the user to consider different initial value of $\zeta$; the "kinematic" \mimes might come soon.
-		\item \mimes should be able to handle non-vanishing \rhs; \ie solve the "driven" dumped time-dependent pendulum.
+		\item \mimes should allow the user to consider different initial value of $\zeta$; the ''kinematic'' \mimes might come soon.
+		\item \mimes should be able to handle non-vanishing \rhs; \ie solve the ''driven'' dumped time-dependent pendulum.
 		%		\item Would be nice if \mimes could handle case of freeze-out/in.
 		\item \mimes should be able to compare against searches on the fly. 
 	\end{itemize}
@@ -696,16 +703,15 @@
 	\begin{center}
 		{\color{yellow} \Huge Thank you!}\\[0.5cm]
 		
-		Breakdown of \mimes:\\
+		{\color{yellow}Breakdown of \mimes}:\\
 		{\fontsize{10}{1} \selectfont \color{white} \verbatiminput{cloc.txt}}
 	\end{center}
 	
-	
-	\hspace*{0.7cm}
-	\href{https://github.com/dkaramit/MiMeS}{ \includegraphics[width=2.5cm]{GitHub.png} }
-	\hspace*{4.0cm}
-	\href{https://mimes.hepforge.org}{\includegraphics[width=2.5cm]{hepforge.png}}
-	
+	\begin{center}
+		\href{https://github.com/dkaramit/MiMeS}{ \includegraphics[width=2.5cm]{GitHub.png} }
+		\hfill
+		\href{https://mimes.hepforge.org}{\includegraphics[width=2.5cm]{hepforge.png}}
+	\end{center}
 \end{frame}
 
 

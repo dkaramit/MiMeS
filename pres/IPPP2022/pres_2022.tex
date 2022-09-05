@@ -133,13 +133,14 @@
 		\end{turn}
 	\end{textblock}
 	
-	\vspace*{-0.18cm}
+	\vspace*{-0.11cm}
 	\begin{center}
 		
 		\includegraphics[width=6.cm, height=3.cm]{Planck_CMB.jpg}\\[-0.23cm] 
 		\bl{ 
 			\fontF  N.~Aghanim {\it et al.} [Planck Collaboration],
 			%``Planck 2018 results. VI. Cosmological parameters,''
+			{\bl \fontF Astron. Astrophys. \textbf{641} (2020), A6},
 			\href{https://arxiv.org/abs/1807.06209}{\fontF  arXiv:1807.06209} [astro-ph.CO].
 		}
 		\begin{textblock}{0.8}(6.2,11.3)
@@ -337,19 +338,19 @@
 \subsection{Need for speed, accuracy, and reproducability}
 \begin{frame}{\insertsubsectionhead}
 
-	\begin{center}
-		`` The product of mental labour --- science --- always stands far below its value, because the labour-time necessary to 
-		reproduce it has no relation at all to the labour-time required for its original production.''
-		\flushright --Karl Marx %\pause
-	\end{center}
+%	\begin{center}
+%		`` The product of mental labour --- science --- always stands far below its value, because the labour-time necessary to 
+%		reproduce it has no relation at all to the labour-time required for its original production.''
+%		\flushright --Karl Marx %\pause
+%	\end{center}
 
 
 	%
-	Life before \mimes: \\[0cm]\pause
+	Life before \mimes: \\[0cm]
 	%
 	\begin{itemize}
-		\item The approximations can be tested against numerical results in a case-by-case basis. \emph{No measure of accuracy}.\pause%There is no way to tell if they will work in new models and cosmological scenarios.
-		\item No available tool that can help us reproduce published results obtained by numerical integration. \emph{Reproducing results means reproducing effort}.\pause
+		\item The approximations can be tested against numerical results in a case-by-case basis. \emph{No measure of accuracy}. %There is no way to tell if they will work in new models and cosmological scenarios.
+		\item No available tool that can help us reproduce published results obtained by numerical integration. \emph{Reproducing results means reproducing effort}.
 		\item Simply checking if an ALP model is compatible with a cosmological scenario is \emph{slow} or \emph{inaccurate}. 
 	\end{itemize}
 	
@@ -366,20 +367,20 @@
 \begin{frame}{\insertsubsectionhead}
 	We need accurate code that solves the EOM, but most importantly we need {\sl reproducible} results! \\[0.2cm]
 	
-	\mimes is:
+%	\mimes is:
 	% 
 	\begin{itemize}
 		\item \mimes is a \CPP header-only library that contains various templated classes. 
 %		
 		\item \mimes comes with a \PY interface.
 %
-		\item Is {\sl easy} to use; anyone can run it and see if their model can work or check against the literature.
+		\item \mimes is {\sl easy} to use; anyone can run it and see if their model can work or check against the literature.
 %
-		\item Is reasonably fast; less than $0.05 \; s$ for the scenarios tested.
+		\item \mimes is reasonably fast; less than $0.05 \; s$ for the scenarios tested.
 %
-		\item Provides full access to results and their errors, which can help determine if the results are accurate.
+		\item \mimes provides full access to results and their errors, which can help determine if the results are accurate.
 %
-		\item Asks the user to decide when to start, stop, and when adiabaticity is reached.
+		\item \mimes asks the user to decide when to start, stop, and when adiabaticity is reached.
 	\end{itemize}
 	
 \end{frame}
@@ -430,7 +431,7 @@
 	where the integral is over a closed path (\eg a period, $T$), and $C$ indicates that $J$ can always be rescaled with a constant. If the Hamiltonian varies slowly during a cycle,
 	%
 	\[
-	\dfrac{d J}{d t} = C \ \oint \lrBigb{\dot p \ d \theta + p \ d \dot \theta} = C \ \dint_{t}^{t+T}  \dfrac{\partial \Ham}{\partial t^\prime} \ d t^\prime \approx T \ \dfrac{\partial \Ham(t^{\prime})}{\partial t^{\prime}}\Big|_{t^{\prime}=t} \approx 0 
+	\dfrac{d J}{d t} = C \ \oint \lrBigb{\dot p \ d \theta + p \ d \dot \theta} = C \ \dint_{t}^{t+T}  \dfrac{\partial \Ham}{\partial t^\prime} \ d t^\prime  \approx 0 
 	\;. 
 	\]
 	%
@@ -498,6 +499,12 @@
 \subsection{\mimes: the \emph{solver} part}
 \begin{frame}{\insertsubsectionhead}
 		\vspace{-0.2cm}
+		%
+%		\begin{center}
+%			``If you stop at general math, you're only going to make general math money.''
+%			\flushright --Snoop Dogg %\pause
+%		\end{center}
+%		\vspace*{-0.3cm}
 		%
 		\mimes solves the transformed EOM:~\footnote{Suitable for Runge-Kutta.}
 		%

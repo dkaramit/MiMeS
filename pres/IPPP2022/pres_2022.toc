@@ -10,22 +10,22 @@
 \beamer@subsectionintoc {2}{4}{(Bad) Assumptions}{13}{0}{2}
 \beamer@subsectionintoc {2}{5}{Is it that bad?}{15}{0}{2}
 \beamer@subsectionintoc {2}{6}{Need for speed, accuracy, and reproducability}{16}{0}{2}
-\beamer@sectionintoc {3}{{\tt MiMeS}\xspace }{20}{0}{3}
-\beamer@subsectionintoc {3}{1}{{\tt MiMeS}\xspace : What is it?}{21}{0}{3}
-\beamer@subsectionintoc {3}{2}{{\tt MiMeS}\xspace : Under the hood}{22}{0}{3}
-\beamer@subsectionintoc {3}{3}{Sidenote: adiabatic invariant -- $I$}{23}{0}{3}
-\beamer@subsectionintoc {3}{4}{Sidenote: adiabatic invariant -- $II$}{24}{0}{3}
-\beamer@subsectionintoc {3}{5}{Using adiabatic invariant}{26}{0}{3}
-\beamer@subsectionintoc {3}{6}{{\tt MiMeS}\xspace : the \emph {solver} part}{28}{0}{3}
-\beamer@sectionintoc {4}{Using {\tt MiMeS}\xspace }{30}{0}{4}
-\beamer@subsectionintoc {4}{1}{How to get {\tt MiMeS}\xspace }{31}{0}{4}
-\beamer@subsectionintoc {4}{2}{Configure (and make)}{32}{0}{4}
-\beamer@subsectionintoc {4}{3}{Classes}{33}{0}{4}
-\beamer@subsectionintoc {4}{4}{Template arguments}{37}{0}{4}
-\beamer@subsectionintoc {4}{5}{{\tt MiMeS}\xspace from {\tt python}\xspace }{38}{0}{4}
-\beamer@subsectionintoc {4}{6}{Assumptions}{39}{0}{4}
-\beamer@subsectionintoc {4}{7}{What {\tt MiMeS}\xspace expects from you}{44}{0}{4}
-\beamer@sectionintoc {5}{Examples}{50}{0}{5}
-\beamer@subsectionintoc {5}{1}{{\tt python}\xspace }{51}{0}{5}
-\beamer@subsectionintoc {5}{2}{{\tt C++}\xspace }{52}{0}{5}
-\beamer@sectionintoc {6}{Outlook}{53}{0}{6}
+\beamer@sectionintoc {3}{{\tt MiMeS}\xspace }{17}{0}{3}
+\beamer@subsectionintoc {3}{1}{{\tt MiMeS}\xspace : What is it?}{18}{0}{3}
+\beamer@subsectionintoc {3}{2}{{\tt MiMeS}\xspace : Under the hood}{19}{0}{3}
+\beamer@subsectionintoc {3}{3}{Sidenote: adiabatic invariant -- $I$}{20}{0}{3}
+\beamer@subsectionintoc {3}{4}{Sidenote: adiabatic invariant -- $II$}{21}{0}{3}
+\beamer@subsectionintoc {3}{5}{Using adiabatic invariant}{23}{0}{3}
+\beamer@subsectionintoc {3}{6}{{\tt MiMeS}\xspace : the \emph {solver} part}{25}{0}{3}
+\beamer@sectionintoc {4}{Using {\tt MiMeS}\xspace }{27}{0}{4}
+\beamer@subsectionintoc {4}{1}{How to get {\tt MiMeS}\xspace }{28}{0}{4}
+\beamer@subsectionintoc {4}{2}{Configure (and make)}{29}{0}{4}
+\beamer@subsectionintoc {4}{3}{Classes}{30}{0}{4}
+\beamer@subsectionintoc {4}{4}{Template arguments}{34}{0}{4}
+\beamer@subsectionintoc {4}{5}{{\tt MiMeS}\xspace from {\tt python}\xspace }{35}{0}{4}
+\beamer@subsectionintoc {4}{6}{Assumptions}{36}{0}{4}
+\beamer@subsectionintoc {4}{7}{What {\tt MiMeS}\xspace expects from you}{41}{0}{4}
+\beamer@sectionintoc {5}{Examples}{47}{0}{5}
+\beamer@subsectionintoc {5}{1}{{\tt python}\xspace }{48}{0}{5}
+\beamer@subsectionintoc {5}{2}{{\tt C++}\xspace }{49}{0}{5}
+\beamer@sectionintoc {6}{Outlook}{50}{0}{6}

@@ -50,5 +50,5 @@ Dimitris
 
 # Update
 
-You can now produce the non-standard cosmological input that `MiMeS` needs using [`NSC++`](https://arxiv.org/abs/2301.08253). Stable version of `NSC++`: [github.com/dkaramit/MiMeS/tree/stable](https://github.com/dkaramit/MiMeS/tree/stable).  
+You can now produce the non-standard cosmological input that `MiMeS` needs using [`NSC++`](https://arxiv.org/abs/2301.08253). Stable version of `NSC++`: [github.com/dkaramit/NSCpp/tree/stable](https://github.com/dkaramit/NSCpp/tree/stable).  
 

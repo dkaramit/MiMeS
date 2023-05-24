@@ -9,7 +9,7 @@
 #include"src/Axion/AxionSolve.hpp"
 
 // get the paths
-#include"src/misc_dir/path.hpp"
+#include"src/misc_dir/mimes_paths.hpp"
 // get the utilities
 #include"src/util/timeit.hpp"
 #include"src/util/logspace.hpp"

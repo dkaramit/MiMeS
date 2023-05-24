@@ -3,7 +3,7 @@
 
 
 #include"src/AnharmonicFactor/AnharmonicFactor.hpp"
-#include"src/misc_dir/path.hpp"
+#include"src/misc_dir/mimes_paths.hpp"
 
 
 /*uncomment to print difference between interpolation and data*/

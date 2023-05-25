@@ -31,7 +31,7 @@ mkdir "exec" 2> /dev/null
 echo "make src/misc_dir directory"
 mkdir "src/misc_dir" 2> /dev/null
 
-PathHead=src/misc_dir/path.hpp
+PathHead=src/misc_dir/mimes_paths.hpp
 PathHeadPy=src/misc_dir/path.py
 PathTypePy=src/misc_dir/type.py
 

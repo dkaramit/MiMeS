@@ -10,7 +10,7 @@ FLG= -$(OPT) -std=$(STD) -lm $(PATH_INCLUDE) -Wall -DLONG=$(LONG)
 SPLINE_Headers=$(wildcard $(rootDir)src/SimpleSplines/*.hpp)
 
 AxionMass_Headers=$(wildcard $(rootDir)src/AxionMass/AxionMass.hpp)
-PathHead=$(rootDir)src/misc_dir/path.hpp
+PathHead=$(rootDir)src/misc_dir/mimes_paths.hpp
 
 all: AxionMass.run AxionMassFunc.run
 

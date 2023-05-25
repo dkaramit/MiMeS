@@ -24,7 +24,7 @@ AxionAnF_Cpp=   $(wildcard $(rootDir)src/AnharmonicFactor/AnharmonicFactor.cpp)
 AxionSolve_Headers= $(wildcard $(rootDir)src/Axion/AxionSolve.hpp) 
 AxionEOM_Headers= $(wildcard $(rootDir)src/Axion/AxionEOM.hpp) 
 
-PathHead=src/misc_dir/path.hpp
+PathHead=src/misc_dir/mimes_paths.hpp
 
 
 all: lib exec examples

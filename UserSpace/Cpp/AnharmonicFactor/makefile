@@ -10,7 +10,7 @@ FLG= -$(OPT) -std=$(STD) -lm $(PATH_INCLUDE) -Wall -DLONG=$(LONG)
 SPLINE_Headers=$(wildcard $(rootDir)src/SimpleSplines/*.hpp)
 
 AnFac_Headers=$(wildcard $(rootDir)src/AnharmonicFactor/AnharmonicFactor.hpp)
-PathHead=$(rootDir)src/misc_dir/path.hpp
+PathHead=$(rootDir)src/misc_dir/mimes_paths.hpp
 
 all: AnharmonicFactor.run
 

@@ -16,7 +16,7 @@ Axion_Headers= $(wildcard $(rootDir)src/Axion/*.hpp)
 Cosmo_Headers=$(wildcard $(rootDir)src/Cosmo/Cosmo.hpp)
 AxionMisc_Headers= $(wildcard $(rootDir)src/AxionMass/AxionMass.hpp) $(wildcard $(rootDir)src/AnharmonicFactor/AnharmonicFactor.hpp) 
 
-PathHead=$(rootDir)src/misc_dir/path.hpp
+PathHead=$(rootDir)src/misc_dir/mimes_paths.hpp
 
 all: Axion.run
 

@@ -2,7 +2,7 @@
 #include <iomanip> 
 #include <cmath> 
 #include <string> 
-#include"src/misc_dir/path.hpp"
+#include"src/misc_dir/mimes_paths.hpp"
 #include"src/Axion/AxionEOM.hpp"
 #include"src/AxionMass/AxionMass.hpp"
 

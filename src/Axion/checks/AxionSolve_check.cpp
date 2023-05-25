@@ -4,7 +4,7 @@
 #include <string> 
 #include"src/Axion/AxionSolve.hpp"
 #include"src/AxionMass/AxionMass.hpp"
-#include"src/misc_dir/path.hpp"
+#include"src/misc_dir/mimes_paths.hpp"
 
 // define here what you want to print.
 #define preintPoints

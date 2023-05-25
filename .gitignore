@@ -3,6 +3,7 @@
 *path.py
 *type.py
 *path.hpp
+*mimes_paths.hpp
 *.pyc
 *__pycache__*
 *.so
